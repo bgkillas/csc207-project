@@ -1,15 +1,15 @@
-name: format
+name: lint
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 jobs:
   lint-linux:
      runs-on: ubuntu-latest
      steps:
        - uses: actions/checkout@v4
-       - name: fmt
+       - name: format
          run: bash format-check.sh
-       - name: fmt
+       - name: style
          run: bash style-check.sh
