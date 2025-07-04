@@ -5,11 +5,16 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  lint:
+  style:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v4
+       - name: style
+         run: bash style-check.sh
+jobs:
+  format:
      runs-on: ubuntu-latest
      steps:
        - uses: actions/checkout@v4
        - name: format
          run: bash format-check.sh
-       - name: style
-         run: bash style-check.sh
