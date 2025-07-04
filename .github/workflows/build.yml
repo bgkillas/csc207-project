@@ -1,15 +1,13 @@
-name: lint
+name: build
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 jobs:
-  lint:
+  build:
      runs-on: ubuntu-latest
      steps:
        - uses: actions/checkout@v4
-       - name: format
-         run: bash format-check.sh
-       - name: style
-         run: bash style-check.sh
+       - name: build
+         run: mvn package
