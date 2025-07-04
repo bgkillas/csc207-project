@@ -11,7 +11,6 @@ jobs:
        - uses: actions/checkout@v4
        - name: style
          run: bash style-check.sh
-jobs:
   format:
      runs-on: ubuntu-latest
      steps:
