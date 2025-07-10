@@ -10,7 +10,7 @@ public class User {
     private final String name;
     private final int age;
     private final String gender;
-    private final String location;
+    private final String location; //subjective to change (a dropdown list of options)
     private final String bio;
     private final List<String> favGenres;
     private final List<String> favArtists;
