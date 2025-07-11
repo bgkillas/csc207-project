@@ -92,6 +92,15 @@ public class User {
     }
 
     /**
+     * Returns the user's favorite genres.
+     *
+     * @return the favorite genres
+     */
+    public List<String> getFavGenres() {
+        return favGenres;
+    }
+
+    /**
      * Returns the user's gender.
      *
      * @return the gender
