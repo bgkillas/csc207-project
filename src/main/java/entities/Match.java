@@ -41,7 +41,7 @@ public class Match {
      *
      * @return the matched user
      */
-    public User getUser() {
+    public User getMatchUser() {
         return matchUser;
     }
 
