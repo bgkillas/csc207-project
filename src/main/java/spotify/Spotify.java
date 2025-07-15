@@ -1,5 +1,6 @@
 package spotify;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -39,10 +42,19 @@ public class Spotify implements SpotifyInterface {
 
     /** Initializes spotify class. */
     public Spotify() {
-        String url = getUrl();
-        System.out.println(url);
-        getCode();
-        getToken();
+        try {
+            String url = getUrl();
+            if (Desktop.isDesktopSupported()
+                    && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(url));
+            } else {
+                System.out.println(url);
+            }
+            getCode();
+            getToken();
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     String getUrl() {
