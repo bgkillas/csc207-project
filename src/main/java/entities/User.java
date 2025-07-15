@@ -2,6 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a user in the system.
@@ -75,7 +76,10 @@ public class User {
      * @param other the user to be added as a friend
      */
     public void addFriend(User other) {
-        friendList.add(other);
+        if (other == null || other.equals(this)) return;
+        if (!friendList.contains(other)) {
+            friendList.add(other);
+        }
     }
 
     /**
