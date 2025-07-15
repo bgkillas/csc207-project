@@ -9,15 +9,21 @@ import java.net.HttpURLConnection;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /** Spotify api interactions. */
 public class Spotify implements SpotifyInterface {
 
-    final List<String> topArtists;
+    List<String> topArtists = new ArrayList<>();
 
-    final int port = 8000;
+    List<String> genres = new ArrayList<>();
+
+    final int port = 8547;
 
     final String redirectUri = "http://127.0.0.1:" + port + "/callback";
 
@@ -33,7 +39,6 @@ public class Spotify implements SpotifyInterface {
 
     /** Initializes spotify class. */
     public Spotify() {
-        topArtists = List.of();
         String url = getUrl();
         System.out.println(url);
         getCode();
@@ -69,14 +74,14 @@ public class Spotify implements SpotifyInterface {
             os.write(body.getBytes());
             int responseCode = conn.getResponseCode();
             InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(is));
-            String line = in.readLine().split("\":\"", 2)[1];
-            in.close();
+            if (responseCode >= 400) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+                System.out.println(in.readLine());
+            }
+            JSONObject json = new JSONObject(new JSONTokener(is));
+            token = json.getString("access_token");
+            refreshToken = json.getString("refresh_token");
             conn.disconnect();
-            String[] split = line.split("\"", 2);
-            token = split[0];
-            String split2 = split[1].split("refresh_token\":\"", 2)[1];
-            refreshToken = split2.split("\"", 2)[0];
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,25 +91,42 @@ public class Spotify implements SpotifyInterface {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            code = in.readLine().split("=", 2)[1].split(" ", 2)[0];
+            InputStream is = socket.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(is));
+            String line = in.readLine();
+            code = line.split("=", 2)[1].split(" ", 2)[0];
         } catch (IOException | IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void pullTopArtists() {
+    public void pullTopArtistsAndGenres() {
         try {
-            URL url = new URL("https://api.spotify.com/v1/me/top/tracks");
+            topArtists.clear();
+            genres.clear();
+            URL url = new URL("https://api.spotify.com/v1/me/top/artists?limit=10");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
-            InputStream is = conn.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(is));
-            String line = in.readLine();
-            System.out.println(line);
-            in.close();
+            int responseCode = conn.getResponseCode();
+            InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
+            if (responseCode >= 400) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+                System.out.println(in.readLine());
+            }
+            JSONObject json = new JSONObject(new JSONTokener(is));
+            JSONArray items = json.getJSONArray("items");
+            for (int i = 0; i < items.length(); i++) {
+                JSONObject artist = items.getJSONObject(i);
+                String name = artist.getString("name");
+                topArtists.add(name);
+                JSONArray genres = artist.getJSONArray("genres");
+                for (int j = 0; j < genres.length(); j++) {
+                    String genre = genres.getString(j);
+                    this.genres.add(genre);
+                }
+            }
             conn.disconnect();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -114,5 +136,10 @@ public class Spotify implements SpotifyInterface {
     @Override
     public List<String> getTopArtists() {
         return this.topArtists;
+    }
+
+    @Override
+    public List<String> getGenres() {
+        return this.genres;
     }
 }
