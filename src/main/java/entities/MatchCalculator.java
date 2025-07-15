@@ -21,22 +21,26 @@ public class MatchCalculator {
         List<String> userOneArtists = userOne.getFavArtists();
         List<String> userTwoArtists = userTwo.getFavArtists();
 
-        for (int i = 0; i < 10; i++) {
+        int ArtistsListLength = userOneArtists.size();
+
+        for (int i = 0; i < ArtistsListLength; i++) {
             String artist = userOneArtists.get(i);
             if (userTwoArtists.contains(artist)) {
                 int j = userTwoArtists.indexOf(artist);
-                score += (10 - i) + (10 - j);
+                score += (ArtistsListLength - i) + (ArtistsListLength - j);
             }
         }
 
         List<String> userOneGenres = userOne.getFavGenres();
         List<String> userTwoGenres = userTwo.getFavGenres();
 
-        for (int i = 0; i <= 10; i += 5) {
+        int genresListLength = userOneGenres.size();
+
+        for (int i = 0; i < genresListLength; i++) {
             String genre = userOneGenres.get(i);
             if (userTwoGenres.contains(genre)) {
                 int j = userTwoGenres.indexOf(genre);
-                score += (15 - i) + (15 - j);
+                score += ((genresListLength - i) + (genresListLength - j)) * 5;
             }
         }
 
