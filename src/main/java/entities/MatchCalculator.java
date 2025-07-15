@@ -2,8 +2,19 @@ package entities;
 
 import java.util.List;
 
+/**
+ * Class that calculates the compatibility score between users and determining if
+ * two users are compatible matches.
+ */
 public class MatchCalculator {
 
+    /**
+     * calculates the compatibility score between two users given their favourite
+     * artists and genres.
+     * @param userOne the first user
+     * @param userTwo the second user
+     * @return an integer representing the compatibility score between two users
+     */
     public static int calculateCompatibilityScore(User userOne, User userTwo) {
         int score = 0;
 
@@ -32,6 +43,12 @@ public class MatchCalculator {
         return score;
     }
 
+    /**
+     * Determines if two users are compatible based on their compatibility score.
+     * @param userOne the first user
+     * @param userTwo the second user
+     * @return true if the users are compatible and false if not
+     */
     public static boolean isCompatible(User userOne, User userTwo) {
         return calculateCompatibilityScore(userOne, userTwo) > 85;
     }
