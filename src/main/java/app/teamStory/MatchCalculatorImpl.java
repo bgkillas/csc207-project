@@ -1,4 +1,7 @@
-package entities;
+package app.teamStory;
+
+import entities.User;
+import usecase.teamStory.MatchCalculator;
 
 import java.util.List;
 
@@ -6,7 +9,7 @@ import java.util.List;
  * Class that calculates the compatibility score between users and determining if
  * two users are compatible matches.
  */
-public class MatchCalculator {
+public class MatchCalculatorImpl implements MatchCalculator {
 
     /**
      * calculates the compatibility score between two users given their favourite
@@ -15,7 +18,8 @@ public class MatchCalculator {
      * @param userTwo the second user
      * @return an integer representing the compatibility score between two users
      */
-    public static int calculateCompatibilityScore(User userOne, User userTwo) {
+    @Override
+    public int calculateCompatibilityScore(User userOne, User userTwo) {
         int score = 0;
 
         List<String> userOneArtists = userOne.getFavArtists();
@@ -53,7 +57,8 @@ public class MatchCalculator {
      * @param userTwo the second user
      * @return true if the users are compatible and false if not
      */
-    public static boolean isCompatible(User userOne, User userTwo) {
+    @Override
+    public boolean isCompatible(User userOne, User userTwo) {
         return calculateCompatibilityScore(userOne, userTwo) > 85;
     }
 }
