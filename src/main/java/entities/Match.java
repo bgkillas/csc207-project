@@ -10,19 +10,19 @@ import java.util.UUID;
 public class Match {
 
     private final UUID matchId = UUID.randomUUID();
-    private final User user;
+    private final User matchUser;
     private final int compatibilityScore;
     private final List<String> sharedArtists;
 
     /**
      * Constructs a Match object.
      *
-     * @param user           the user this match refers to
+     * @param matchUser           the user this match refers to
      * @param score          the compatibility score between users
      * @param sharedArtists  a list of artists both users like
      */
-    public Match(User user, int score, List<String> sharedArtists) {
-        this.user = user;
+    public Match(User matchUser, int score, List<String> sharedArtists) {
+        this.matchUser = matchUser;
         this.compatibilityScore = score;
         this.sharedArtists = sharedArtists;
     }
@@ -41,8 +41,8 @@ public class Match {
      *
      * @return the matched user
      */
-    public User getUser() {
-        return user;
+    public User getMatchUser() {
+        return matchUser;
     }
 
     /**
