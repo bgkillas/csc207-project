@@ -1,5 +1,6 @@
 package view;
 
+import account.login.CreateAccountController;
 import account.login.LoginManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +16,9 @@ public class LoginView {
      *
      * @param loginManager a LoginManager to check if logins are valid
      */
-    public static JPanel create(LoginManager loginManager) {
+    public static JPanel create(LoginManager loginManager, CreateAccountController controller) {
         final JPanel panel = new JPanel();
+        // login fields
         final JTextField username = new JTextField(16);
         panel.add(username);
         final JTextField password = new JTextField(16);
@@ -45,6 +47,21 @@ public class LoginView {
                         }
                     }
                 });
+
+        // Spotify sign-up fields
+        final JTextField spotifyUsernameField = new JTextField(16);
+        panel.add(spotifyUsernameField);
+        final JButton signUp = new JButton("Sign Up with Spotify");
+        panel.add(signUp);
+
+        signUp.addActionListener(e -> {
+            String spotifyUsername = spotifyUsernameField.getText();
+            if (spotifyUsername.isEmpty()) {
+                JOptionPane.showMessageDialog(panel, "Please enter a Spotify username.");
+            } else {
+                controller.createAccount(spotifyUsername);  // Presenter handles success message
+            }
+        });
         return panel;
     }
 }

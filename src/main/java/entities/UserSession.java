@@ -8,7 +8,7 @@ import java.util.List;
  * Represents a session for a logged-in user.
  */
 public class UserSession {
-    private final User user;
+    private User user;
     private final List<User> incomingMatches;
     private final List<User> outgoingMatches;
     private final List<Match> matches;
@@ -24,12 +24,24 @@ public class UserSession {
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
-
+    /**
+     * Sets the current user for this session.
+     * This method is used when a user signs up or logs in so the app can associate
+     * a User object with the current session. This is needed for account creation,
+     * profile setup, and matching (need to know who the active user is)
+     * Changed the 'user' field to not be final for this to work
+     *
+     * @param user the user to set as the current session user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
     /**
      * Returns the current user for this session.
      *
      * @return the current user
      */
+
     public User getUser() {
         return user;
     }
@@ -87,5 +99,16 @@ public class UserSession {
      */
     public void addMatch(Match match) {
         matches.add(match);
+    }
+
+    /**
+     * Temporary no-argument constructor to allow creating an empty session
+     * Use for demo; for full implementation, use constructor that takes a User
+     */
+    public UserSession() {
+        this.user = null;
+        this.incomingMatches = new ArrayList<>();
+        this.outgoingMatches = new ArrayList<>();
+        this.matches = new ArrayList<>();
     }
 }

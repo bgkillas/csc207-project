@@ -9,10 +9,10 @@ import java.util.UUID;
  */
 public class User {
     private final String name;
-    private final int age;
-    private final String gender;
-    private final String location; //subjective to change (a dropdown list of options)
-    private final String bio;
+    private int age;
+    private String gender;
+    private String location; //subjective to change (a dropdown list of options)
+    private String bio;
     private final List<String> favGenres;
     private final List<String> favArtists;
     private final List<String> favSongs;
@@ -134,5 +134,20 @@ public class User {
      */
     public String getName() {
         return name;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
