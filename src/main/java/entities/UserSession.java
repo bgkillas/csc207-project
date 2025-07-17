@@ -1,12 +1,9 @@
-
 package entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a session for a logged-in user.
- */
+/** Represents a session for a logged-in user. */
 public class UserSession {
     private User user;
     private final List<User> incomingMatches;
@@ -24,24 +21,24 @@ public class UserSession {
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
+
     /**
-     * Sets the current user for this session.
-     * This method is used when a user signs up or logs in so the app can associate
-     * a User object with the current session. This is needed for account creation,
-     * profile setup, and matching (need to know who the active user is)
-     * Changed the 'user' field to not be final for this to work
+     * Sets the current user for this session. This method is used when a user signs up or logs in
+     * so the app can associate a User object with the current session. This is needed for account
+     * creation, profile setup, and matching (need to know who the active user is) Changed the
+     * 'user' field to not be final for this to work
      *
      * @param user the user to set as the current session user
      */
     public void setUser(User user) {
         this.user = user;
     }
+
     /**
      * Returns the current user for this session.
      *
      * @return the current user
      */
-
     public User getUser() {
         return user;
     }
@@ -63,7 +60,6 @@ public class UserSession {
     public List<User> getOutgoingMatches() {
         return outgoingMatches;
     }
-
 
     /**
      * Returns the list of matches for the current user.
@@ -102,8 +98,8 @@ public class UserSession {
     }
 
     /**
-     * Temporary no-argument constructor to allow creating an empty session
-     * Use for demo; for full implementation, use constructor that takes a User
+     * Temporary no-argument constructor to allow creating an empty session Use for demo; for full
+     * implementation, use constructor that takes a User
      */
     public UserSession() {
         this.user = null;

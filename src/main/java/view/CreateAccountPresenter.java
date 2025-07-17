@@ -6,9 +6,6 @@ import usecase.teamStory.CreateAccountOutputBoundary;
 import javax.swing.*;
 import java.awt.*;
 import account.login.SetupUserProfileController;
-import usecase.teamStory.SetupUserProfileInteractor;
-import usecase.teamStory.SetupUserProfileOutputBoundary;
-import usecase.teamStory.SetupUserProfileInputBoundary;
 
 public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     private final JFrame frame;

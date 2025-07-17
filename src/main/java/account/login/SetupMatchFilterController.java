@@ -9,8 +9,8 @@ public class SetupMatchFilterController {
         this.interactor = interactor;
     }
 
-    public void setupFilter(int minAge, int maxAge, String preferredGender,
-                            String preferredLocation) {
+    public void setupFilter(
+            int minAge, int maxAge, String preferredGender, String preferredLocation) {
         interactor.setupFilter(minAge, maxAge, preferredGender, preferredLocation);
     }
 }

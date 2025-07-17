@@ -1,8 +1,8 @@
 package usecase.teamStory;
+
 /**
- * This interface defines the method required to pass user-defined
- * match preferences (age range, gender, and location) from the controller
- * to the interactor
+ * This interface defines the method required to pass user-defined match preferences (age range,
+ * gender, and location) from the controller to the interactor
  */
 public interface SetupMatchFilterInputBoundary {
     /**

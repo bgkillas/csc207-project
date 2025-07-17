@@ -54,14 +54,16 @@ public class LoginView {
         final JButton signUp = new JButton("Sign Up with Spotify");
         panel.add(signUp);
 
-        signUp.addActionListener(e -> {
-            String spotifyUsername = spotifyUsernameField.getText();
-            if (spotifyUsername.isEmpty()) {
-                JOptionPane.showMessageDialog(panel, "Please enter a Spotify username.");
-            } else {
-                controller.createAccount(spotifyUsername);  // Presenter handles success message
-            }
-        });
+        signUp.addActionListener(
+                e -> {
+                    String spotifyUsername = spotifyUsernameField.getText();
+                    if (spotifyUsername.isEmpty()) {
+                        JOptionPane.showMessageDialog(panel, "Please enter a Spotify username.");
+                    } else {
+                        controller.createAccount(
+                                spotifyUsername); // Presenter handles success message
+                    }
+                });
         return panel;
     }
 }

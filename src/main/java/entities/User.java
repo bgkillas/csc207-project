@@ -2,16 +2,13 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-/**
- * Represents a user in the system.
- */
+/** Represents a user in the system. */
 public class User {
     private final String name;
     private int age;
     private String gender;
-    private String location; //subjective to change (a dropdown list of options)
+    private String location; // subjective to change (a dropdown list of options)
     private String bio;
     private final List<String> favGenres;
     private final List<String> favArtists;
@@ -22,17 +19,24 @@ public class User {
     /**
      * Constructs a User with the given attributes.
      *
-     * @param name       the user's name
-     * @param age        the user's age
-     * @param gender     the user's gender
-     * @param location   the user's location
-     * @param bio        the user's biography
-     * @param favGenres  the user's favorite genres
+     * @param name the user's name
+     * @param age the user's age
+     * @param gender the user's gender
+     * @param location the user's location
+     * @param bio the user's biography
+     * @param favGenres the user's favorite genres
      * @param favArtists the user's favorite artists
-     * @param favSongs   the user's favorite songs
+     * @param favSongs the user's favorite songs
      */
-    public User(String name, int age, String gender, String location, String bio,
-                List<String> favGenres, List<String> favArtists, List<String> favSongs) {
+    public User(
+            String name,
+            int age,
+            String gender,
+            String location,
+            String bio,
+            List<String> favGenres,
+            List<String> favArtists,
+            List<String> favSongs) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -135,6 +139,7 @@ public class User {
     public String getName() {
         return name;
     }
+
     public void setAge(int age) {
         this.age = age;
     }

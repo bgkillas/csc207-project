@@ -11,17 +11,16 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
     private final UserSession session;
     private final LoginManager loginManager;
 
-    public CreateAccountInteractor(CreateAccountOutputBoundary presenter,
-                                   UserSession session,
-                                   LoginManager loginManager) {
+    public CreateAccountInteractor(
+            CreateAccountOutputBoundary presenter, UserSession session, LoginManager loginManager) {
         this.presenter = presenter;
         this.session = session;
         this.loginManager = loginManager;
     }
 
     /**
-     * This method is called when a user tries to sign up using their Spotify account
-     * The Spotify username is passed in by the controller
+     * This method is called when a user tries to sign up using their Spotify account The Spotify
+     * username is passed in by the controller
      */
     @Override
     public void create(String spotifyUsername) {
@@ -32,16 +31,17 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
         }
         // Create a new User object using the Spotify username
         // This object represents the full user in the app (bio, preferences, etc.)
-        User user = new User(
-                spotifyUsername,
-                18,                   // default age (can update later in profile setup)
-                "Not specified",          // default gender
-                "Not specified",          // default location
-                "Short bio about Stan.",  // default bio
-                new ArrayList<>(),        // favGenres
-                new ArrayList<>(),        // favArtists
-                new ArrayList<>()         // favSongs
-        );
+        User user =
+                new User(
+                        spotifyUsername,
+                        18, // default age (can update later in profile setup)
+                        "Not specified", // default gender
+                        "Not specified", // default location
+                        "Short bio about Stan.", // default bio
+                        new ArrayList<>(), // favGenres
+                        new ArrayList<>(), // favArtists
+                        new ArrayList<>() // favSongs
+                        );
         // updated UserSession to have a setter
         session.setUser(user);
         presenter.prepareSuccessView(user);

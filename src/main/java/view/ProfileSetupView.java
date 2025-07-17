@@ -6,11 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * This class builds the GUI form for setting up a user profile
- * It collects user input (bio, age, gender, location) and passes it to the controller
+ * This class builds the GUI form for setting up a user profile It collects user input (bio, age,
+ * gender, location) and passes it to the controller
  */
 public class ProfileSetupView {
     private ProfileSetupView() {}
+
     /**
      * Creates and returns a JPanel containing profile setup fields and a submit button
      *
@@ -37,17 +38,18 @@ public class ProfileSetupView {
         panel.add(submit);
 
         // Define what happens when the submit button is clicked
-        submit.addActionListener(e -> {
-            try {
-                String bio = bioField.getText();
-                int age = Integer.parseInt(ageField.getText());
-                String gender = genderField.getText();
-                String location = locationField.getText();
-                controller.setupUserProfile(bio, age, gender, location);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(panel, "Age must be a valid number.");
-            }
-        });
+        submit.addActionListener(
+                e -> {
+                    try {
+                        String bio = bioField.getText();
+                        int age = Integer.parseInt(ageField.getText());
+                        String gender = genderField.getText();
+                        String location = locationField.getText();
+                        controller.setupUserProfile(bio, age, gender, location);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(panel, "Age must be a valid number.");
+                    }
+                });
 
         return panel;
     }

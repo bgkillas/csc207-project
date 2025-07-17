@@ -6,14 +6,15 @@ import usecase.teamStory.MatchCalculator;
 import java.util.List;
 
 /**
- * Class that calculates the compatibility score between users and determining if
- * two users are compatible matches.
+ * Class that calculates the compatibility score between users and determining if two users are
+ * compatible matches.
  */
 public class MatchCalculatorImpl implements MatchCalculator {
 
     /**
-     * calculates the compatibility score between two users given their favourite
-     * artists and genres.
+     * calculates the compatibility score between two users given their favourite artists and
+     * genres.
+     *
      * @param userOne the first user
      * @param userTwo the second user
      * @return an integer representing the compatibility score between two users
@@ -53,6 +54,7 @@ public class MatchCalculatorImpl implements MatchCalculator {
 
     /**
      * Determines if two users are compatible based on their compatibility score.
+     *
      * @param userOne the first user
      * @param userTwo the second user
      * @return true if the users are compatible and false if not

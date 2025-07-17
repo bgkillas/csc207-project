@@ -1,8 +1,6 @@
 package entities;
 
-/**
- * Represents a filter used to determine if a user matches given preferences.
- */
+/** Represents a filter used to determine if a user matches given preferences. */
 public class MatchFilter {
 
     private final int minAge;
@@ -13,9 +11,9 @@ public class MatchFilter {
     /**
      * Constructs a MatchFilter with the given age, gender, and location preferences.
      *
-     * @param minAge           the minimum age
-     * @param maxAge           the maximum age
-     * @param preferredGender  the preferred gender ("Any" for no preference)
+     * @param minAge the minimum age
+     * @param maxAge the maximum age
+     * @param preferredGender the preferred gender ("Any" for no preference)
      * @param preferredLocation the preferred location ("Any" for no preference)
      */
     public MatchFilter(int minAge, int maxAge, String preferredGender, String preferredLocation) {
@@ -35,9 +33,9 @@ public class MatchFilter {
         return user.getAge() >= minAge
                 && user.getAge() <= maxAge
                 && ("Any".equals(preferredGender)
-                || user.getGender().equalsIgnoreCase(preferredGender))
+                        || user.getGender().equalsIgnoreCase(preferredGender))
                 && ("Any".equals(preferredLocation)
-                || user.getLocation().equalsIgnoreCase(preferredLocation));
+                        || user.getLocation().equalsIgnoreCase(preferredLocation));
     }
 
     public String getMinAge() {

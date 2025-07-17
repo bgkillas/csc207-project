@@ -24,8 +24,7 @@ public class SetupMatchFilterImplTest {
         List<String> songs = new ArrayList<>();
         songs.add("Solar Power");
 
-        User user = new User("Stan", 22, "Male", "Toronto", "Hello!",
-                genres, artists, songs);
+        User user = new User("Stan", 22, "Male", "Toronto", "Hello!", genres, artists, songs);
 
         SetupMatchFilter setupFilter = new SetupMatchFilterImpl();
 
@@ -34,8 +33,14 @@ public class SetupMatchFilterImplTest {
 
         // Assert
         MatchFilter filter = user.getMatchFilter();
-        assertTrue(filter.isValid(new User("Emily", 25, "Female", "Toronto", "", genres, artists, songs)));
-        assertFalse(filter.isValid(new User("John", 35, "Male", "Toronto", "", genres, artists, songs)));
-        assertFalse(filter.isValid(new User("Kate", 25, "Female", "Vancouver", "", genres, artists, songs)));
+        assertTrue(
+                filter.isValid(
+                        new User("Emily", 25, "Female", "Toronto", "", genres, artists, songs)));
+        assertFalse(
+                filter.isValid(
+                        new User("John", 35, "Male", "Toronto", "", genres, artists, songs)));
+        assertFalse(
+                filter.isValid(
+                        new User("Kate", 25, "Female", "Vancouver", "", genres, artists, songs)));
     }
 }

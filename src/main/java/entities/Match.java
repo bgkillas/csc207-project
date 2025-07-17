@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Represents a match between the current user and another user,
- * along with their compatibility score and shared artists.
+ * Represents a match between the current user and another user, along with their compatibility
+ * score and shared artists.
  */
 public class Match {
 
@@ -17,9 +17,9 @@ public class Match {
     /**
      * Constructs a Match object.
      *
-     * @param matchUser           the user this match refers to
-     * @param score          the compatibility score between users
-     * @param sharedArtists  a list of artists both users like
+     * @param matchUser the user this match refers to
+     * @param score the compatibility score between users
+     * @param sharedArtists a list of artists both users like
      */
     public Match(User matchUser, int score, List<String> sharedArtists) {
         this.matchUser = matchUser;

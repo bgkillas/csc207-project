@@ -30,9 +30,7 @@ import java.security.NoSuchAlgorithmException;
 
 /** Main executable class. */
 public class Main {
-    /**
-     * Main executable point.
-     */
+    /** Main executable point. */
     public static void main(String[] args) throws NoSuchAlgorithmException {
         final JFrame application = new JFrame("app");
         final JPanel views = new JPanel();
@@ -48,14 +46,11 @@ public class Main {
         filterController = new SetupMatchFilterController(filterInteractor);
 
         // User Profile setup
-        SetupUserProfileOutputBoundary setupPresenter =
-                new SetupUserProfilePresenter();
+        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter();
         SetupUserProfileInputBoundary setupInteractor =
-                new SetupUserProfileInteractor(
-                        setupPresenter, session);
+                new SetupUserProfileInteractor(setupPresenter, session);
         SetupUserProfileController setupController =
-                new SetupUserProfileController(
-                        setupInteractor);
+                new SetupUserProfileController(setupInteractor);
 
         // Create Account setup
         CreateAccountOutputBoundary createAccountPresenter =
@@ -73,10 +68,10 @@ public class Main {
         application.pack();
         application.setVisible(true);
     }
+
     private static SetupMatchFilterController filterController;
 
     public static SetupMatchFilterController getFilterController() {
         return filterController;
     }
-
 }

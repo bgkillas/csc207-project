@@ -12,5 +12,6 @@ public interface SetupMatchFilter {
      * @param preferredGender gender preference ("Any", "Male", "Female")
      * @param preferredLocation location preference ("Any", "Toronto", etc.)
      */
-    void setFilter(User user, int minAge, int maxAge, String preferredGender, String preferredLocation);
+    void setFilter(
+            User user, int minAge, int maxAge, String preferredGender, String preferredLocation);
 }
