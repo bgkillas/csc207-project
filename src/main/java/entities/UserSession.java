@@ -2,6 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import spotify.Spotify;
 
 /** Represents a session for a logged-in user. */
 public class UserSession {
@@ -9,6 +10,8 @@ public class UserSession {
     private final List<User> incomingMatches;
     private final List<User> outgoingMatches;
     private final List<Match> matches;
+
+    private Spotify spotify;
 
     /**
      * Constructs a UserSession for the given user.
@@ -20,6 +23,17 @@ public class UserSession {
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
+    }
+
+    public void initiateSpotify() {
+        spotify = new Spotify();
+    }
+
+    public void updateSpotify() {
+        spotify.pullTopArtistsAndGenres();
+        this.user.setFavArtists(spotify.getTopArtists());
+        this.user.setFavGenres(spotify.getGenres());
+
     }
 
     /**

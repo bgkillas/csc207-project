@@ -10,8 +10,8 @@ public class User {
     private String gender;
     private String location; // subjective to change (a dropdown list of options)
     private String bio;
-    private final List<String> favGenres;
-    private final List<String> favArtists;
+    private List<String> favGenres;
+    private List<String> favArtists;
     private final List<String> favSongs;
     private MatchFilter matchFilter;
     private final List<User> friendList = new ArrayList<>();
@@ -102,6 +102,20 @@ public class User {
      */
     public List<String> getFavGenres() {
         return favGenres;
+    }
+
+    /**
+     * updates the user's favorite artists.
+     */
+    public void setFavArtists(List<String> ArtistsList) {
+        this.favArtists = ArtistsList;
+    }
+
+    /**
+     * updates the user's favorite genres.
+     */
+    public void setFavGenres(List<String> GenresList) {
+        this.favGenres = GenresList;
     }
 
     /**
