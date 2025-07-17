@@ -37,31 +37,16 @@ public class LoginView {
                             } else if (loginManager.hasLogin(user)) {
                                 if (loginManager.tryLogin(user, pass)) {
                                     JOptionPane.showMessageDialog(panel, "Login success");
+                                    controller.createAccount(user);
                                 } else {
                                     JOptionPane.showMessageDialog(panel, "Login failed");
                                 }
                             } else {
                                 loginManager.registerLogin(user, pass);
                                 JOptionPane.showMessageDialog(panel, "Login created");
+                                password.setText("");
                             }
                         }
-                    }
-                });
-
-        // Spotify sign-up fields
-        final JTextField spotifyUsernameField = new JTextField(16);
-        panel.add(spotifyUsernameField);
-        final JButton signUp = new JButton("Sign Up with Spotify");
-        panel.add(signUp);
-
-        signUp.addActionListener(
-                e -> {
-                    String spotifyUsername = spotifyUsernameField.getText();
-                    if (spotifyUsername.isEmpty()) {
-                        JOptionPane.showMessageDialog(panel, "Please enter a Spotify username.");
-                    } else {
-                        controller.createAccount(
-                                spotifyUsername); // Presenter handles success message
                     }
                 });
         return panel;
