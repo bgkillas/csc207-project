@@ -1,4 +1,4 @@
-package view;
+package interface_adapter.presentor;
 
 import entities.MatchFilter;
 import usecase.teamStory.SetupMatchFilterOutputBoundary;

@@ -1,4 +1,4 @@
 package usecase;
 
-public class BlockUser {
+public interface BlockUser {
 }

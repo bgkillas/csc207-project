@@ -1,11 +1,12 @@
-package view;
+package interface_adapter.presentor;
 
 import entities.User;
 import usecase.teamStory.CreateAccountOutputBoundary;
 
 import javax.swing.*;
-import java.awt.*;
+
 import account.login.SetupUserProfileController;
+import view.ProfileSetupView;
 
 public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     private final JFrame frame;

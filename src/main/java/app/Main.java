@@ -4,13 +4,13 @@ import account.login.SetupMatchFilterController;
 import usecase.teamStory.SetupMatchFilterInputBoundary;
 import usecase.teamStory.SetupMatchFilterInteractor;
 import usecase.teamStory.SetupMatchFilterOutputBoundary;
-import view.SetupMatchFilterPresenter;
+import interface_adapter.presentor.SetupMatchFilterPresenter;
 
 import account.login.SetupUserProfileController;
 import usecase.teamStory.SetupUserProfileInputBoundary;
 import usecase.teamStory.SetupUserProfileInteractor;
 import usecase.teamStory.SetupUserProfileOutputBoundary;
-import view.SetupUserProfilePresenter;
+import interface_adapter.presentor.SetupUserProfilePresenter;
 
 import account.login.CreateAccountController;
 import account.login.LoginManager;
@@ -20,7 +20,7 @@ import entities.UserSession;
 import usecase.teamStory.CreateAccountInputBoundary;
 import usecase.teamStory.CreateAccountInteractor;
 import usecase.teamStory.CreateAccountOutputBoundary;
-import view.CreateAccountPresenter;
+import interface_adapter.presentor.CreateAccountPresenter;
 import view.LoginView;
 
 import javax.swing.JFrame;
