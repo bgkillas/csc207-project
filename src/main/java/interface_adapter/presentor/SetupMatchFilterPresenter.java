@@ -1,16 +1,26 @@
 package interface_adapter.presentor;
 
 import entities.MatchFilter;
+import entities.User;
+import entities.UserSession;
 import usecase.teamStory.SetupMatchFilterOutputBoundary;
+import app.teamStory.MatchServiceImpl;
+import view.MatchingRoomView;
 
 import javax.swing.*;
+import java.util.List;
 
 public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary {
-    /**
-     * This class is the presenter for the Match Filter setup feature It implements the
-     * SetupMatchFilterOutputBoundary interface and displays a success message in the GUI when a
-     * user's match preferences are saved
-     */
+
+    private final JFrame frame;
+    private final UserSession session;
+
+    public SetupMatchFilterPresenter(JFrame frame, UserSession session) {
+        this.frame = frame;
+        this.session = session;
+    }
+
+
     @Override
     public void prepareSuccessView(MatchFilter filter) {
         JOptionPane.showMessageDialog(
@@ -23,5 +33,15 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
                         + filter.getPreferredGender()
                         + "\nLocation: "
                         + filter.getPreferredLocation());
+
+        User currentUser = session.getUser();
+        List<User> allUsers = session.getAllUsers();
+
+        List<User> matches = new MatchServiceImpl().findMatches(currentUser, allUsers);
+
+        JPanel matchingRoomPanel = new MatchingRoomView(frame, currentUser, matches);
+        frame.setContentPane(matchingRoomPanel);
+        frame.revalidate();
+        frame.repaint();
     }
 }

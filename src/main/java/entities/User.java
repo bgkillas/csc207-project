@@ -169,4 +169,9 @@ public class User {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    public String getBio() {
+        return this.bio;
+    }
+
 }
