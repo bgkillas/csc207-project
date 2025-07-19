@@ -4,13 +4,13 @@ import account.login.SetupMatchFilterController;
 import usecase.teamStory.SetupMatchFilterInputBoundary;
 import usecase.teamStory.SetupMatchFilterInteractor;
 import usecase.teamStory.SetupMatchFilterOutputBoundary;
-import view.SetupMatchFilterPresenter;
+import interface_adapter.presentor.SetupMatchFilterPresenter;
 
 import account.login.SetupUserProfileController;
 import usecase.teamStory.SetupUserProfileInputBoundary;
 import usecase.teamStory.SetupUserProfileInteractor;
 import usecase.teamStory.SetupUserProfileOutputBoundary;
-import view.SetupUserProfilePresenter;
+import interface_adapter.presentor.SetupUserProfilePresenter;
 
 import account.login.CreateAccountController;
 import account.login.LoginManager;
@@ -20,13 +20,19 @@ import entities.UserSession;
 import usecase.teamStory.CreateAccountInputBoundary;
 import usecase.teamStory.CreateAccountInteractor;
 import usecase.teamStory.CreateAccountOutputBoundary;
-import view.CreateAccountPresenter;
+import interface_adapter.presentor.CreateAccountPresenter;
 import view.LoginView;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.security.NoSuchAlgorithmException;
+
+import view.MatchingRoomView;
+import entities.User;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /** Main executable class. */
 public class Main {
@@ -41,7 +47,8 @@ public class Main {
         session.initiateSpotify();
 
         // Match Filter setup
-        SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter();
+        SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter(application, session);
+
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);
         filterController = new SetupMatchFilterController(filterInteractor);
