@@ -74,9 +74,12 @@ public class MatchingRoomView extends JPanel {
         // 🔻 Bottom nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        navPanel.add(new JButton("matching"));
-        navPanel.add(new JButton("share"));
-        navPanel.add(new JButton("your profile"));
+        JButton matchingBtn = new JButton("matching");
+        JButton shareBtn = new JButton("share");
+        JButton yourProfileBtn = new JButton("your profile");
+        navPanel.add(matchingBtn);
+        navPanel.add(shareBtn);
+        navPanel.add(yourProfileBtn);
 
         this.add(navPanel, BorderLayout.PAGE_END);
 
@@ -107,6 +110,13 @@ public class MatchingRoomView extends JPanel {
         skipBtn.addActionListener(e -> {
             currentIndex++;
             updateDisplay.run();
+        });
+
+        // trigger profile view when button is pressed
+        yourProfileBtn.addActionListener(e -> {
+            frame.setContentPane(new ProfileView(currentUser, frame));
+            frame.revalidate();
+            frame.repaint();
         });
 
         updateDisplay.run();
