@@ -1,7 +1,7 @@
 package view;
 
 import entities.User;
-
+import entities.UserSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -10,7 +10,7 @@ public class MatchingRoomView extends JPanel {
 
     private int currentIndex = 0;
 
-    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches) {
+    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches, UserSession session) {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
@@ -114,7 +114,7 @@ public class MatchingRoomView extends JPanel {
 
         // trigger profile view when button is pressed
         yourProfileBtn.addActionListener(e -> {
-            frame.setContentPane(new ProfileView(currentUser, frame));
+            frame.setContentPane(new ProfileView(currentUser, frame, session));
             frame.revalidate();
             frame.repaint();
         });
@@ -128,7 +128,7 @@ public class MatchingRoomView extends JPanel {
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches);
+        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, null);
         frame.setContentPane(view);
         frame.setVisible(true);
     }

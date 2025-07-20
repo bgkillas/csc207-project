@@ -39,7 +39,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
         List<User> matches = new MatchServiceImpl().findMatches(currentUser, allUsers);
 
-        JPanel matchingRoomPanel = new MatchingRoomView(frame, currentUser, matches);
+        JPanel matchingRoomPanel = new MatchingRoomView(frame, currentUser, matches, session);
         frame.setContentPane(matchingRoomPanel);
         frame.revalidate();
         frame.repaint();

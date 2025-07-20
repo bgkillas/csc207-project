@@ -1,6 +1,7 @@
 package view;
 
 import entities.User;
+import entities.UserSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -9,16 +10,19 @@ import app.teamStory.MatchServiceImpl;
 public class ProfileView extends JPanel {
     private final User user;
     private final JFrame frame;
+    private final UserSession userSession;
 
     /**
      * Constructs a ProfileView for the given user.
      *
      * @param user the user whose profile is to be displayed
      * @param frame the JFrame to which this view will be added
+     * @param userSession the user session containing all users and matches
      */
-    public ProfileView(User user, JFrame frame) {
+    public ProfileView(User user, JFrame frame, UserSession userSession) {
         this.user = user;
         this.frame = frame;
+        this.userSession = userSession;
         initialize();
     }
 
@@ -27,11 +31,11 @@ public class ProfileView extends JPanel {
      */
     private void initialize() {
         setLayout(new BorderLayout());
-        
+
         // Top panel with profile info
         JPanel profilePanel = createProfilePanel();
         add(profilePanel, BorderLayout.CENTER);
-        
+
         // Bottom panel with buttons
         JPanel buttonPanel = createButtonPanel();
         add(buttonPanel, BorderLayout.SOUTH);
@@ -46,7 +50,7 @@ public class ProfileView extends JPanel {
         JLabel profilePic = new JLabel("?");
         profilePic.setPreferredSize(new Dimension(50, 50));
         profilePic.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        
+
         // User info
         JLabel nameLabel = new JLabel("Name: " + user.getName());
         JLabel ageLabel = new JLabel("Age: " + user.getAge());
@@ -78,6 +82,19 @@ public class ProfileView extends JPanel {
         // Style "your profile" button differently
         yourProfileBtn.setBackground(Color.DARK_GRAY);
         yourProfileBtn.setForeground(Color.WHITE);
+
+        // Add the matching button action
+        matchingBtn.addActionListener(e -> {
+            // Create matches using MatchService
+            MatchServiceImpl matchService = new MatchServiceImpl();
+            List<User> matches = matchService.findMatches(user, userSession.getAllUsers());
+
+            // Create and show the matching room view, passing the userSession
+            JPanel matchingRoomPanel = new MatchingRoomView(frame, user, matches, userSession);
+            frame.setContentPane(matchingRoomPanel);
+            frame.revalidate();
+            frame.repaint();
+        });
 
         // Add buttons to panel
         panel.add(editProfileBtn);
