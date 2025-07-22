@@ -1,14 +1,17 @@
 import app.addComment.AddCommentImpl;
-import app.teamStory.AddFriendsListImpl;
+import data_access.InMemoryMatchDataAccessObject;
+import data_access.InMemoryPostDataAccessObject;
+import data_access.MatchDataAccessInterface;
+import data_access.PostDataAccessInterface;
 import entities.*;
 import org.junit.Test;
 import usecase.AddComment;
-import usecase.teamStory.AddFriendsList;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AddCommentImplTest {
@@ -38,20 +41,34 @@ public class AddCommentImplTest {
                         emptyList,
                         emptyList);
 
-        UserSession priorUserSession = new UserSession(user1);
-        Post newPost = new Post("Lord's new release is FIRE!", null,
+
+        // Scenario: Stan wants to make a comment on user01's post
+
+        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
+        PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
+
+        // user1 logs in to the app and posts something
+        UserSession userSession1 = new UserSession(user1, matchDAO, postDAO);
+
+        Post newPost = new Post("Check this out!", "Lord's new release is FIRE!", null,
                 LocalDateTime.now(), user1, new ArrayList<Comment>());
-        priorUserSession.addPost(newPost);
+        postDAO.savePost(user1, newPost);      // DAO updates
+        userSession1.addPost(newPost);         // Session updates
 
-        UserSession userSession = new UserSession(user1);
-        // Senario: Stan wants to make a comment on user01's post
-        AddFriendsList addFriendsList = new AddFriendsListImpl();
+        // this post has no comment yet
+        assertTrue(newPost.getComments().isEmpty());
 
+        // user0 (Stan) logs in to the app and finds the new post in his post feed.
+        UserSession userSession0 = new UserSession(user0);
+
+        // Stan makes a comment on user1's post
         String comment = "I agree!";
-        AddComment addcomment = new AddCommentImpl();
-        addcomment.addComment(userSession, newPost, comment);
+        AddComment addcomment = new AddCommentImpl(postDAO);
+        addcomment.addComment(userSession0, newPost, comment);
 
-        assertTrue(true);
-        // can't check without connecting to database
+        // Check that comment is stored with the post in DAO
+        assertFalse(postDAO.getPostsByUser(user1).get(0).getComments().isEmpty());
+        assertTrue(postDAO.getPostsByUser(user1).get(0).getComments().get(0).getAuthor().equals(user0.getName()));
+
     }
 }
