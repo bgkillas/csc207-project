@@ -1,4 +1,3 @@
 package data_access;
 
-public class InMemoryUserDataAccessObject {
-}
+public class InMemoryUserDataAccessObject {}

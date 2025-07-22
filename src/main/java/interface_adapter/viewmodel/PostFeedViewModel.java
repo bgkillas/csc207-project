@@ -1,4 +1,3 @@
 package interface_adapter.viewmodel;
 
-public class PostFeedViewModel {
-}
+public class PostFeedViewModel {}

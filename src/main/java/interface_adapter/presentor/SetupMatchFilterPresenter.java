@@ -20,7 +20,6 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         this.session = session;
     }
 
-
     @Override
     public void prepareSuccessView(MatchFilter filter) {
         JOptionPane.showMessageDialog(

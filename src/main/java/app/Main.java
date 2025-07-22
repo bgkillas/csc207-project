@@ -22,18 +22,11 @@ import usecase.teamStory.CreateAccountInteractor;
 import usecase.teamStory.CreateAccountOutputBoundary;
 import interface_adapter.presentor.CreateAccountPresenter;
 import view.DebugMenuView;
-import view.LoginView;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.security.NoSuchAlgorithmException;
-
-import view.MatchingRoomView;
-import entities.User;
-import java.util.ArrayList;
-import java.util.List;
-
 
 /** Main executable class. */
 public class Main {
@@ -50,7 +43,8 @@ public class Main {
         session.initiateSpotify();
 
         // Match Filter setup
-        SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter(application, session);
+        SetupMatchFilterOutputBoundary filterPresenter =
+                new SetupMatchFilterPresenter(application, session);
 
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);
@@ -72,7 +66,7 @@ public class Main {
                 new CreateAccountController(createAccountInteractor);
 
         // Initial Login View
-/*        final JPanel login = LoginView.create(login_manager, createAccountController);
+        /*final JPanel login = LoginView.create(login_manager, createAccountController);
         views.add(login);*/
 
         // Connecting to DebugMenuView

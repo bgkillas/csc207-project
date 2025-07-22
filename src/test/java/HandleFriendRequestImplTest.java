@@ -42,10 +42,10 @@ public class HandleFriendRequestImplTest {
                         emptyList,
                         emptyList);
 
-
-
-        // Senario: user0 has been matched with user1 in his matching room and clicks "connect" button
-        // which sends friend request to user1. User1 finds this in her Friend Request tab and clicks "accept"
+        // Senario: user0 has been matched with user1 in his matching room and clicks "connect"
+        // button
+        // which sends friend request to user1. User1 finds this in her Friend Request tab and
+        // clicks "accept"
 
         MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
@@ -73,7 +73,10 @@ public class HandleFriendRequestImplTest {
         HandleFriendRequest handleFriendRequest = new HandleFriendRequestImpl(matchDAO);
         handleFriendRequest.sendFriendRequest(userSession0, user1);
 
-        assertTrue(userSession0.getOutgoingMatches().contains(user1)); // user1 is added into the outgoing Match
+        assertTrue(
+                userSession0
+                        .getOutgoingMatches()
+                        .contains(user1)); // user1 is added into the outgoing Match
 
         // user1 logs in again.
         userSession1 = new UserSession(user1, matchDAO, postDAO);

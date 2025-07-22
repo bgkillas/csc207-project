@@ -1,5 +1,3 @@
 package data_access;
 
-public interface UserDataAccessInterface {
-
-}
+public interface UserDataAccessInterface {}

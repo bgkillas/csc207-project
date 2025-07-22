@@ -11,6 +11,7 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
 
     /**
      * Creates use case for handling friend request.
+     *
      * @param matchDAO data access object for matches.
      */
     public HandleFriendRequestImpl(MatchDataAccessInterface matchDAO) {
@@ -19,6 +20,7 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
 
     /**
      * Sends friend request to another user.
+     *
      * @param userSession the current session.
      * @param toUser the user the request is being sent to.
      */
@@ -27,11 +29,11 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
         User currentUser = userSession.getUser();
 
         // add user to outgoing
-        matchDAO.addOutgoingFriendRequest(userSession.getUser(), toUser);    // Repo updates
-        userSession.getOutgoingMatches().add(toUser);                        // Session updates
+        matchDAO.addOutgoingFriendRequest(userSession.getUser(), toUser); // Repo updates
+        userSession.getOutgoingMatches().add(toUser); // Session updates
         // add user to incoming
-        matchDAO.addIncomingFriendRequest(toUser, currentUser);              // Repo updates
-        userSession.getIncomingMatches().add(currentUser);                   // Session updates
+        matchDAO.addIncomingFriendRequest(toUser, currentUser); // Repo updates
+        userSession.getIncomingMatches().add(currentUser); // Session updates
     }
 
     @Override
@@ -39,8 +41,8 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
         User currentUser = userSession.getUser();
 
         // remove user from incoming
-        matchDAO.getIncomingFriendRequest(currentUser).remove(fromUser);    // Repo updates
-        userSession.getIncomingMatches().remove(fromUser);                  // Session updates
+        matchDAO.getIncomingFriendRequest(currentUser).remove(fromUser); // Repo updates
+        userSession.getIncomingMatches().remove(fromUser); // Session updates
 
         // Remove from fromUser's outgoing
         matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);
@@ -54,8 +56,8 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
         User currentUser = userSession.getUser();
 
         // remove user from incoming
-        matchDAO.getIncomingFriendRequest(currentUser).remove(fromUser);    // Repo updates
-        userSession.getIncomingMatches().remove(fromUser);                  // Session updates
+        matchDAO.getIncomingFriendRequest(currentUser).remove(fromUser); // Repo updates
+        userSession.getIncomingMatches().remove(fromUser); // Session updates
 
         // Remove from fromUser's outgoing
         matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);

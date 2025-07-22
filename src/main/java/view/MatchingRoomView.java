@@ -10,7 +10,8 @@ public class MatchingRoomView extends JPanel {
 
     private int currentIndex = 0;
 
-    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches, UserSession session) {
+    public MatchingRoomView(
+            JFrame frame, User currentUser, List<User> matches, UserSession session) {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
@@ -84,40 +85,51 @@ public class MatchingRoomView extends JPanel {
         this.add(navPanel, BorderLayout.PAGE_END);
 
         // 👇 Display logic
-        Runnable updateDisplay = () -> {
-            if (currentIndex >= matches.size()) {
-                info.setText("No more matches.");
-                score.setText("");
-                connectBtn.setEnabled(false);
-                skipBtn.setEnabled(false);
-                return;
-            }
+        Runnable updateDisplay =
+                () -> {
+                    if (currentIndex >= matches.size()) {
+                        info.setText("No more matches.");
+                        score.setText("");
+                        connectBtn.setEnabled(false);
+                        skipBtn.setEnabled(false);
+                        return;
+                    }
 
-            User match = matches.get(currentIndex);
-            info.setText("<html><b>" + match.getName() + "</b><br/>"
-                    + match.getAge() + "<br/>"
-                    + match.getLocation() + "<br/>"
-                    + "\"" + match.getBio() + "\"</html>");
-            score.setText("97%");
-        };
+                    User match = matches.get(currentIndex);
+                    info.setText(
+                            "<html><b>"
+                                    + match.getName()
+                                    + "</b><br/>"
+                                    + match.getAge()
+                                    + "<br/>"
+                                    + match.getLocation()
+                                    + "<br/>"
+                                    + "\""
+                                    + match.getBio()
+                                    + "\"</html>");
+                    score.setText("97%");
+                };
 
-        connectBtn.addActionListener(e -> {
-            currentUser.getFriendList().add(matches.get(currentIndex));
-            currentIndex++;
-            updateDisplay.run();
-        });
+        connectBtn.addActionListener(
+                e -> {
+                    currentUser.getFriendList().add(matches.get(currentIndex));
+                    currentIndex++;
+                    updateDisplay.run();
+                });
 
-        skipBtn.addActionListener(e -> {
-            currentIndex++;
-            updateDisplay.run();
-        });
+        skipBtn.addActionListener(
+                e -> {
+                    currentIndex++;
+                    updateDisplay.run();
+                });
 
         // trigger profile view when button is pressed
-        yourProfileBtn.addActionListener(e -> {
-            frame.setContentPane(new ProfileView(currentUser, frame, session));
-            frame.revalidate();
-            frame.repaint();
-        });
+        yourProfileBtn.addActionListener(
+                e -> {
+                    frame.setContentPane(new ProfileView(currentUser, frame, session));
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         updateDisplay.run();
     }

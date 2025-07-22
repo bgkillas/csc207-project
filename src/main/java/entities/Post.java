@@ -12,7 +12,13 @@ public class Post {
     private User author;
     private List<Comment> comments;
 
-    public Post(String title, String text, Image image, LocalDateTime timestamp, User author, List<Comment> comments) {
+    public Post(
+            String title,
+            String text,
+            Image image,
+            LocalDateTime timestamp,
+            User author,
+            List<Comment> comments) {
         this.title = title;
         this.text = text;
         this.image = image;

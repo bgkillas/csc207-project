@@ -1,4 +1,3 @@
 package usecase;
 
-public interface CreatePost {
-}
+public interface CreatePost {}

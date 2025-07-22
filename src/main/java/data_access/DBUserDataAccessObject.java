@@ -1,4 +1,3 @@
 package data_access;
 
-public class DBUserDataAccessObject {
-}
+public class DBUserDataAccessObject {}

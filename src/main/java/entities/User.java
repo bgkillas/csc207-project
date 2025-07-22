@@ -108,12 +108,9 @@ public class User {
         return favSongs;
     }
 
-    /**
-     * updates the user's favorite artists.
-     */
+    /** updates the user's favorite artists. */
     public void setFavArtists(List<String> ArtistsList) {
         this.favArtists = ArtistsList;
-
     }
 
     /** updates the user's favorite genres. */
@@ -181,5 +178,4 @@ public class User {
     public String getBio() {
         return this.bio;
     }
-
 }

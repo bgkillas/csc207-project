@@ -17,10 +17,10 @@ public class AddCommentImpl implements AddComment {
 
     @Override
     public void addComment(UserSession userSession, Post post, String comment) {
-        Comment newComment = new Comment(comment, userSession.getUser().getName(), LocalDateTime.now());
+        Comment newComment =
+                new Comment(comment, userSession.getUser().getName(), LocalDateTime.now());
 
-        post.getComments().add(newComment);  // update in memory
-        postDAO.savePost(post.getAuthor(), post);  // update the DAO
-
+        post.getComments().add(newComment); // update in memory
+        postDAO.savePost(post.getAuthor(), post); // update the DAO
     }
 }

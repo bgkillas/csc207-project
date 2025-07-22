@@ -12,4 +12,3 @@ public class OpenPostView extends JPanel {
         return this; // temporary
     }
 }
-

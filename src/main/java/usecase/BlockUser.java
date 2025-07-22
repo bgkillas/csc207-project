@@ -1,4 +1,3 @@
 package usecase;
 
-public interface BlockUser {
-}
+public interface BlockUser {}

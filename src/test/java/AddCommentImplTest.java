@@ -40,7 +40,6 @@ public class AddCommentImplTest {
                         emptyList,
                         emptyList);
 
-
         // Scenario: Stan wants to make a comment on user01's post
 
         MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
@@ -49,10 +48,16 @@ public class AddCommentImplTest {
         // user1 logs in to the app and posts something
         UserSession userSession1 = new UserSession(user1, matchDAO, postDAO);
 
-        Post newPost = new Post("Check this out!", "Lord's new release is FIRE!", null,
-                LocalDateTime.now(), user1, new ArrayList<Comment>());
-        postDAO.savePost(user1, newPost);      // DAO updates
-        userSession1.addPost(newPost);         // Session updates
+        Post newPost =
+                new Post(
+                        "Check this out!",
+                        "Lord's new release is FIRE!",
+                        null,
+                        LocalDateTime.now(),
+                        user1,
+                        new ArrayList<Comment>());
+        postDAO.savePost(user1, newPost); // DAO updates
+        userSession1.addPost(newPost); // Session updates
 
         // this post has no comment yet
         assertTrue(newPost.getComments().isEmpty());
@@ -67,7 +72,8 @@ public class AddCommentImplTest {
 
         // Check that comment is stored with the post in DAO
         assertFalse(postDAO.getPostsByUser(user1).get(0).getComments().isEmpty());
-        assertEquals(postDAO.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(), user0.getName());
-
+        assertEquals(
+                postDAO.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(),
+                user0.getName());
     }
 }

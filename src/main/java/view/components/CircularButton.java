@@ -2,7 +2,6 @@ package view.components;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 // Custom JButton class
 public class CircularButton extends JButton {

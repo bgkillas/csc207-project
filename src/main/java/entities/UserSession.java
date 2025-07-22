@@ -26,7 +26,8 @@ public class UserSession {
      * @param matchDAO match data access object.
      * @param postDAO post data access object.
      */
-    public UserSession(User user, MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
+    public UserSession(
+            User user, MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
         this.user = user;
         this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
         this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
@@ -46,6 +47,7 @@ public class UserSession {
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
     }
+
     public List<User> getAllUsers() {
         return new ArrayList<>(allUsers);
     }
@@ -53,7 +55,6 @@ public class UserSession {
     public void addUser(User user) {
         allUsers.add(user);
     }
-
 
     public void initiateSpotify() {
         spotify = new Spotify();

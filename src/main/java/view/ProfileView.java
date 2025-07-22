@@ -26,9 +26,7 @@ public class ProfileView extends JPanel {
         create();
     }
 
-    /**
-     * Initializes the profile view components.
-     */
+    /** Initializes the profile view components. */
     public void create() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -68,22 +66,41 @@ public class ProfileView extends JPanel {
         profilePic.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // User info display
-        JLabel nameLabel = new JLabel("<html><h2>" + user.getName() + "</h2></html>", SwingConstants.CENTER);
-        JLabel detailsLabel = new JLabel("<html>" +
-                user.getAge() + " • " + user.getGender() + "<br>" +
-                user.getLocation() + "<br><br>" +
-                "\"" + user.getBio() + "\"</html>", SwingConstants.CENTER);
+        JLabel nameLabel =
+                new JLabel("<html><h2>" + user.getName() + "</h2></html>", SwingConstants.CENTER);
+        JLabel detailsLabel =
+                new JLabel(
+                        "<html>"
+                                + user.getAge()
+                                + " • "
+                                + user.getGender()
+                                + "<br>"
+                                + user.getLocation()
+                                + "<br><br>"
+                                + "\""
+                                + user.getBio()
+                                + "\"</html>",
+                        SwingConstants.CENTER);
 
         // Music taste display
-        JLabel genresLabel = new JLabel("<html><b>Favorite Genres:</b><br>" +
-                String.join(", ", user.getFavGenres()) +
-                "</html>", SwingConstants.CENTER);
-        JLabel artistsLabel = new JLabel("<html><b>Favorite Artists:</b><br>" +
-                String.join(", ", user.getFavArtists()) +
-                "</html>", SwingConstants.CENTER);
-        JLabel songsLabel = new JLabel("<html><b>Favorite Songs:</b><br>" +
-                String.join(", ", user.getFavSongs()) +
-                "</html>", SwingConstants.CENTER);
+        JLabel genresLabel =
+                new JLabel(
+                        "<html><b>Favorite Genres:</b><br>"
+                                + String.join(", ", user.getFavGenres())
+                                + "</html>",
+                        SwingConstants.CENTER);
+        JLabel artistsLabel =
+                new JLabel(
+                        "<html><b>Favorite Artists:</b><br>"
+                                + String.join(", ", user.getFavArtists())
+                                + "</html>",
+                        SwingConstants.CENTER);
+        JLabel songsLabel =
+                new JLabel(
+                        "<html><b>Favorite Songs:</b><br>"
+                                + String.join(", ", user.getFavSongs())
+                                + "</html>",
+                        SwingConstants.CENTER);
 
         nameLabel.setFont(new Font("Arial", Font.BOLD, 24));
         detailsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -143,15 +160,17 @@ public class ProfileView extends JPanel {
         yourProfileBtn.setForeground(Color.WHITE);
 
         // Add the matching button action
-        matchingBtn.addActionListener(e -> {
-            MatchServiceImpl matchService = new MatchServiceImpl();
-            List<User> matches = matchService.findMatches(user, userSession.getAllUsers());
+        matchingBtn.addActionListener(
+                e -> {
+                    MatchServiceImpl matchService = new MatchServiceImpl();
+                    List<User> matches = matchService.findMatches(user, userSession.getAllUsers());
 
-            JPanel matchingRoomPanel = new MatchingRoomView(frame, user, matches, userSession);
-            frame.setContentPane(matchingRoomPanel);
-            frame.revalidate();
-            frame.repaint();
-        });
+                    JPanel matchingRoomPanel =
+                            new MatchingRoomView(frame, user, matches, userSession);
+                    frame.setContentPane(matchingRoomPanel);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         navPanel.add(matchingBtn);
         navPanel.add(shareBtn);
@@ -167,7 +186,7 @@ public class ProfileView extends JPanel {
     private JButton createActionButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
-        button.setBackground(new Color(0x4CAF50));  // Green color
+        button.setBackground(new Color(0x4CAF50)); // Green color
         button.setForeground(Color.WHITE);
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
@@ -180,7 +199,5 @@ public class ProfileView extends JPanel {
         button.setForeground(Color.DARK_GRAY);
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
-
     }
 }
-

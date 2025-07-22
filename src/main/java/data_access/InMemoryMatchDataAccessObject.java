@@ -27,13 +27,15 @@ public class InMemoryMatchDataAccessObject implements MatchDataAccessInterface {
 
     @Override
     public void addIncomingFriendRequest(User toUser, User fromUser) {
-        // Make sure toUser has a list of incoming Friend Request. If not, create one then add fromUser to that list.
+        // Make sure toUser has a list of incoming Friend Request. If not, create one then add
+        // fromUser to that list.
         incoming.computeIfAbsent(toUser, k -> new ArrayList<>()).add(fromUser);
     }
 
     @Override
     public void addOutgoingFriendRequest(User fromUser, User toUser) {
-        // Make sure fromUser has a list of outgoing Friend Request. If not, create one then add toUser to that list.
+        // Make sure fromUser has a list of outgoing Friend Request. If not, create one then add
+        // toUser to that list.
         outgoing.computeIfAbsent(fromUser, k -> new ArrayList<>()).add(toUser);
     }
 
