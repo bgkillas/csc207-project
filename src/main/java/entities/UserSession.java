@@ -15,6 +15,7 @@ public class UserSession {
     private final List<User> outgoingMatches;
     private final List<Match> matches;
     private List<Post> posts;
+    private final List<User> allUsers = new ArrayList<>();
 
     private Spotify spotify;
 
@@ -45,6 +46,14 @@ public class UserSession {
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
     }
+    public List<User> getAllUsers() {
+        return new ArrayList<>(allUsers);
+    }
+
+    public void addUser(User user) {
+        allUsers.add(user);
+    }
+
 
     public void initiateSpotify() {
         spotify = new Spotify();

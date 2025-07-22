@@ -28,6 +28,12 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import java.security.NoSuchAlgorithmException;
 
+import view.MatchingRoomView;
+import entities.User;
+import java.util.ArrayList;
+import java.util.List;
+
+
 /** Main executable class. */
 public class Main {
     /** Main executable point. */
@@ -41,7 +47,8 @@ public class Main {
         session.initiateSpotify();
 
         // Match Filter setup
-        SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter();
+        SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter(application, session);
+
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);
         filterController = new SetupMatchFilterController(filterInteractor);
