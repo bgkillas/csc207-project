@@ -5,8 +5,10 @@ import account.login.LoginManager;
 import account.login.LoginManagerMemory;
 import account.login.SetupMatchFilterController;
 import account.login.SetupUserProfileController;
+import app.createPost.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
+import interface_adapter.controller.PostFeedViewController;
 import interface_adapter.presentor.CreateAccountPresenter;
 import interface_adapter.presentor.SetupMatchFilterPresenter;
 import interface_adapter.presentor.SetupUserProfilePresenter;
@@ -54,6 +56,10 @@ public class DebugMenuView {
         CreateAccountController createController = new CreateAccountController(
                 new CreateAccountInteractor(createPresenter, session, loginManager));
 
+        // Controller for post feed view
+        CreatePostInteractor createPostInteractor = new CreatePostInteractor();
+        PostFeedViewController postFeedViewController = new PostFeedViewController(createPostInteractor);
+
         // Add buttons to open each view
         addButton(panel, "BlockListView", () -> new BlockListView().create());
         addButton(panel, "BuddyListView", () -> new BuddyListView().create());
@@ -65,7 +71,7 @@ public class DebugMenuView {
         addButton(panel, "MatchingRoomView", () -> new MatchingRoomView(null,
                 dummyUser, Collections.singletonList(dummyUser)));
         addButton(panel, "OpenPostView", () -> new OpenPostView().create());
-        addButton(panel, "PostFeedView", () -> new PostFeedView().create());
+        addButton(panel, "PostFeedView", () -> new PostFeedView().create(postFeedViewController));
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
         addButton(panel, "ProfileView", () -> new ProfileView().create());
 
