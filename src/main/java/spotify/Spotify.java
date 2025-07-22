@@ -12,9 +12,7 @@ import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -22,9 +20,11 @@ import org.json.JSONTokener;
 /** Spotify api interactions. */
 public class Spotify implements SpotifyInterface {
 
+    List<String> topTracks = new ArrayList<>();
+
     List<String> topArtists = new ArrayList<>();
 
-    List<String> genres = new ArrayList<>();
+    List<String> topGenres = new ArrayList<>();
 
     final int port = 8547;
 
@@ -116,7 +116,7 @@ public class Spotify implements SpotifyInterface {
     public void pullTopArtistsAndGenres() {
         try {
             topArtists.clear();
-            genres.clear();
+            topGenres.clear();
             URL url = new URL("https://api.spotify.com/v1/me/top/artists?limit=10");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -136,8 +136,62 @@ public class Spotify implements SpotifyInterface {
                 JSONArray genres = artist.getJSONArray("genres");
                 for (int j = 0; j < genres.length(); j++) {
                     String genre = genres.getString(j);
-                    this.genres.add(genre);
+                    topGenres.add(genre);
                 }
+            }
+            conn.disconnect();
+            sortGenres();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void sortGenres() {
+        Map<String, Integer> map = new HashMap<>();
+        for (String genre : topGenres) {
+            Integer num = map.get(genre);
+            if (num == null) {
+                num = 0;
+            }
+            num = num + 1;
+            map.put(genre, num);
+        }
+        List<String> list = new ArrayList<>();
+        List<Integer> nums = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            int i = 0;
+            while (i < nums.size() && nums.get(i) > entry.getValue()) {
+                i += 1;
+            }
+            nums.add(i, entry.getValue());
+            list.add(i, entry.getKey());
+        }
+        if (list.size() > 5) {
+            list = list.subList(0, 5);
+        }
+        topGenres = list;
+    }
+
+    @Override
+    public void pullTopTracks() {
+        try {
+            topTracks.clear();
+            URL url = new URL("https://api.spotify.com/v1/me/top/tracks?limit=5");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            int responseCode = conn.getResponseCode();
+            InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
+            if (responseCode >= 400) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+                System.out.println(in.readLine());
+            }
+            JSONObject json = new JSONObject(new JSONTokener(is));
+            JSONArray items = json.getJSONArray("items");
+            for (int i = 0; i < items.length(); i++) {
+                JSONObject artist = items.getJSONObject(i);
+                String name = artist.getString("name");
+                topTracks.add(name);
             }
             conn.disconnect();
         } catch (IOException e) {
@@ -146,12 +200,17 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
+    public List<String> getTopTracks() {
+        return this.topTracks;
+    }
+
+    @Override
     public List<String> getTopArtists() {
         return this.topArtists;
     }
 
     @Override
-    public List<String> getGenres() {
-        return this.genres;
+    public List<String> getTopGenres() {
+        return this.topGenres;
     }
 }

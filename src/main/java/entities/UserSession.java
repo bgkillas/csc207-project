@@ -42,8 +42,9 @@ public class UserSession {
     public void updateSpotify() {
         spotify.pullTopArtistsAndGenres();
         this.user.setFavArtists(spotify.getTopArtists());
-        this.user.setFavGenres(spotify.getGenres());
-
+        this.user.setFavGenres(spotify.getTopGenres());
+        spotify.pullTopTracks();
+        this.user.setFavSongs(spotify.getTopTracks());
     }
 
     /**
