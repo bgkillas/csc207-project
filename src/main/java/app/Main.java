@@ -21,6 +21,7 @@ import usecase.teamStory.CreateAccountInputBoundary;
 import usecase.teamStory.CreateAccountInteractor;
 import usecase.teamStory.CreateAccountOutputBoundary;
 import interface_adapter.presentor.CreateAccountPresenter;
+import view.DebugMenuView;
 import view.LoginView;
 
 import javax.swing.JFrame;
@@ -36,6 +37,8 @@ import java.util.List;
 
 /** Main executable class. */
 public class Main {
+    private static SetupMatchFilterController filterController;
+
     /** Main executable point. */
     public static void main(String[] args) throws NoSuchAlgorithmException {
         final JFrame application = new JFrame("app");
@@ -69,15 +72,18 @@ public class Main {
                 new CreateAccountController(createAccountInteractor);
 
         // Initial Login View
-        final JPanel login = LoginView.create(login_manager, createAccountController);
-        views.add(login);
+/*        final JPanel login = LoginView.create(login_manager, createAccountController);
+        views.add(login);*/
+
+        // Connecting to DebugMenuView
+        final JPanel debugView = DebugMenuView.create();
+        views.add(debugView);
+
         application.add(views);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         application.pack();
         application.setVisible(true);
     }
-
-    private static SetupMatchFilterController filterController;
 
     public static SetupMatchFilterController getFilterController() {
         return filterController;
