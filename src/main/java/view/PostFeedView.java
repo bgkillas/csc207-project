@@ -1,6 +1,5 @@
 package view;
 
-
 import app.createPost.CreatePostInteractor;
 import entities.UserSession;
 import interface_adapter.controller.PostFeedViewController;
@@ -157,6 +156,6 @@ public class PostFeedView {
         frame.add(view);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
     }
 }
+
