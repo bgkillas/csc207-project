@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AddCommentImplTest {
 
@@ -68,7 +67,7 @@ public class AddCommentImplTest {
 
         // Check that comment is stored with the post in DAO
         assertFalse(postDAO.getPostsByUser(user1).get(0).getComments().isEmpty());
-        assertTrue(postDAO.getPostsByUser(user1).get(0).getComments().get(0).getAuthor().equals(user0.getName()));
+        assertEquals(postDAO.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(), user0.getName());
 
     }
 }
