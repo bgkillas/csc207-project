@@ -1,0 +1,99 @@
+package view;
+
+import account.login.CreateAccountController;
+import account.login.LoginManager;
+import account.login.LoginManagerMemory;
+import account.login.SetupMatchFilterController;
+import account.login.SetupUserProfileController;
+import entities.User;
+import entities.UserSession;
+import interface_adapter.presentor.CreateAccountPresenter;
+import interface_adapter.presentor.SetupMatchFilterPresenter;
+import interface_adapter.presentor.SetupUserProfilePresenter;
+import usecase.teamStory.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+
+/**
+ * DebugMenuView functions as a debugging panel
+ * It displays buttons to launch all UI views
+ */
+public class DebugMenuView {
+
+    /**
+     * Creates the debug panel with a vertical list of buttons, one for each view
+     * Clicking a button opens the corresponding view in a new JFrame
+     */
+    public static JPanel create() throws NoSuchAlgorithmException {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1)); // vertical list of buttons
+
+        // Shared dummy user and login manager
+        LoginManager loginManager = new LoginManagerMemory();
+        User dummyUser = new User("debugUser", 25, "Other", "DebugLand", "Debugging",
+                Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        UserSession session = new UserSession(dummyUser);
+
+        // Controllers for views that require them
+        SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();
+        SetupUserProfileController profileController = new SetupUserProfileController(
+                new SetupUserProfileInteractor(profilePresenter, session));
+
+        JFrame frame = new JFrame();
+        SetupMatchFilterOutputBoundary matchFilterPresenter = new SetupMatchFilterPresenter(
+                frame, session);
+
+        SetupMatchFilterController matchFilterController = new SetupMatchFilterController(
+                new SetupMatchFilterInteractor(matchFilterPresenter, session));
+
+        CreateAccountOutputBoundary createPresenter = new CreateAccountPresenter(null
+                , profileController);
+        CreateAccountController createController = new CreateAccountController(
+                new CreateAccountInteractor(createPresenter, session, loginManager));
+
+        // Add buttons to open each view
+        addButton(panel, "BlockListView", () -> new BlockListView().create());
+        addButton(panel, "BuddyListView", () -> new BuddyListView().create());
+        addButton(panel, "ConnectRequestView", () -> new ConnectRequestView().create());
+        addButton(panel, "CreatePostView", () -> new CreatePostView().create());
+        addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
+        addButton(panel, "MatchFilterSetupView", () -> MatchFilterSetupView.create(
+                matchFilterController));
+        addButton(panel, "MatchingRoomView", () -> new MatchingRoomView(null,
+                dummyUser, Collections.singletonList(dummyUser)));
+        addButton(panel, "OpenPostView", () -> new OpenPostView().create());
+        addButton(panel, "PostFeedView", () -> new PostFeedView().create());
+        addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
+        addButton(panel, "ProfileView", () -> new ProfileView().create());
+
+        return panel;
+    }
+
+    /**
+     * Adds a button to the debug menu that opens the given view in a new window
+     *
+     * @param panel        The debug panel to add the button to
+     * @param name         The name of the view
+     * @param viewSupplier A method reference that returns a JComponent
+     */
+    private static void addButton(JPanel panel, String name, Supplier<JComponent> viewSupplier) {
+        JButton button = new JButton("Open " + name);
+        button.addActionListener(e -> {
+            JFrame frame = new JFrame(name);
+            frame.setContentPane(viewSupplier.get());
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            frame.pack();  // automatically size frame to fit contents
+            frame.setVisible(true);
+        });
+        panel.add(button);
+    }
+
+    // Minimal functional interface used to pass component constructors or static create methods
+    @FunctionalInterface
+    private interface Supplier<T> {
+        T get();
+    }
+}

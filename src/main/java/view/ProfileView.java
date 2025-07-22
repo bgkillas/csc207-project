@@ -180,5 +180,7 @@ public class ProfileView extends JPanel {
         button.setForeground(Color.DARK_GRAY);
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
+
     }
 }
+
