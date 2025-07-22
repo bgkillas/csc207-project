@@ -166,6 +166,9 @@ public class Spotify implements SpotifyInterface {
             nums.add(i, entry.getValue());
             list.add(i, entry.getKey());
         }
+        if (list.size() > 5) {
+            list = list.subList(0, 5);
+        }
         topGenres = list;
     }
 
