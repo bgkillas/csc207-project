@@ -104,6 +104,10 @@ public class User {
         return favGenres;
     }
 
+    public List<String> getFavSongs() {
+        return favSongs;
+    }
+
     /**
      * updates the user's favorite artists.
      */

@@ -31,6 +31,7 @@ public class ProfileView extends JPanel {
      */
     private void initialize() {
         setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
 
         // Top panel with profile info
         JPanel profilePanel = createProfilePanel();
@@ -42,75 +43,142 @@ public class ProfileView extends JPanel {
     }
 
     private JPanel createProfilePanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        mainPanel.setBackground(Color.WHITE);
+
+        // Top title bar
+        JPanel topBar = new JPanel(new BorderLayout());
+        JLabel title = new JLabel("Profile", SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 26));
+        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        topBar.add(title, BorderLayout.CENTER);
+        mainPanel.add(topBar);
+
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.WHITE);
+        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // Profile picture placeholder
-        JLabel profilePic = new JLabel("?");
-        profilePic.setPreferredSize(new Dimension(50, 50));
-        profilePic.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        JLabel profilePic = new JLabel("?", SwingConstants.CENTER);
+        profilePic.setFont(new Font("Arial", Font.PLAIN, 64));
+        profilePic.setPreferredSize(new Dimension(120, 120));
+        profilePic.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // User info
-        JLabel nameLabel = new JLabel("Name: " + user.getName());
-        JLabel ageLabel = new JLabel("Age: " + user.getAge());
-        JLabel genderLabel = new JLabel("Gender: " + user.getGender());
-        JLabel locationLabel = new JLabel("Location: " + user.getLocation());
-        JLabel bioLabel = new JLabel("Bio: " + user.getBio());
+        // User info display
+        JLabel nameLabel = new JLabel("<html><h2>" + user.getName() + "</h2></html>", SwingConstants.CENTER);
+        JLabel detailsLabel = new JLabel("<html>" +
+                user.getAge() + " • " + user.getGender() + "<br>" +
+                user.getLocation() + "<br><br>" +
+                "\"" + user.getBio() + "\"</html>", SwingConstants.CENTER);
 
-        panel.add(profilePic);
-        panel.add(nameLabel);
-        panel.add(ageLabel);
-        panel.add(genderLabel);
-        panel.add(locationLabel);
-        panel.add(bioLabel);
+        // Music taste display
+        JLabel genresLabel = new JLabel("<html><b>Favorite Genres:</b><br>" +
+                String.join(", ", user.getFavGenres()) +
+                "</html>", SwingConstants.CENTER);
+        JLabel artistsLabel = new JLabel("<html><b>Favorite Artists:</b><br>" +
+                String.join(", ", user.getFavArtists()) +
+                "</html>", SwingConstants.CENTER);
+        JLabel songsLabel = new JLabel("<html><b>Favorite Songs:</b><br>" +
+                String.join(", ", user.getFavSongs()) +
+                "</html>", SwingConstants.CENTER);
 
-        return panel;
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        detailsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        genresLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        artistsLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        songsLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detailsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        genresLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        artistsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        songsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        contentPanel.add(Box.createVerticalStrut(20));
+        contentPanel.add(profilePic);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(nameLabel);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(detailsLabel);
+        contentPanel.add(Box.createVerticalStrut(20));
+        contentPanel.add(genresLabel);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(artistsLabel);
+        contentPanel.add(Box.createVerticalStrut(10));
+        contentPanel.add(songsLabel);
+        contentPanel.add(Box.createVerticalStrut(20));
+
+        mainPanel.add(contentPanel);
+
+        return mainPanel;
     }
 
     private JPanel createButtonPanel() {
-        JPanel panel = new JPanel(new GridLayout(2, 3, 5, 5));
-        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        // Create two panels: one for action buttons and one for navigation
+        JPanel combinedPanel = new JPanel(new BorderLayout());
+        combinedPanel.setBorder(BorderFactory.createEmptyBorder(5, 40, 5, 40));
 
-        JButton editProfileBtn = createButton("edit profile");
-        JButton buddyListBtn = createButton("buddy list");
-        JButton blockListBtn = createButton("block list");
-        JButton matchingBtn = createButton("matching");
-        JButton shareBtn = createButton("share");
-        JButton yourProfileBtn = createButton("your profile");
+        // Action buttons panel (edit profile, buddy list, block list)
+        JPanel actionPanel = new JPanel(new GridLayout(1, 3, 10, 0));
+        JButton editProfileBtn = createActionButton("edit profile");
+        JButton buddyListBtn = createActionButton("buddy list");
+        JButton blockListBtn = createActionButton("block list");
 
-        // Style "your profile" button differently
+        actionPanel.add(editProfileBtn);
+        actionPanel.add(buddyListBtn);
+        actionPanel.add(blockListBtn);
+
+        // Bottom navigation bar (matching, share, your profile)
+        JPanel navPanel = new JPanel(new GridLayout(1, 3, 10, 0));
+        navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
+        JButton matchingBtn = createNavButton("matching");
+        JButton shareBtn = createNavButton("share");
+        JButton yourProfileBtn = createNavButton("your profile");
+
         yourProfileBtn.setBackground(Color.DARK_GRAY);
         yourProfileBtn.setForeground(Color.WHITE);
 
         // Add the matching button action
         matchingBtn.addActionListener(e -> {
-            // Create matches using MatchService
             MatchServiceImpl matchService = new MatchServiceImpl();
             List<User> matches = matchService.findMatches(user, userSession.getAllUsers());
 
-            // Create and show the matching room view, passing the userSession
             JPanel matchingRoomPanel = new MatchingRoomView(frame, user, matches, userSession);
             frame.setContentPane(matchingRoomPanel);
             frame.revalidate();
             frame.repaint();
         });
 
-        // Add buttons to panel
-        panel.add(editProfileBtn);
-        panel.add(buddyListBtn);
-        panel.add(blockListBtn);
-        panel.add(matchingBtn);
-        panel.add(shareBtn);
-        panel.add(yourProfileBtn);
+        navPanel.add(matchingBtn);
+        navPanel.add(shareBtn);
+        navPanel.add(yourProfileBtn);
 
-        return panel;
+        // Add both panels to the combined panel
+        combinedPanel.add(actionPanel, BorderLayout.CENTER);
+        combinedPanel.add(navPanel, BorderLayout.SOUTH);
+
+        return combinedPanel;
     }
 
-    private JButton createButton(String text) {
+    private JButton createActionButton(String text) {
+        JButton button = new JButton(text);
+        button.setFocusPainted(false);
+        button.setBackground(new Color(0x4CAF50));  // Green color
+        button.setForeground(Color.WHITE);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        return button;
+    }
+
+    private JButton createNavButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);
         button.setBackground(Color.LIGHT_GRAY);
+        button.setForeground(Color.DARK_GRAY);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
     }
 }
