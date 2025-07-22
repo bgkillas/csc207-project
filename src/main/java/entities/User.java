@@ -104,9 +104,16 @@ public class User {
         return favGenres;
     }
 
-    /** updates the user's favorite artists. */
-    public void setFavArtists(List<String> artistsList) {
-        this.favArtists = artistsList;
+    public List<String> getFavSongs() {
+        return favSongs;
+    }
+
+    /**
+     * updates the user's favorite artists.
+     */
+    public void setFavArtists(List<String> ArtistsList) {
+        this.favArtists = ArtistsList;
+
     }
 
     /** updates the user's favorite genres. */

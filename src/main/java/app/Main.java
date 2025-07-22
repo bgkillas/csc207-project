@@ -48,7 +48,6 @@ public class Main {
         // Shared user session across the app
         UserSession session = new UserSession();
         session.initiateSpotify();
-        session.updateSpotify();
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter(application, session);
@@ -77,7 +76,7 @@ public class Main {
         views.add(login);*/
 
         // Connecting to DebugMenuView
-        final JPanel debugView = DebugMenuView.create();
+        final JPanel debugView = DebugMenuView.create(session);
         views.add(debugView);
 
         application.add(views);

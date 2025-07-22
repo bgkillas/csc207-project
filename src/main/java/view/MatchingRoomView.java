@@ -1,7 +1,7 @@
 package view;
 
 import entities.User;
-
+import entities.UserSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -10,7 +10,7 @@ public class MatchingRoomView extends JPanel {
 
     private int currentIndex = 0;
 
-    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches) {
+    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches, UserSession session) {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
@@ -74,9 +74,12 @@ public class MatchingRoomView extends JPanel {
         // 🔻 Bottom nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        navPanel.add(new JButton("matching"));
-        navPanel.add(new JButton("share"));
-        navPanel.add(new JButton("your profile"));
+        JButton matchingBtn = new JButton("matching");
+        JButton shareBtn = new JButton("share");
+        JButton yourProfileBtn = new JButton("your profile");
+        navPanel.add(matchingBtn);
+        navPanel.add(shareBtn);
+        navPanel.add(yourProfileBtn);
 
         this.add(navPanel, BorderLayout.PAGE_END);
 
@@ -109,6 +112,13 @@ public class MatchingRoomView extends JPanel {
             updateDisplay.run();
         });
 
+        // trigger profile view when button is pressed
+        yourProfileBtn.addActionListener(e -> {
+            frame.setContentPane(new ProfileView(currentUser, frame, session));
+            frame.revalidate();
+            frame.repaint();
+        });
+
         updateDisplay.run();
     }
 
@@ -118,7 +128,7 @@ public class MatchingRoomView extends JPanel {
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches);
+        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, null);
         frame.setContentPane(view);
         frame.setVisible(true);
     }

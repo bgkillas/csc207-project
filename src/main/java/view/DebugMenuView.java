@@ -18,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
+import java.util.function.Function;
 
 /**
  * DebugMenuView functions as a debugging panel
@@ -29,7 +30,7 @@ public class DebugMenuView {
      * Creates the debug panel with a vertical list of buttons, one for each view
      * Clicking a button opens the corresponding view in a new JFrame
      */
-    public static JPanel create() throws NoSuchAlgorithmException {
+    public static JPanel create(UserSession session) throws NoSuchAlgorithmException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1)); // vertical list of buttons
 
@@ -37,7 +38,7 @@ public class DebugMenuView {
         LoginManager loginManager = new LoginManagerMemory();
         User dummyUser = new User("debugUser", 25, "Other", "DebugLand", "Debugging",
                 Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
-        UserSession session = new UserSession(dummyUser);
+        session.setUser(dummyUser);
 
         // Controllers for views that require them
         SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();
@@ -68,12 +69,12 @@ public class DebugMenuView {
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
         addButton(panel, "MatchFilterSetupView", () -> MatchFilterSetupView.create(
                 matchFilterController));
-        addButton(panel, "MatchingRoomView", () -> new MatchingRoomView(null,
-                dummyUser, Collections.singletonList(dummyUser)));
+        addButtonWithFrame(panel, "MatchingRoomView", tempFrame -> new MatchingRoomView(tempFrame,
+                dummyUser, Collections.singletonList(dummyUser), session));
         addButton(panel, "OpenPostView", () -> new OpenPostView().create());
         addButton(panel, "PostFeedView", () -> new PostFeedView().create(postFeedViewController));
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
-        addButton(panel, "ProfileView", () -> new ProfileView().create());
+        addButtonWithFrame(panel, "ProfileView", tempFrame -> new ProfileView(dummyUser, tempFrame, session));
 
         return panel;
     }
@@ -90,6 +91,18 @@ public class DebugMenuView {
         button.addActionListener(e -> {
             JFrame frame = new JFrame(name);
             frame.setContentPane(viewSupplier.get());
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            frame.pack();  // automatically size frame to fit contents
+            frame.setVisible(true);
+        });
+        panel.add(button);
+    }
+
+    private static void addButtonWithFrame(JPanel panel, String name, Function<JFrame, JComponent> viewSupplier) {
+        JButton button = new JButton("Open " + name);
+        button.addActionListener(e -> {
+            JFrame frame = new JFrame(name);
+            frame.setContentPane(viewSupplier.apply(frame));
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             frame.pack();  // automatically size frame to fit contents
             frame.setVisible(true);
