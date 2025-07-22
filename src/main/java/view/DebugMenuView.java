@@ -30,7 +30,7 @@ public class DebugMenuView {
      * Creates the debug panel with a vertical list of buttons, one for each view
      * Clicking a button opens the corresponding view in a new JFrame
      */
-    public static JPanel create() throws NoSuchAlgorithmException {
+    public static JPanel create(UserSession session) throws NoSuchAlgorithmException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1)); // vertical list of buttons
 
@@ -38,7 +38,7 @@ public class DebugMenuView {
         LoginManager loginManager = new LoginManagerMemory();
         User dummyUser = new User("debugUser", 25, "Other", "DebugLand", "Debugging",
                 Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
-        UserSession session = new UserSession(dummyUser);
+        session.setUser(dummyUser);
 
         // Controllers for views that require them
         SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();

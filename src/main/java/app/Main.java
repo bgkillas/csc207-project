@@ -76,7 +76,7 @@ public class Main {
         views.add(login);*/
 
         // Connecting to DebugMenuView
-        final JPanel debugView = DebugMenuView.create();
+        final JPanel debugView = DebugMenuView.create(session);
         views.add(debugView);
 
         application.add(views);
