@@ -2,6 +2,10 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import data_access.MatchDataAccessInterface;
+import data_access.PostDataAccessInterface;
+
 import spotify.Spotify;
 
 /** Represents a session for a logged-in user. */
@@ -10,10 +14,25 @@ public class UserSession {
     private final List<User> incomingMatches;
     private final List<User> outgoingMatches;
     private final List<Match> matches;
+    private List<Post> posts;
     private final List<User> allUsers = new ArrayList<>();
 
-
     private Spotify spotify;
+
+    /**
+     * Constructs a UserSession for the given user and data access objects.
+     *
+     * @param user the current user.
+     * @param matchDAO match data access object.
+     * @param postDAO post data access object.
+     */
+    public UserSession(User user, MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
+        this.user = user;
+        this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
+        this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
+        this.matches = new ArrayList<>(matchDAO.getMatches(user));
+        this.posts = new ArrayList<>(postDAO.getPostsByUser(user));
+    }
 
     /**
      * Constructs a UserSession for the given user.
@@ -25,6 +44,7 @@ public class UserSession {
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
+        this.posts = new ArrayList<>();
     }
     public List<User> getAllUsers() {
         return new ArrayList<>(allUsers);
@@ -132,5 +152,17 @@ public class UserSession {
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void addPost(Post post) {
+        posts.add(post);
     }
 }

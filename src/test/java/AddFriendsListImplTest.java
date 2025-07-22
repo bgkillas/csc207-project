@@ -34,12 +34,10 @@ public class AddFriendsListImplTest {
                         emptyList,
                         emptyList,
                         emptyList);
-
         // Senario: user1 has been matched with user0 in her matching room and clicks "connect"
         // button
         // which sends match request to user0. User0 finds this in his Match Request tab and also
         // clicks "connect"
-
         AddFriendsList addFriendsList = new AddFriendsListImpl();
 
         addFriendsList.addFriend(user0, user1);

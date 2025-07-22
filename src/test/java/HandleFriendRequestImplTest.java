@@ -1,4 +1,8 @@
 import app.teamStory.HandleFriendRequestImpl;
+import data_access.InMemoryMatchDataAccessObject;
+import data_access.InMemoryPostDataAccessObject;
+import data_access.MatchDataAccessInterface;
+import data_access.PostDataAccessInterface;
 import entities.MatchFilter;
 import entities.User;
 import entities.UserSession;
@@ -16,6 +20,7 @@ public class HandleFriendRequestImplTest {
     public void testHandleFriendRequest() {
         List<String> emptyList = new ArrayList<String>();
         MatchFilter generalMF = new MatchFilter(0, 100, null, null);
+
         User user0 =
                 new User(
                         "Stan",
@@ -37,31 +42,62 @@ public class HandleFriendRequestImplTest {
                         emptyList,
                         emptyList);
 
-        // Senario: user1 has been matched with user0 in her matching room and clicks "connect"
-        // button
-        // which sends match request to user0. User0 finds this in his Match Request tab and also
-        // clicks "connect"
 
-        HandleFriendRequest handleFriendRequest = new HandleFriendRequestImpl();
 
-        UserSession userSession = new UserSession(user0);
+        // Senario: user0 has been matched with user1 in his matching room and clicks "connect" button
+        // which sends friend request to user1. User1 finds this in her Friend Request tab and clicks "accept"
 
-        assertTrue(
-                userSession
-                        .getIncomingMatches()
-                        .isEmpty()); // user0's userSession has empty incoming matches
-        assertTrue(
-                userSession
-                        .getOutgoingMatches()
-                        .isEmpty()); // user0's userSession has empty outgoing matches
+        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
+        PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
-        handleFriendRequest.sendFriendRequest(userSession, user1);
+        // user1 logs in to the app and checks her incoming friend request list.
+        UserSession userSession1 = new UserSession(user1, matchDAO, postDAO);
 
-        assertTrue(userSession.getOutgoingMatches().contains(user1)); // added into outgoing Match
-        UserSession userSession2 = new UserSession(user1);
+        List<User> incoming = userSession1.getIncomingMatches();
+        System.out.print("User1's Incoming(before): ");
+        for (User user : incoming) {
+            System.out.print(user.getName() + " ");
+        }
+        // She notices no one requested her to be friends and go cry in her bed.
+        System.out.println();
 
-        assertFalse(userSession2.getIncomingMatches().contains(user0));
-        // should not work yet since no connection to repo/database
+        // user0 logs in to the app.
+        UserSession userSession0 = new UserSession(user0, matchDAO, postDAO);
 
+        // Initially, user0's userSession has empty incomingFriendRequest / outgoingFriendRequest
+        assertTrue(userSession0.getIncomingMatches().isEmpty());
+        assertTrue(userSession0.getOutgoingMatches().isEmpty());
+
+        // user0 has been matched with user1 in his matching room and clicks "connect" button
+        // which sends friend request to user1
+        HandleFriendRequest handleFriendRequest = new HandleFriendRequestImpl(matchDAO);
+        handleFriendRequest.sendFriendRequest(userSession0, user1);
+
+        assertTrue(userSession0.getOutgoingMatches().contains(user1)); // user1 is added into the outgoing Match
+
+        // user1 logs in again.
+        userSession1 = new UserSession(user1, matchDAO, postDAO);
+
+        // since matchDAO has been updated with the new friend request,
+        // user1 can see her session updated with new friend request!
+        assertTrue(userSession1.getIncomingMatches().contains(user0));
+
+        // Prints out the incoming friend request
+        incoming = userSession1.getIncomingMatches();
+        System.out.print("User1's Incoming(after): ");
+        for (User user : incoming) {
+            System.out.print(user.getName() + " ");
+        }
+
+        // user1 looks at user0's profile and finds interest. She clicks accept.
+        HandleFriendRequest handleFriendRequest2 = new HandleFriendRequestImpl(matchDAO);
+        handleFriendRequest2.acceptFriendRequest(userSession1, user0);
+
+        // user0's request has been accepted, so user0 is no longer in the request list
+        assertFalse(userSession1.getIncomingMatches().contains(user0));
+
+        // They've been added into each other's friends list
+        assertTrue(user1.getFriendList().contains(user0));
+        assertTrue(user0.getFriendList().contains(user1));
     }
 }
