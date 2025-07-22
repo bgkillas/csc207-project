@@ -11,6 +11,8 @@ public class SpotifyTest {
         final Spotify spotify = new Spotify();
         spotify.pullTopArtistsAndGenres();
         System.out.println(spotify.getTopArtists());
-        System.out.println(spotify.getGenres());
+        System.out.println(spotify.getTopGenres());
+        spotify.pullTopTracks();
+        System.out.println(spotify.getTopTracks());
     }
 }

@@ -48,6 +48,7 @@ public class Main {
         // Shared user session across the app
         UserSession session = new UserSession();
         session.initiateSpotify();
+        session.updateSpotify();
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter = new SetupMatchFilterPresenter(application, session);

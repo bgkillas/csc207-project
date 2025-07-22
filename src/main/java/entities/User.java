@@ -12,7 +12,7 @@ public class User {
     private String bio;
     private List<String> favGenres;
     private List<String> favArtists;
-    private final List<String> favSongs;
+    private List<String> favSongs;
     private MatchFilter matchFilter;
     private final List<User> friendList = new ArrayList<>();
 
@@ -113,13 +113,17 @@ public class User {
      */
     public void setFavArtists(List<String> ArtistsList) {
         this.favArtists = ArtistsList;
+
     }
 
-    /**
-     * updates the user's favorite genres.
-     */
-    public void setFavGenres(List<String> GenresList) {
-        this.favGenres = GenresList;
+    /** updates the user's favorite genres. */
+    public void setFavGenres(List<String> genresList) {
+        this.favGenres = genresList;
+    }
+
+    /** updates the user's favorite genres. */
+    public void setFavSongs(List<String> songsList) {
+        this.favSongs = songsList;
     }
 
     /**
