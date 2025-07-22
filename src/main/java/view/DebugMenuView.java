@@ -62,12 +62,12 @@ public class DebugMenuView {
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
         addButton(panel, "MatchFilterSetupView", () -> MatchFilterSetupView.create(
                 matchFilterController));
-        addButton(panel, "MatchingRoomView", () -> new MatchingRoomView(null,
-                dummyUser, Collections.singletonList(dummyUser)));
+        addButton(panel, "MatchingRoomView", () -> new MatchingRoomView(frame,
+                dummyUser, Collections.singletonList(dummyUser), session));
         addButton(panel, "OpenPostView", () -> new OpenPostView().create());
         addButton(panel, "PostFeedView", () -> new PostFeedView().create());
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
-        addButton(panel, "ProfileView", () -> new ProfileView().create());
+        addButton(panel, "ProfileView", () -> new ProfileView(dummyUser, frame, session));
 
         return panel;
     }

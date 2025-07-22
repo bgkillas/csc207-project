@@ -23,13 +23,13 @@ public class ProfileView extends JPanel {
         this.user = user;
         this.frame = frame;
         this.userSession = userSession;
-        initialize();
+        create();
     }
 
     /**
      * Initializes the profile view components.
      */
-    private void initialize() {
+    public void create() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
