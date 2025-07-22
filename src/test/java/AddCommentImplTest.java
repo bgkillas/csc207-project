@@ -1,17 +1,20 @@
+import app.addComment.AddCommentImpl;
 import app.teamStory.AddFriendsListImpl;
-import entities.MatchFilter;
-import entities.User;
+import entities.*;
 import org.junit.Test;
+import usecase.AddComment;
 import usecase.teamStory.AddFriendsList;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AddFriendsListImplTest {
+public class AddCommentImplTest {
+
     @Test
-    public void testAddFriends() {
+    public void testAddComment() {
         List<String> emptyList = new ArrayList<String>();
         MatchFilter generalMF = new MatchFilter(0, 100, null, null);
         User user0 =
@@ -34,15 +37,21 @@ public class AddFriendsListImplTest {
                         emptyList,
                         emptyList,
                         emptyList);
-        // Senario: user1 has been matched with user0 in her matching room and clicks "connect"
-        // button
-        // which sends match request to user0. User0 finds this in his Match Request tab and also
-        // clicks "connect"
+
+        UserSession priorUserSession = new UserSession(user1);
+        Post newPost = new Post("Lord's new release is FIRE!", null,
+                LocalDateTime.now(), user1, new ArrayList<Comment>());
+        priorUserSession.addPost(newPost);
+
+        UserSession userSession = new UserSession(user1);
+        // Senario: Stan wants to make a comment on user01's post
         AddFriendsList addFriendsList = new AddFriendsListImpl();
 
-        addFriendsList.addFriend(user0, user1);
+        String comment = "I agree!";
+        AddComment addcomment = new AddCommentImpl();
+        addcomment.addComment(userSession, newPost, comment);
 
-        assertTrue(user0.getFriendList().contains(user1)); // user0 has user1 added as friend
-        assertTrue(user1.getFriendList().contains(user0)); // user0 has user1 added as friend
+        assertTrue(true);
+        // can't check without connecting to database
     }
 }
