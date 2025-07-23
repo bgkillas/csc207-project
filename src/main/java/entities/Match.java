@@ -27,6 +27,11 @@ public class Match {
         this.sharedArtists = sharedArtists;
     }
 
+    public Match(User currentUser, User other) {
+        this.matchUser = other;
+        this.compatibilityScore = 100;
+        this.sharedArtists = List.of();
+    }
     /**
      * Returns the compatibility score of the match.
      *
