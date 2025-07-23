@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List; // ✅ 正确的导入
+import java.util.List;
 
 
 
@@ -80,11 +80,11 @@ public class PostFeedView {
         });
 
         btnMatching.addActionListener(e -> {
-            List matches = (List) session.getAllUsers(); // ✅ 获取匹配用户列表
+            List matches = (List) session.getAllUsers();
             JPanel matchingPanel = new MatchingRoomView(frame, currentUser, (java.util.List<User>) matches, session);
             frame.setContentPane(matchingPanel);
-            frame.revalidate();  // 通知 Swing 重排布局
-            frame.repaint();     // 通知 Swing 重新绘制内容
+            frame.revalidate();
+            frame.repaint();
         });
 
 
@@ -128,8 +128,8 @@ public class PostFeedView {
         );
 
         UserSession session = new UserSession();
-        session.initiateSpotify();       // ✅ 必须先调用
-        session.setUser(currentUser);    // ✅ 然后才能安全地调用 setUser（内部会调用 updateSpotify）
+        session.initiateSpotify();
+        session.setUser(currentUser);
         session.addUser(currentUser);
 
         JPanel view = PostFeedView.create(controller, frame, currentUser, session);
