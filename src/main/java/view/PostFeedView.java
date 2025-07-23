@@ -112,37 +112,37 @@ public class PostFeedView {
         postCard.add(label);
         return postCard;
     }
-
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        final JFrame frame = new JFrame("post feed");
-        frame.setSize(500, 600);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-
-        CreatePostInteractor interactor = new CreatePostInteractor();
-        PostFeedViewController controller = new PostFeedViewController(interactor);
-
-
-        User currentUser = new User(
-                "Cle",
-                18,
-                "female",
-                "Toronto",
-                "Bio of user",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
-        );
-
-        UserSession session = new UserSession();
-        session.initiateSpotify();
-        session.setUser(currentUser);
-        session.addUser(currentUser);
-
-        JPanel view = PostFeedView.create(controller, frame, currentUser, session);
-        frame.setContentPane(view);
-        frame.setVisible(true);
-    }
+// Test with mock user
+//   public static void main(String[] args) throws NoSuchAlgorithmException {
+//        final JFrame frame = new JFrame("post feed");
+//        frame.setSize(500, 600);
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        frame.setLocationRelativeTo(null);
+//
+//        CreatePostInteractor interactor = new CreatePostInteractor();
+//        PostFeedViewController controller = new PostFeedViewController(interactor);
+//
+//
+//        User currentUser = new User(
+//                "Java",
+//                1222,
+//                "male",
+//                "Toronto",
+//                "Bio of user",
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>()
+//        );
+//
+//        UserSession session = new UserSession();
+//        session.initiateSpotify();
+//        session.setUser(currentUser);
+//        session.addUser(currentUser);
+//
+//        JPanel view = PostFeedView.create(controller, frame, currentUser, session);
+//        frame.setContentPane(view);
+//        frame.setVisible(true);
+//    }
 
 
 }
