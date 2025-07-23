@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import data_access.MatchDataAccessInterface;
@@ -49,7 +50,7 @@ public class UserSession {
     }
 
     public List<User> getAllUsers() {
-        return new ArrayList<>(allUsers);
+        return allUsers;
     }
 
     public void addUser(User user) {
@@ -153,6 +154,17 @@ public class UserSession {
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
+        User u = new User(
+                "Cle",
+                18,
+                "female",
+                "toronto",
+                "Bio of user ",
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList()
+        );
+        this.getAllUsers().add(u);
     }
 
     public List<Post> getPosts() {
