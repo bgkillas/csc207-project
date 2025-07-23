@@ -92,7 +92,7 @@ public class MatchingRoomView extends JPanel {
         shareBtn.addActionListener(
                 e -> {
                     PostFeedViewController controller = new PostFeedViewController(new CreatePostInteractor());
-                    JPanel postFeedPanel = PostFeedView.create(controller);
+                    JPanel postFeedPanel = PostFeedView.create(controller, frame, currentUser, session);
                     frame.setContentPane(postFeedPanel);
                     frame.revalidate();
                     frame.repaint();

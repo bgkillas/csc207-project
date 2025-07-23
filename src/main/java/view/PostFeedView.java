@@ -1,6 +1,7 @@
 package view;
 
 import app.createPost.CreatePostInteractor;
+import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.PostFeedViewController;
 import view.components.CircularButton;
@@ -8,11 +9,14 @@ import view.components.CircularButton;
 import javax.swing.*;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List; // ✅ 正确的导入
+
 
 
 /** View for the post feed panel. */
 public class PostFeedView {
-    public static JPanel create(PostFeedViewController controller){
+    public static JPanel create(PostFeedViewController controller, JFrame frame, User currentUser, UserSession session){
         // MODIFIED: change to BorderLayout for full-frame layout
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(500, 600)); // MODIFIED: standard app size
@@ -75,8 +79,20 @@ public class PostFeedView {
             }
         });
 
+        btnMatching.addActionListener(e -> {
+            List matches = (List) session.getAllUsers(); // ✅ 获取匹配用户列表
+            JPanel matchingPanel = new MatchingRoomView(frame, currentUser, (java.util.List<User>) matches, session);
+            frame.setContentPane(matchingPanel);
+            frame.revalidate();  // 通知 Swing 重排布局
+            frame.repaint();     // 通知 Swing 重新绘制内容
+        });
+
+
+
         return panel;
     }
+
+
 
 
     private static JPanel getPost(int i) {
@@ -92,18 +108,34 @@ public class PostFeedView {
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
         final JFrame frame = new JFrame("post feed");
-        frame.setSize(500, 600); // MODIFIED: larger frame
+        frame.setSize(500, 600);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null); // NEW: center screen
+        frame.setLocationRelativeTo(null);
 
         CreatePostInteractor interactor = new CreatePostInteractor();
         PostFeedViewController controller = new PostFeedViewController(interactor);
-        // Shared user session across the app
+
+        // 创建 user 和 session
+        User currentUser = new User(
+                "Cle",
+                18,
+                "female",
+                "Toronto",
+                "Bio of user",
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        );
+
         UserSession session = new UserSession();
+        session.initiateSpotify();       // ✅ 必须先调用
+        session.setUser(currentUser);    // ✅ 然后才能安全地调用 setUser（内部会调用 updateSpotify）
+        session.addUser(currentUser);
 
-        JPanel view = PostFeedView.create(controller);
-
-        frame.setContentPane(view); // MODIFIED: use setContentPane for replacement safety
+        JPanel view = PostFeedView.create(controller, frame, currentUser, session);
+        frame.setContentPane(view);
         frame.setVisible(true);
     }
+
+
 }
