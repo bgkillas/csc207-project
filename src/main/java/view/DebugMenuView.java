@@ -90,7 +90,16 @@ public class DebugMenuView {
                                 Collections.singletonList(dummyUser),
                                 session));
         addButton(panel, "OpenPostView", () -> new OpenPostView().create());
-        addButton(panel, "PostFeedView", () -> new PostFeedView().create(postFeedViewController));
+//        addButton(panel, "PostFeedView", () -> new PostFeedView().create(postFeedViewController));
+        addButtonWithFrame(
+                panel,
+                "PostFeedView",
+                tempFrame -> {
+                    User currentUser = session.getUser(); // 确保 User 不为 null
+                    return PostFeedView.create(postFeedViewController, tempFrame, currentUser, session);
+                }
+        );
+
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
         addButtonWithFrame(
                 panel, "ProfileView", tempFrame -> new ProfileView(dummyUser, tempFrame, session));
