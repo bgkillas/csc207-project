@@ -79,6 +79,7 @@ public class PostFeedView {
             }
         });
 
+        //navigate to matching room
         btnMatching.addActionListener(e -> {
             List matches = (List) session.getAllUsers();
             JPanel matchingPanel = new MatchingRoomView(frame, currentUser, (java.util.List<User>) matches, session);
@@ -86,7 +87,13 @@ public class PostFeedView {
             frame.revalidate();
             frame.repaint();
         });
-
+        //navigate to profile
+        btnProfile.addActionListener(e -> {
+            JPanel profilePanel = new ProfileView(currentUser, frame, session);
+            frame.setContentPane(profilePanel);
+            frame.revalidate();
+            frame.repaint();
+        });
 
 
         return panel;
@@ -115,7 +122,7 @@ public class PostFeedView {
         CreatePostInteractor interactor = new CreatePostInteractor();
         PostFeedViewController controller = new PostFeedViewController(interactor);
 
-        // 创建 user 和 session
+
         User currentUser = new User(
                 "Cle",
                 18,
