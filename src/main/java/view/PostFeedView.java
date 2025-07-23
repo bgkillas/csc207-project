@@ -1,7 +1,6 @@
 package view;
 
 import app.createPost.CreatePostInteractor;
-import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.PostFeedViewController;
 import view.components.CircularButton;
@@ -9,9 +8,6 @@ import view.components.CircularButton;
 import javax.swing.*;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List; // 对的 List（用于数据结构）
-import java.util.ArrayList;
 
 
 /** View for the post feed panel. */
