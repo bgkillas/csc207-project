@@ -79,11 +79,8 @@ public class UserSession {
      */
     public void setUser(User user) {
         this.user = user;
-
-        // ✅ 若用户尚未设置 MatchFilter，则赋予默认值，避免空指针
         if (this.user.getMatchFilter() == null) {
             this.user.setMatchFilter(new MatchFilter(18, 99, "Any", "N/A"));
-            // 你可以根据项目实际需求调整这个默认值
         }
 
         this.updateSpotify();
