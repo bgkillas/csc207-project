@@ -73,7 +73,12 @@ public class DebugMenuView {
         // Add buttons to open each view
         addButton(panel, "BlockListView", () -> new BlockListView().create());
         addButton(panel, "BuddyListView", () -> new BuddyListView().create());
-        addButton(panel, "ConnectRequestView", () -> new ConnectRequestView().create());
+        addButtonWithFrame(
+                panel,
+                "ConnectRequestView",
+                tempFrame -> new ConnectRequestView(tempFrame, dummyUser, session)
+        );
+
         addButton(panel, "CreatePostView", () -> new CreatePostView().create());
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
         addButton(

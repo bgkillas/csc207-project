@@ -1,14 +1,10 @@
 package view;
 
-import app.createPost.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import interface_adapter.controller.PostFeedViewController;
-import view.PostFeedView;
-
 
 public class MatchingRoomView extends JPanel {
 
@@ -20,14 +16,14 @@ public class MatchingRoomView extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
 
-        // Top title bar
+        // 🔝 Top title bar
         JPanel topBar = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Matching Room", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 26));
         title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         topBar.add(title, BorderLayout.CENTER);
 
-        //top right mail icon for "connect request."
+        // optional: top right mail icon + notification bubble
         JLabel notification = new JLabel("\u2709", SwingConstants.LEFT);
         notification.setFont(new Font("Arial", Font.PLAIN, 24));
         notification.setForeground(Color.DARK_GRAY);
@@ -35,7 +31,7 @@ public class MatchingRoomView extends JPanel {
 
         this.add(topBar, BorderLayout.NORTH);
 
-        // User card panel
+        // 👤 User card panel
         JPanel cardPanel = new JPanel(new BorderLayout());
         cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
         cardPanel.setBackground(Color.WHITE);
@@ -62,24 +58,21 @@ public class MatchingRoomView extends JPanel {
         cardPanel.add(innerCard, BorderLayout.CENTER);
         this.add(cardPanel, BorderLayout.CENTER);
 
-        // Buttons: connect / skip
+        // ✅ Buttons: connect / skip
         JPanel actionPanel = new JPanel(new FlowLayout());
         JButton connectBtn = new JButton("connect");
         JButton skipBtn = new JButton("skip");
+
         connectBtn.setBackground(new Color(0x4CAF50));
         connectBtn.setForeground(Color.WHITE);
-        connectBtn.setOpaque(true);
-        connectBtn.setBorderPainted(false);
-        connectBtn.setFont(new Font("Arial", Font.BOLD, 14));
         skipBtn.setBackground(new Color(0xF44336));
         skipBtn.setForeground(Color.WHITE);
-        skipBtn.setOpaque(true);
-        skipBtn.setBorderPainted(false);
-        skipBtn.setFont(new Font("Arial", Font.BOLD, 14));
 
         actionPanel.add(connectBtn);
         actionPanel.add(skipBtn);
+        this.add(actionPanel, BorderLayout.SOUTH);
 
+        // 🔻 Bottom nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         JButton matchingBtn = new JButton("matching");
@@ -89,24 +82,9 @@ public class MatchingRoomView extends JPanel {
         navPanel.add(shareBtn);
         navPanel.add(yourProfileBtn);
 
-        shareBtn.addActionListener(
-                e -> {
-                    PostFeedViewController controller = new PostFeedViewController(new CreatePostInteractor());
-                    JPanel postFeedPanel = PostFeedView.create(controller, frame, currentUser, session);
-                    frame.setContentPane(postFeedPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
+        this.add(navPanel, BorderLayout.PAGE_END);
 
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(actionPanel, BorderLayout.NORTH);
-        bottomPanel.add(navPanel, BorderLayout.SOUTH);
-
-        this.add(bottomPanel, BorderLayout.SOUTH);
-
-
-
-        // Display logic
+        // 👇 Display logic
         Runnable updateDisplay =
                 () -> {
                     if (currentIndex >= matches.size()) {
