@@ -108,6 +108,7 @@ public class User {
         if (other == null || other.equals(this)) {
             return;
         }
+        friendList.remove(other);
         if (!blockList.contains(other)) {
             blockList.add(other);
         }
@@ -122,9 +123,7 @@ public class User {
         if (other == null || other.equals(this)) {
             return;
         }
-        if (!blockList.contains(other)) {
-            blockList.remove(other);
-        }
+        blockList.remove(other);
     }
 
     /**

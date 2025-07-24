@@ -197,10 +197,18 @@ public class ProfileView extends JPanel {
         blockBtn.addActionListener(
                 e -> {
                     userSession.getUser().addBlock(user);
+                    ProfileView profileView = new ProfileView(user, frame, userSession);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
                 });
         unBlockBtn.addActionListener(
                 e -> {
                     userSession.getUser().removeBlock(user);
+                    ProfileView profileView = new ProfileView(user, frame, userSession);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
                 });
         yourProfileBtn.addActionListener(
                 e -> {
