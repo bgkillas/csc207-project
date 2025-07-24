@@ -78,25 +78,15 @@ public class MatchingRoomView extends JPanel {
         actionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         actionPanel.setOpaque(false); // transparent background
 
-        JButton connectBtn = new JButton("connect");
-        JButton skipBtn = new JButton("skip");
-
-        connectBtn.setPreferredSize(new Dimension(120, 40));
-        skipBtn.setPreferredSize(new Dimension(120, 40));
-
-        connectBtn.setMaximumSize(new Dimension(120, 40));
-        skipBtn.setMaximumSize(new Dimension(120, 40));
-
-        connectBtn.setBackground(new Color(0x4CAF50));
-        connectBtn.setForeground(Color.WHITE);
-        skipBtn.setBackground(new Color(0xF44336));
-        skipBtn.setForeground(Color.WHITE);
+        JButton connectBtn = createStyledButton("connect", new Color(0x4CAF50));
+        JButton skipBtn = createStyledButton("skip", new Color(0xF44336));
 
         actionPanel.add(Box.createHorizontalGlue());
         actionPanel.add(connectBtn);
         actionPanel.add(Box.createHorizontalStrut(20)); // spacing between buttons
         actionPanel.add(skipBtn);
         actionPanel.add(Box.createHorizontalGlue());
+
 
 
         // nav bar
@@ -168,6 +158,19 @@ public class MatchingRoomView extends JPanel {
 
         updateDisplay.run();
     }
+
+    private static JButton createStyledButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setBackground(backgroundColor);
+        button.setForeground(Color.WHITE);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setPreferredSize(new Dimension(120, 40));
+        button.setMaximumSize(new Dimension(120, 40));
+        return button;
+    }
+
 
     public static void showInFrame(User currentUser, List<User> matches) {
         JFrame frame = new JFrame("JRMC Matching Room");
