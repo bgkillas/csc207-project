@@ -45,6 +45,7 @@ public class User {
         this.favGenres = favGenres;
         this.favArtists = favArtists;
         this.favSongs = favSongs;
+        this.matchFilter = new MatchFilter(0, 100, "N/A", "N/A");
     }
 
     /**
