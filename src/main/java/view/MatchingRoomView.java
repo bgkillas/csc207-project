@@ -34,14 +34,15 @@ public class MatchingRoomView extends JPanel {
         topBar.add(notification, BorderLayout.WEST);
 
         // ConnectRequestView
-        notification.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
+        notification.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent e) {
+                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                });
 
         this.add(topBar, BorderLayout.NORTH);
 
@@ -87,8 +88,6 @@ public class MatchingRoomView extends JPanel {
         actionPanel.add(skipBtn);
         actionPanel.add(Box.createHorizontalGlue());
 
-
-
         // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
@@ -114,47 +113,60 @@ public class MatchingRoomView extends JPanel {
         this.add(bottomPanel, BorderLayout.SOUTH); // ✅ ONLY ONE add to BorderLayout.SOUTH
 
         // display logic
-        Runnable updateDisplay = () -> {
-            if (currentIndex >= matches.size()) {
-                info.setText("No more matches.");
-                score.setText("");
-                connectBtn.setEnabled(false);
-                skipBtn.setEnabled(false);
-                return;
-            }
-            User match = matches.get(currentIndex);
-            info.setText(
-                    "<html><b>" + match.getName() + "</b><br/>"
-                            + match.getAge() + "<br/>"
-                            + match.getLocation() + "<br/>"
-                            + "\"" + match.getBio() + "\"</html>");
-            score.setText("97%");
-        };
+        Runnable updateDisplay =
+                () -> {
+                    if (currentIndex >= matches.size()) {
+                        info.setText("No more matches.");
+                        score.setText("");
+                        connectBtn.setEnabled(false);
+                        skipBtn.setEnabled(false);
+                        return;
+                    }
+                    User match = matches.get(currentIndex);
+                    info.setText(
+                            "<html><b>"
+                                    + match.getName()
+                                    + "</b><br/>"
+                                    + match.getAge()
+                                    + "<br/>"
+                                    + match.getLocation()
+                                    + "<br/>"
+                                    + "\""
+                                    + match.getBio()
+                                    + "\"</html>");
+                    score.setText("97%");
+                };
 
-        connectBtn.addActionListener(e -> {
-            currentUser.getFriendList().add(matches.get(currentIndex));
-            currentIndex++;
-            updateDisplay.run();
-        });
+        connectBtn.addActionListener(
+                e -> {
+                    currentUser.getFriendList().add(matches.get(currentIndex));
+                    currentIndex++;
+                    updateDisplay.run();
+                });
 
-        skipBtn.addActionListener(e -> {
-            currentIndex++;
-            updateDisplay.run();
-        });
+        skipBtn.addActionListener(
+                e -> {
+                    currentIndex++;
+                    updateDisplay.run();
+                });
 
-        yourProfileBtn.addActionListener(e -> {
-            frame.setContentPane(new ProfileView(currentUser, frame, session));
-            frame.revalidate();
-            frame.repaint();
-        });
+        yourProfileBtn.addActionListener(
+                e -> {
+                    frame.setContentPane(new ProfileView(currentUser, frame, session));
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
-        shareBtn.addActionListener(e -> {
-            PostFeedViewController controller = new PostFeedViewController(new CreatePostInteractor());
-            JPanel postFeedPanel = PostFeedView.create(controller, frame, currentUser, session);
-            frame.setContentPane(postFeedPanel);
-            frame.revalidate();
-            frame.repaint();
-        });
+        shareBtn.addActionListener(
+                e -> {
+                    PostFeedViewController controller =
+                            new PostFeedViewController(new CreatePostInteractor());
+                    JPanel postFeedPanel =
+                            PostFeedView.create(controller, frame, currentUser, session);
+                    frame.setContentPane(postFeedPanel);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         updateDisplay.run();
     }
@@ -170,7 +182,6 @@ public class MatchingRoomView extends JPanel {
         button.setMaximumSize(new Dimension(120, 40));
         return button;
     }
-
 
     public static void showInFrame(User currentUser, List<User> matches) {
         JFrame frame = new JFrame("JRMC Matching Room");
