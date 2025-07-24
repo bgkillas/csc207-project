@@ -172,6 +172,14 @@ public class ProfileView extends JPanel {
                     frame.repaint();
                 });
 
+        buddyListBtn.addActionListener(
+                e -> {
+                    BuddyListView buddyList = new BuddyListView(user, userSession, frame);
+                    frame.setContentPane(buddyList.create());
+                    frame.revalidate();
+                    frame.repaint();
+                });
+
         navPanel.add(matchingBtn);
         navPanel.add(shareBtn);
         navPanel.add(yourProfileBtn);

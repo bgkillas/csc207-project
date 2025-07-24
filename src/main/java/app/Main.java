@@ -26,6 +26,7 @@ import view.DebugMenuView;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 
 /** Main executable class. */
@@ -75,6 +76,7 @@ public class Main {
 
         application.add(views);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        application.setPreferredSize(new Dimension(1920,1080));
         application.pack();
         application.setVisible(true);
     }

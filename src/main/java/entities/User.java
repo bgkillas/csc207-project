@@ -76,6 +76,13 @@ public class User {
     }
 
     /**
+     * Pushes a friend to the user's list of friends.
+     */
+    public void pushFriendList(User friend) {
+        friendList.add(friend);
+    }
+
+    /**
      * Adds a friend to this user's friend list.
      *
      * @param other the user to be added as a friend

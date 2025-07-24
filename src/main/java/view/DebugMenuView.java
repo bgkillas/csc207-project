@@ -43,6 +43,35 @@ public class DebugMenuView {
                         Collections.emptyList(),
                         Collections.emptyList(),
                         Collections.emptyList());
+        User user1 = new User("thing1", 20,
+                "Other",
+                "DebugLand",
+                "Debugging",
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList());
+        User user2 = new User("thing3", 20,
+                "Other",
+                "DebugLand",
+                "Debugging",
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList());
+        User user3 = new User("thing2", 20,
+                "Other",
+                "DebugLand",
+                "Debugging",
+                Collections.emptyList(),
+                Collections.emptyList(),
+                Collections.emptyList());
+        user1.pushFriendList(dummyUser);
+        user2.pushFriendList(dummyUser);
+        user3.pushFriendList(dummyUser);
+        user2.pushFriendList(user1);
+        user1.pushFriendList(user2);
+        dummyUser.pushFriendList(user1);
+        dummyUser.pushFriendList(user2);
+        dummyUser.pushFriendList(user3);
         session.setUser(dummyUser);
 
         // Controllers for views that require them
@@ -72,7 +101,7 @@ public class DebugMenuView {
 
         // Add buttons to open each view
         addButton(panel, "BlockListView", () -> new BlockListView().create());
-        addButton(panel, "BuddyListView", () -> new BuddyListView().create());
+        addButtonWithFrame(panel, "BuddyListView", tempFrame -> new BuddyListView(dummyUser, session, tempFrame).create());
         addButtonWithFrame(
                 panel,
                 "ConnectRequestView",
@@ -95,7 +124,7 @@ public class DebugMenuView {
                                 Collections.singletonList(dummyUser),
                                 session));
         addButton(panel, "OpenPostView", () -> new OpenPostView().create());
-        addButton(panel, "PostFeedView", () -> new PostFeedView().create(postFeedViewController));
+        addButton(panel, "PostFeedView", () -> PostFeedView.create(postFeedViewController));
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
         addButtonWithFrame(
                 panel, "ProfileView", tempFrame -> new ProfileView(dummyUser, tempFrame, session));
