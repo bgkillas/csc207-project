@@ -1,19 +1,19 @@
-name: lint
+#name: lint
 #on:
 #  push:
 #    branches: [ "main" ]
 #  pull_request:
 #    branches: [ "main" ]
-jobs:
-  style:
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v4
-       - name: style
-         run: bash style-check.sh
-  format:
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v4
-       - name: format
-         run: bash format-check.sh
+#jobs:
+#  style:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: style
+#         run: bash style-check.sh
+#  format:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: format
+#         run: bash format-check.sh
