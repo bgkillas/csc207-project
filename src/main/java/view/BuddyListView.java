@@ -1,12 +1,10 @@
 package view;
 
-import app.teamStory.MatchServiceImpl;
 import entities.User;
 import entities.UserSession;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class BuddyListView extends JPanel {
     User user;
@@ -34,12 +32,13 @@ public class BuddyListView extends JPanel {
             buddy.setAlignmentX(Component.CENTER_ALIGNMENT);
             buddy.setFont(new Font("Arial", Font.PLAIN, 16));
             buddyList.add(buddy);
-            buddy.addActionListener(e->{
-                ProfileView profileView = new ProfileView(user, frame, session);
-                frame.setContentPane(profileView);
-                frame.revalidate();
-                frame.repaint();
-            });
+            buddy.addActionListener(
+                    e -> {
+                        ProfileView profileView = new ProfileView(user, frame, session);
+                        frame.setContentPane(profileView);
+                        frame.revalidate();
+                        frame.repaint();
+                    });
         }
         JPanel centerWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centerWrapper.setBackground(Color.WHITE);

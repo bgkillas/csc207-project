@@ -75,9 +75,7 @@ public class User {
         return friendList;
     }
 
-    /**
-     * Pushes a friend to the user's list of friends.
-     */
+    /** Pushes a friend to the user's list of friends. */
     public void pushFriendList(User friend) {
         friendList.add(friend);
     }

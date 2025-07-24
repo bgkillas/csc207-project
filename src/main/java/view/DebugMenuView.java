@@ -43,27 +43,36 @@ public class DebugMenuView {
                         Collections.emptyList(),
                         Collections.emptyList(),
                         Collections.emptyList());
-        User user1 = new User("thing1", 20,
-                "Other",
-                "DebugLand",
-                "Debugging",
-                Collections.emptyList(),
-                Collections.emptyList(),
-                Collections.emptyList());
-        User user2 = new User("thing3", 20,
-                "Other",
-                "DebugLand",
-                "Debugging",
-                Collections.emptyList(),
-                Collections.emptyList(),
-                Collections.emptyList());
-        User user3 = new User("thing2", 20,
-                "Other",
-                "DebugLand",
-                "Debugging",
-                Collections.emptyList(),
-                Collections.emptyList(),
-                Collections.emptyList());
+        User user1 =
+                new User(
+                        "thing1",
+                        20,
+                        "Other",
+                        "DebugLand",
+                        "Debugging",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
+        User user2 =
+                new User(
+                        "thing3",
+                        20,
+                        "Other",
+                        "DebugLand",
+                        "Debugging",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
+        User user3 =
+                new User(
+                        "thing2",
+                        20,
+                        "Other",
+                        "DebugLand",
+                        "Debugging",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
         user1.pushFriendList(dummyUser);
         user2.pushFriendList(dummyUser);
         user3.pushFriendList(dummyUser);
@@ -101,12 +110,14 @@ public class DebugMenuView {
 
         // Add buttons to open each view
         addButton(panel, "BlockListView", () -> new BlockListView().create());
-        addButtonWithFrame(panel, "BuddyListView", tempFrame -> new BuddyListView(dummyUser, session, tempFrame).create());
+        addButtonWithFrame(
+                panel,
+                "BuddyListView",
+                tempFrame -> new BuddyListView(dummyUser, session, tempFrame).create());
         addButtonWithFrame(
                 panel,
                 "ConnectRequestView",
-                tempFrame -> new ConnectRequestView(tempFrame, dummyUser, session)
-        );
+                tempFrame -> new ConnectRequestView(tempFrame, dummyUser, session));
 
         addButton(panel, "CreatePostView", () -> new CreatePostView().create());
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
@@ -129,9 +140,9 @@ public class DebugMenuView {
                 "PostFeedView",
                 tempFrame -> {
                     User currentUser = session.getUser(); // 确保 User 不为 null
-                    return PostFeedView.create(postFeedViewController, tempFrame, currentUser, session);
-                }
-        );
+                    return PostFeedView.create(
+                            postFeedViewController, tempFrame, currentUser, session);
+                });
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
         addButtonWithFrame(
                 panel, "ProfileView", tempFrame -> new ProfileView(dummyUser, tempFrame, session));

@@ -26,10 +26,13 @@ public class ConnectRequestView extends JPanel {
         countLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
         JButton back = new JButton("← Back");
-        back.addActionListener(e -> {
-            frame.setContentPane(new MatchingRoomView(frame, currentUser, session.getAllUsers(), session));
-            frame.revalidate();
-        });
+        back.addActionListener(
+                e -> {
+                    frame.setContentPane(
+                            new MatchingRoomView(
+                                    frame, currentUser, session.getAllUsers(), session));
+                    frame.revalidate();
+                });
 
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.add(back, BorderLayout.WEST);
@@ -38,7 +41,7 @@ public class ConnectRequestView extends JPanel {
 
         this.add(topBar, BorderLayout.NORTH);
 
-        //Card panel
+        // Card panel
         JPanel cardPanel = new JPanel(new BorderLayout());
         cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
         cardPanel.setBackground(Color.WHITE);
@@ -60,7 +63,7 @@ public class ConnectRequestView extends JPanel {
 
         this.add(cardPanel, BorderLayout.CENTER);
 
-        //Action buttons
+        // Action buttons
         JPanel actionPanel = new JPanel();
         JButton acceptBtn = new JButton("accept");
         JButton declineBtn = new JButton("decline");
@@ -76,41 +79,48 @@ public class ConnectRequestView extends JPanel {
 
         this.add(actionPanel, BorderLayout.SOUTH);
 
-        //Display logic
-        Runnable updateCard = () -> {
-            if (currentIndex >= requests.size()) {
-                info.setText("No more requests.");
-                score.setText("");
-                countLabel.setText("");
-                acceptBtn.setEnabled(false);
-                declineBtn.setEnabled(false);
-                return;
-            }
+        // Display logic
+        Runnable updateCard =
+                () -> {
+                    if (currentIndex >= requests.size()) {
+                        info.setText("No more requests.");
+                        score.setText("");
+                        countLabel.setText("");
+                        acceptBtn.setEnabled(false);
+                        declineBtn.setEnabled(false);
+                        return;
+                    }
 
-            User other = requests.get(currentIndex);
-            info.setText(
-                    "<html><b>" + other.getName() + "</b><br/>"
-                            + other.getAge() + "<br/>"
-                            + other.getLocation() + "<br/><i>"
-                            + other.getBio() + "</i></html>"
-            );
-            countLabel.setText((currentIndex + 1) + " / " + requests.size());
-        };
+                    User other = requests.get(currentIndex);
+                    info.setText(
+                            "<html><b>"
+                                    + other.getName()
+                                    + "</b><br/>"
+                                    + other.getAge()
+                                    + "<br/>"
+                                    + other.getLocation()
+                                    + "<br/><i>"
+                                    + other.getBio()
+                                    + "</i></html>");
+                    countLabel.setText((currentIndex + 1) + " / " + requests.size());
+                };
 
-        acceptBtn.addActionListener(e -> {
-            User other = requests.get(currentIndex);
-            currentUser.getFriendList().add(other);
-            other.getFriendList().add(currentUser);
-            session.addMatch(new Match(currentUser, other));
-            session.getIncomingMatches().remove(other);
-            currentIndex++;
-            updateCard.run();
-        });
+        acceptBtn.addActionListener(
+                e -> {
+                    User other = requests.get(currentIndex);
+                    currentUser.getFriendList().add(other);
+                    other.getFriendList().add(currentUser);
+                    session.addMatch(new Match(currentUser, other));
+                    session.getIncomingMatches().remove(other);
+                    currentIndex++;
+                    updateCard.run();
+                });
 
-        declineBtn.addActionListener(e -> {
-            currentIndex++;
-            updateCard.run();
-        });
+        declineBtn.addActionListener(
+                e -> {
+                    currentIndex++;
+                    updateCard.run();
+                });
 
         updateCard.run();
     }

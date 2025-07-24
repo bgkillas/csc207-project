@@ -32,6 +32,7 @@ public class Match {
         this.compatibilityScore = 100;
         this.sharedArtists = List.of();
     }
+
     /**
      * Returns the compatibility score of the match.
      *

@@ -154,16 +154,16 @@ public class UserSession {
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
-        User u = new User(
-                "Cle",
-                18,
-                "female",
-                "toronto",
-                "Bio of user ",
-                Collections.emptyList(),
-                Collections.emptyList(),
-                Collections.emptyList()
-        );
+        User u =
+                new User(
+                        "Cle",
+                        18,
+                        "female",
+                        "toronto",
+                        "Bio of user ",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
         this.getAllUsers().add(u);
     }
 
