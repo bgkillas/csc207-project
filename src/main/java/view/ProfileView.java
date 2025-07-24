@@ -133,6 +133,10 @@ public class ProfileView extends JPanel {
         return mainPanel;
     }
 
+    private boolean isUser() {
+        return user == userSession.getUser();
+    }
+
     private JPanel createButtonPanel() {
         // Create two panels: one for action buttons and one for navigation
         JPanel combinedPanel = new JPanel(new BorderLayout());
@@ -144,7 +148,9 @@ public class ProfileView extends JPanel {
         JButton buddyListBtn = createActionButton("buddy list");
         JButton blockListBtn = createActionButton("block list");
 
-        actionPanel.add(editProfileBtn);
+        if (isUser()) {
+            actionPanel.add(editProfileBtn);
+        }
         actionPanel.add(buddyListBtn);
         actionPanel.add(blockListBtn);
 
@@ -152,6 +158,8 @@ public class ProfileView extends JPanel {
         JPanel navPanel = new JPanel(new GridLayout(1, 3, 10, 0));
         navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
+        JButton blockBtn = createActionButton("block");
+        JButton unBlockBtn = createActionButton("unblock");
         JButton matchingBtn = createNavButton("matching");
         JButton shareBtn = createNavButton("share");
         JButton yourProfileBtn = createNavButton("your profile");
@@ -179,10 +187,50 @@ public class ProfileView extends JPanel {
                     frame.revalidate();
                     frame.repaint();
                 });
+        blockListBtn.addActionListener(
+                e -> {
+                    BlockListView blockList = new BlockListView(user, userSession, frame);
+                    frame.setContentPane(blockList.create());
+                    frame.revalidate();
+                    frame.repaint();
+                });
+        blockBtn.addActionListener(
+                e -> {
+                    userSession.getUser().addBlock(user);
+                    ProfileView profileView = new ProfileView(user, frame, userSession);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+        unBlockBtn.addActionListener(
+                e -> {
+                    userSession.getUser().removeBlock(user);
+                    ProfileView profileView = new ProfileView(user, frame, userSession);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+        yourProfileBtn.addActionListener(
+                e -> {
+                    ProfileView profileView =
+                            new ProfileView(userSession.getUser(), frame, userSession);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
-        navPanel.add(matchingBtn);
+        if (isUser()) {
+            navPanel.add(matchingBtn);
+        }
         navPanel.add(shareBtn);
-        navPanel.add(yourProfileBtn);
+        if (!isUser()) {
+            if (userSession.getUser().hasBlock(user)) {
+                navPanel.add(unBlockBtn);
+            } else {
+                navPanel.add(blockBtn);
+            }
+            navPanel.add(yourProfileBtn);
+        }
 
         // Add both panels to the combined panel
         combinedPanel.add(actionPanel, BorderLayout.CENTER);

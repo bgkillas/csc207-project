@@ -75,14 +75,26 @@ public class DebugMenuView {
                         Collections.emptyList(),
                         Collections.emptyList(),
                         Collections.emptyList());
-        user1.pushFriendList(dummyUser);
-        user2.pushFriendList(dummyUser);
-        user3.pushFriendList(dummyUser);
-        user2.pushFriendList(user1);
-        user1.pushFriendList(user2);
-        dummyUser.pushFriendList(user1);
-        dummyUser.pushFriendList(user2);
-        dummyUser.pushFriendList(user3);
+        User user4 =
+                new User(
+                        "thing2",
+                        20,
+                        "Other",
+                        "DebugLand",
+                        "Debugging",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
+        user1.addFriend(dummyUser);
+        user2.addFriend(dummyUser);
+        user3.addFriend(dummyUser);
+        user2.addFriend(user1);
+        user1.addFriend(user2);
+        user1.addFriend(user4);
+        dummyUser.addFriend(user1);
+        dummyUser.addFriend(user2);
+        dummyUser.addFriend(user3);
+        dummyUser.addBlock(user4);
         session.setUser(dummyUser);
 
         // Controllers for views that require them
@@ -117,7 +129,10 @@ public class DebugMenuView {
         OpenPostController openPostController = new OpenPostController();
 
         // Add buttons to open each view
-        addButton(panel, "BlockListView", () -> new BlockListView().create());
+        addButtonWithFrame(
+                panel,
+                "BlockListView",
+                tempFrame -> new BlockListView(dummyUser, session, tempFrame).create());
         addButtonWithFrame(
                 panel,
                 "BuddyListView",

@@ -34,14 +34,15 @@ public class MatchingRoomView extends JPanel {
         topBar.add(notification, BorderLayout.WEST);
 
         // ConnectRequestView
-        notification.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
+        notification.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent e) {
+                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                });
 
         this.add(topBar, BorderLayout.NORTH);
 
@@ -86,8 +87,6 @@ public class MatchingRoomView extends JPanel {
         actionPanel.add(Box.createHorizontalStrut(20)); // spacing between buttons
         actionPanel.add(skipBtn);
         actionPanel.add(Box.createHorizontalGlue());
-
-
 
         // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
@@ -156,6 +155,7 @@ public class MatchingRoomView extends JPanel {
             frame.repaint();
         });
 
+
         updateDisplay.run();
     }
 
@@ -170,7 +170,6 @@ public class MatchingRoomView extends JPanel {
         button.setMaximumSize(new Dimension(120, 40));
         return button;
     }
-
 
     public static void showInFrame(User currentUser, List<User> matches) {
         JFrame frame = new JFrame("JRMC Matching Room");
