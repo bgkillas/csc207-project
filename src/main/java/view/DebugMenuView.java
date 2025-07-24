@@ -8,7 +8,9 @@ import account.login.SetupUserProfileController;
 import app.createPost.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
-import interface_adapter.controller.PostFeedViewController;
+import interface_adapter.controller.CreatePostController;
+import interface_adapter.controller.OpenPostController;
+import interface_adapter.controller.PostFeedController;
 import interface_adapter.presentor.CreateAccountPresenter;
 import interface_adapter.presentor.SetupMatchFilterPresenter;
 import interface_adapter.presentor.SetupUserProfilePresenter;
@@ -117,8 +119,14 @@ public class DebugMenuView {
 
         // Controller for post feed view
         CreatePostInteractor createPostInteractor = new CreatePostInteractor();
-        PostFeedViewController postFeedViewController =
-                new PostFeedViewController(createPostInteractor);
+        PostFeedController postFeedViewController =
+                new PostFeedController(createPostInteractor);
+
+        // Controller for create post view
+        CreatePostController createPostViewController = new CreatePostController();
+
+        // Controller for create post view
+        OpenPostController openPostController = new OpenPostController();
 
         // Add buttons to open each view
         addButtonWithFrame(
@@ -134,7 +142,8 @@ public class DebugMenuView {
                 "ConnectRequestView",
                 tempFrame -> new ConnectRequestView(tempFrame, dummyUser, session));
 
-        addButton(panel, "CreatePostView", () -> new CreatePostView().create());
+        addButton(panel, "CreatePostView", () ->
+                new CreatePostView(dummyUser, session, frame).create(createPostViewController));
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
         addButton(
                 panel,
@@ -149,14 +158,15 @@ public class DebugMenuView {
                                 dummyUser,
                                 Collections.singletonList(dummyUser),
                                 session));
-        addButton(panel, "OpenPostView", () -> new OpenPostView().create());
+        addButton(panel, "OpenPostView", () ->
+                new OpenPostView(dummyUser, session, frame).create(openPostController));
         addButtonWithFrame(
                 panel,
                 "PostFeedView",
                 tempFrame -> {
                     User currentUser = session.getUser(); // 确保 User 不为 null
-                    return PostFeedView.create(
-                            postFeedViewController, tempFrame, currentUser, session);
+                    return new PostFeedView(currentUser, session, tempFrame).create(
+                            postFeedViewController);
                 });
         addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
         addButtonWithFrame(

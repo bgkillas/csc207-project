@@ -1,21 +1,32 @@
 package view;
 
+import entities.Post;
 import entities.User;
 import entities.UserSession;
-import interface_adapter.controller.PostFeedViewController;
+import interface_adapter.controller.CreatePostController;
+import interface_adapter.controller.OpenPostController;
+import interface_adapter.controller.PostFeedController;
 import view.components.CircularButton;
+import view.components.PostPreviewPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 /** View for the post feed panel. */
-public class PostFeedView {
-    public static JPanel create(
-            PostFeedViewController controller,
-            JFrame frame,
-            User currentUser,
-            UserSession session) {
+public class PostFeedView extends JPanel {
+    private final User currentUser;
+    private final UserSession session;
+    private final JFrame frame;
+
+    public PostFeedView(User currentUser, UserSession session, JFrame frame) {
+        this.currentUser = currentUser;
+        this.session = session;
+        this.frame = frame;
+    }
+
+    public JPanel create(
+            PostFeedController controller) {
         // MODIFIED: change to BorderLayout for full-frame layout
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(500, 600)); // MODIFIED: standard app size
@@ -27,14 +38,13 @@ public class PostFeedView {
         titlePanel.add(titleLabel);
         panel.add(titlePanel, BorderLayout.NORTH); // MODIFIED: use NORTH in BorderLayout
 
-        // Post Feed with Scroll
+        // Create a JPanel for Post Feed with Scroll
         JPanel postFeedPanel = new JPanel();
         postFeedPanel.setLayout(new BoxLayout(postFeedPanel, BoxLayout.Y_AXIS));
-        postFeedPanel.setBackground(Color.LIGHT_GRAY);
 
         // add mock "post cards" into it
-        for (int i = 1; i <= 6; i++) {
-            JPanel postCard = getPost(i);
+        for (int i = 1; i <= 10; i++) {
+            JPanel postCard = getPost(new Post());
             postFeedPanel.add(Box.createVerticalStrut(10));
             postFeedPanel.add(postCard);
         }
@@ -63,16 +73,22 @@ public class PostFeedView {
 
         // Bottom panel combining "New" and NavBar
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(newPostWrapper, BorderLayout.NORTH); // NEW
+        bottomPanel.add(newPostWrapper, BorderLayout.NORTH);
         bottomPanel.add(navPanel, BorderLayout.SOUTH);
-        panel.add(bottomPanel, BorderLayout.SOUTH); // MODIFIED
+        panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // Define what happens when the button newPost is clicked
         newPost.addActionListener(
                 e -> {
                     try {
                         controller.createNewPost();
-                        JOptionPane.showMessageDialog(panel, "Redirecting...");
+                        CreatePostView createPostview = new CreatePostView(currentUser, session, frame);
+                        CreatePostController control = new CreatePostController();
+                        JPanel nextView = createPostview.create(control);
+
+                        frame.setContentPane(nextView);
+                        frame.revalidate();
+                        frame.repaint();
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(panel, "Error occurred.");
                     }
@@ -101,46 +117,24 @@ public class PostFeedView {
         return panel;
     }
 
-    private static JPanel getPost(int i) {
-        JPanel postCard = new JPanel();
-        postCard.setPreferredSize(new Dimension(450, 40)); // MODIFIED: wider than before
-        postCard.setMaximumSize(new Dimension(450, 40)); // MODIFIED: fill parent better
-        postCard.setBackground(new Color(255, 255, 255));
-        postCard.setBackground(Color.WHITE);
-        JLabel label = new JLabel("Post " + i);
-        postCard.add(label);
-        return postCard;
+    private JPanel getPost(Post post) {
+
+//        JPanel postCard = new JPanel();
+//        postCard.setPreferredSize(new Dimension(450, 40));
+//        postCard.setMaximumSize(new Dimension(450, 40));
+//        postCard.setBackground(new Color(255, 255, 255));
+//        postCard.setBackground(Color.WHITE);
+//        JLabel label = new JLabel("Post " + i);
+//        postCard.add(label);
+
+        PostPreviewPanel postPanel = new PostPreviewPanel(post.getTitle(), () -> {
+            OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
+            frame.setContentPane(openPostView.create(new OpenPostController()));
+            frame.revalidate();
+            frame.repaint();
+        });
+
+        return postPanel;
     }
-    // Test with mock user
-    //   public static void main(String[] args) throws NoSuchAlgorithmException {
-    //        final JFrame frame = new JFrame("post feed");
-    //        frame.setSize(500, 600);
-    //        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    //        frame.setLocationRelativeTo(null);
-    //
-    //        CreatePostInteractor interactor = new CreatePostInteractor();
-    //        PostFeedViewController controller = new PostFeedViewController(interactor);
-    //
-    //
-    //        User currentUser = new User(
-    //                "Java",
-    //                1222,
-    //                "male",
-    //                "Toronto",
-    //                "Bio of user",
-    //                new ArrayList<>(),
-    //                new ArrayList<>(),
-    //                new ArrayList<>()
-    //        );
-    //
-    //        UserSession session = new UserSession();
-    //        session.initiateSpotify();
-    //        session.setUser(currentUser);
-    //        session.addUser(currentUser);
-    //
-    //        JPanel view = PostFeedView.create(controller, frame, currentUser, session);
-    //        frame.setContentPane(view);
-    //        frame.setVisible(true);
-    //    }
 
 }
