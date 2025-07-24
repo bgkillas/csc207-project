@@ -15,6 +15,7 @@ public class User {
     private List<String> favSongs;
     private MatchFilter matchFilter;
     private final List<User> friendList = new ArrayList<>();
+    private final List<User> blockList = new ArrayList<>();
 
     /**
      * Constructs a User with the given attributes.
@@ -75,21 +76,65 @@ public class User {
         return friendList;
     }
 
-    /** Pushes a friend to the user's list of friends. */
-    public void pushFriendList(User friend) {
-        friendList.add(friend);
-    }
-
     /**
      * Adds a friend to this user's friend list.
      *
      * @param other the user to be added as a friend
      */
     public void addFriend(User other) {
-        if (other == null || other.equals(this)) return;
+        if (other == null || other.equals(this)) {
+            return;
+        }
         if (!friendList.contains(other)) {
             friendList.add(other);
         }
+    }
+
+    /**
+     * Returns the user's list of blocked users.
+     *
+     * @return the block list
+     */
+    public List<User> getBlockList() {
+        return blockList;
+    }
+
+    /**
+     * Adds a user to this user's block list.
+     *
+     * @param other the user to be added as a blocked user
+     */
+    public void addBlock(User other) {
+        if (other == null || other.equals(this)) {
+            return;
+        }
+        if (!blockList.contains(other)) {
+            blockList.add(other);
+        }
+    }
+
+    /**
+     * Removes a user to this user's block list.
+     *
+     * @param other the user to be removed as a blocked user
+     */
+    public void removeBlock(User other) {
+        if (other == null || other.equals(this)) {
+            return;
+        }
+        if (!blockList.contains(other)) {
+            blockList.remove(other);
+        }
+    }
+
+    /**
+     * checks if a user is in this user's block list.
+     *
+     * @param other the user to be removed as a blocked user
+     * @return if the user is in the block list or not
+     */
+    public boolean hasBlock(User other) {
+        return blockList.contains(other);
     }
 
     /**
