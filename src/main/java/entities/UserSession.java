@@ -79,6 +79,11 @@ public class UserSession {
      */
     public void setUser(User user) {
         this.user = user;
+
+        if (this.user.getMatchFilter() == null) {
+            this.user.setMatchFilter(new MatchFilter(18, 99, "Any", "N/A"));
+        }
+
         this.updateSpotify();
     }
 
