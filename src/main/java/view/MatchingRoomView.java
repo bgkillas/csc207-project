@@ -3,7 +3,7 @@ package view;
 import app.createPost.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
-import interface_adapter.controller.PostFeedViewController;
+import interface_adapter.controller.PostFeedController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -149,8 +149,8 @@ public class MatchingRoomView extends JPanel {
         });
 
         shareBtn.addActionListener(e -> {
-            PostFeedViewController controller = new PostFeedViewController(new CreatePostInteractor());
-            JPanel postFeedPanel = PostFeedView.create(controller, frame, currentUser, session);
+            PostFeedController controller = new PostFeedController(new CreatePostInteractor());
+            JPanel postFeedPanel = new PostFeedView(currentUser, session, frame).create(controller);
             frame.setContentPane(postFeedPanel);
             frame.revalidate();
             frame.repaint();

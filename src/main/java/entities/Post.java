@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
@@ -25,6 +26,15 @@ public class Post {
         this.timestamp = timestamp;
         this.author = author;
         this.comments = comments;
+    }
+
+    public Post() {
+        this.title = "Untitled";
+        this.text = "";
+        this.image = null;
+        this.timestamp = LocalDateTime.now();
+        this.author = null;
+        this.comments = new ArrayList<Comment>();
     }
 
     public void setComments(List<Comment> comments) {
