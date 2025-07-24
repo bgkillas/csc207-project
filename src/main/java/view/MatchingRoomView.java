@@ -1,7 +1,10 @@
 package view;
 
+import app.createPost.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
+import interface_adapter.controller.PostFeedViewController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -12,26 +15,37 @@ public class MatchingRoomView extends JPanel {
 
     public MatchingRoomView(
             JFrame frame, User currentUser, List<User> matches, UserSession session) {
+
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
 
-        // 🔝 Top title bar
+        // Top title bar
         JPanel topBar = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Matching Room", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 26));
         title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         topBar.add(title, BorderLayout.CENTER);
 
-        // optional: top right mail icon + notification bubble
+        // mail icon
         JLabel notification = new JLabel("\u2709", SwingConstants.LEFT);
         notification.setFont(new Font("Arial", Font.PLAIN, 24));
         notification.setForeground(Color.DARK_GRAY);
         topBar.add(notification, BorderLayout.WEST);
 
+        // ConnectRequestView
+        notification.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
         this.add(topBar, BorderLayout.NORTH);
 
-        // 👤 User card panel
+        // User card panel
         JPanel cardPanel = new JPanel(new BorderLayout());
         cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
         cardPanel.setBackground(Color.WHITE);
@@ -58,21 +72,34 @@ public class MatchingRoomView extends JPanel {
         cardPanel.add(innerCard, BorderLayout.CENTER);
         this.add(cardPanel, BorderLayout.CENTER);
 
-        // ✅ Buttons: connect / skip
-        JPanel actionPanel = new JPanel(new FlowLayout());
+        // connect / skip buttons
+        JPanel actionPanel = new JPanel();
+        actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.X_AXIS));
+        actionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionPanel.setOpaque(false); // transparent background
+
         JButton connectBtn = new JButton("connect");
         JButton skipBtn = new JButton("skip");
+
+        connectBtn.setPreferredSize(new Dimension(120, 40));
+        skipBtn.setPreferredSize(new Dimension(120, 40));
+
+        connectBtn.setMaximumSize(new Dimension(120, 40));
+        skipBtn.setMaximumSize(new Dimension(120, 40));
 
         connectBtn.setBackground(new Color(0x4CAF50));
         connectBtn.setForeground(Color.WHITE);
         skipBtn.setBackground(new Color(0xF44336));
         skipBtn.setForeground(Color.WHITE);
 
+        actionPanel.add(Box.createHorizontalGlue());
         actionPanel.add(connectBtn);
+        actionPanel.add(Box.createHorizontalStrut(20)); // spacing between buttons
         actionPanel.add(skipBtn);
-        this.add(actionPanel, BorderLayout.SOUTH);
+        actionPanel.add(Box.createHorizontalGlue());
 
-        // 🔻 Bottom nav bar
+
+        // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         JButton matchingBtn = new JButton("matching");
@@ -82,54 +109,62 @@ public class MatchingRoomView extends JPanel {
         navPanel.add(shareBtn);
         navPanel.add(yourProfileBtn);
 
-        this.add(navPanel, BorderLayout.PAGE_END);
+        // Bottom control panel
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
-        // 👇 Display logic
-        Runnable updateDisplay =
-                () -> {
-                    if (currentIndex >= matches.size()) {
-                        info.setText("No more matches.");
-                        score.setText("");
-                        connectBtn.setEnabled(false);
-                        skipBtn.setEnabled(false);
-                        return;
-                    }
+        actionPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+        navPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
-                    User match = matches.get(currentIndex);
-                    info.setText(
-                            "<html><b>"
-                                    + match.getName()
-                                    + "</b><br/>"
-                                    + match.getAge()
-                                    + "<br/>"
-                                    + match.getLocation()
-                                    + "<br/>"
-                                    + "\""
-                                    + match.getBio()
-                                    + "\"</html>");
-                    score.setText("97%");
-                };
+        bottomPanel.add(actionPanel);
+        bottomPanel.add(Box.createVerticalStrut(10));
+        bottomPanel.add(navPanel);
 
-        connectBtn.addActionListener(
-                e -> {
-                    currentUser.getFriendList().add(matches.get(currentIndex));
-                    currentIndex++;
-                    updateDisplay.run();
-                });
+        this.add(bottomPanel, BorderLayout.SOUTH); // ✅ ONLY ONE add to BorderLayout.SOUTH
 
-        skipBtn.addActionListener(
-                e -> {
-                    currentIndex++;
-                    updateDisplay.run();
-                });
+        // display logic
+        Runnable updateDisplay = () -> {
+            if (currentIndex >= matches.size()) {
+                info.setText("No more matches.");
+                score.setText("");
+                connectBtn.setEnabled(false);
+                skipBtn.setEnabled(false);
+                return;
+            }
+            User match = matches.get(currentIndex);
+            info.setText(
+                    "<html><b>" + match.getName() + "</b><br/>"
+                            + match.getAge() + "<br/>"
+                            + match.getLocation() + "<br/>"
+                            + "\"" + match.getBio() + "\"</html>");
+            score.setText("97%");
+        };
 
-        // trigger profile view when button is pressed
-        yourProfileBtn.addActionListener(
-                e -> {
-                    frame.setContentPane(new ProfileView(currentUser, frame, session));
-                    frame.revalidate();
-                    frame.repaint();
-                });
+        connectBtn.addActionListener(e -> {
+            currentUser.getFriendList().add(matches.get(currentIndex));
+            currentIndex++;
+            updateDisplay.run();
+        });
+
+        skipBtn.addActionListener(e -> {
+            currentIndex++;
+            updateDisplay.run();
+        });
+
+        yourProfileBtn.addActionListener(e -> {
+            frame.setContentPane(new ProfileView(currentUser, frame, session));
+            frame.revalidate();
+            frame.repaint();
+        });
+
+        shareBtn.addActionListener(e -> {
+            PostFeedViewController controller = new PostFeedViewController(new CreatePostInteractor());
+            JPanel postFeedPanel = PostFeedView.create(controller, frame, currentUser, session);
+            frame.setContentPane(postFeedPanel);
+            frame.revalidate();
+            frame.repaint();
+        });
 
         updateDisplay.run();
     }
@@ -140,7 +175,11 @@ public class MatchingRoomView extends JPanel {
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, null);
+        // build a dummy session to avoid null
+        UserSession dummySession = new UserSession();
+        dummySession.setUser(currentUser);
+
+        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession);
         frame.setContentPane(view);
         frame.setVisible(true);
     }
