@@ -26,6 +26,7 @@ import view.DebugMenuView;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 
 /** Main executable class. */
