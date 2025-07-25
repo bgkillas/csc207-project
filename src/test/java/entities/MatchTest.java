@@ -29,8 +29,8 @@ class MatchTest {
     void testAlternateConstructor() {
         List<String> artistsA = List.of("Artist1", "Artist2", "Artist3");
         List<String> artistsB = List.of("Artist2", "Artist3", "Artist4");
-        User userA = new User("Alice", 25, "Female", "NYC", "Bio", List.of(), artistsA, List.of());
-        User userB = new User("Bob", 30, "Male", "LA", "Bio", List.of(), artistsB, List.of());
+        User userA = new User("Sally", 25, "Female", "NYC", "Bio", List.of(), artistsA, List.of());
+        User userB = new User("George", 30, "Male", "LA", "Bio", List.of(), artistsB, List.of());
         Match match = new Match(userA, userB);
 
         assertEquals(userB, match.getMatchUser());
@@ -42,8 +42,8 @@ class MatchTest {
 
     @Test
     void testUniqueMatchId() {
-        User userA = new User("Alice", 25, "Female", "NYC", "Bio", List.of(), List.of(), List.of());
-        User userB = new User("Bob", 30, "Male", "LA", "Bio", List.of(), List.of(), List.of());
+        User userA = new User("Sally", 25, "Female", "NYC", "Bio", List.of(), List.of(), List.of());
+        User userB = new User("George", 30, "Male", "LA", "Bio", List.of(), List.of(), List.of());
         Match match1 = new Match(userB, 80, List.of());
         Match match2 = new Match(userB, 80, List.of());
         assertNotEquals(match1, match2); // Different instances
