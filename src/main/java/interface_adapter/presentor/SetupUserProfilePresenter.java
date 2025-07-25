@@ -1,7 +1,7 @@
 package interface_adapter.presentor;
 
 import entities.User;
-import usecase.teamStory.SetupUserProfileOutputBoundary;
+import usecase.team_story.SetupUserProfileOutputBoundary;
 import view.MatchFilterSetupView;
 
 import javax.swing.*;

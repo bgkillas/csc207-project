@@ -1,4 +1,4 @@
-import app.teamStory.MatchServiceImpl;
+import app.team_story.MatchServiceImpl;
 import entities.User;
 import entities.MatchFilter;
 import org.junit.Test;

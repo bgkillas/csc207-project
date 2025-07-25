@@ -5,7 +5,7 @@ import entities.UserSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import app.teamStory.MatchServiceImpl;
+import app.team_story.MatchServiceImpl;
 
 public class ProfileView extends JPanel {
     private final User user;

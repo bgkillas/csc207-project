@@ -1,8 +1,8 @@
-import app.teamStory.AddFriendsListImpl;
+import app.team_story.AddFriendsListImpl;
 import entities.MatchFilter;
 import entities.User;
 import org.junit.Test;
-import usecase.teamStory.AddFriendsList;
+import usecase.team_story.AddFriendsList;
 
 import java.util.ArrayList;
 import java.util.List;

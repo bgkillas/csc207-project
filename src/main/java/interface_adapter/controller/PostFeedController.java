@@ -1,6 +1,6 @@
 package interface_adapter.controller;
 
-import app.createPost.CreatePostInteractor;
+import app.individual_story.CreatePostInteractor;
 
 public class PostFeedController {
     // This controller handles the request to view the post feed and start creating a new post.

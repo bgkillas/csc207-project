@@ -1,10 +1,10 @@
-package app.teamStory;
+package app.team_story;
 
 import data_access.MatchDataAccessInterface;
 import entities.User;
 import entities.UserSession;
-import usecase.teamStory.AddFriendsList;
-import usecase.teamStory.HandleFriendRequest;
+import usecase.team_story.AddFriendsList;
+import usecase.team_story.HandleFriendRequest;
 
 public class HandleFriendRequestImpl implements HandleFriendRequest {
     private final MatchDataAccessInterface matchDAO;

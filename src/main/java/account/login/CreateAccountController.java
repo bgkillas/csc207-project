@@ -1,6 +1,6 @@
 package account.login;
 
-import usecase.teamStory.CreateAccountInputBoundary;
+import usecase.team_story.CreateAccountInputBoundary;
 
 public class CreateAccountController {
     private final CreateAccountInputBoundary interactor;

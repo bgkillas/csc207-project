@@ -1,15 +1,15 @@
 package app;
 
 import account.login.SetupMatchFilterController;
-import usecase.teamStory.SetupMatchFilterInputBoundary;
-import usecase.teamStory.SetupMatchFilterInteractor;
-import usecase.teamStory.SetupMatchFilterOutputBoundary;
+import usecase.team_story.SetupMatchFilterInputBoundary;
+import usecase.team_story.SetupMatchFilterInteractor;
+import usecase.team_story.SetupMatchFilterOutputBoundary;
 import interface_adapter.presentor.SetupMatchFilterPresenter;
 
 import account.login.SetupUserProfileController;
-import usecase.teamStory.SetupUserProfileInputBoundary;
-import usecase.teamStory.SetupUserProfileInteractor;
-import usecase.teamStory.SetupUserProfileOutputBoundary;
+import usecase.team_story.SetupUserProfileInputBoundary;
+import usecase.team_story.SetupUserProfileInteractor;
+import usecase.team_story.SetupUserProfileOutputBoundary;
 import interface_adapter.presentor.SetupUserProfilePresenter;
 
 import account.login.CreateAccountController;
@@ -17,16 +17,15 @@ import account.login.LoginManager;
 import account.login.LoginManagerMemory;
 import entities.UserSession;
 
-import usecase.teamStory.CreateAccountInputBoundary;
-import usecase.teamStory.CreateAccountInteractor;
-import usecase.teamStory.CreateAccountOutputBoundary;
+import usecase.team_story.CreateAccountInputBoundary;
+import usecase.team_story.CreateAccountInteractor;
+import usecase.team_story.CreateAccountOutputBoundary;
 import interface_adapter.presentor.CreateAccountPresenter;
 import view.DebugMenuView;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 
 /** Main executable class. */

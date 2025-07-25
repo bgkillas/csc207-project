@@ -1,4 +1,4 @@
-package usecase.teamStory;
+package usecase.team_story;
 
 /**
  * This interface defines the method required to set up or update a user's profile It takes in

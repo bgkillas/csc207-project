@@ -4,8 +4,8 @@ import entities.MatchFilter;
 import entities.User;
 import entities.UserSession;
 import org.junit.Test;
-import usecase.teamStory.SetupMatchFilterInteractor;
-import usecase.teamStory.SetupMatchFilterOutputBoundary;
+import usecase.team_story.SetupMatchFilterInteractor;
+import usecase.team_story.SetupMatchFilterOutputBoundary;
 
 import java.util.Collections;
 

@@ -3,8 +3,8 @@ package interface_adapter.presentor;
 import entities.MatchFilter;
 import entities.User;
 import entities.UserSession;
-import usecase.teamStory.SetupMatchFilterOutputBoundary;
-import app.teamStory.MatchServiceImpl;
+import usecase.team_story.SetupMatchFilterOutputBoundary;
+import app.team_story.MatchServiceImpl;
 import view.MatchingRoomView;
 
 import javax.swing.*;

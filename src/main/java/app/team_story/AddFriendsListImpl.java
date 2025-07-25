@@ -1,7 +1,7 @@
-package app.teamStory;
+package app.team_story;
 
 import entities.User;
-import usecase.teamStory.AddFriendsList;
+import usecase.team_story.AddFriendsList;
 
 public class AddFriendsListImpl implements AddFriendsList {
 

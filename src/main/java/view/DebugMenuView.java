@@ -5,7 +5,7 @@ import account.login.LoginManager;
 import account.login.LoginManagerMemory;
 import account.login.SetupMatchFilterController;
 import account.login.SetupUserProfileController;
-import app.createPost.CreatePostInteractor;
+import app.individual_story.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.CreatePostController;
@@ -14,7 +14,7 @@ import interface_adapter.controller.PostFeedController;
 import interface_adapter.presentor.CreateAccountPresenter;
 import interface_adapter.presentor.SetupMatchFilterPresenter;
 import interface_adapter.presentor.SetupUserProfilePresenter;
-import usecase.teamStory.*;
+import usecase.team_story.*;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-import app.teamStory.HandleFriendRequestImpl;
+import app.team_story.HandleFriendRequestImpl;
 import data_access.InMemoryMatchDataAccessObject;
 import data_access.InMemoryPostDataAccessObject;
 import data_access.MatchDataAccessInterface;
@@ -7,7 +7,7 @@ import entities.MatchFilter;
 import entities.User;
 import entities.UserSession;
 import org.junit.Test;
-import usecase.teamStory.HandleFriendRequest;
+import usecase.team_story.HandleFriendRequest;
 
 import java.util.ArrayList;
 import java.util.List;

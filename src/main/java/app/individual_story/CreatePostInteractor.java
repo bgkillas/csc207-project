@@ -1,4 +1,4 @@
-package app.createPost;
+package app.individual_story;
 
 import usecase.CreatePost;
 
