@@ -25,8 +25,7 @@ public class PostFeedView extends JPanel {
         this.frame = frame;
     }
 
-    public JPanel create(
-            PostFeedController controller) {
+    public JPanel create(PostFeedController controller) {
         // MODIFIED: change to BorderLayout for full-frame layout
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(500, 600)); // MODIFIED: standard app size
@@ -82,7 +81,8 @@ public class PostFeedView extends JPanel {
                 e -> {
                     try {
                         controller.createNewPost();
-                        CreatePostView createPostview = new CreatePostView(currentUser, session, frame);
+                        CreatePostView createPostview =
+                                new CreatePostView(currentUser, session, frame);
                         CreatePostController control = new CreatePostController();
                         JPanel nextView = createPostview.create(control);
 
@@ -119,22 +119,25 @@ public class PostFeedView extends JPanel {
 
     private JPanel getPost(Post post) {
 
-//        JPanel postCard = new JPanel();
-//        postCard.setPreferredSize(new Dimension(450, 40));
-//        postCard.setMaximumSize(new Dimension(450, 40));
-//        postCard.setBackground(new Color(255, 255, 255));
-//        postCard.setBackground(Color.WHITE);
-//        JLabel label = new JLabel("Post " + i);
-//        postCard.add(label);
+        //        JPanel postCard = new JPanel();
+        //        postCard.setPreferredSize(new Dimension(450, 40));
+        //        postCard.setMaximumSize(new Dimension(450, 40));
+        //        postCard.setBackground(new Color(255, 255, 255));
+        //        postCard.setBackground(Color.WHITE);
+        //        JLabel label = new JLabel("Post " + i);
+        //        postCard.add(label);
 
-        PostPreviewPanel postPanel = new PostPreviewPanel(post.getTitle(), () -> {
-            OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
-            frame.setContentPane(openPostView.create(new OpenPostController()));
-            frame.revalidate();
-            frame.repaint();
-        });
+        PostPreviewPanel postPanel =
+                new PostPreviewPanel(
+                        post.getTitle(),
+                        () -> {
+                            OpenPostView openPostView =
+                                    new OpenPostView(currentUser, session, frame);
+                            frame.setContentPane(openPostView.create(new OpenPostController()));
+                            frame.revalidate();
+                            frame.repaint();
+                        });
 
         return postPanel;
     }
-
 }

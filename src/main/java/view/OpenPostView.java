@@ -34,8 +34,9 @@ public class OpenPostView extends JPanel {
         JButton back = new JButton("← Back");
         back.addActionListener(
                 e -> {
-                    frame.setContentPane(new PostFeedView(currentUser, session, frame)
-                            .create(new PostFeedController(new CreatePostInteractor())));
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, session, frame)
+                                    .create(new PostFeedController(new CreatePostInteractor())));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -65,12 +66,12 @@ public class OpenPostView extends JPanel {
         panel.add(mainPanel, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
-
         // navigate to matching room
         btnMatching.addActionListener(
                 e -> {
                     List<User> matchedUsers = session.getAllUsers();
-                    JPanel matchingPanel = new MatchingRoomView(frame, currentUser, matchedUsers, session);
+                    JPanel matchingPanel =
+                            new MatchingRoomView(frame, currentUser, matchedUsers, session);
                     frame.setContentPane(matchingPanel);
                     frame.revalidate();
                     frame.repaint();
