@@ -1,4 +1,4 @@
-package usecase.teamStory;
+package usecase.team_story;
 
 /**
  * This interface defines the input boundary for account creation In a full implementation, a user

@@ -1,4 +1,4 @@
-import app.addComment.AddCommentImpl;
+import app.individual_story.AddCommentImpl;
 import data_access.InMemoryMatchDataAccessObject;
 import data_access.InMemoryPostDataAccessObject;
 import data_access.MatchDataAccessInterface;

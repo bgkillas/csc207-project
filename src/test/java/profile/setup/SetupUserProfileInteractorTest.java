@@ -7,8 +7,8 @@ import org.junit.Test;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
-import usecase.teamStory.SetupUserProfileInteractor;
-import usecase.teamStory.SetupUserProfileOutputBoundary;
+import usecase.team_story.SetupUserProfileInteractor;
+import usecase.team_story.SetupUserProfileOutputBoundary;
 
 /**
  * Tests that the SetupUserProfileInteractor correctly updates the user profile and calls the

@@ -1,4 +1,4 @@
-package app.addComment;
+package app.individual_story;
 
 import data_access.PostDataAccessInterface;
 import entities.Comment;

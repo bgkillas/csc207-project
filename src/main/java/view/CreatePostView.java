@@ -1,6 +1,6 @@
 package view;
 
-import app.createPost.CreatePostInteractor;
+import app.individual_story.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.CreatePostController;

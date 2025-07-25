@@ -1,6 +1,6 @@
 package account.login;
 
-import usecase.teamStory.SetupUserProfileInputBoundary;
+import usecase.team_story.SetupUserProfileInputBoundary;
 
 public class SetupUserProfileController {
     // This controller handles the request to update or initialize a user's profile

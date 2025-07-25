@@ -1,7 +1,7 @@
-package app.teamStory;
+package app.team_story;
 
 import entities.User;
-import usecase.teamStory.MatchService;
+import usecase.team_story.MatchService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package usecase.teamStory;
+package usecase.team_story;
 
 import entities.MatchFilter;
 import entities.User;

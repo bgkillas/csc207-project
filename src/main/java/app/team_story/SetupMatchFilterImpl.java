@@ -1,8 +1,8 @@
-package app.teamStory;
+package app.team_story;
 
 import entities.MatchFilter;
 import entities.User;
-import usecase.teamStory.SetupMatchFilter;
+import usecase.team_story.SetupMatchFilter;
 
 /** Implementation of the SetupMatchFilter use case. */
 public class SetupMatchFilterImpl implements SetupMatchFilter {

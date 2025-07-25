@@ -1,6 +1,6 @@
 package account.login;
 
-import usecase.teamStory.SetupMatchFilterInputBoundary;
+import usecase.team_story.SetupMatchFilterInputBoundary;
 
 public class SetupMatchFilterController {
     private final SetupMatchFilterInputBoundary interactor;

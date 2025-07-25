@@ -1,4 +1,4 @@
-import app.teamStory.MatchCalculatorImpl;
+import app.team_story.MatchCalculatorImpl;
 import entities.User;
 import org.junit.Test;
 

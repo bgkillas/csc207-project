@@ -1,9 +1,9 @@
-import app.teamStory.SetupMatchFilterImpl;
+import app.team_story.SetupMatchFilterImpl;
 
 import entities.MatchFilter;
 import entities.User;
 import org.junit.jupiter.api.Test;
-import usecase.teamStory.SetupMatchFilter;
+import usecase.team_story.SetupMatchFilter;
 
 import java.util.ArrayList;
 import java.util.List;
