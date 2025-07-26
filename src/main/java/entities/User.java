@@ -16,6 +16,7 @@ public class User {
     private MatchFilter matchFilter;
     private final List<User> friendList = new ArrayList<>();
     private final List<User> blockList = new ArrayList<>();
+    private java.awt.Image profilePicture;
 
     /**
      * Constructs a User with the given attributes.
@@ -228,4 +229,13 @@ public class User {
     public String getBio() {
         return this.bio;
     }
+
+    public java.awt.Image getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(java.awt.Image profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
 }

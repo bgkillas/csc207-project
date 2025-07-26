@@ -173,9 +173,9 @@ public class DebugMenuView {
                     return new PostFeedView(currentUser, session, tempFrame)
                             .create(postFeedViewController);
                 });
-        addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController));
+        addButton(panel, "ProfileSetupView", () -> ProfileSetupView.create(profileController, session.getUser()));
         addButtonWithFrame(
-                panel, "ProfileView", tempFrame -> new ProfileView(dummyUser, tempFrame, session));
+                panel, "ProfileView", tempFrame -> new ProfileView(session.getUser(), tempFrame, session));
 
         return panel;
     }
