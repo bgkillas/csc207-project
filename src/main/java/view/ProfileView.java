@@ -1,11 +1,13 @@
 package view;
 
+import app.individual_story.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import app.team_story.MatchServiceImpl;
+import interface_adapter.controller.PostFeedController;
 
 public class ProfileView extends JPanel {
     private final User user;
@@ -223,6 +225,17 @@ public class ProfileView extends JPanel {
                     ProfileView profileView =
                             new ProfileView(userSession.getUser(), frame, userSession);
                     frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+
+        shareBtn.addActionListener(
+                e -> {
+                    PostFeedController controller =
+                            new PostFeedController(new CreatePostInteractor());
+                    JPanel postFeedPanel =
+                            new PostFeedView(userSession.getUser(), userSession, frame).create(controller);
+                    frame.setContentPane(postFeedPanel);
                     frame.revalidate();
                     frame.repaint();
                 });
