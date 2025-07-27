@@ -3,6 +3,9 @@ package entities;
 import java.util.List;
 import java.util.UUID;
 
+import usecase.team_story.MatchCalculator;
+import app.team_story.MatchCalculatorImpl;
+
 /**
  * Represents a match between the current user and another user, along with their compatibility
  * score and shared artists.
@@ -21,6 +24,9 @@ public class Match {
      * @param score the compatibility score between users
      * @param sharedArtists a list of artists both users like
      */
+
+    MatchCalculator matchCalculator = new MatchCalculatorImpl();
+
     public Match(User matchUser, int score, List<String> sharedArtists) {
         this.matchUser = matchUser;
         this.compatibilityScore = score;
@@ -29,8 +35,15 @@ public class Match {
 
     public Match(User currentUser, User other) {
         this.matchUser = other;
-        this.compatibilityScore = 100;
-        this.sharedArtists = List.of();
+        this.compatibilityScore = matchCalculator.calculateCompatibilityScore(currentUser, other);
+        // Find shared artists
+        List<String> shared = new java.util.ArrayList<>();
+        for (String artist : currentUser.getFavArtists()) {
+            if (other.getFavArtists().contains(artist)) {
+                shared.add(artist);
+            }
+        }
+        this.sharedArtists = shared;
     }
 
     /**
