@@ -14,5 +14,8 @@ public class SpotifyTest {
         System.out.println(spotify.getTopGenres());
         spotify.pullTopTracks();
         System.out.println(spotify.getTopTracks());
+        System.out.println(spotify.token);
+        spotify.refreshToken();
+        System.out.println(spotify.token);
     }
 }

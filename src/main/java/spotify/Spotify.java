@@ -200,6 +200,42 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
+    public void refreshToken() {
+        try {
+            String credentials = clientId + ":" + secret;
+            String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
+            URL url = new URL("https://accounts.spotify.com/api/token");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", "Basic " + encodedCredentials);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            String body =
+                    "grant_type=refresh_token"
+                            + "&refresh_token="
+                            + refreshToken
+                            + "&client_id="
+                            + clientId;
+            OutputStream os = conn.getOutputStream();
+            os.write(body.getBytes());
+            int responseCode = conn.getResponseCode();
+            InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
+            if (responseCode >= 400) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+                System.out.println(in.readLine());
+            }
+            JSONObject json = new JSONObject(new JSONTokener(is));
+            token = json.getString("access_token");
+            if (json.has("refresh_token")) {
+                refreshToken = json.getString("refresh_token");
+            }
+            conn.disconnect();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<String> getTopTracks() {
         return this.topTracks;
     }
