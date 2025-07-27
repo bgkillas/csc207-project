@@ -60,6 +60,7 @@ public class UserSession {
 
     public void initiateSpotify() {
         spotify = new Spotify();
+        spotify.initSpotify();
     }
 
     public void updateSpotify() {

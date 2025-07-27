@@ -41,7 +41,9 @@ public class Spotify implements SpotifyInterface {
     String refreshToken;
 
     /** Initializes spotify class. */
-    public Spotify() {
+    public Spotify() {}
+
+    public void initSpotify() {
         try {
             String url = getUrl();
             if (Desktop.isDesktopSupported()

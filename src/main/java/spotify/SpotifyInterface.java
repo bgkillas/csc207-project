@@ -4,6 +4,9 @@ import java.util.List;
 
 /** Interface for spotify interactions. */
 public interface SpotifyInterface {
+    /** sets up spotify tokens and such and calls the browser to get auth token. */
+    void initSpotify();
+
     /** Pulls top artists and genres in the user profile to the class. */
     void pullTopArtistsAndGenres();
 
