@@ -4,6 +4,7 @@ import app.individual_story.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.PostFeedController;
+import view.components.NavButton;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,6 +20,7 @@ public class MatchingRoomView extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(500, 600));
+        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 //        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 //        this.setBackground(Color.WHITE);
 
@@ -52,7 +54,7 @@ public class MatchingRoomView extends JPanel {
 
         // User card panel
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
 
         // matched user's profile picture
         JLabel profilePic = new JLabel("?", SwingConstants.CENTER);
@@ -69,14 +71,14 @@ public class MatchingRoomView extends JPanel {
         score.setForeground(new Color(0x2E8B57));
 
         JPanel innerCard = new JPanel(new GridLayout(1, 3));    // made each take up 1/3 rather than 1/2
-//        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // Existing visible border
-        Border visibleBorder = BorderFactory.createLineBorder(Color.GRAY, 2);
+//        Border visibleBorder = BorderFactory.createLineBorder(Color.GRAY, 2);
         // Add empty padding around it (top, left, bottom, right)
-        Border padding = BorderFactory.createEmptyBorder(30, 50, 30, 50);
+//        Border padding = BorderFactory.createEmptyBorder(50, 0, 50, 0);
         // Combine both
-        innerCard.setBorder(BorderFactory.createCompoundBorder(padding, visibleBorder));
+//        innerCard.setBorder(BorderFactory.createCompoundBorder(padding, visibleBorder));
 
 //        JPanel right = new JPanel(new BorderLayout());
 //        right.add(profileInfo, BorderLayout.CENTER);
@@ -105,8 +107,8 @@ public class MatchingRoomView extends JPanel {
         JPanel rightButtonPanel = new JPanel();
         rightButtonPanel.add(skipBtn);
 
-        leftButtonPanel.setBorder(padding);
-        rightButtonPanel.setBorder(padding);
+        leftButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+        rightButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
 
 //        actionPanel.add(Box.createHorizontalGlue());
 //        actionPanel.add(connectBtn);
@@ -119,10 +121,11 @@ public class MatchingRoomView extends JPanel {
 
         // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        JButton matchingBtn = new JButton("Matching");
-        JButton shareBtn = new JButton("Share");
-        JButton yourProfileBtn = new JButton("My Profile");
+        NavButton matchingBtn = new NavButton("Matching");
+        matchingBtn.setActive(true);
+        NavButton shareBtn = new NavButton("Share");
+        NavButton yourProfileBtn = new NavButton("My Profile");
+
         navPanel.add(matchingBtn);
         navPanel.add(shareBtn);
         navPanel.add(yourProfileBtn);
@@ -136,7 +139,7 @@ public class MatchingRoomView extends JPanel {
 //        navPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
         bottomPanel.add(actionPanel);
-        bottomPanel.add(Box.createVerticalStrut(10));
+//        bottomPanel.add(Box.createVerticalStrut(10));
         bottomPanel.add(navPanel);
 
         this.add(topPanel, BorderLayout.NORTH);

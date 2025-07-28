@@ -7,6 +7,7 @@ import interface_adapter.controller.CreatePostController;
 import interface_adapter.controller.OpenPostController;
 import interface_adapter.controller.PostFeedController;
 import view.components.CircularButton;
+import view.components.NavButton;
 import view.components.PostPreviewPanel;
 
 import javax.swing.*;
@@ -25,11 +26,10 @@ public class PostFeedView extends JPanel {
         this.frame = frame;
     }
 
-    public JPanel create(
-            PostFeedController controller) {
-        // MODIFIED: change to BorderLayout for full-frame layout
+    public JPanel create(PostFeedController controller) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(500, 600)); // MODIFIED: standard app size
+        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Create a JPanel for title
         JPanel titlePanel = new JPanel();
@@ -64,9 +64,11 @@ public class PostFeedView extends JPanel {
 
         // Navigation bar row
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        JButton btnMatching = new JButton("Matching");
-        JButton btnShare = new JButton("Share");
-        JButton btnProfile = new JButton("My Profile");
+        NavButton btnMatching = new NavButton("Matching");
+        NavButton btnShare = new NavButton("Share");
+        btnShare.setActive(true);
+        NavButton btnProfile = new NavButton("My Profile");
+
         navPanel.add(btnMatching);
         navPanel.add(btnShare);
         navPanel.add(btnProfile);

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.List;
 import app.team_story.MatchServiceImpl;
 import interface_adapter.controller.PostFeedController;
+import view.components.NavButton;
 
 public class ProfileView extends JPanel {
     private final User user;
@@ -30,31 +31,80 @@ public class ProfileView extends JPanel {
 
     /** Initializes the profile view components. */
     public void create() {
-        setLayout(new BorderLayout());
-        setBackground(Color.WHITE);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
-        // Top panel with profile info
+        // Jpanel for Title
+        JLabel title = new JLabel(user.getName() + "'s Profile", SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 22));
+
+        // top panel with title
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(title);
+
+        // main panel with profile info
+//        JPanel profilePanel = new JPanel(new BorderLayout());
         JPanel profilePanel = createProfilePanel();
-        add(profilePanel, BorderLayout.CENTER);
-
-        // Bottom panel with buttons
         JPanel buttonPanel = createButtonPanel();
-        add(buttonPanel, BorderLayout.SOUTH);
+
+        // Bottom panel with navButtons
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+
+        NavButton matchingBtn = new NavButton("Matching");
+        NavButton shareBtn = new NavButton("Share");
+        NavButton myProfileBtn = new NavButton("My Profile");
+
+        JPanel navPanel = new JPanel(new GridLayout(1, 3));
+
+        navPanel.add(matchingBtn);
+        navPanel.add(shareBtn);
+        navPanel.add(myProfileBtn);
+
+        bottomPanel.add(buttonPanel, BorderLayout.NORTH);
+        bottomPanel.add(navPanel, BorderLayout.SOUTH);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(profilePanel, BorderLayout.CENTER);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
+
+        // local variable currentUser is the user of this userSession
+        User currentUser = userSession.getUser();
+
+        // Add the matching button action
+        matchingBtn.addActionListener(
+                e -> {
+
+                    MatchServiceImpl matchService = new MatchServiceImpl();
+                    List<User> matches = matchService.findMatches(currentUser, userSession.getAllUsers());
+
+                    JPanel matchingRoomPanel =
+                            new MatchingRoomView(frame, currentUser, matches, userSession);
+                    frame.setContentPane(matchingRoomPanel);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+        myProfileBtn.addActionListener(e -> {
+            ProfileView profileView =
+                    new ProfileView(currentUser, frame, userSession);
+            frame.setContentPane(profileView);
+            frame.revalidate();
+            frame.repaint();
+        });
+        shareBtn.addActionListener(e -> {
+            PostFeedController controller = new PostFeedController(new CreatePostInteractor());
+            JPanel postFeedPanel = new PostFeedView(currentUser, userSession, frame).create(controller);
+            frame.setContentPane(postFeedPanel);
+            frame.revalidate();
+            frame.repaint();
+        });
+
+        add(panel);
     }
 
     private JPanel createProfilePanel() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-        mainPanel.setBackground(Color.WHITE);
-
-        // Top title bar
-        JPanel topBar = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Profile", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 26));
-        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        topBar.add(title, BorderLayout.CENTER);
-        mainPanel.add(topBar);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -140,9 +190,6 @@ public class ProfileView extends JPanel {
     }
 
     private JPanel createButtonPanel() {
-        // Create two panels: one for action buttons and one for navigation
-        JPanel combinedPanel = new JPanel(new BorderLayout());
-        combinedPanel.setBorder(BorderFactory.createEmptyBorder(5, 40, 5, 40));
 
         // Action buttons panel (edit profile, buddy list, block list)
         JPanel actionPanel = new JPanel(new GridLayout(1, 3, 10, 0));
@@ -150,47 +197,8 @@ public class ProfileView extends JPanel {
         JButton buddyListBtn = createActionButton("buddy list");
         JButton blockListBtn = createActionButton("block list");
 
-        if (isUser()) {
-            actionPanel.add(editProfileBtn);
-        }
-        actionPanel.add(buddyListBtn);
-        actionPanel.add(blockListBtn);
-
-        // Bottom navigation bar (matching, share, your profile)
-        JPanel navPanel = new JPanel(new GridLayout(1, 3, 10, 0));
-        navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-
         JButton blockBtn = createActionButton("block");
         JButton unBlockBtn = createActionButton("unblock");
-        JButton matchingBtn = createNavButton("matching");
-        JButton shareBtn = createNavButton("share");
-        JButton yourProfileBtn = createNavButton("your profile");
-
-        yourProfileBtn.setBackground(Color.DARK_GRAY);
-        yourProfileBtn.setForeground(Color.WHITE);
-
-        // Add the matching button action
-        matchingBtn.addActionListener(
-                e -> {
-                    MatchServiceImpl matchService = new MatchServiceImpl();
-                    List<User> matches = matchService.findMatches(user, userSession.getAllUsers());
-
-                    JPanel matchingRoomPanel =
-                            new MatchingRoomView(frame, user, matches, userSession);
-                    frame.setContentPane(matchingRoomPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
-
-        // Share button actionListener
-        shareBtn.addActionListener(
-                e -> {
-                    PostFeedController controller = new PostFeedController(new CreatePostInteractor());
-                    JPanel postFeedPanel = new PostFeedView(user, userSession, frame).create(controller);
-                    frame.setContentPane(postFeedPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
 
         buddyListBtn.addActionListener(
                 e -> {
@@ -222,33 +230,29 @@ public class ProfileView extends JPanel {
                     frame.revalidate();
                     frame.repaint();
                 });
-        yourProfileBtn.addActionListener(
-                e -> {
-                    ProfileView profileView =
-                            new ProfileView(userSession.getUser(), frame, userSession);
-                    frame.setContentPane(profileView);
-                    frame.revalidate();
-                    frame.repaint();
-                });
 
         if (isUser()) {
-            navPanel.add(matchingBtn);
+            actionPanel.add(editProfileBtn);
+            actionPanel.add(buddyListBtn);
+            actionPanel.add(blockListBtn);
         }
-        navPanel.add(shareBtn);
-        if (!isUser()) {
+        else {
             if (userSession.getUser().hasBlock(user)) {
-                navPanel.add(unBlockBtn);
+                actionPanel.add(unBlockBtn);
             } else {
-                navPanel.add(blockBtn);
+                actionPanel.add(blockBtn);
             }
-            navPanel.add(yourProfileBtn);
         }
+//        before: you had !isUser(), why not use else?
+//        if (!isUser()) {
+//            if (userSession.getUser().hasBlock(user)) {
+//                navPanel.add(unBlockBtn);
+//            } else {
+//                navPanel.add(blockBtn);
+//            }
+//        }
 
-        // Add both panels to the combined panel
-        combinedPanel.add(actionPanel, BorderLayout.CENTER);
-        combinedPanel.add(navPanel, BorderLayout.SOUTH);
-
-        return combinedPanel;
+        return actionPanel;
     }
 
     private JButton createActionButton(String text) {
@@ -256,15 +260,6 @@ public class ProfileView extends JPanel {
         button.setFocusPainted(false);
         button.setBackground(new Color(0x4CAF50)); // Green color
         button.setForeground(Color.WHITE);
-        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        return button;
-    }
-
-    private JButton createNavButton(String text) {
-        JButton button = new JButton(text);
-        button.setFocusPainted(false);
-        button.setBackground(Color.LIGHT_GRAY);
-        button.setForeground(Color.DARK_GRAY);
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
     }
