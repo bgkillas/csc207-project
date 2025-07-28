@@ -142,29 +142,23 @@ public class MatchingRoomView extends JPanel {
         this.add(bottomPanel, BorderLayout.SOUTH); // ✅ ONLY ONE add to BorderLayout.SOUTH
 
         // display logic
-        Runnable updateDisplay =
-                () -> {
-                    if (currentIndex >= matches.size()) {
-                        info.setText("No more matches.");
-                        score.setText("");
-                        connectBtn.setEnabled(false);
-                        skipBtn.setEnabled(false);
-                        return;
-                    }
-                    User match = matches.get(currentIndex);
-                    info.setText(
-                            "<html><b>"
-                                    + match.getName()
-                                    + "</b><br/>"
-                                    + match.getAge()
-                                    + "<br/>"
-                                    + match.getLocation()
-                                    + "<br/>"
-                                    + "\""
-                                    + match.getBio()
-                                    + "\"</html>");
-                    score.setText("97%");
-                };
+        // display logic
+        Runnable updateDisplay = () -> {
+            if (currentIndex >= matches.size()) {
+                profileInfo.setText("No more matches.");
+                score.setText("");
+                connectBtn.setEnabled(false);
+                skipBtn.setEnabled(false);
+                return;
+            }
+            User match = matches.get(currentIndex);
+            profileInfo.setText(
+                    "<html><b>" + match.getName() + "</b><br/>"
+                            + match.getAge() + "<br/>"
+                            + match.getLocation() + "<br/>"
+                            + "\"" + match.getBio() + "\"</html>");
+            score.setText("97%");
+        };
 
         connectBtn.addActionListener(
                 e -> {
