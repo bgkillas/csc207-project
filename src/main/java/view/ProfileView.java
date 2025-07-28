@@ -26,14 +26,17 @@ public class ProfileView extends JPanel {
         this.user = user;
         this.frame = frame;
         this.userSession = userSession;
+
+        this.setLayout(new BorderLayout());
+        this.setPreferredSize(new Dimension(500, 600));
+        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
         create();
     }
 
     /** Initializes the profile view components. */
     public void create() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(500, 600));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Jpanel for Title
         JLabel title = new JLabel(user.getName() + "'s Profile", SwingConstants.CENTER);
@@ -44,9 +47,13 @@ public class ProfileView extends JPanel {
         topPanel.add(title);
 
         // main panel with profile info
+        JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel profilePanel = createProfilePanel();
         JPanel buttonPanel = createButtonPanel();
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
+        mainPanel.add(profilePanel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Bottom panel with navButtons
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -61,11 +68,10 @@ public class ProfileView extends JPanel {
         navPanel.add(shareBtn);
         navPanel.add(myProfileBtn);
 
-        bottomPanel.add(buttonPanel, BorderLayout.NORTH);
-        bottomPanel.add(navPanel, BorderLayout.SOUTH);
+        bottomPanel.add(navPanel);
 
         panel.add(topPanel, BorderLayout.NORTH);
-        panel.add(profilePanel, BorderLayout.CENTER);
+        panel.add(mainPanel, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // local variable currentUser is the user of this userSession

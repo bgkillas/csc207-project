@@ -66,7 +66,7 @@ public class PostFeedView extends JPanel {
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         NavButton btnMatching = new NavButton("Matching");
         NavButton btnShare = new NavButton("Share");
-        btnShare.setActive(true);
+//        btnShare.setActive(true);
         NavButton btnProfile = new NavButton("My Profile");
 
         navPanel.add(btnMatching);

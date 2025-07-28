@@ -27,12 +27,14 @@ public class MatchingRoomView extends JPanel {
         // Jpanel for Title
         JLabel title = new JLabel("Matching Room", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 22));
-//        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
         // mail icon
-        JLabel mailIcon = new JLabel("\u2709", SwingConstants.LEFT);
-        mailIcon.setFont(new Font("Arial", Font.PLAIN, 24));
-        mailIcon.setForeground(Color.DARK_GRAY);
+        ImageIcon envelopeIcon = new ImageIcon(MatchingRoomView.class.getResource("/mail.png"));
+        JButton mailIcon = new JButton(envelopeIcon);
+        mailIcon.setBackground(new Color(245, 245, 245));
+//        JLabel mailIcon = new JLabel("\u2709", SwingConstants.LEFT);
+//        mailIcon.setFont(new Font("Arial", Font.PLAIN, 24));
+//        mailIcon.setForeground(Color.DARK_GRAY);
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(mailIcon, BorderLayout.WEST);
@@ -40,15 +42,20 @@ public class MatchingRoomView extends JPanel {
 
 
         // ConnectRequestView
-        mailIcon.addMouseListener(
-                new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mouseClicked(java.awt.event.MouseEvent e) {
-                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
-                        frame.revalidate();
-                        frame.repaint();
-                    }
+        mailIcon.addActionListener( e -> {
+                    frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+                    frame.revalidate();
+                    frame.repaint();
                 });
+//        mailIcon.addMouseListener(
+//                new java.awt.event.MouseAdapter() {
+//                    @Override
+//                    public void mouseClicked(java.awt.event.MouseEvent e) {
+//                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+//                        frame.revalidate();
+//                        frame.repaint();
+//                    }
+//                });
 
 
 
@@ -113,7 +120,7 @@ public class MatchingRoomView extends JPanel {
         // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         NavButton matchingBtn = new NavButton("Matching");
-        matchingBtn.setActive(true);
+//        matchingBtn.setActive(true);
         NavButton shareBtn = new NavButton("Share");
         NavButton yourProfileBtn = new NavButton("My Profile");
 
@@ -124,10 +131,6 @@ public class MatchingRoomView extends JPanel {
         // Bottom control panel
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-//        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
-//        actionPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
-//        navPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
         bottomPanel.add(actionPanel);
 //        bottomPanel.add(Box.createVerticalStrut(10));
