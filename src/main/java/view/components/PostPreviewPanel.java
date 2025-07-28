@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class PostPreviewPanel extends JPanel{
+public class PostPreviewPanel extends JPanel {
     public PostPreviewPanel(String title, Runnable onClick) {
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(450, 40));
@@ -17,23 +17,24 @@ public class PostPreviewPanel extends JPanel{
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(titleLabel, BorderLayout.CENTER);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                onClick.run();
-            }
+        addMouseListener(
+                new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        onClick.run();
+                    }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                setBackground(new Color(245, 245, 245));
-            }
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        setBackground(new Color(245, 245, 245));
+                    }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setCursor(Cursor.getDefaultCursor());
-                setBackground(Color.WHITE);
-            }
-        });
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        setCursor(Cursor.getDefaultCursor());
+                        setBackground(Color.WHITE);
+                    }
+                });
     }
 }

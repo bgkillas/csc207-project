@@ -40,8 +40,9 @@ public class CreatePostView extends JPanel {
         JButton back = new JButton("← Back");
         back.addActionListener(
                 e -> {
-                    frame.setContentPane(new PostFeedView(currentUser, session, frame)
-                            .create(new PostFeedController(new CreatePostInteractor())));
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, session, frame)
+                                    .create(new PostFeedController(new CreatePostInteractor())));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -49,7 +50,6 @@ public class CreatePostView extends JPanel {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(back, BorderLayout.WEST);
         topPanel.add(titlePanel, BorderLayout.CENTER);
-
 
         // Create a JPanel for main content
         JPanel mainPanel = new JPanel();
@@ -60,20 +60,22 @@ public class CreatePostView extends JPanel {
         imagePreview = new JLabel("No image selected");
 
         JButton uploadButton = new JButton("Upload Image");
-        uploadButton.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
-            if (chooser.showOpenDialog(panel) == JFileChooser.APPROVE_OPTION) {
-                imageFile = chooser.getSelectedFile();
-                imagePreview.setText(imageFile.getName());
-            }
-        });
+        uploadButton.addActionListener(
+                e -> {
+                    JFileChooser chooser = new JFileChooser();
+                    if (chooser.showOpenDialog(panel) == JFileChooser.APPROVE_OPTION) {
+                        imageFile = chooser.getSelectedFile();
+                        imagePreview.setText(imageFile.getName());
+                    }
+                });
 
         JButton postButton = new JButton("Post");
-        postButton.addActionListener(e -> {
-            String title = titleField.getText();
-            String content = contentArea.getText();
-            controller.postNewPost(title, content, imageFile); // pass to controller
-        });
+        postButton.addActionListener(
+                e -> {
+                    String title = titleField.getText();
+                    String content = contentArea.getText();
+                    controller.postNewPost(title, content, imageFile); // pass to controller
+                });
 
         JPanel postTitlePanel = new JPanel();
         JPanel postContentPanel = new JPanel();
@@ -85,7 +87,6 @@ public class CreatePostView extends JPanel {
         postContentPanel.add(new JScrollPane(contentArea));
         postImageUploadPanel.add(imagePreview);
         postImageUploadPanel.add(uploadButton);
-
 
         mainPanel.add(postTitlePanel);
         mainPanel.add(postContentPanel);
@@ -109,12 +110,12 @@ public class CreatePostView extends JPanel {
         panel.add(mainPanel, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
-
         // navigate to matching room
         btnMatching.addActionListener(
                 e -> {
                     List<User> matchedUsers = session.getAllUsers();
-                    JPanel matchingPanel = new MatchingRoomView(frame, currentUser, matchedUsers, session);
+                    JPanel matchingPanel =
+                            new MatchingRoomView(frame, currentUser, matchedUsers, session);
                     frame.setContentPane(matchingPanel);
                     frame.revalidate();
                     frame.repaint();

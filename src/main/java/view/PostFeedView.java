@@ -27,6 +27,7 @@ public class PostFeedView extends JPanel {
     }
 
     public JPanel create(PostFeedController controller) {
+
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(500, 600));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -98,7 +99,8 @@ public class PostFeedView extends JPanel {
                 e -> {
                     try {
                         controller.createNewPost();
-                        CreatePostView createPostview = new CreatePostView(currentUser, session, frame);
+                        CreatePostView createPostview =
+                                new CreatePostView(currentUser, session, frame);
                         CreatePostController control = new CreatePostController();
                         JPanel nextView = createPostview.create(control);
 
@@ -135,14 +137,26 @@ public class PostFeedView extends JPanel {
 
     private JPanel getPost(Post post) {
 
-        PostPreviewPanel postPanel = new PostPreviewPanel(post.getTitle(), () -> {
-            OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
-            frame.setContentPane(openPostView.create(new OpenPostController()));
-            frame.revalidate();
-            frame.repaint();
-        });
+
+        //        JPanel postCard = new JPanel();
+        //        postCard.setPreferredSize(new Dimension(450, 40));
+        //        postCard.setMaximumSize(new Dimension(450, 40));
+        //        postCard.setBackground(new Color(255, 255, 255));
+        //        postCard.setBackground(Color.WHITE);
+        //        JLabel label = new JLabel("Post " + i);
+        //        postCard.add(label);
+
+        PostPreviewPanel postPanel =
+                new PostPreviewPanel(
+                        post.getTitle(),
+                        () -> {
+                            OpenPostView openPostView =
+                                    new OpenPostView(currentUser, session, frame);
+                            frame.setContentPane(openPostView.create(new OpenPostController()));
+                            frame.revalidate();
+                            frame.repaint();
+                        });
 
         return postPanel;
     }
-
 }
