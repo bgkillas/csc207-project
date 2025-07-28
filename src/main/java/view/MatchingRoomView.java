@@ -95,9 +95,6 @@ public class MatchingRoomView extends JPanel {
         // connect / skip buttons
         JPanel actionPanel = new JPanel();
         actionPanel.setLayout(new BorderLayout());
-//        actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.X_AXIS));
-//        actionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-//        actionPanel.setOpaque(false); // transparent background
 
         JButton connectBtn = createStyledButton("connect", new Color(0x4CAF50));
         JButton skipBtn = createStyledButton("skip", new Color(0xF44336));
@@ -109,12 +106,6 @@ public class MatchingRoomView extends JPanel {
 
         leftButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
         rightButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
-
-//        actionPanel.add(Box.createHorizontalGlue());
-//        actionPanel.add(connectBtn);
-//        actionPanel.add(Box.createHorizontalStrut(20)); // spacing between buttons
-//        actionPanel.add(skipBtn);
-//        actionPanel.add(Box.createHorizontalGlue());
 
         actionPanel.add(leftButtonPanel, BorderLayout.WEST);
         actionPanel.add(rightButtonPanel, BorderLayout.EAST);

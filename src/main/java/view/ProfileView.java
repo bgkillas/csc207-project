@@ -44,9 +44,9 @@ public class ProfileView extends JPanel {
         topPanel.add(title);
 
         // main panel with profile info
-//        JPanel profilePanel = new JPanel(new BorderLayout());
         JPanel profilePanel = createProfilePanel();
         JPanel buttonPanel = createButtonPanel();
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Bottom panel with navButtons
         JPanel bottomPanel = new JPanel(new BorderLayout());

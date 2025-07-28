@@ -34,9 +34,9 @@ public class PostFeedView extends JPanel {
         // Create a JPanel for title
         JPanel titlePanel = new JPanel();
         JLabel titleLabel = new JLabel("Post Feed");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 22)); // NEW: emphasized font
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titlePanel.add(titleLabel);
-        panel.add(titlePanel, BorderLayout.NORTH); // MODIFIED: use NORTH in BorderLayout
+        panel.add(titlePanel, BorderLayout.NORTH);
 
         // Create a JPanel for Post Feed with Scroll
         JPanel postFeedPanel = new JPanel();
@@ -49,12 +49,12 @@ public class PostFeedView extends JPanel {
             postFeedPanel.add(postCard);
         }
 
-        JScrollPane scrollPane = new JScrollPane(postFeedPanel); // MODIFIED: no bounds set
+        JScrollPane scrollPane = new JScrollPane(postFeedPanel);
         scrollPane.setBorder(null);
-        panel.add(scrollPane, BorderLayout.CENTER); // MODIFIED: use CENTER
+        panel.add(scrollPane, BorderLayout.CENTER);
 
         // "New" Post Button Row
-        JPanel newPostWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // NEW
+        JPanel newPostWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         CircularButton newPost = new CircularButton("New");
         newPost.setPreferredSize(new Dimension(60, 40)); // MODIFIED: more readable button
         newPost.setBackground(new Color(161, 220, 136));
@@ -120,14 +120,6 @@ public class PostFeedView extends JPanel {
     }
 
     private JPanel getPost(Post post) {
-
-//        JPanel postCard = new JPanel();
-//        postCard.setPreferredSize(new Dimension(450, 40));
-//        postCard.setMaximumSize(new Dimension(450, 40));
-//        postCard.setBackground(new Color(255, 255, 255));
-//        postCard.setBackground(Color.WHITE);
-//        JLabel label = new JLabel("Post " + i);
-//        postCard.add(label);
 
         PostPreviewPanel postPanel = new PostPreviewPanel(post.getTitle(), () -> {
             OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
