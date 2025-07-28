@@ -36,31 +36,41 @@ public class PostFeedView extends JPanel {
         JLabel titleLabel = new JLabel("Post Feed");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titlePanel.add(titleLabel);
-        panel.add(titlePanel, BorderLayout.NORTH);
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(titlePanel, BorderLayout.CENTER);
 
         // Create a JPanel for Post Feed with Scroll
         JPanel postFeedPanel = new JPanel();
         postFeedPanel.setLayout(new BoxLayout(postFeedPanel, BoxLayout.Y_AXIS));
 
         // add mock "post cards" into it
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 3; i++) {
             JPanel postCard = getPost(new Post());
             postFeedPanel.add(Box.createVerticalStrut(10));
             postFeedPanel.add(postCard);
         }
 
         JScrollPane scrollPane = new JScrollPane(postFeedPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
         scrollPane.setBorder(null);
-        panel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         // "New" Post Button Row
         JPanel newPostWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         CircularButton newPost = new CircularButton("New");
-        newPost.setPreferredSize(new Dimension(60, 40)); // MODIFIED: more readable button
+        newPost.setPreferredSize(new Dimension(60, 60));
         newPost.setBackground(new Color(161, 220, 136));
         newPost.setForeground(Color.BLACK);
         newPost.setBorderPainted(false);
+
         newPostWrapper.add(newPost);
+        newPostWrapper.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+        mainPanel.add(scrollPane);
+//        mainPanel.add(newPostWrapper);
 
         // Navigation bar row
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
@@ -77,6 +87,10 @@ public class PostFeedView extends JPanel {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(newPostWrapper, BorderLayout.NORTH);
         bottomPanel.add(navPanel, BorderLayout.SOUTH);
+        bottomPanel.add(navPanel);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(mainPanel, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // Define what happens when the button newPost is clicked

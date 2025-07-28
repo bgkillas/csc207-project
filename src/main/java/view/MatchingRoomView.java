@@ -78,7 +78,8 @@ public class MatchingRoomView extends JPanel {
         score.setForeground(new Color(0x2E8B57));
 
         JPanel innerCard = new JPanel(new GridLayout(1, 3));    // made each take up 1/3 rather than 1/2
-        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+        innerCard.setBackground(Color.WHITE);
+//        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // Existing visible border
 //        Border visibleBorder = BorderFactory.createLineBorder(Color.GRAY, 2);

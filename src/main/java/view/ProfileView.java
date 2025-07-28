@@ -48,9 +48,11 @@ public class ProfileView extends JPanel {
 
         // main panel with profile info
         JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+
         JPanel profilePanel = createProfilePanel();
         JPanel buttonPanel = createButtonPanel();
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
         mainPanel.add(profilePanel, BorderLayout.NORTH);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -115,7 +117,7 @@ public class ProfileView extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(Color.WHITE);
-        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+//        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // Profile picture placeholder
         JLabel profilePic = new JLabel("?", SwingConstants.CENTER);
