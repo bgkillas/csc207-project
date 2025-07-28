@@ -21,6 +21,9 @@ import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.function.Function;
+import entities.Post;
+import data_access.PostDataAccessInterface;
+import data_access.InMemoryPostDataAccessObject;
 
 /** DebugMenuView functions as a debugging panel It displays buttons to launch all UI views */
 public class DebugMenuView {

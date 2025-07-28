@@ -1,10 +1,13 @@
 package view;
 
 import app.individual_story.CreatePostInteractor;
+import app.team_story.MatchServiceImpl;
 import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.CreatePostController;
 import interface_adapter.controller.PostFeedController;
+import data_access.PostDataAccessInterface;
+import data_access.InMemoryPostDataAccessObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +18,7 @@ public class CreatePostView extends JPanel {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
+    private final PostDataAccessInterface postDAO;
 
     private JTextField titleField;
     private JTextArea contentArea;
@@ -25,6 +29,14 @@ public class CreatePostView extends JPanel {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
+        this.postDAO = new InMemoryPostDataAccessObject();
+    }
+
+    public CreatePostView(User user, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
+        this.currentUser = user;
+        this.session = session;
+        this.frame = frame;
+        this.postDAO = postDAO;
     }
 
     public JPanel create(CreatePostController controller) {
@@ -41,8 +53,8 @@ public class CreatePostView extends JPanel {
         back.addActionListener(
                 e -> {
                     frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame)
-                                    .create(new PostFeedController(new CreatePostInteractor())));
+                            new PostFeedView(currentUser, session, frame, postDAO)
+                                    .create(new PostFeedController()));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -74,7 +86,14 @@ public class CreatePostView extends JPanel {
                 e -> {
                     String title = titleField.getText();
                     String content = contentArea.getText();
-                    controller.postNewPost(title, content, imageFile); // pass to controller
+                    controller.postNewPost(title, content, imageFile, currentUser);
+
+                    // Navigate back to post feed after posting
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, session, frame, postDAO)
+                                    .create(new PostFeedController(new CreatePostInteractor(postDAO))));
+                    frame.revalidate();
+                    frame.repaint();
                 });
 
         JPanel postTitlePanel = new JPanel();
@@ -113,9 +132,8 @@ public class CreatePostView extends JPanel {
         // navigate to matching room
         btnMatching.addActionListener(
                 e -> {
-                    List<User> matchedUsers = session.getAllUsers();
-                    JPanel matchingPanel =
-                            new MatchingRoomView(frame, currentUser, matchedUsers, session);
+                    java.util.List<entities.User> matchedUsers = session.getAllUsers();
+                    JPanel matchingPanel = new MatchingRoomView(frame, session.getUser(), matchedUsers, session);
                     frame.setContentPane(matchingPanel);
                     frame.revalidate();
                     frame.repaint();
@@ -129,7 +147,7 @@ public class CreatePostView extends JPanel {
                     frame.revalidate();
                     frame.repaint();
                 });
-
+        
         return panel;
     }
 }

@@ -53,7 +53,11 @@ public class Post {
         return author;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public String getText() {
+        return this.text;
+    }
+
+    public Image getImage() {
+        return this.image;
     }
 }
