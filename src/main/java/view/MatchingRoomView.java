@@ -123,6 +123,17 @@ public class MatchingRoomView extends JPanel {
                         return;
                     }
                     User match = matches.get(currentIndex);
+                    
+                    // Update profile picture
+                    Image profileImg = match.getProfilePicture();
+                    if (profileImg != null) {
+                        ImageIcon icon = new ImageIcon(profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+                        profilePic.setIcon(icon);
+                    } else {
+                        profilePic.setIcon(null);
+                        profilePic.setText("?");
+                    }
+                    
                     info.setText(
                             "<html><b>"
                                     + match.getName()
