@@ -7,12 +7,12 @@ import usecase.team_story.MatchCalculator;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MatchTest {
+public class MatchTest {
 
     MatchCalculator matchCalculator = new MatchCalculatorImpl();
 
     @Test
-    void testConstructorAndGetters() {
+    public void testConstructorAndGetters() {
         User userA = new User("Sally", 25, "Female", "New York City", "Bio", List.of(), List.of(), List.of());
         User userB = new User("George", 30, "Male", "Edmonton", "Bio", List.of(), List.of(), List.of());
         List<String> sharedArtists = List.of("Artist1", "Artist2");
@@ -26,7 +26,7 @@ class MatchTest {
     }
 
     @Test
-    void testAlternateConstructor() {
+    public void testAlternateConstructor() {
         List<String> artistsA = List.of("Artist1", "Artist2", "Artist3");
         List<String> artistsB = List.of("Artist2", "Artist3", "Artist4");
         User userA = new User("Sally", 25, "Female", "NYC", "Bio", List.of(), artistsA, List.of());
@@ -41,7 +41,7 @@ class MatchTest {
     }
 
     @Test
-    void testUniqueMatchId() {
+    public void testUniqueMatchId() {
         User userA = new User("Sally", 25, "Female", "NYC", "Bio", List.of(), List.of(), List.of());
         User userB = new User("George", 30, "Male", "LA", "Bio", List.of(), List.of(), List.of());
         Match match1 = new Match(userB, 80, List.of());

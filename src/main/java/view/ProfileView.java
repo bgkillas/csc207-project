@@ -172,10 +172,8 @@ public class ProfileView extends JPanel {
                 e -> {
                     MatchServiceImpl matchService = new MatchServiceImpl();
                     List<User> matches = matchService.findMatches(user, userSession.getAllUsers());
-
-                    JPanel matchingRoomPanel =
-                            new MatchingRoomView(frame, user, matches, userSession);
-                    frame.setContentPane(matchingRoomPanel);
+                    frame.setContentPane(
+                            new MatchingRoomView(frame, user, matches, userSession));
                     frame.revalidate();
                     frame.repaint();
                 });
