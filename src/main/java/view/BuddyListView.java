@@ -19,9 +19,22 @@ public class BuddyListView extends JPanel {
 
     public JComponent create() {
         this.setLayout(new BorderLayout());
+
+        JButton back = createBackButton("back");
+        back.addActionListener(
+                e -> {
+                    ProfileView profileView = new ProfileView(user, frame, session);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+
         JLabel title = new JLabel("Buddy List", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.PLAIN, 24));
-        this.add(title, BorderLayout.NORTH);
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(back, BorderLayout.WEST);
+        topPanel.add(title, BorderLayout.CENTER);
+        this.add(topPanel, BorderLayout.NORTH);
 
         JPanel buddyList = new JPanel();
         buddyList.setLayout(new BoxLayout(buddyList, BoxLayout.Y_AXIS));
@@ -53,6 +66,15 @@ public class BuddyListView extends JPanel {
         button.setFocusPainted(false);
         button.setBackground(new Color(0x4CAF50)); // Green color
         button.setForeground(Color.WHITE);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        return button;
+    }
+
+    private JButton createBackButton(String text) {
+        JButton button = new JButton(text);
+        button.setFocusPainted(false);
+        button.setBackground(new Color(0xFFFFFF));
+        button.setForeground(Color.BLACK);
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
     }
