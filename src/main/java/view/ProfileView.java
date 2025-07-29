@@ -119,9 +119,17 @@ public class ProfileView extends JPanel {
         contentPanel.setBackground(Color.WHITE);
 //        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
-        // Profile picture placeholder
-        JLabel profilePic = new JLabel("?", SwingConstants.CENTER);
-        profilePic.setFont(new Font("Arial", Font.PLAIN, 64));
+        // profile picture
+        Image profileImg = user.getProfilePicture();
+        JLabel profilePic;
+
+        if (profileImg != null) {
+            ImageIcon icon = new ImageIcon(profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+            profilePic = new JLabel(icon);
+        } else {
+            profilePic = new JLabel("?", SwingConstants.CENTER);
+            profilePic.setFont(new Font("Arial", Font.PLAIN, 64));
+        }
         profilePic.setPreferredSize(new Dimension(120, 120));
         profilePic.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -235,6 +243,17 @@ public class ProfileView extends JPanel {
                     userSession.getUser().removeBlock(user);
                     ProfileView profileView = new ProfileView(user, frame, userSession);
                     frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+
+        shareBtn.addActionListener(
+                e -> {
+                    PostFeedController controller =
+                            new PostFeedController(new CreatePostInteractor());
+                    JPanel postFeedPanel =
+                            new PostFeedView(userSession.getUser(), userSession, frame).create(controller);
+                    frame.setContentPane(postFeedPanel);
                     frame.revalidate();
                     frame.repaint();
                 });

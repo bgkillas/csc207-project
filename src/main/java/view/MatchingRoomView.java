@@ -142,23 +142,40 @@ public class MatchingRoomView extends JPanel {
         this.add(bottomPanel, BorderLayout.SOUTH); // ✅ ONLY ONE add to BorderLayout.SOUTH
 
         // display logic
-        // display logic
-        Runnable updateDisplay = () -> {
-            if (currentIndex >= matches.size()) {
-                profileInfo.setText("No more matches.");
-                score.setText("");
-                connectBtn.setEnabled(false);
-                skipBtn.setEnabled(false);
-                return;
-            }
-            User match = matches.get(currentIndex);
-            profileInfo.setText(
-                    "<html><b>" + match.getName() + "</b><br/>"
-                            + match.getAge() + "<br/>"
-                            + match.getLocation() + "<br/>"
-                            + "\"" + match.getBio() + "\"</html>");
-            score.setText("97%");
-        };
+        Runnable updateDisplay =
+                () -> {
+                    if (currentIndex >= matches.size()) {
+                        info.setText("No more matches.");
+                        score.setText("");
+                        connectBtn.setEnabled(false);
+                        skipBtn.setEnabled(false);
+                        return;
+                    }
+                    User match = matches.get(currentIndex);
+                    
+                    // Update profile picture
+                    Image profileImg = match.getProfilePicture();
+                    if (profileImg != null) {
+                        ImageIcon icon = new ImageIcon(profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+                        profilePic.setIcon(icon);
+                    } else {
+                        profilePic.setIcon(null);
+                        profilePic.setText("?");
+                    }
+                    
+                    info.setText(
+                            "<html><b>"
+                                    + match.getName()
+                                    + "</b><br/>"
+                                    + match.getAge()
+                                    + "<br/>"
+                                    + match.getLocation()
+                                    + "<br/>"
+                                    + "\""
+                                    + match.getBio()
+                                    + "\"</html>");
+                    score.setText("97%");
+                };
 
         connectBtn.addActionListener(
                 e -> {

@@ -1,6 +1,7 @@
 package view;
 
 import account.login.SetupUserProfileController;
+import entities.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +19,26 @@ public class ProfileSetupView {
      * @param controller The controller that handles setting up the user profile
      * @return A JPanel with input fields and a button to submit profile data
      */
-    public static JPanel create(SetupUserProfileController controller) {
-        JPanel panel = new JPanel(new GridLayout(6, 2));
+    public static JPanel create(SetupUserProfileController controller, User user) {
+        JPanel panel = new JPanel();
+        JButton uploadButton = new JButton("Upload Profile Picture");
+        panel.add(uploadButton);
+
+        uploadButton.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            int result = chooser.showOpenDialog(panel);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    java.io.File file = chooser.getSelectedFile();
+                    javax.imageio.ImageIO.setUseCache(false);
+                    Image img = javax.imageio.ImageIO.read(file);
+                    // Optionally scale/crop img here
+                    user.setProfilePicture(img); // Save image to user
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(panel, "Failed to load image.");
+                }
+            }
+        });
 
         JTextField bioField = new JTextField(20);
         JTextField ageField = new JTextField(3);

@@ -124,7 +124,7 @@ public class CreatePostView extends JPanel {
         // navigate to profile
         btnProfile.addActionListener(
                 e -> {
-                    JPanel profilePanel = new ProfileView(currentUser, frame, session);
+                    JPanel profilePanel = new ProfileView(session.getUser(), frame, session);
                     frame.setContentPane(profilePanel);
                     frame.revalidate();
                     frame.repaint();
