@@ -21,7 +21,7 @@ public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     public void prepareSuccessView(User user) {
         // Replace the content pane with the profile setup view
         // JOptionPane.showMessageDialog(frame, "Account created for: " + user.getName());
-        frame.setContentPane(ProfileSetupView.create(setupController));
+        frame.setContentPane(ProfileSetupView.create(setupController, user));
         frame.pack();
     }
 }

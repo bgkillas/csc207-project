@@ -35,8 +35,10 @@ public class SetupMatchFilterInteractorTest {
         // Define a presenter that will test if the filter passed to it is correct
         final SetupMatchFilterOutputBoundary presenter =
                 filter -> {
-                    assertEquals("20", filter.getMinAge());
-                    assertEquals("30", filter.getMaxAge());
+                    int minAge = filter.getMinAge();
+                    int maxAge = filter.getMaxAge();
+                    assertEquals(20, minAge);
+                    assertEquals(30, maxAge);
                     assertEquals("Female", filter.getPreferredGender());
                     assertEquals("Montreal", filter.getPreferredLocation());
                 };
@@ -50,8 +52,11 @@ public class SetupMatchFilterInteractorTest {
 
         // Verify that the user's match filter was also updated correctly
         final MatchFilter filter = testUser.getMatchFilter();
-        assertEquals("20", filter.getMinAge());
-        assertEquals("30", filter.getMaxAge());
+        int minAge = filter.getMinAge();
+        int maxAge = filter.getMaxAge();
+        assertEquals(20, minAge);
+        assertEquals(30, maxAge);
+
         assertEquals("Female", filter.getPreferredGender());
         assertEquals("Montreal", filter.getPreferredLocation());
     }

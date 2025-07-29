@@ -1,6 +1,8 @@
-package entities;
+package entity_tests;
 
 import app.team_story.MatchCalculatorImpl;
+import entities.Match;
+import entities.User;
 import org.junit.jupiter.api.Test;
 import usecase.team_story.MatchCalculator;
 
