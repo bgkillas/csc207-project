@@ -4,9 +4,9 @@ import data_access.MatchDataAccessInterface;
 import entities.User;
 import entities.UserSession;
 import usecase.team_story.AddFriendListInputBoundary;
-import usecase.team_story.HandleFriendRequest;
+import usecase.team_story.HandleFriendRequestInputBoundary;
 
-public class HandleFriendRequestImpl implements HandleFriendRequest {
+public class HandleFriendRequestInteractor implements HandleFriendRequestInputBoundary {
     private final MatchDataAccessInterface matchDAO;
 
     /**
@@ -14,7 +14,7 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
      *
      * @param matchDAO data access object for matches.
      */
-    public HandleFriendRequestImpl(MatchDataAccessInterface matchDAO) {
+    public HandleFriendRequestInteractor(MatchDataAccessInterface matchDAO) {
         this.matchDAO = matchDAO;
     }
 

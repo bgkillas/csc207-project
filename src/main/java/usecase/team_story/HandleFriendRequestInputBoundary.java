@@ -3,7 +3,7 @@ package usecase.team_story;
 import entities.User;
 import entities.UserSession;
 
-public interface HandleFriendRequest {
+public interface HandleFriendRequestInputBoundary {
     /**
      * Sends friend request to another user.
      *

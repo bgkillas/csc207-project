@@ -1,4 +1,4 @@
-import app.team_story.HandleFriendRequestImpl;
+import app.team_story.HandleFriendRequestInteractor;
 import data_access.InMemoryMatchDataAccessObject;
 import data_access.InMemoryPostDataAccessObject;
 import data_access.MatchDataAccessInterface;
@@ -7,7 +7,7 @@ import entities.MatchFilter;
 import entities.User;
 import entities.UserSession;
 import org.junit.Test;
-import usecase.team_story.HandleFriendRequest;
+import usecase.team_story.HandleFriendRequestInputBoundary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class HandleFriendRequestImplTest {
+public class HandleFriendRequestInteractorTest {
     @Test
     public void testHandleFriendRequest() {
         List<String> emptyList = new ArrayList<String>();
@@ -70,8 +70,8 @@ public class HandleFriendRequestImplTest {
 
         // user0 has been matched with user1 in his matching room and clicks "connect" button
         // which sends friend request to user1
-        HandleFriendRequest handleFriendRequest = new HandleFriendRequestImpl(matchDAO);
-        handleFriendRequest.sendFriendRequest(userSession0, user1);
+        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary = new HandleFriendRequestInteractor(matchDAO);
+        handleFriendRequestInputBoundary.sendFriendRequest(userSession0, user1);
 
         assertTrue(
                 userSession0
@@ -93,8 +93,8 @@ public class HandleFriendRequestImplTest {
         }
 
         // user1 looks at user0's profile and finds interest. She clicks accept.
-        HandleFriendRequest handleFriendRequest2 = new HandleFriendRequestImpl(matchDAO);
-        handleFriendRequest2.acceptFriendRequest(userSession1, user0);
+        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary2 = new HandleFriendRequestInteractor(matchDAO);
+        handleFriendRequestInputBoundary2.acceptFriendRequest(userSession1, user0);
 
         // user0's request has been accepted, so user0 is no longer in the request list
         assertFalse(userSession1.getIncomingMatches().contains(user0));
