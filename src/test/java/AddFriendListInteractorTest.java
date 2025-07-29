@@ -1,8 +1,9 @@
-import app.team_story.AddFriendListInteractor;
+import interface_adapter.presentor.AddFriendListPresenter;
+import usecase.team_story.add_friend_list.AddFriendListInteractor;
 import entities.MatchFilter;
 import entities.User;
 import org.junit.Test;
-import usecase.team_story.AddFriendListInputBoundary;
+import usecase.team_story.add_friend_list.AddFriendListInputBoundary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,8 @@ public class AddFriendListInteractorTest {
         // button
         // which sends match request to user0. User0 finds this in his Match Request tab and also
         // clicks "connect"
-        AddFriendListInputBoundary addFriendListInputBoundary = new AddFriendListInteractor();
+        AddFriendListPresenter presenter = new AddFriendListPresenter();
+        AddFriendListInputBoundary addFriendListInputBoundary = new AddFriendListInteractor(presenter);
 
         addFriendListInputBoundary.addFriend(user0, user1);
 

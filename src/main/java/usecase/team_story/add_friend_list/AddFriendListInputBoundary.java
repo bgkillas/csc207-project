@@ -1,4 +1,4 @@
-package usecase.team_story;
+package usecase.team_story.add_friend_list;
 
 import entities.User;
 

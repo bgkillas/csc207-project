@@ -3,8 +3,9 @@ package app.team_story;
 import data_access.MatchDataAccessInterface;
 import entities.User;
 import entities.UserSession;
-import usecase.team_story.AddFriendListInputBoundary;
+import usecase.team_story.add_friend_list.AddFriendListInputBoundary;
 import usecase.team_story.HandleFriendRequestInputBoundary;
+import usecase.team_story.add_friend_list.AddFriendListInteractor;
 
 public class HandleFriendRequestInteractor implements HandleFriendRequestInputBoundary {
     private final MatchDataAccessInterface matchDAO;
@@ -48,6 +49,7 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
         matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);
 
         AddFriendListInputBoundary addFriendsListImpl = new AddFriendListInteractor();
+        // TODO: modify accordingly to the CA style of AddFriendList
         addFriendsListImpl.addFriend(userSession.getUser(), fromUser);
     }
 
