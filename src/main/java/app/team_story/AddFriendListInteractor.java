@@ -1,9 +1,9 @@
 package app.team_story;
 
 import entities.User;
-import usecase.team_story.AddFriendsList;
+import usecase.team_story.AddFriendListInputBoundary;
 
-public class AddFriendsListImpl implements AddFriendsList {
+public class AddFriendListInteractor implements AddFriendListInputBoundary {
 
     /**
      * Adds a friend to this user's friend list.

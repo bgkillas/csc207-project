@@ -2,7 +2,7 @@ package usecase.team_story;
 
 import entities.User;
 
-public interface AddFriendsList {
+public interface AddFriendListInputBoundary {
 
     /**
      * Adds a friend to this user's friend list.

@@ -3,7 +3,7 @@ package app.team_story;
 import data_access.MatchDataAccessInterface;
 import entities.User;
 import entities.UserSession;
-import usecase.team_story.AddFriendsList;
+import usecase.team_story.AddFriendListInputBoundary;
 import usecase.team_story.HandleFriendRequest;
 
 public class HandleFriendRequestImpl implements HandleFriendRequest {
@@ -47,7 +47,7 @@ public class HandleFriendRequestImpl implements HandleFriendRequest {
         // Remove from fromUser's outgoing
         matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);
 
-        AddFriendsList addFriendsListImpl = new AddFriendsListImpl();
+        AddFriendListInputBoundary addFriendsListImpl = new AddFriendListInteractor();
         addFriendsListImpl.addFriend(userSession.getUser(), fromUser);
     }
 
