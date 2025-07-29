@@ -82,9 +82,9 @@ public class ProfileView extends JPanel {
         // Add the matching button action
         matchingBtn.addActionListener(
                 e -> {
-
                     MatchServiceImpl matchService = new MatchServiceImpl();
-                    List<User> matches = matchService.findMatches(currentUser, userSession.getAllUsers());
+                    List<User> matches =
+                            matchService.findMatches(currentUser, userSession.getAllUsers());
 
                     JPanel matchingRoomPanel =
                             new MatchingRoomView(frame, currentUser, matches, userSession);
@@ -92,20 +92,24 @@ public class ProfileView extends JPanel {
                     frame.revalidate();
                     frame.repaint();
                 });
-        myProfileBtn.addActionListener(e -> {
-            ProfileView profileView =
-                    new ProfileView(currentUser, frame, userSession);
-            frame.setContentPane(profileView);
-            frame.revalidate();
-            frame.repaint();
-        });
-        shareBtn.addActionListener(e -> {
-            PostFeedController controller = new PostFeedController(new CreatePostInteractor());
-            JPanel postFeedPanel = new PostFeedView(currentUser, userSession, frame).create(controller);
-            frame.setContentPane(postFeedPanel);
-            frame.revalidate();
-            frame.repaint();
-        });
+        myProfileBtn.addActionListener(
+                e -> {
+                    ProfileView profileView = new ProfileView(currentUser, frame, userSession);
+                    frame.setContentPane(profileView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
+        shareBtn.addActionListener(
+                e -> {
+                    PostFeedController controller =
+                            new PostFeedController(new CreatePostInteractor());
+                    JPanel postFeedPanel =
+                            new PostFeedView(userSession.getUser(), userSession, frame)
+                                    .create(controller);
+                    frame.setContentPane(postFeedPanel);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         add(panel);
     }
@@ -117,14 +121,15 @@ public class ProfileView extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(Color.WHITE);
-//        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+        //        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // profile picture
         Image profileImg = user.getProfilePicture();
         JLabel profilePic;
 
         if (profileImg != null) {
-            ImageIcon icon = new ImageIcon(profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+            ImageIcon icon =
+                    new ImageIcon(profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
             profilePic = new JLabel(icon);
         } else {
             profilePic = new JLabel("?", SwingConstants.CENTER);
@@ -247,37 +252,25 @@ public class ProfileView extends JPanel {
                     frame.repaint();
                 });
 
-        shareBtn.addActionListener(
-                e -> {
-                    PostFeedController controller =
-                            new PostFeedController(new CreatePostInteractor());
-                    JPanel postFeedPanel =
-                            new PostFeedView(userSession.getUser(), userSession, frame).create(controller);
-                    frame.setContentPane(postFeedPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
-
         if (isUser()) {
             actionPanel.add(editProfileBtn);
             actionPanel.add(buddyListBtn);
             actionPanel.add(blockListBtn);
-        }
-        else {
+        } else {
             if (userSession.getUser().hasBlock(user)) {
                 actionPanel.add(unBlockBtn);
             } else {
                 actionPanel.add(blockBtn);
             }
         }
-//        before: you had !isUser(), why not use else?
-//        if (!isUser()) {
-//            if (userSession.getUser().hasBlock(user)) {
-//                navPanel.add(unBlockBtn);
-//            } else {
-//                navPanel.add(blockBtn);
-//            }
-//        }
+        //        before: you had !isUser(), why not use else?
+        //        if (!isUser()) {
+        //            if (userSession.getUser().hasBlock(user)) {
+        //                navPanel.add(unBlockBtn);
+        //            } else {
+        //                navPanel.add(blockBtn);
+        //            }
+        //        }
 
         return actionPanel;
     }

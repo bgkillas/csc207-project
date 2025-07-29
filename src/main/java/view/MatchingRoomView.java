@@ -7,7 +7,6 @@ import interface_adapter.controller.PostFeedController;
 import view.components.NavButton;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
@@ -21,8 +20,8 @@ public class MatchingRoomView extends JPanel {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(500, 600));
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-//        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-//        this.setBackground(Color.WHITE);
+        //        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+        //        this.setBackground(Color.WHITE);
 
         // Jpanel for Title
         JLabel title = new JLabel("Matching Room", SwingConstants.CENTER);
@@ -32,32 +31,31 @@ public class MatchingRoomView extends JPanel {
         ImageIcon envelopeIcon = new ImageIcon(MatchingRoomView.class.getResource("/mail.png"));
         JButton mailIcon = new JButton(envelopeIcon);
         mailIcon.setBackground(new Color(245, 245, 245));
-//        JLabel mailIcon = new JLabel("\u2709", SwingConstants.LEFT);
-//        mailIcon.setFont(new Font("Arial", Font.PLAIN, 24));
-//        mailIcon.setForeground(Color.DARK_GRAY);
+        //        JLabel mailIcon = new JLabel("\u2709", SwingConstants.LEFT);
+        //        mailIcon.setFont(new Font("Arial", Font.PLAIN, 24));
+        //        mailIcon.setForeground(Color.DARK_GRAY);
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(mailIcon, BorderLayout.WEST);
         topPanel.add(title, BorderLayout.CENTER);
 
-
         // ConnectRequestView
-        mailIcon.addActionListener( e -> {
+        mailIcon.addActionListener(
+                e -> {
                     frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
                     frame.revalidate();
                     frame.repaint();
                 });
-//        mailIcon.addMouseListener(
-//                new java.awt.event.MouseAdapter() {
-//                    @Override
-//                    public void mouseClicked(java.awt.event.MouseEvent e) {
-//                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
-//                        frame.revalidate();
-//                        frame.repaint();
-//                    }
-//                });
-
-
+        //        mailIcon.addMouseListener(
+        //                new java.awt.event.MouseAdapter() {
+        //                    @Override
+        //                    public void mouseClicked(java.awt.event.MouseEvent e) {
+        //                        frame.setContentPane(new ConnectRequestView(frame, currentUser,
+        // session));
+        //                        frame.revalidate();
+        //                        frame.repaint();
+        //                    }
+        //                });
 
         // User card panel
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -77,28 +75,28 @@ public class MatchingRoomView extends JPanel {
         score.setFont(new Font("Arial", Font.BOLD, 28));
         score.setForeground(new Color(0x2E8B57));
 
-        JPanel innerCard = new JPanel(new GridLayout(1, 3));    // made each take up 1/3 rather than 1/2
+        JPanel innerCard =
+                new JPanel(new GridLayout(1, 3)); // made each take up 1/3 rather than 1/2
         innerCard.setBackground(Color.WHITE);
-//        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+        //        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // Existing visible border
-//        Border visibleBorder = BorderFactory.createLineBorder(Color.GRAY, 2);
+        //        Border visibleBorder = BorderFactory.createLineBorder(Color.GRAY, 2);
         // Add empty padding around it (top, left, bottom, right)
-//        Border padding = BorderFactory.createEmptyBorder(50, 0, 50, 0);
+        //        Border padding = BorderFactory.createEmptyBorder(50, 0, 50, 0);
         // Combine both
-//        innerCard.setBorder(BorderFactory.createCompoundBorder(padding, visibleBorder));
+        //        innerCard.setBorder(BorderFactory.createCompoundBorder(padding, visibleBorder));
 
-//        JPanel right = new JPanel(new BorderLayout());
-//        right.add(profileInfo, BorderLayout.CENTER);
-//        right.add(score, BorderLayout.EAST);
-//        innerCard.add(right);
+        //        JPanel right = new JPanel(new BorderLayout());
+        //        right.add(profileInfo, BorderLayout.CENTER);
+        //        right.add(score, BorderLayout.EAST);
+        //        innerCard.add(right);
 
         innerCard.add(profilePic);
         innerCard.add(profileInfo);
         innerCard.add(score);
 
         mainPanel.add(innerCard, BorderLayout.CENTER);
-
 
         // connect / skip buttons
         JPanel actionPanel = new JPanel();
@@ -121,7 +119,7 @@ public class MatchingRoomView extends JPanel {
         // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         NavButton matchingBtn = new NavButton("Matching");
-//        matchingBtn.setActive(true);
+        //        matchingBtn.setActive(true);
         NavButton shareBtn = new NavButton("Share");
         NavButton yourProfileBtn = new NavButton("My Profile");
 
@@ -134,7 +132,7 @@ public class MatchingRoomView extends JPanel {
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
         bottomPanel.add(actionPanel);
-//        bottomPanel.add(Box.createVerticalStrut(10));
+        //        bottomPanel.add(Box.createVerticalStrut(10));
         bottomPanel.add(navPanel);
 
         this.add(topPanel, BorderLayout.NORTH);
@@ -145,25 +143,27 @@ public class MatchingRoomView extends JPanel {
         Runnable updateDisplay =
                 () -> {
                     if (currentIndex >= matches.size()) {
-                        info.setText("No more matches.");
+                        profileInfo.setText("No more matches.");
                         score.setText("");
                         connectBtn.setEnabled(false);
                         skipBtn.setEnabled(false);
                         return;
                     }
                     User match = matches.get(currentIndex);
-                    
+
                     // Update profile picture
                     Image profileImg = match.getProfilePicture();
                     if (profileImg != null) {
-                        ImageIcon icon = new ImageIcon(profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+                        ImageIcon icon =
+                                new ImageIcon(
+                                        profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
                         profilePic.setIcon(icon);
                     } else {
                         profilePic.setIcon(null);
                         profilePic.setText("?");
                     }
-                    
-                    info.setText(
+
+                    profileInfo.setText(
                             "<html><b>"
                                     + match.getName()
                                     + "</b><br/>"
