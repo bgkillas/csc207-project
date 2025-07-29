@@ -14,7 +14,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.List;
 
-public class CreatePostView extends JPanel {
+public class CreatePostView {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
@@ -50,18 +50,19 @@ public class CreatePostView extends JPanel {
         titlePanel.add(titleLabel);
 
         JButton back = new JButton("← Back");
-        back.addActionListener(
-                e -> {
-                    frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame, postDAO)
-                                    .create(new PostFeedController()));
-                    frame.revalidate();
-                    frame.repaint();
-                });
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(back, BorderLayout.WEST);
         topPanel.add(titlePanel, BorderLayout.CENTER);
+
+        back.addActionListener(
+                e -> {
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, session, frame, postDAO)
+                                    .create(new PostFeedController(new CreatePostInteractor(postDAO))));
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         // Create a JPanel for main content
         JPanel mainPanel = new JPanel();
@@ -85,7 +86,7 @@ public class CreatePostView extends JPanel {
         postButton.addActionListener(
                 e -> {
                     String title = titleField.getText();
-                    String content = contentArea.getText();
+                    String content =    contentArea.getText();
                     controller.postNewPost(title, content, imageFile, currentUser);
 
                     // Navigate back to post feed after posting
