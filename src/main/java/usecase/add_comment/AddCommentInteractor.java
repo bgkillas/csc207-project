@@ -1,17 +1,16 @@
-package app.individual_story;
+package usecase.add_comment;
 
 import data_access.PostDataAccessInterface;
 import entities.Comment;
 import entities.Post;
 import entities.UserSession;
-import usecase.AddComment;
 
 import java.time.LocalDateTime;
 
-public class AddCommentImpl implements AddComment {
+public class AddCommentInteractor implements AddCommentInputBoundary {
     private final PostDataAccessInterface postDAO;
 
-    public AddCommentImpl(PostDataAccessInterface postDAO) {
+    public AddCommentInteractor(PostDataAccessInterface postDAO) {
         this.postDAO = postDAO;
     }
 

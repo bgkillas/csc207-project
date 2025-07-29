@@ -1,11 +1,11 @@
-import app.individual_story.AddCommentImpl;
+import usecase.add_comment.AddCommentInteractor;
 import data_access.InMemoryMatchDataAccessObject;
 import data_access.InMemoryPostDataAccessObject;
 import data_access.MatchDataAccessInterface;
 import data_access.PostDataAccessInterface;
 import entities.*;
 import org.junit.Test;
-import usecase.AddComment;
+import usecase.add_comment.AddCommentInputBoundary;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class AddCommentImplTest {
 
         // Stan makes a comment on user1's post
         String comment = "I agree!";
-        AddComment addcomment = new AddCommentImpl(postDAO);
+        AddCommentInputBoundary addcomment = new AddCommentInteractor(postDAO);
         addcomment.addComment(userSession0, newPost, comment);
 
         // Check that comment is stored with the post in DAO
