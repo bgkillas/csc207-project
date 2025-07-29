@@ -23,7 +23,7 @@ public class LoginView {
         panel.add(username);
         final JTextField password = new JTextField(16);
         panel.add(password);
-        final JButton logIn = new JButton("log in");
+        final JButton logIn = new JButton("Continue with Spotify");
         panel.add(logIn);
         logIn.addActionListener(
                 new ActionListener() {
