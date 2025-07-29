@@ -8,6 +8,7 @@ import data_access.MatchDataAccessInterface;
 import data_access.PostDataAccessInterface;
 
 import spotify.Spotify;
+import spotify.SpotifyInterface;
 
 /** Represents a session for a logged-in user. */
 public class UserSession {
@@ -18,7 +19,7 @@ public class UserSession {
     private List<Post> posts;
     private final List<User> allUsers = new ArrayList<>();
 
-    private Spotify spotify;
+    private SpotifyInterface spotify;
 
     /**
      * Constructs a UserSession for the given user and data access objects.
@@ -59,6 +60,7 @@ public class UserSession {
 
     public void initiateSpotify() {
         spotify = new Spotify();
+        spotify.initSpotify();
     }
 
     public void updateSpotify() {

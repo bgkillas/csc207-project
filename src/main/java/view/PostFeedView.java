@@ -7,6 +7,7 @@ import interface_adapter.controller.CreatePostController;
 import interface_adapter.controller.OpenPostController;
 import interface_adapter.controller.PostFeedController;
 import view.components.CircularButton;
+import view.components.NavButton;
 import view.components.PostPreviewPanel;
 
 import javax.swing.*;
@@ -26,46 +27,59 @@ public class PostFeedView extends JPanel {
     }
 
     public JPanel create(PostFeedController controller) {
-        // MODIFIED: change to BorderLayout for full-frame layout
+
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(500, 600)); // MODIFIED: standard app size
+        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Create a JPanel for title
         JPanel titlePanel = new JPanel();
         JLabel titleLabel = new JLabel("Post Feed");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 22)); // NEW: emphasized font
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titlePanel.add(titleLabel);
-        panel.add(titlePanel, BorderLayout.NORTH); // MODIFIED: use NORTH in BorderLayout
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(titlePanel, BorderLayout.CENTER);
 
         // Create a JPanel for Post Feed with Scroll
         JPanel postFeedPanel = new JPanel();
         postFeedPanel.setLayout(new BoxLayout(postFeedPanel, BoxLayout.Y_AXIS));
 
         // add mock "post cards" into it
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 3; i++) {
             JPanel postCard = getPost(new Post());
             postFeedPanel.add(Box.createVerticalStrut(10));
             postFeedPanel.add(postCard);
         }
 
-        JScrollPane scrollPane = new JScrollPane(postFeedPanel); // MODIFIED: no bounds set
+        JScrollPane scrollPane = new JScrollPane(postFeedPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
         scrollPane.setBorder(null);
-        panel.add(scrollPane, BorderLayout.CENTER); // MODIFIED: use CENTER
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         // "New" Post Button Row
-        JPanel newPostWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // NEW
+        JPanel newPostWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         CircularButton newPost = new CircularButton("New");
-        newPost.setPreferredSize(new Dimension(60, 40)); // MODIFIED: more readable button
+        newPost.setPreferredSize(new Dimension(60, 60));
         newPost.setBackground(new Color(161, 220, 136));
         newPost.setForeground(Color.BLACK);
         newPost.setBorderPainted(false);
+
         newPostWrapper.add(newPost);
+        newPostWrapper.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+        mainPanel.add(scrollPane);
+//        mainPanel.add(newPostWrapper);
 
         // Navigation bar row
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        JButton btnMatching = new JButton("Matching");
-        JButton btnShare = new JButton("Share");
-        JButton btnProfile = new JButton("My Profile");
+        NavButton btnMatching = new NavButton("Matching");
+        NavButton btnShare = new NavButton("Share");
+//        btnShare.setActive(true);
+        NavButton btnProfile = new NavButton("My Profile");
+
         navPanel.add(btnMatching);
         navPanel.add(btnShare);
         navPanel.add(btnProfile);
@@ -74,6 +88,10 @@ public class PostFeedView extends JPanel {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(newPostWrapper, BorderLayout.NORTH);
         bottomPanel.add(navPanel, BorderLayout.SOUTH);
+        bottomPanel.add(navPanel);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(mainPanel, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // Define what happens when the button newPost is clicked
@@ -118,6 +136,7 @@ public class PostFeedView extends JPanel {
     }
 
     private JPanel getPost(Post post) {
+
 
         //        JPanel postCard = new JPanel();
         //        postCard.setPreferredSize(new Dimension(450, 40));

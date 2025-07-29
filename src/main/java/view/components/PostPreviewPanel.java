@@ -10,7 +10,7 @@ public class PostPreviewPanel extends JPanel {
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(450, 40));
         setBackground(Color.WHITE);
-        setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+//        setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
