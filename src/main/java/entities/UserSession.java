@@ -7,6 +7,7 @@ import java.util.List;
 import data_access.MatchDataAccessInterface;
 import data_access.PostDataAccessInterface;
 
+import data_access.UserDataAccessInterface;
 import spotify.Spotify;
 
 /** Represents a session for a logged-in user. */
@@ -16,7 +17,7 @@ public class UserSession {
     private final List<User> outgoingMatches;
     private final List<Match> matches;
     private List<Post> posts;
-    private final List<User> allUsers = new ArrayList<>();
+    private final List<User> allUsers;
 
     private Spotify spotify;
 
@@ -28,25 +29,15 @@ public class UserSession {
      * @param postDAO post data access object.
      */
     public UserSession(
-            User user, MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
+            User user, UserDataAccessInterface userDAO,
+            MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
         this.user = user;
         this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
         this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
         this.matches = new ArrayList<>(matchDAO.getMatches(user));
-        this.posts = new ArrayList<>(postDAO.getPostsByUser(user));
-    }
+        this.allUsers = userDAO.getUsers();
 
-    /**
-     * Constructs a UserSession for the given user.
-     *
-     * @param user the current user
-     */
-    public UserSession(User user) {
-        this.user = user;
-        this.incomingMatches = new ArrayList<>();
-        this.outgoingMatches = new ArrayList<>();
-        this.matches = new ArrayList<>();
-        this.posts = new ArrayList<>();
+        this.posts = new ArrayList<>(postDAO.getPostsByUser(user));
     }
 
     public List<User> getAllUsers() {
@@ -147,6 +138,32 @@ public class UserSession {
         matches.add(match);
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void addPost(Post post) {
+        posts.add(post);
+    }
+
+    /**
+     * Temporary constructor to allow creating an empty session with a given User
+     *
+     * @param user the current user
+     */
+    public UserSession(User user) {
+        this.user = user;
+        this.incomingMatches = new ArrayList<>();
+        this.outgoingMatches = new ArrayList<>();
+        this.matches = new ArrayList<>();
+        this.posts = new ArrayList<>();
+        this.allUsers = new ArrayList<>();
+    }
+
     /**
      * Temporary no-argument constructor to allow creating an empty session Use for demo; for full
      * implementation, use constructor that takes a User
@@ -155,6 +172,7 @@ public class UserSession {
         this.user = null;
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
+        this.allUsers = new ArrayList<>();
         this.matches = new ArrayList<>();
         User u =
                 new User(
@@ -167,17 +185,5 @@ public class UserSession {
                         Collections.emptyList(),
                         Collections.emptyList());
         this.getAllUsers().add(u);
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public void addPost(Post post) {
-        posts.add(post);
     }
 }
