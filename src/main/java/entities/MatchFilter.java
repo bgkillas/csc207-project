@@ -38,8 +38,12 @@ public class MatchFilter {
                         || user.getLocation().equalsIgnoreCase(preferredLocation));
     }
 
-    public String getMinAge() {
-        return String.valueOf(minAge);
+    public int getMinAge() {
+        return minAge;
+    }
+
+    public int getMaxAge() {
+        return maxAge;
     }
 
     public String getPreferredGender() {
@@ -48,9 +52,5 @@ public class MatchFilter {
 
     public String getPreferredLocation() {
         return preferredLocation;
-    }
-
-    public String getMaxAge() {
-        return String.valueOf(maxAge);
     }
 }
