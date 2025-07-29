@@ -1,8 +1,5 @@
+import data_access.*;
 import usecase.add_comment.AddCommentInteractor;
-import data_access.InMemoryMatchDataAccessObject;
-import data_access.InMemoryPostDataAccessObject;
-import data_access.MatchDataAccessInterface;
-import data_access.PostDataAccessInterface;
 import entities.*;
 import org.junit.Test;
 import usecase.add_comment.AddCommentInputBoundary;
@@ -42,11 +39,12 @@ public class AddCommentImplTest {
 
         // Scenario: Stan wants to make a comment on user01's post
 
+        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
         MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and posts something
-        UserSession userSession1 = new UserSession(user1, matchDAO, postDAO);
+        UserSession userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
 
         Post newPost =
                 new Post(

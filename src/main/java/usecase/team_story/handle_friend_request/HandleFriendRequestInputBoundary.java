@@ -1,4 +1,4 @@
-package usecase.team_story;
+package usecase.team_story.handle_friend_request;
 
 import entities.User;
 import entities.UserSession;
