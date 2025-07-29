@@ -21,6 +21,9 @@ import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.function.Function;
+import entities.Post;
+import data_access.PostDataAccessInterface;
+import data_access.InMemoryPostDataAccessObject;
 
 /** DebugMenuView functions as a debugging panel It displays buttons to launch all UI views */
 public class DebugMenuView {
@@ -141,12 +144,19 @@ public class DebugMenuView {
                 "ConnectRequestView",
                 tempFrame -> new ConnectRequestView(tempFrame, dummyUser, session));
 
+        // NEEDS TO BE FIXED (actionListeners don't work unless view
+        // is accessed through PostFeedView
         addButton(
                 panel,
                 "CreatePostView",
-                () ->
-                        new CreatePostView(dummyUser, session, frame)
-                                .create(createPostViewController));
+                () -> {
+                    PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
+                    CreatePostInteractor interactor = new CreatePostInteractor(postDAO);
+                    CreatePostController controller = new CreatePostController(interactor);
+                    return new CreatePostView(dummyUser, session, frame, postDAO)
+                            .create(controller);
+                });
+
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
         addButton(
                 panel,

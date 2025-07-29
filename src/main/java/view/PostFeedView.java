@@ -9,6 +9,9 @@ import interface_adapter.controller.PostFeedController;
 import view.components.CircularButton;
 import view.components.NavButton;
 import view.components.PostPreviewPanel;
+import data_access.PostDataAccessInterface;
+import data_access.InMemoryPostDataAccessObject;
+import app.individual_story.CreatePostInteractor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,15 +22,24 @@ public class PostFeedView extends JPanel {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
+    private final PostDataAccessInterface postDAO;
 
     public PostFeedView(User currentUser, UserSession session, JFrame frame) {
         this.currentUser = currentUser;
         this.session = session;
         this.frame = frame;
+        this.postDAO = new InMemoryPostDataAccessObject();
+    }
+
+    public PostFeedView(User currentUser, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
+        this.currentUser = currentUser;
+        this.session = session;
+        this.frame = frame;
+        this.postDAO = postDAO;
     }
 
     public JPanel create(PostFeedController controller) {
-
+        // MODIFIED: change to BorderLayout for full-frame layout
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(500, 600));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -45,11 +57,21 @@ public class PostFeedView extends JPanel {
         JPanel postFeedPanel = new JPanel();
         postFeedPanel.setLayout(new BoxLayout(postFeedPanel, BoxLayout.Y_AXIS));
 
-        // add mock "post cards" into it
-        for (int i = 1; i <= 3; i++) {
-            JPanel postCard = getPost(new Post());
-            postFeedPanel.add(Box.createVerticalStrut(10));
-            postFeedPanel.add(postCard);
+        // Get actual posts from data access layer
+        java.util.List<Post> userPosts = postDAO.getPostsByUser(currentUser);
+
+        if (userPosts.isEmpty()) {
+            // Show a message if no posts
+            JLabel noPostsLabel = new JLabel("No posts yet. Create your first post!", SwingConstants.CENTER);
+            noPostsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            postFeedPanel.add(noPostsLabel);
+        } else {
+            // Display actual posts
+            for (Post post : userPosts) {
+                JPanel postCard = getPost(post);
+                postFeedPanel.add(Box.createVerticalStrut(10));
+                postFeedPanel.add(postCard);
+            }
         }
 
         JScrollPane scrollPane = new JScrollPane(postFeedPanel);
@@ -99,12 +121,10 @@ public class PostFeedView extends JPanel {
                 e -> {
                     try {
                         controller.createNewPost();
-                        CreatePostView createPostview =
-                                new CreatePostView(currentUser, session, frame);
-                        CreatePostController control = new CreatePostController();
-                        JPanel nextView = createPostview.create(control);
-
-                        frame.setContentPane(nextView);
+                        CreatePostController createPostController = new CreatePostController(new CreatePostInteractor(postDAO));
+                        CreatePostView createPostview = new CreatePostView(currentUser, session, frame, postDAO);
+                        JPanel createPostPanel = createPostview.create(createPostController);
+                        frame.setContentPane(createPostPanel);
                         frame.revalidate();
                         frame.repaint();
                     } catch (Exception ex) {
@@ -136,27 +156,51 @@ public class PostFeedView extends JPanel {
     }
 
     private JPanel getPost(Post post) {
+        JPanel postCard = new JPanel(new BorderLayout());
+        postCard.setPreferredSize(new Dimension(450, 120));
+        postCard.setMaximumSize(new Dimension(450, 120));
+        postCard.setBackground(Color.WHITE);
+        postCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 
+        // Post title
+        JLabel titleLabel = new JLabel(post.getTitle());
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
 
-        //        JPanel postCard = new JPanel();
-        //        postCard.setPreferredSize(new Dimension(450, 40));
-        //        postCard.setMaximumSize(new Dimension(450, 40));
-        //        postCard.setBackground(new Color(255, 255, 255));
-        //        postCard.setBackground(Color.WHITE);
-        //        JLabel label = new JLabel("Post " + i);
-        //        postCard.add(label);
+        // Post content (truncated if too long)
+        String content = post.getText();
+        if (content.length() > 100) {
+            content = content.substring(0, 97) + "...";
+        }
+        JLabel contentLabel = new JLabel(content);
+        contentLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        contentLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
 
-        PostPreviewPanel postPanel =
-                new PostPreviewPanel(
-                        post.getTitle(),
-                        () -> {
-                            OpenPostView openPostView =
-                                    new OpenPostView(currentUser, session, frame);
-                            frame.setContentPane(openPostView.create(new OpenPostController()));
-                            frame.revalidate();
-                            frame.repaint();
-                        });
+        // Post image if available
+        if (post.getImage() != null) {
+            ImageIcon icon = new ImageIcon(post.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+            JLabel imageLabel = new JLabel(icon);
+            imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            postCard.add(imageLabel, BorderLayout.EAST);
+        }
 
-        return postPanel;
+        // Text content panel
+        JPanel textPanel = new JPanel(new BorderLayout());
+        textPanel.add(titleLabel, BorderLayout.NORTH);
+        textPanel.add(contentLabel, BorderLayout.CENTER);
+        postCard.add(textPanel, BorderLayout.CENTER);
+
+        // Make the entire card clickable
+        postCard.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
+                frame.setContentPane(openPostView.create(new OpenPostController()));
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
+
+        return postCard;
     }
 }
