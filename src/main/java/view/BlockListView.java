@@ -2,6 +2,7 @@ package view;
 
 import entities.User;
 import entities.UserSession;
+import view.components.NavButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,7 @@ public class BlockListView extends JPanel {
     public JComponent create() {
         this.setLayout(new BorderLayout());
 
-        JButton back = createBackButton("back");
+        JButton back = new NavButton("back");
         back.addActionListener(
                 e -> {
                     ProfileView profileView = new ProfileView(user, frame, session);
@@ -66,15 +67,6 @@ public class BlockListView extends JPanel {
         button.setFocusPainted(false);
         button.setBackground(new Color(0xAF4C50)); // Red color
         button.setForeground(Color.WHITE);
-        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        return button;
-    }
-
-    private JButton createBackButton(String text) {
-        JButton button = new JButton(text);
-        button.setFocusPainted(false);
-        button.setBackground(new Color(0xFFFFFF));
-        button.setForeground(Color.BLACK);
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         return button;
     }
