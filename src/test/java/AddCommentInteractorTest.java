@@ -1,8 +1,10 @@
 import data_access.*;
+import interface_adapter.presentor.AddCommentPresenter;
 import usecase.add_comment.AddCommentInteractor;
 import entities.*;
 import org.junit.Test;
 import usecase.add_comment.AddCommentInputBoundary;
+import usecase.add_comment.AddCommentOutputBoundary;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AddCommentImplTest {
+public class AddCommentInteractorTest {
 
     @Test
     public void testAddComment() {
@@ -65,7 +67,8 @@ public class AddCommentImplTest {
 
         // Stan makes a comment on user1's post
         String comment = "I agree!";
-        AddCommentInputBoundary addcomment = new AddCommentInteractor(postDAO);
+        AddCommentOutputBoundary presenter = new AddCommentPresenter();
+        AddCommentInputBoundary addcomment = new AddCommentInteractor(postDAO, presenter);
         addcomment.addComment(userSession0, newPost, comment);
 
         // Check that comment is stored with the post in DAO

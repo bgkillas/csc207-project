@@ -3,8 +3,6 @@ package usecase.team_story.handle_friend_request;
 import data_access.MatchDataAccessInterface;
 import entities.User;
 import entities.UserSession;
-import usecase.team_story.handle_friend_request.HandleFriendRequestOutputBoundary;
-import usecase.team_story.handle_friend_request.HandleFriendRequestOutputData;
 import usecase.team_story.add_friend_list.AddFriendListInputBoundary;
 
 public class HandleFriendRequestInteractor implements HandleFriendRequestInputBoundary {
