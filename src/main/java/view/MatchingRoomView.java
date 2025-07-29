@@ -4,8 +4,10 @@ import app.individual_story.CreatePostInteractor;
 import entities.User;
 import entities.UserSession;
 import interface_adapter.controller.PostFeedController;
+import view.components.NavButton;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
@@ -17,83 +19,112 @@ public class MatchingRoomView extends JPanel {
             JFrame frame, User currentUser, List<User> matches, UserSession session) {
 
         this.setLayout(new BorderLayout());
+        this.setPreferredSize(new Dimension(500, 600));
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-        this.setBackground(Color.WHITE);
+//        this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+//        this.setBackground(Color.WHITE);
 
-        // Top title bar
-        JPanel topBar = new JPanel(new BorderLayout());
+        // Jpanel for Title
         JLabel title = new JLabel("Matching Room", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 26));
-        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-        topBar.add(title, BorderLayout.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 22));
 
         // mail icon
-        JLabel notification = new JLabel("\u2709", SwingConstants.LEFT);
-        notification.setFont(new Font("Arial", Font.PLAIN, 24));
-        notification.setForeground(Color.DARK_GRAY);
-        topBar.add(notification, BorderLayout.WEST);
+        ImageIcon envelopeIcon = new ImageIcon(MatchingRoomView.class.getResource("/mail.png"));
+        JButton mailIcon = new JButton(envelopeIcon);
+        mailIcon.setBackground(new Color(245, 245, 245));
+//        JLabel mailIcon = new JLabel("\u2709", SwingConstants.LEFT);
+//        mailIcon.setFont(new Font("Arial", Font.PLAIN, 24));
+//        mailIcon.setForeground(Color.DARK_GRAY);
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(mailIcon, BorderLayout.WEST);
+        topPanel.add(title, BorderLayout.CENTER);
+
 
         // ConnectRequestView
-        notification.addMouseListener(
-                new java.awt.event.MouseAdapter() {
-                    @Override
-                    public void mouseClicked(java.awt.event.MouseEvent e) {
-                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
-                        frame.revalidate();
-                        frame.repaint();
-                    }
+        mailIcon.addActionListener( e -> {
+                    frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+                    frame.revalidate();
+                    frame.repaint();
                 });
+//        mailIcon.addMouseListener(
+//                new java.awt.event.MouseAdapter() {
+//                    @Override
+//                    public void mouseClicked(java.awt.event.MouseEvent e) {
+//                        frame.setContentPane(new ConnectRequestView(frame, currentUser, session));
+//                        frame.revalidate();
+//                        frame.repaint();
+//                    }
+//                });
 
-        this.add(topBar, BorderLayout.NORTH);
+
 
         // User card panel
-        JPanel cardPanel = new JPanel(new BorderLayout());
-        cardPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
-        cardPanel.setBackground(Color.WHITE);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
 
+        // matched user's profile picture
         JLabel profilePic = new JLabel("?", SwingConstants.CENTER);
         profilePic.setFont(new Font("Arial", Font.PLAIN, 64));
         profilePic.setPreferredSize(new Dimension(120, 120));
 
-        JLabel info = new JLabel("", SwingConstants.CENTER);
-        info.setFont(new Font("Arial", Font.PLAIN, 16));
+        // matched user's profile
+        JLabel profileInfo = new JLabel("", SwingConstants.CENTER);
+        profileInfo.setFont(new Font("Arial", Font.PLAIN, 16));
 
+        // match compatibility score
         JLabel score = new JLabel("", SwingConstants.CENTER);
         score.setFont(new Font("Arial", Font.BOLD, 28));
         score.setForeground(new Color(0x2E8B57));
 
-        JPanel innerCard = new JPanel(new GridLayout(1, 2));
+        JPanel innerCard = new JPanel(new GridLayout(1, 3));    // made each take up 1/3 rather than 1/2
+        innerCard.setBackground(Color.WHITE);
+//        innerCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+
+        // Existing visible border
+//        Border visibleBorder = BorderFactory.createLineBorder(Color.GRAY, 2);
+        // Add empty padding around it (top, left, bottom, right)
+//        Border padding = BorderFactory.createEmptyBorder(50, 0, 50, 0);
+        // Combine both
+//        innerCard.setBorder(BorderFactory.createCompoundBorder(padding, visibleBorder));
+
+//        JPanel right = new JPanel(new BorderLayout());
+//        right.add(profileInfo, BorderLayout.CENTER);
+//        right.add(score, BorderLayout.EAST);
+//        innerCard.add(right);
+
         innerCard.add(profilePic);
+        innerCard.add(profileInfo);
+        innerCard.add(score);
 
-        JPanel right = new JPanel(new BorderLayout());
-        right.add(info, BorderLayout.CENTER);
-        right.add(score, BorderLayout.EAST);
-        innerCard.add(right);
+        mainPanel.add(innerCard, BorderLayout.CENTER);
 
-        cardPanel.add(innerCard, BorderLayout.CENTER);
-        this.add(cardPanel, BorderLayout.CENTER);
 
         // connect / skip buttons
         JPanel actionPanel = new JPanel();
-        actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.X_AXIS));
-        actionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        actionPanel.setOpaque(false); // transparent background
+        actionPanel.setLayout(new BorderLayout());
 
         JButton connectBtn = createStyledButton("connect", new Color(0x4CAF50));
         JButton skipBtn = createStyledButton("skip", new Color(0xF44336));
 
-        actionPanel.add(Box.createHorizontalGlue());
-        actionPanel.add(connectBtn);
-        actionPanel.add(Box.createHorizontalStrut(20)); // spacing between buttons
-        actionPanel.add(skipBtn);
-        actionPanel.add(Box.createHorizontalGlue());
+        JPanel leftButtonPanel = new JPanel();
+        leftButtonPanel.add(connectBtn);
+        JPanel rightButtonPanel = new JPanel();
+        rightButtonPanel.add(skipBtn);
+
+        leftButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+        rightButtonPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
+
+        actionPanel.add(leftButtonPanel, BorderLayout.WEST);
+        actionPanel.add(rightButtonPanel, BorderLayout.EAST);
 
         // nav bar
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        navPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        JButton matchingBtn = new JButton("matching");
-        JButton shareBtn = new JButton("share");
-        JButton yourProfileBtn = new JButton("your profile");
+        NavButton matchingBtn = new NavButton("Matching");
+//        matchingBtn.setActive(true);
+        NavButton shareBtn = new NavButton("Share");
+        NavButton yourProfileBtn = new NavButton("My Profile");
+
         navPanel.add(matchingBtn);
         navPanel.add(shareBtn);
         navPanel.add(yourProfileBtn);
@@ -101,41 +132,33 @@ public class MatchingRoomView extends JPanel {
         // Bottom control panel
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
-        actionPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
-        navPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
 
         bottomPanel.add(actionPanel);
-        bottomPanel.add(Box.createVerticalStrut(10));
+//        bottomPanel.add(Box.createVerticalStrut(10));
         bottomPanel.add(navPanel);
 
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(mainPanel, BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH); // ✅ ONLY ONE add to BorderLayout.SOUTH
 
         // display logic
-        Runnable updateDisplay =
-                () -> {
-                    if (currentIndex >= matches.size()) {
-                        info.setText("No more matches.");
-                        score.setText("");
-                        connectBtn.setEnabled(false);
-                        skipBtn.setEnabled(false);
-                        return;
-                    }
-                    User match = matches.get(currentIndex);
-                    info.setText(
-                            "<html><b>"
-                                    + match.getName()
-                                    + "</b><br/>"
-                                    + match.getAge()
-                                    + "<br/>"
-                                    + match.getLocation()
-                                    + "<br/>"
-                                    + "\""
-                                    + match.getBio()
-                                    + "\"</html>");
-                    score.setText("97%");
-                };
+        // display logic
+        Runnable updateDisplay = () -> {
+            if (currentIndex >= matches.size()) {
+                profileInfo.setText("No more matches.");
+                score.setText("");
+                connectBtn.setEnabled(false);
+                skipBtn.setEnabled(false);
+                return;
+            }
+            User match = matches.get(currentIndex);
+            profileInfo.setText(
+                    "<html><b>" + match.getName() + "</b><br/>"
+                            + match.getAge() + "<br/>"
+                            + match.getLocation() + "<br/>"
+                            + "\"" + match.getBio() + "\"</html>");
+            score.setText("97%");
+        };
 
         connectBtn.addActionListener(
                 e -> {
