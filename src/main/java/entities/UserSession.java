@@ -18,7 +18,7 @@ public class UserSession {
     private final List<User> outgoingMatches;
     private final List<Match> matches;
     private List<Post> posts;
-    private final List<User> allUsers = new ArrayList<>();
+    private List<User> allUsers = new ArrayList<>();
 
     private SpotifyInterface spotify;
 
