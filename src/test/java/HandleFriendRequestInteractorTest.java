@@ -1,13 +1,17 @@
-import app.team_story.HandleFriendRequestImpl;
-import data_access.InMemoryMatchDataAccessObject;
-import data_access.InMemoryPostDataAccessObject;
-import data_access.MatchDataAccessInterface;
-import data_access.PostDataAccessInterface;
+import interface_adapter.presentor.FriendRequestPresenter;
+import interface_adapter.presentor.MatchingRoomPresenter;
+import usecase.team_story.handle_friend_request.HandleFriendRequestInteractor;
+import data_access.*;
 import entities.MatchFilter;
 import entities.User;
 import entities.UserSession;
+import interface_adapter.presentor.AddFriendListPresenter;
 import org.junit.Test;
-import usecase.team_story.HandleFriendRequest;
+import usecase.team_story.handle_friend_request.HandleFriendRequestInputBoundary;
+import usecase.team_story.handle_friend_request.HandleFriendRequestOutputBoundary;
+import usecase.team_story.add_friend_list.AddFriendListInputBoundary;
+import usecase.team_story.add_friend_list.AddFriendListInteractor;
+import usecase.team_story.add_friend_list.AddFriendListOutputBoundary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +19,7 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class HandleFriendRequestImplTest {
+public class HandleFriendRequestInteractorTest {
     @Test
     public void testHandleFriendRequest() {
         List<String> emptyList = new ArrayList<String>();
@@ -47,11 +51,12 @@ public class HandleFriendRequestImplTest {
         // which sends friend request to user1. User1 finds this in her Friend Request tab and
         // clicks "accept"
 
+        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
         MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and checks her incoming friend request list.
-        UserSession userSession1 = new UserSession(user1, matchDAO, postDAO);
+        UserSession userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
 
         List<User> incoming = userSession1.getIncomingMatches();
         System.out.print("User1's Incoming(before): ");
@@ -62,7 +67,7 @@ public class HandleFriendRequestImplTest {
         System.out.println();
 
         // user0 logs in to the app.
-        UserSession userSession0 = new UserSession(user0, matchDAO, postDAO);
+        UserSession userSession0 = new UserSession(user0, userDAO, matchDAO, postDAO);
 
         // Initially, user0's userSession has empty incomingFriendRequest / outgoingFriendRequest
         assertTrue(userSession0.getIncomingMatches().isEmpty());
@@ -70,8 +75,12 @@ public class HandleFriendRequestImplTest {
 
         // user0 has been matched with user1 in his matching room and clicks "connect" button
         // which sends friend request to user1
-        HandleFriendRequest handleFriendRequest = new HandleFriendRequestImpl(matchDAO);
-        handleFriendRequest.sendFriendRequest(userSession0, user1);
+        HandleFriendRequestOutputBoundary presenter = new MatchingRoomPresenter();
+        AddFriendListOutputBoundary presenter2 = new AddFriendListPresenter();
+        AddFriendListInputBoundary interactor2 = new AddFriendListInteractor(presenter2);
+        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary = new HandleFriendRequestInteractor(
+                matchDAO, interactor2, presenter);
+        handleFriendRequestInputBoundary.sendFriendRequest(userSession0, user1);
 
         assertTrue(
                 userSession0
@@ -79,7 +88,7 @@ public class HandleFriendRequestImplTest {
                         .contains(user1)); // user1 is added into the outgoing Match
 
         // user1 logs in again.
-        userSession1 = new UserSession(user1, matchDAO, postDAO);
+        userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
 
         // since matchDAO has been updated with the new friend request,
         // user1 can see her session updated with new friend request!
@@ -93,8 +102,10 @@ public class HandleFriendRequestImplTest {
         }
 
         // user1 looks at user0's profile and finds interest. She clicks accept.
-        HandleFriendRequest handleFriendRequest2 = new HandleFriendRequestImpl(matchDAO);
-        handleFriendRequest2.acceptFriendRequest(userSession1, user0);
+        HandleFriendRequestOutputBoundary presenter3 = new FriendRequestPresenter();
+        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary2 = new HandleFriendRequestInteractor(
+                matchDAO, interactor2, presenter3);
+        handleFriendRequestInputBoundary2.acceptFriendRequest(userSession1, user0);
 
         // user0's request has been accepted, so user0 is no longer in the request list
         assertFalse(userSession1.getIncomingMatches().contains(user0));

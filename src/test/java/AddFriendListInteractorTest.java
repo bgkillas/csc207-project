@@ -1,15 +1,16 @@
-import app.team_story.AddFriendsListImpl;
+import interface_adapter.presentor.AddFriendListPresenter;
+import usecase.team_story.add_friend_list.AddFriendListInteractor;
 import entities.MatchFilter;
 import entities.User;
 import org.junit.Test;
-import usecase.team_story.AddFriendsList;
+import usecase.team_story.add_friend_list.AddFriendListInputBoundary;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class AddFriendsListImplTest {
+public class AddFriendListInteractorTest {
     @Test
     public void testAddFriends() {
         List<String> emptyList = new ArrayList<String>();
@@ -38,9 +39,10 @@ public class AddFriendsListImplTest {
         // button
         // which sends match request to user0. User0 finds this in his Match Request tab and also
         // clicks "connect"
-        AddFriendsList addFriendsList = new AddFriendsListImpl();
+        AddFriendListPresenter presenter = new AddFriendListPresenter();
+        AddFriendListInputBoundary addFriendListInputBoundary = new AddFriendListInteractor(presenter);
 
-        addFriendsList.addFriend(user0, user1);
+        addFriendListInputBoundary.addFriend(user0, user1);
 
         assertTrue(user0.getFriendList().contains(user1)); // user0 has user1 added as friend
         assertTrue(user1.getFriendList().contains(user0)); // user0 has user1 added as friend
