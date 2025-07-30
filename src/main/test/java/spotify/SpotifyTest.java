@@ -19,19 +19,21 @@ public class SpotifyTest {
         System.out.println(spotify.getTopGenres());
         spotify.pullTopTracks();
         System.out.println(spotify.getTopTracks());
-        System.out.println(spotify.token);
+        System.out.println(spotify.getToken());
         spotify.refreshToken();
-        System.out.println(spotify.token);
+        System.out.println(spotify.getToken());
     }
 
     @Test
     public void testGenreSort() {
         final Spotify spotify = new Spotify();
-        spotify.topGenres = List.of("a", "b", "a", "b", "a", "a", "c");
+        spotify.setTopGenres(List.of("a", "b", "a", "b", "a", "a", "c"));
         spotify.sortGenres();
-        assertEquals("a", spotify.topGenres.get(0));
-        assertEquals("b", spotify.topGenres.get(1));
-        assertEquals("c", spotify.topGenres.get(2));
-        assertEquals(3, spotify.topGenres.size());
+        List<String> sorted = spotify.getTopGenres();
+        assertEquals("a", sorted.get(0));
+        assertEquals("b", sorted.get(1));
+        assertEquals("c", sorted.get(2));
+        assertEquals(3, sorted.size());
     }
+
 }

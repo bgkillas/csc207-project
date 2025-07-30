@@ -68,7 +68,7 @@ public class Spotify implements SpotifyInterface {
         return "https://accounts.spotify.com/authorize?" + query;
     }
 
-    void getToken() {
+    void fetchAccessToken() {
         try {
             String credentials = clientId + ":" + secret;
             String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
@@ -148,7 +148,11 @@ public class Spotify implements SpotifyInterface {
         }
     }
 
-    void sortGenres() {
+    /**
+     * Sorts the top genres list by frequency.
+     * This method is public for testing purposes.
+     */
+    public void sortGenres() {
         Map<String, Integer> map = new HashMap<>();
         for (String genre : topGenres) {
             Integer num = map.get(genre);
@@ -251,4 +255,14 @@ public class Spotify implements SpotifyInterface {
     public List<String> getTopGenres() {
         return this.topGenres;
     }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setTopGenres(List<String> genres) {
+        this.topGenres = genres;
+    }
+
+
 }
