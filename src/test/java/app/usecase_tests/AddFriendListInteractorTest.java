@@ -42,7 +42,8 @@ public class AddFriendListInteractorTest {
         // which sends match request to user0. User0 finds this in his Match Request tab and also
         // clicks "connect"
         AddFriendListPresenter presenter = new AddFriendListPresenter();
-        AddFriendListInputBoundary addFriendListInputBoundary = new AddFriendListInteractor(presenter);
+        AddFriendListInputBoundary addFriendListInputBoundary =
+                new AddFriendListInteractor(presenter);
 
         addFriendListInputBoundary.addFriend(user0, user1);
 

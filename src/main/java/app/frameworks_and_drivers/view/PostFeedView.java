@@ -30,7 +30,8 @@ public class PostFeedView extends JPanel {
         this.postDAO = new InMemoryPostDataAccessObject();
     }
 
-    public PostFeedView(User currentUser, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
+    public PostFeedView(
+            User currentUser, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
         this.currentUser = currentUser;
         this.session = session;
         this.frame = frame;
@@ -61,7 +62,8 @@ public class PostFeedView extends JPanel {
 
         if (userPosts.isEmpty()) {
             // Show a message if no posts
-            JLabel noPostsLabel = new JLabel("No posts yet. Create your first post!", SwingConstants.CENTER);
+            JLabel noPostsLabel =
+                    new JLabel("No posts yet. Create your first post!", SwingConstants.CENTER);
             noPostsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
             postFeedPanel.add(noPostsLabel);
         } else {
@@ -92,13 +94,13 @@ public class PostFeedView extends JPanel {
         newPostWrapper.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         mainPanel.add(scrollPane);
-//        mainPanel.add(newPostWrapper);
+        // mainPanel.add(newPostWrapper);
 
         // Navigation bar row
         JPanel navPanel = new JPanel(new GridLayout(1, 3));
         NavButton btnMatching = new NavButton("Matching");
         NavButton btnShare = new NavButton("Share");
-//        btnShare.setActive(true);
+        // btnShare.setActive(true);
         NavButton btnProfile = new NavButton("My Profile");
 
         navPanel.add(btnMatching);
@@ -120,8 +122,10 @@ public class PostFeedView extends JPanel {
                 e -> {
                     try {
                         controller.createNewPost();
-                        CreatePostController createPostController = new CreatePostController(new CreatePostInteractor(postDAO));
-                        CreatePostView createPostview = new CreatePostView(currentUser, session, frame, postDAO);
+                        CreatePostController createPostController =
+                                new CreatePostController(new CreatePostInteractor(postDAO));
+                        CreatePostView createPostview =
+                                new CreatePostView(currentUser, session, frame, postDAO);
                         JPanel createPostPanel = createPostview.create(createPostController);
                         frame.setContentPane(createPostPanel);
                         frame.revalidate();
@@ -177,7 +181,8 @@ public class PostFeedView extends JPanel {
 
         // Post image if available
         if (post.getImage() != null) {
-            ImageIcon icon = new ImageIcon(post.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+            ImageIcon icon =
+                    new ImageIcon(post.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
             JLabel imageLabel = new JLabel(icon);
             imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
             postCard.add(imageLabel, BorderLayout.EAST);
@@ -190,15 +195,16 @@ public class PostFeedView extends JPanel {
         postCard.add(textPanel, BorderLayout.CENTER);
 
         // Make the entire card clickable
-        postCard.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
-                frame.setContentPane(openPostView.create(new OpenPostController()));
-                frame.revalidate();
-                frame.repaint();
-            }
-        });
+        postCard.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent e) {
+                        OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
+                        frame.setContentPane(openPostView.create(new OpenPostController()));
+                        frame.revalidate();
+                        frame.repaint();
+                    }
+                });
 
         return postCard;
     }

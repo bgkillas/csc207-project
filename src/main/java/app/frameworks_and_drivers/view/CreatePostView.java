@@ -30,7 +30,8 @@ public class CreatePostView {
         this.postDAO = new InMemoryPostDataAccessObject();
     }
 
-    public CreatePostView(User user, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
+    public CreatePostView(
+            User user, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
@@ -57,7 +58,9 @@ public class CreatePostView {
                 e -> {
                     frame.setContentPane(
                             new PostFeedView(currentUser, session, frame, postDAO)
-                                    .create(new PostFeedController(new CreatePostInteractor(postDAO))));
+                                    .create(
+                                            new PostFeedController(
+                                                    new CreatePostInteractor(postDAO))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -84,13 +87,15 @@ public class CreatePostView {
         postButton.addActionListener(
                 e -> {
                     String title = titleField.getText();
-                    String content =    contentArea.getText();
+                    String content = contentArea.getText();
                     controller.postNewPost(title, content, imageFile, currentUser);
 
                     // Navigate back to post feed after posting
                     frame.setContentPane(
                             new PostFeedView(currentUser, session, frame, postDAO)
-                                    .create(new PostFeedController(new CreatePostInteractor(postDAO))));
+                                    .create(
+                                            new PostFeedController(
+                                                    new CreatePostInteractor(postDAO))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -132,7 +137,8 @@ public class CreatePostView {
         btnMatching.addActionListener(
                 e -> {
                     java.util.List<User> matchedUsers = session.getAllUsers();
-                    JPanel matchingPanel = new MatchingRoomView(frame, session.getUser(), matchedUsers, session);
+                    JPanel matchingPanel =
+                            new MatchingRoomView(frame, session.getUser(), matchedUsers, session);
                     frame.setContentPane(matchingPanel);
                     frame.revalidate();
                     frame.repaint();
@@ -146,7 +152,7 @@ public class CreatePostView {
                     frame.revalidate();
                     frame.repaint();
                 });
-        
+
         return panel;
     }
 }

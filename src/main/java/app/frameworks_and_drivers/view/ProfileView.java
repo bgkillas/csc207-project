@@ -121,7 +121,7 @@ public class ProfileView extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(Color.WHITE);
-        //        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
+        // contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // profile picture
         Image profileImg = user.getProfilePicture();
@@ -263,14 +263,14 @@ public class ProfileView extends JPanel {
                 actionPanel.add(blockBtn);
             }
         }
-        //        before: you had !isUser(), why not use else?
-        //        if (!isUser()) {
-        //            if (userSession.getUser().hasBlock(user)) {
-        //                navPanel.add(unBlockBtn);
-        //            } else {
-        //                navPanel.add(blockBtn);
-        //            }
-        //        }
+        // before: you had !isUser(), why not use else?
+        // if (!isUser()) {
+        // if (userSession.getUser().hasBlock(user)) {
+        // navPanel.add(unBlockBtn);
+        // } else {
+        // navPanel.add(blockBtn);
+        // }
+        // }
 
         return actionPanel;
     }

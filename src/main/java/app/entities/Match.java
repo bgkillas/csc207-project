@@ -24,7 +24,6 @@ public class Match {
      * @param score the compatibility score between users
      * @param sharedArtists a list of artists both users like
      */
-
     MatchCalculator matchCalculator = new MatchCalculatorImpl();
 
     public Match(User matchUser, int score, List<String> sharedArtists) {

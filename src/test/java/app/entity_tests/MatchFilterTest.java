@@ -16,10 +16,26 @@ class MatchFilterTest {
 
     @BeforeEach
     void setUp() {
-        alice = new User("Alice", 22, "female", "Toronto", "alice123",
-                Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
-        bob = new User("Bob", 30, "male", "Vancouver", "bob456",
-                Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        alice =
+                new User(
+                        "Alice",
+                        22,
+                        "female",
+                        "Toronto",
+                        "alice123",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
+        bob =
+                new User(
+                        "Bob",
+                        30,
+                        "male",
+                        "Vancouver",
+                        "bob456",
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
     }
 
     @Test

@@ -80,8 +80,8 @@ public class HandleFriendRequestInteractorTest {
         HandleFriendRequestOutputBoundary presenter = new MatchingRoomPresenter();
         AddFriendListOutputBoundary presenter2 = new AddFriendListPresenter();
         AddFriendListInputBoundary interactor2 = new AddFriendListInteractor(presenter2);
-        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary = new HandleFriendRequestInteractor(
-                matchDAO, interactor2, presenter);
+        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary =
+                new HandleFriendRequestInteractor(matchDAO, interactor2, presenter);
         handleFriendRequestInputBoundary.sendFriendRequest(userSession0, user1);
 
         assertTrue(
@@ -105,8 +105,8 @@ public class HandleFriendRequestInteractorTest {
 
         // user1 looks at user0's profile and finds interest. She clicks accept.
         HandleFriendRequestOutputBoundary presenter3 = new FriendRequestPresenter();
-        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary2 = new HandleFriendRequestInteractor(
-                matchDAO, interactor2, presenter3);
+        HandleFriendRequestInputBoundary handleFriendRequestInputBoundary2 =
+                new HandleFriendRequestInteractor(matchDAO, interactor2, presenter3);
         handleFriendRequestInputBoundary2.acceptFriendRequest(userSession1, user0);
 
         // user0's request has been accepted, so user0 is no longer in the request list

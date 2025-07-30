@@ -5,7 +5,8 @@ public class HandleFriendRequestOutputData {
     private final String message;
     private final String requesterUsername;
 
-    public HandleFriendRequestOutputData(boolean success, String message, String requesterUsername) {
+    public HandleFriendRequestOutputData(
+            boolean success, String message, String requesterUsername) {
         this.success = success;
         this.message = message;
         this.requesterUsername = requesterUsername;

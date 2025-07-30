@@ -15,8 +15,18 @@ public class MatchTest {
 
     @Test
     public void testConstructorAndGetters() {
-        User userA = new User("Sally", 25, "Female", "New York City", "Bio", List.of(), List.of(), List.of());
-        User userB = new User("George", 30, "Male", "Edmonton", "Bio", List.of(), List.of(), List.of());
+        User userA =
+                new User(
+                        "Sally",
+                        25,
+                        "Female",
+                        "New York City",
+                        "Bio",
+                        List.of(),
+                        List.of(),
+                        List.of());
+        User userB =
+                new User("George", 30, "Male", "Edmonton", "Bio", List.of(), List.of(), List.of());
         List<String> sharedArtists = List.of("Artist1", "Artist2");
         int score = 90;
         Match match = new Match(userB, score, sharedArtists);

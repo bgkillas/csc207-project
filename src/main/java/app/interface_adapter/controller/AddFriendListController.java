@@ -3,9 +3,7 @@ package app.interface_adapter.controller;
 import app.entities.User;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 
-/**
- * Controller for adding a friend to the user's friend list.
- */
+/** Controller for adding a friend to the user's friend list. */
 public class AddFriendListController {
     private final AddFriendListInputBoundary interactor;
 

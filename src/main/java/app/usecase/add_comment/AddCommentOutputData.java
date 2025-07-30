@@ -1,6 +1,5 @@
 package app.usecase.add_comment;
 
-
 import java.time.LocalDateTime;
 
 public class AddCommentOutputData {

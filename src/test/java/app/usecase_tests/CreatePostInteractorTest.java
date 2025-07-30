@@ -17,7 +17,16 @@ public class CreatePostInteractorTest {
     public void testCreatePostWithoutImage() {
         InMemoryPostDataAccessObject dao = new InMemoryPostDataAccessObject();
         CreatePostInteractor interactor = new CreatePostInteractor(dao);
-        User testUser = new User("Jess Jane", 19, "Female", "Toronto", "Bio", List.of(), List.of(), List.of());
+        User testUser =
+                new User(
+                        "Jess Jane",
+                        19,
+                        "Female",
+                        "Toronto",
+                        "Bio",
+                        List.of(),
+                        List.of(),
+                        List.of());
 
         interactor.createPost("Hello", "This is my first post!", null, testUser);
 
@@ -35,9 +44,11 @@ public class CreatePostInteractorTest {
     public void testCreatePostWithInvalidImage() {
         InMemoryPostDataAccessObject dao = new InMemoryPostDataAccessObject();
         CreatePostInteractor interactor = new CreatePostInteractor(dao);
-        User testUser = new User("John Smith", 19, "Male", "Africa", "Bio", List.of(), List.of(), List.of());
+        User testUser =
+                new User(
+                        "John Smith", 19, "Male", "Africa", "Bio", List.of(), List.of(), List.of());
 
-        File fakeImage = new File("does-not-exist.jpg");  // file should be null
+        File fakeImage = new File("does-not-exist.jpg"); // file should be null
 
         interactor.createPost("Image Post", "Trying to upload image", fakeImage, testUser);
 
@@ -48,6 +59,6 @@ public class CreatePostInteractorTest {
         assertEquals("Image Post", post.getTitle());
         assertEquals("Trying to upload image", post.getText());
         assertEquals(testUser, post.getAuthor());
-        assertNull(post.getImage());  // Because file doesn't exist
+        assertNull(post.getImage()); // Because file doesn't exist
     }
 }

@@ -24,21 +24,22 @@ public class ProfileSetupView {
         JButton uploadButton = new JButton("Upload Profile Picture");
         panel.add(uploadButton);
 
-        uploadButton.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
-            int result = chooser.showOpenDialog(panel);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                try {
-                    java.io.File file = chooser.getSelectedFile();
-                    javax.imageio.ImageIO.setUseCache(false);
-                    Image img = javax.imageio.ImageIO.read(file);
-                    // Optionally scale/crop img here
-                    user.setProfilePicture(img); // Save image to user
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(panel, "Failed to load image.");
-                }
-            }
-        });
+        uploadButton.addActionListener(
+                e -> {
+                    JFileChooser chooser = new JFileChooser();
+                    int result = chooser.showOpenDialog(panel);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        try {
+                            java.io.File file = chooser.getSelectedFile();
+                            javax.imageio.ImageIO.setUseCache(false);
+                            Image img = javax.imageio.ImageIO.read(file);
+                            // Optionally scale/crop img here
+                            user.setProfilePicture(img); // Save image to user
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(panel, "Failed to load image.");
+                        }
+                    }
+                });
 
         JTextField bioField = new JTextField(20);
         JTextField ageField = new JTextField(3);

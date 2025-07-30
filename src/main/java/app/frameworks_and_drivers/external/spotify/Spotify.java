@@ -148,10 +148,7 @@ public class Spotify implements SpotifyInterface {
         }
     }
 
-    /**
-     * Sorts the top genres list by frequency.
-     * This method is public for testing purposes.
-     */
+    /** Sorts the top genres list by frequency. This method is public for testing purposes. */
     public void sortGenres() {
         Map<String, Integer> map = new HashMap<>();
         for (String genre : topGenres) {
@@ -263,6 +260,4 @@ public class Spotify implements SpotifyInterface {
     public void setTopGenres(List<String> genres) {
         this.topGenres = genres;
     }
-
-
 }

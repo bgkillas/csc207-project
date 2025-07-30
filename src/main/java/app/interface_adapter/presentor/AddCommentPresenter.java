@@ -12,7 +12,6 @@ public class AddCommentPresenter implements AddCommentOutputBoundary {
         System.out.println("Comment: " + outputData.getText());
         System.out.println("Date: " + outputData.getDate());
         System.out.println("Message: " + outputData.getMessage());
-
     }
 
     @Override

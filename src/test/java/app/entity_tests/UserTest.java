@@ -16,16 +16,16 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(
-                "testuser",
-                20,
-                "female",
-                "Toronto",
-                "I love music!",
-                new ArrayList<>(List.of("pop", "rock")),
-                new ArrayList<>(List.of("Taylor Swift", "Drake")),
-                new ArrayList<>(List.of("Shake It Off", "Hotline Bling"))
-        );
+        user =
+                new User(
+                        "testuser",
+                        20,
+                        "female",
+                        "Toronto",
+                        "I love music!",
+                        new ArrayList<>(List.of("pop", "rock")),
+                        new ArrayList<>(List.of("Taylor Swift", "Drake")),
+                        new ArrayList<>(List.of("Shake It Off", "Hotline Bling")));
         defaultFilter = new MatchFilter(0, 100, "N/A", "N/A");
     }
 
@@ -43,8 +43,10 @@ class UserTest {
 
         assertEquals(defaultFilter.getMinAge(), user.getMatchFilter().getMinAge());
         assertEquals(defaultFilter.getMaxAge(), user.getMatchFilter().getMaxAge());
-        assertEquals(defaultFilter.getPreferredGender(), user.getMatchFilter().getPreferredGender());
-        assertEquals(defaultFilter.getPreferredLocation(), user.getMatchFilter().getPreferredLocation());
+        assertEquals(
+                defaultFilter.getPreferredGender(), user.getMatchFilter().getPreferredGender());
+        assertEquals(
+                defaultFilter.getPreferredLocation(), user.getMatchFilter().getPreferredLocation());
 
         assertTrue(user.getFriendList().isEmpty());
     }

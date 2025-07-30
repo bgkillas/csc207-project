@@ -7,6 +7,7 @@ public class AddFriendListInteractor implements AddFriendListInputBoundary {
 
     /**
      * Creates Interactor to add user on friend list
+     *
      * @param presenter - presenter for adding into friend list
      */
     public AddFriendListInteractor(AddFriendListOutputBoundary presenter) {
@@ -23,7 +24,8 @@ public class AddFriendListInteractor implements AddFriendListInputBoundary {
         currentUser.addFriend(newFriend);
         newFriend.addFriend(currentUser);
 
-        presenter.prepareSuccessView(new app.usecase.add_friend_list.AddFriendListOutputData(
-                newFriend.getName() + " has been added as a friend."));
+        presenter.prepareSuccessView(
+                new app.usecase.add_friend_list.AddFriendListOutputData(
+                        newFriend.getName() + " has been added as a friend."));
     }
 }

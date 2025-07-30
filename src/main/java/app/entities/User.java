@@ -237,5 +237,4 @@ public class User {
     public void setProfilePicture(java.awt.Image profilePicture) {
         this.profilePicture = profilePicture;
     }
-
 }

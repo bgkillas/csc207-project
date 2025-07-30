@@ -1,6 +1,5 @@
 package app.interface_adapter.presentor;
 
-
 import app.usecase.handle_friend_request.HandleFriendRequestOutputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputData;
 
@@ -9,7 +8,8 @@ public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary
     @Override
     public void presentFriendRequestSuccess(HandleFriendRequestOutputData outputData) {
         // This logic is specific to the FriendRequestView.
-        System.out.println("Handled incoming friend request from: " + outputData.getRequesterUsername());
+        System.out.println(
+                "Handled incoming friend request from: " + outputData.getRequesterUsername());
         System.out.println("Message: " + outputData.getMessage());
 
         // Here you would typically update the FriendRequestViewModel,

@@ -12,12 +12,10 @@ import app.usecase.create_account.CreateAccountOutputBoundary;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for the CreateAccountInteractor
- * Checks that a new user is registered using the LoginManager
- * Check that a User object is created and stored in UserSession
- * Checks that the output boundary is called with the created user
+ * Unit test for the CreateAccountInteractor Checks that a new user is registered using the
+ * LoginManager Check that a User object is created and stored in UserSession Checks that the output
+ * boundary is called with the created user
  */
-
 class CreateAccountInteractorTest {
     private MockPresenter mockPresenter;
     private UserSession session;
@@ -31,12 +29,13 @@ class CreateAccountInteractorTest {
         // New session for each test
         session = new UserSession();
         // Override tryLogin because it's abstract
-        loginManager = new MockLoginManager() {
-            @Override
-            public boolean tryLogin(String name, String password) {
-                return false;
-            }
-        };
+        loginManager =
+                new MockLoginManager() {
+                    @Override
+                    public boolean tryLogin(String name, String password) {
+                        return false;
+                    }
+                };
         // Instantiate interactor with test elements
         interactor = new CreateAccountInteractor(mockPresenter, session, loginManager);
     }

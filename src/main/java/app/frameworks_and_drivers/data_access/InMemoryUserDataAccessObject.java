@@ -14,5 +14,4 @@ public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
     public List<User> getUsers() {
         return new ArrayList<>(users); // return a copy just in case of accidental mutation
     }
-
 }

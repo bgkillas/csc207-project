@@ -31,8 +31,10 @@ public class UserSession {
      * @param postDAO post data access object.
      */
     public UserSession(
-            User user, UserDataAccessInterface userDAO,
-            MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
+            User user,
+            UserDataAccessInterface userDAO,
+            MatchDataAccessInterface matchDAO,
+            PostDataAccessInterface postDAO) {
         this.user = user;
         this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
         this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));

@@ -36,14 +36,8 @@ public class CreatePostInteractor implements CreatePost {
         }
 
         // Create new post
-        Post newPost = new Post(
-                title,
-                content,
-                postImage,
-                LocalDateTime.now(),
-                author,
-                new ArrayList<>()
-        );
+        Post newPost =
+                new Post(title, content, postImage, LocalDateTime.now(), author, new ArrayList<>());
 
         // Save post in DAO
         postDataAccess.savePost(author, newPost);

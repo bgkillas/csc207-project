@@ -35,5 +35,4 @@ public class SpotifyTest {
         assertEquals("c", sorted.get(2));
         assertEquals(3, sorted.size());
     }
-
 }

@@ -24,15 +24,16 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
         User currentUser = userSession.getUser();
 
         if (toUser == null) {
-            presenter.presentFriendRequestFailure("Cannot send friend request: user does not exist.");
+            presenter.presentFriendRequestFailure(
+                    "Cannot send friend request: user does not exist.");
             return;
         }
         if (toUser.equals(currentUser)) {
             presenter.presentFriendRequestFailure("Cannot send friend request to yourself.");
             return;
         }
-        if (currentUser.getFriendList().contains(toUser) ||
-                userSession.getOutgoingMatches().contains(toUser)) {
+        if (currentUser.getFriendList().contains(toUser)
+                || userSession.getOutgoingMatches().contains(toUser)) {
             presenter.presentFriendRequestFailure("Already friends or request already sent.");
             return;
         }
@@ -43,11 +44,9 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
         matchDAO.addIncomingFriendRequest(toUser, currentUser);
         userSession.getIncomingMatches().add(currentUser);
 
-        HandleFriendRequestOutputData outputData = new HandleFriendRequestOutputData(
-                true,
-                "Friend request sent to " + toUser.getName(),
-                toUser.getName()
-        );
+        HandleFriendRequestOutputData outputData =
+                new HandleFriendRequestOutputData(
+                        true, "Friend request sent to " + toUser.getName(), toUser.getName());
         presenter.presentFriendRequestSuccess(outputData);
     }
 
@@ -56,7 +55,8 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
         User currentUser = userSession.getUser();
 
         if (fromUser == null) {
-            presenter.presentFriendRequestFailure("Cannot accept friend request: user does not exist.");
+            presenter.presentFriendRequestFailure(
+                    "Cannot accept friend request: user does not exist.");
             return;
         }
         if (!userSession.getIncomingMatches().contains(fromUser)) {
@@ -70,11 +70,9 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
 
         addFriendListInteractor.addFriend(currentUser, fromUser);
 
-        HandleFriendRequestOutputData outputData = new HandleFriendRequestOutputData(
-                true,
-                "You are now friends with " + fromUser.getName(),
-                fromUser.getName()
-        );
+        HandleFriendRequestOutputData outputData =
+                new HandleFriendRequestOutputData(
+                        true, "You are now friends with " + fromUser.getName(), fromUser.getName());
         presenter.presentFriendRequestSuccess(outputData);
     }
 
@@ -82,7 +80,8 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
     public void declineFriendRequest(UserSession userSession, User fromUser) {
         User currentUser = userSession.getUser();
         if (fromUser == null) {
-            presenter.presentFriendRequestFailure("Cannot decline friend request: user does not exist.");
+            presenter.presentFriendRequestFailure(
+                    "Cannot decline friend request: user does not exist.");
             return;
         }
 
@@ -97,12 +96,11 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
         userSession.getIncomingMatches().remove(fromUser);
         userSession.getIncomingMatches().add(fromUser);
 
-        HandleFriendRequestOutputData outputData = new HandleFriendRequestOutputData(
-                true,
-                "Declined friend request from " + fromUser.getName(),
-                fromUser.getName()
-        );
+        HandleFriendRequestOutputData outputData =
+                new HandleFriendRequestOutputData(
+                        true,
+                        "Declined friend request from " + fromUser.getName(),
+                        fromUser.getName());
         presenter.presentFriendRequestSuccess(outputData);
     }
-
 }
