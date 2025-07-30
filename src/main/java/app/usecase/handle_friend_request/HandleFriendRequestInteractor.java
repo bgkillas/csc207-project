@@ -95,7 +95,6 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
         matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);
 
         userSession.getIncomingMatches().remove(fromUser);
-        userSession.getIncomingMatches().add(fromUser);
 
         HandleFriendRequestOutputData outputData = new HandleFriendRequestOutputData(
                 true,
