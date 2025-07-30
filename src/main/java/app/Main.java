@@ -67,12 +67,12 @@ public class Main {
                 new CreateAccountController(createAccountInteractor);
 
         // Initial Login View
-        final JPanel login = LoginView.create(login_manager, createAccountController);
-        views.add(login);
+        // final JPanel login = LoginView.create(login_manager, createAccountController);
+        // views.add(login);
 
         // Connecting to DebugMenuView
-//        final JPanel debugView = DebugMenuView.create(session);
-//        views.add(debugView);
+        final JPanel debugView = DebugMenuView.create(session);
+        views.add(debugView);
 
         application.add(views);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
