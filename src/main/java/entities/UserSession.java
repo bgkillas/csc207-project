@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import data_access.UserDataAccessInterface;
 import data_access.MatchDataAccessInterface;
 import data_access.PostDataAccessInterface;
 
@@ -25,16 +26,19 @@ public class UserSession {
      * Constructs a UserSession for the given user and data access objects.
      *
      * @param user the current user.
+     * @param userDAO user data access object.
      * @param matchDAO match data access object.
      * @param postDAO post data access object.
      */
     public UserSession(
-            User user, MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
+            User user, UserDataAccessInterface userDAO,
+            MatchDataAccessInterface matchDAO, PostDataAccessInterface postDAO) {
         this.user = user;
         this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
         this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
         this.matches = new ArrayList<>(matchDAO.getMatches(user));
         this.posts = new ArrayList<>(postDAO.getPostsByUser(user));
+        this.allUsers = userDAO.getUsers();
     }
 
     /**
