@@ -1,11 +1,10 @@
-import app.individual_story.AddCommentImpl;
-import data_access.InMemoryMatchDataAccessObject;
-import data_access.InMemoryPostDataAccessObject;
-import data_access.MatchDataAccessInterface;
-import data_access.PostDataAccessInterface;
+import data_access.*;
+import interface_adapter.presentor.AddCommentPresenter;
+import usecase.add_comment.AddCommentInteractor;
 import entities.*;
 import org.junit.Test;
-import usecase.AddComment;
+import usecase.add_comment.AddCommentInputBoundary;
+import usecase.add_comment.AddCommentOutputBoundary;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AddCommentImplTest {
+public class AddCommentInteractorTest {
 
     @Test
     public void testAddComment() {
@@ -42,11 +41,12 @@ public class AddCommentImplTest {
 
         // Scenario: Stan wants to make a comment on user01's post
 
+        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
         MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and posts something
-        UserSession userSession1 = new UserSession(user1, matchDAO, postDAO);
+        UserSession userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
 
         Post newPost =
                 new Post(
@@ -67,7 +67,8 @@ public class AddCommentImplTest {
 
         // Stan makes a comment on user1's post
         String comment = "I agree!";
-        AddComment addcomment = new AddCommentImpl(postDAO);
+        AddCommentOutputBoundary presenter = new AddCommentPresenter();
+        AddCommentInputBoundary addcomment = new AddCommentInteractor(postDAO, presenter);
         addcomment.addComment(userSession0, newPost, comment);
 
         // Check that comment is stored with the post in DAO

@@ -1,3 +1,11 @@
 package data_access;
 
-public interface UserDataAccessInterface {}
+import entities.User;
+
+import java.util.List;
+
+public interface UserDataAccessInterface {
+    List<User> getUsers();
+
+    void addUser(User user);
+}
