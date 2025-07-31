@@ -2,6 +2,7 @@ package app.frameworks_and_drivers.view;
 
 import app.interface_adapter.controller.CreateAccountController;
 import app.usecase.login.LoginManager;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -49,6 +50,7 @@ public class LoginView {
                         }
                     }
                 });
+        panel.setPreferredSize(new Dimension(800, 600));
         return panel;
     }
 }

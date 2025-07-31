@@ -41,7 +41,7 @@ public class PostFeedView extends JPanel {
     public JPanel create(PostFeedController controller) {
         // MODIFIED: change to BorderLayout for full-frame layout
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setPreferredSize(new Dimension(800, 600));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Create a JPanel for title

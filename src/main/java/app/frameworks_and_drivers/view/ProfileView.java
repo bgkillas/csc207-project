@@ -28,7 +28,7 @@ public class ProfileView extends JPanel {
         this.userSession = userSession;
 
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(500, 600));
+        this.setPreferredSize(new Dimension(800, 600));
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         create();
