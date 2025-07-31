@@ -1,7 +1,6 @@
 package app.entities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
@@ -35,7 +34,7 @@ public class UserSession {
             UserDataAccessInterface userDAO,
             MatchDataAccessInterface matchDAO,
             PostDataAccessInterface postDAO) {
-        this.user = user;
+        this.setUser(user);
         this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
         this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
         this.matches = new ArrayList<>(matchDAO.getMatches(user));
@@ -49,7 +48,7 @@ public class UserSession {
      * @param user the current user
      */
     public UserSession(User user) {
-        this.user = user;
+        this.setUser(user);
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
