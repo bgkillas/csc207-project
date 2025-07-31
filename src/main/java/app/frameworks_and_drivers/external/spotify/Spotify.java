@@ -91,7 +91,12 @@ public class Spotify implements SpotifyInterface {
             InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
             if (responseCode >= 400) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(is));
-                System.out.println(in.readLine());
+                String line = in.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = in.readLine();
+                }
+                return;
             }
             JSONObject json = new JSONObject(new JSONTokener(is));
             token = json.getString("access_token");
@@ -236,7 +241,12 @@ public class Spotify implements SpotifyInterface {
             InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
             if (responseCode >= 400) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(is));
-                System.out.println(in.readLine());
+                String line = in.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = in.readLine();
+                }
+                return;
             }
             JSONObject json = new JSONObject(new JSONTokener(is));
             token = json.getString("access_token");
