@@ -1,7 +1,6 @@
 package app.entities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
@@ -35,7 +34,7 @@ public class UserSession {
             UserDataAccessInterface userDAO,
             MatchDataAccessInterface matchDAO,
             PostDataAccessInterface postDAO) {
-        this.user = user;
+        this.setUser(user);
         this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
         this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
         this.matches = new ArrayList<>(matchDAO.getMatches(user));
@@ -49,7 +48,7 @@ public class UserSession {
      * @param user the current user
      */
     public UserSession(User user) {
-        this.user = user;
+        this.setUser(user);
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
@@ -90,6 +89,22 @@ public class UserSession {
     public void setUser(User user) {
         this.user = user;
         this.updateSpotify();
+        this.addExampleUsers();
+    }
+
+    void addExampleUsers() {
+        User userJava =
+                new User(
+                        "Java",
+                        20,
+                        "male",
+                        "Toronto Canada Ontario",
+                        "i want to see u cry",
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>());
+        this.addUser(userJava);
+        this.addIncomingMatch(userJava);
     }
 
     /**
@@ -164,17 +179,6 @@ public class UserSession {
         this.incomingMatches = new ArrayList<>();
         this.outgoingMatches = new ArrayList<>();
         this.matches = new ArrayList<>();
-        User u =
-                new User(
-                        "Cle",
-                        18,
-                        "female",
-                        "toronto",
-                        "Bio of user ",
-                        Collections.emptyList(),
-                        Collections.emptyList(),
-                        Collections.emptyList());
-        this.getAllUsers().add(u);
     }
 
     public List<Post> getPosts() {

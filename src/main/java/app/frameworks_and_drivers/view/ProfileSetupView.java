@@ -70,6 +70,7 @@ public class ProfileSetupView {
                         JOptionPane.showMessageDialog(panel, "Age must be a valid number.");
                     }
                 });
+        panel.setPreferredSize(new Dimension(800, 600));
 
         return panel;
     }

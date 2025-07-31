@@ -40,7 +40,7 @@ public class CreatePostView {
 
     public JPanel create(CreatePostController controller) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setPreferredSize(new Dimension(800, 600));
 
         // Create a JPanel for title
         JPanel titlePanel = new JPanel();
