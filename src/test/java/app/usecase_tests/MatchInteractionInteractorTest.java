@@ -1,4 +1,3 @@
 package app.usecase_tests;
 
-public class MatchInteractionInteractorTest {
-}
+public class MatchInteractionInteractorTest {}

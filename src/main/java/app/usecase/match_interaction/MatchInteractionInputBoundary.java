@@ -1,4 +1,3 @@
 package app.usecase.match_interaction;
 
-public class MatchInteractionInputBoundary {
-}
+public class MatchInteractionInputBoundary {}

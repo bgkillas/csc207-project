@@ -1,4 +1,3 @@
 package app.usecase.match_interaction;
 
-public class MatchInteractionInteractor {
-}
+public class MatchInteractionInteractor {}

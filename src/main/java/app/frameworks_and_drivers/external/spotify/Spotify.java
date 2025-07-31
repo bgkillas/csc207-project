@@ -43,6 +43,7 @@ public class Spotify implements SpotifyInterface {
     /** Initializes spotify class. */
     public Spotify() {}
 
+    @Override
     public void initSpotify() {
         try {
             String url = getUrl();
@@ -52,8 +53,8 @@ public class Spotify implements SpotifyInterface {
             } else {
                 System.out.println(url);
             }
-            getCode();
-            getToken();
+            fetchCode();
+            fetchAccessToken();
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -101,7 +102,7 @@ public class Spotify implements SpotifyInterface {
         }
     }
 
-    void getCode() {
+    void fetchCode() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
@@ -127,7 +128,12 @@ public class Spotify implements SpotifyInterface {
             InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
             if (responseCode >= 400) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(is));
-                System.out.println(in.readLine());
+                String line = in.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = in.readLine();
+                }
+                return;
             }
             JSONObject json = new JSONObject(new JSONTokener(is));
             JSONArray items = json.getJSONArray("items");
@@ -187,7 +193,12 @@ public class Spotify implements SpotifyInterface {
             InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
             if (responseCode >= 400) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(is));
-                System.out.println(in.readLine());
+                String line = in.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = in.readLine();
+                }
+                return;
             }
             JSONObject json = new JSONObject(new JSONTokener(is));
             JSONArray items = json.getJSONArray("items");
