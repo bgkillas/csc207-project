@@ -15,11 +15,4 @@ public class OpenPostController {
         this.postDAO = null;
     }
 
-    public Post getPost(String postId) {
-        // This would typically get the post by ID from the data access layer
-        // For now, we'll return null and handle this in the view
-        return null;
-    }
-
-    public void postNewPost(String title, String content, File image) {}
 }
