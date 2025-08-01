@@ -48,7 +48,7 @@ public class AddCommentInteractorTest {
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and posts something
-        UserSession userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
+        UserSession userSession1 = new UserSession(user1);
 
         Post newPost =
                 new Post(
