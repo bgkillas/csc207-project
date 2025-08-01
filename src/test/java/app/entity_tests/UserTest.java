@@ -159,8 +159,8 @@ class UserTest {
 
     @Test
     void testRemoveBlockWithNullAndSelf() {
-        user.removeBlock(null); // 不应抛错
-        user.removeBlock(user); // 不应影响自身
+        user.removeBlock(null);
+        user.removeBlock(user);
     }
 
     @Test
@@ -200,7 +200,7 @@ class UserTest {
     void testEqualsSameClassDifferentInstance() {
         User user1 = new User("a", 20, "f", "toronto", "", List.of(), List.of(), List.of());
         User user2 = new User("b", 22, "f", "toronto", "", List.of(), List.of(), List.of());
-        assertNotEquals(user1, user2);  // 注意：UUID 不同，应该返回 false，但会走到 id.equals()
+        assertNotEquals(user1, user2);
     }
 
     @Test
