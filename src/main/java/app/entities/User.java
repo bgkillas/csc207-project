@@ -2,9 +2,12 @@ package app.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /** Represents a user in the system. */
 public class User {
+    private final UUID id = UUID.randomUUID();
     private final String name;
     private int age;
     private String gender;
@@ -237,4 +240,18 @@ public class User {
     public void setProfilePicture(java.awt.Image profilePicture) {
         this.profilePicture = profilePicture;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 }
