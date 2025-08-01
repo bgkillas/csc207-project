@@ -58,7 +58,7 @@ public class HandleFriendRequestInteractorTest {
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and checks her incoming friend request list.
-        UserSession userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
+        UserSession userSession1 = new UserSession(user1);
 
         List<User> incoming = userSession1.getIncomingMatches();
         System.out.print("User1's Incoming(before): ");
@@ -69,7 +69,7 @@ public class HandleFriendRequestInteractorTest {
         System.out.println();
 
         // user0 logs in to the app.
-        UserSession userSession0 = new UserSession(user0, userDAO, matchDAO, postDAO);
+        UserSession userSession0 = new UserSession(user0);
 
         // Initially, user0's userSession has empty incomingFriendRequest / outgoingFriendRequest
         assertTrue(userSession0.getIncomingMatches().isEmpty());
@@ -90,7 +90,7 @@ public class HandleFriendRequestInteractorTest {
                         .contains(user1)); // user1 is added into the outgoing Match
 
         // user1 logs in again.
-        userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
+        userSession1 = new UserSession(user1);
 
         // since matchDAO has been updated with the new friend request,
         // user1 can see her session updated with new friend request!
