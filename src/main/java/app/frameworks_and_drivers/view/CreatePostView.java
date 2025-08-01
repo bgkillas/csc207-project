@@ -116,42 +116,42 @@ public class CreatePostView {
         mainPanel.add(postImageUploadPanel);
 
         // Navigation bar
-        JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        JButton btnMatching = new JButton("Matching");
-        JButton btnShare = new JButton("Share");
-        JButton btnProfile = new JButton("My Profile");
-        navPanel.add(btnMatching);
-        navPanel.add(btnShare);
-        navPanel.add(btnProfile);
+//        JPanel navPanel = new JPanel(new GridLayout(1, 3));
+//        JButton btnMatching = new JButton("Matching");
+//        JButton btnShare = new JButton("Share");
+//        JButton btnProfile = new JButton("My Profile");
+//        navPanel.add(btnMatching);
+//        navPanel.add(btnShare);
+//        navPanel.add(btnProfile);
 
         // Create a JPanel for Bottom NavBar
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(navPanel, BorderLayout.SOUTH);
+//        JPanel bottomPanel = new JPanel(new BorderLayout());
+//        bottomPanel.add(navPanel, BorderLayout.SOUTH);
 
         // add all components to panel
         panel.add(topPanel, BorderLayout.NORTH);
         panel.add(mainPanel, BorderLayout.CENTER);
-        panel.add(bottomPanel, BorderLayout.SOUTH);
+//        panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // navigate to matching room
-        btnMatching.addActionListener(
-                e -> {
-                    java.util.List<User> matchedUsers = session.getAllUsers();
-                    JPanel matchingPanel =
-                            new MatchingRoomView(frame, session.getUser(), matchedUsers, session);
-                    frame.setContentPane(matchingPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
-
-        // navigate to profile
-        btnProfile.addActionListener(
-                e -> {
-                    JPanel profilePanel = new ProfileView(session.getUser(), frame, session);
-                    frame.setContentPane(profilePanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
+//        btnMatching.addActionListener(
+//                e -> {
+//                    java.util.List<User> matchedUsers = session.getAllUsers();
+//                    JPanel matchingPanel =
+//                            new MatchingRoomView(frame, session.getUser(), matchedUsers, session);
+//                    frame.setContentPane(matchingPanel);
+//                    frame.revalidate();
+//                    frame.repaint();
+//                });
+//
+//        // navigate to profile
+//        btnProfile.addActionListener(
+//                e -> {
+//                    JPanel profilePanel = new ProfileView(session.getUser(), frame, session);
+//                    frame.setContentPane(profilePanel);
+//                    frame.revalidate();
+//                    frame.repaint();
+//                });
 
         return panel;
     }
