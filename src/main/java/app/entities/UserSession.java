@@ -64,7 +64,7 @@ public class UserSession {
      */
     public void setUser(User user) {
         this.user = user;
-        this.updateSpotify();
+//        this.updateSpotify();
     }
 
     /**
