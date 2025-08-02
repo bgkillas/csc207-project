@@ -10,7 +10,7 @@ Ruhani - ruhaniwalia14
 
 Clementine - Clemi0
 
-src/
+```src/
 ├── main/
 │   └── java/
 │       └── app/
@@ -39,4 +39,4 @@ src/
 │           ├── usecase_tests/             # Unit tests for use case interactors
 │           ├── controller_tests/          # Unit tests for controllers
 │           ├── presenter_tests/           # Unit tests for presenters
-│           └── integration_tests/         # Optional: tests spanning multiple components
+│           └── integration_tests/         # Optional: tests spanning multiple components```
