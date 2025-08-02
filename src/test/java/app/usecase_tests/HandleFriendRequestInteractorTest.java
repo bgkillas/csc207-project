@@ -38,8 +38,9 @@ public class HandleFriendRequestInteractorTest {
         PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
 
         // Step 3: create user sessions
-        UserSession userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
-        UserSession userSession0 = new UserSession(user0, userDAO, matchDAO, postDAO);
+        UserSession userSession0 = new UserSession(user0);
+        UserSession userSession1 = new UserSession(user1);
+
 
         // Step 4: assert initial state
         assertTrue(userSession0.getIncomingMatches().isEmpty());
