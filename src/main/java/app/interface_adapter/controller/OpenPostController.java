@@ -1,11 +1,18 @@
 package app.interface_adapter.controller;
 
+import app.entities.Post;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import java.io.File;
 
 public class OpenPostController {
-    // This controller handles the request to open and comment on a post.
+    private final PostDataAccessInterface postDAO;
 
-    public OpenPostController() {}
+    public OpenPostController(PostDataAccessInterface postDAO) {
+        this.postDAO = postDAO;
+    }
 
-    public void postNewPost(String title, String content, File image) {}
+    public OpenPostController() {
+        this.postDAO = null;
+    }
+
 }

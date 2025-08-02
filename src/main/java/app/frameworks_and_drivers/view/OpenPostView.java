@@ -1,10 +1,14 @@
 package app.frameworks_and_drivers.view;
 
+import app.entities.Post;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.usecase.create_post.CreatePostInteractor;
 import app.entities.User;
 import app.entities.UserSession;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,20 +18,34 @@ public class OpenPostView extends JPanel {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
+    private final PostDataAccessInterface postDAO;
+    private final Post post;
 
+    // Constructor just to satisfy debugMenu functionality
     public OpenPostView(User user, UserSession session, JFrame frame) {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
+        this.postDAO = new InMemoryPostDataAccessObject();
+        this.post = null;
+    }
+
+    public OpenPostView(User user, UserSession session, JFrame frame, PostDataAccessInterface postDAO, Post post) {
+        this.currentUser = user;
+        this.session = session;
+        this.frame = frame;
+        this.postDAO = postDAO;
+        this.post = post;
     }
 
     public JPanel create(OpenPostController controller) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(500, 600));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Create a JPanel for title
         JPanel titlePanel = new JPanel();
-        JLabel titleLabel = new JLabel("Open Post");
+        JLabel titleLabel = new JLabel("Post Details");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titlePanel.add(titleLabel);
 
@@ -35,8 +53,8 @@ public class OpenPostView extends JPanel {
         back.addActionListener(
                 e -> {
                     frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame)
-                                    .create(new PostFeedController(new CreatePostInteractor())));
+                            new PostFeedView(currentUser, session, frame, postDAO)
+                                    .create(new PostFeedController(new CreatePostInteractor(postDAO))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -47,44 +65,69 @@ public class OpenPostView extends JPanel {
 
         // Create a JPanel for main content
         JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        // Navigation bar
-        JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        JButton btnMatching = new JButton("Matching");
-        JButton btnShare = new JButton("Share");
-        JButton btnProfile = new JButton("My Profile");
-        navPanel.add(btnMatching);
-        navPanel.add(btnShare);
-        navPanel.add(btnProfile);
+        // Display post content
+        JPanel postPanel = new JPanel(new BorderLayout());
+        postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+        postPanel.setBackground(Color.WHITE);
+        postPanel.setMaximumSize(new Dimension(450, 400));
 
-        // Create a JPanel for Bottom NavBar
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(navPanel, BorderLayout.SOUTH);
+        // Post title
+        JLabel postTitleLabel = new JLabel(post.getTitle());
+        postTitleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        postTitleLabel.setBorder(BorderFactory.createEmptyBorder(15, 15, 10, 15));
 
-        // add all components to panel
+        // Post content
+        JTextArea contentArea = new JTextArea(post.getText());
+        contentArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        contentArea.setLineWrap(true);
+        contentArea.setWrapStyleWord(true);
+        contentArea.setEditable(false);
+        contentArea.setBackground(Color.WHITE);
+        contentArea.setBorder(BorderFactory.createEmptyBorder(10, 15, 15, 15));
+
+        JScrollPane contentScrollPane = new JScrollPane(contentArea);
+        contentScrollPane.setBorder(null);
+
+        // Post image if available
+        if (post.getImage() != null) {
+            ImageIcon icon = new ImageIcon(post.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+            JLabel imageLabel = new JLabel(icon);
+            imageLabel.setBorder(BorderFactory.createEmptyBorder(10, 15, 15, 15));
+            postPanel.add(imageLabel, BorderLayout.SOUTH);
+        }
+
+        postPanel.add(postTitleLabel, BorderLayout.NORTH);
+        postPanel.add(contentScrollPane, BorderLayout.CENTER);
+
+        mainPanel.add(postPanel);
+        mainPanel.add(Box.createVerticalStrut(20));
+
+        // Comment Section Bar
+        JPanel commentSection = new JPanel(new BorderLayout());
+        commentSection.setBorder(BorderFactory.createTitledBorder("Comments"));
+
+        JTextArea commentArea = new JTextArea(3, 30);
+        commentArea.setLineWrap(true);
+        commentArea.setWrapStyleWord(true);
+        JScrollPane commentScrollPane = new JScrollPane(commentArea);
+
+        JButton addCommentButton = new JButton("Add Comment");
+        addCommentButton.addActionListener(e -> {
+            //Comment something
+        });
+
+        commentSection.add(commentScrollPane, BorderLayout.CENTER);
+        commentSection.add(addCommentButton, BorderLayout.SOUTH);
+
+        mainPanel.add(commentSection);
+
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        scrollPane.setBorder(null);
+
         panel.add(topPanel, BorderLayout.NORTH);
-        panel.add(mainPanel, BorderLayout.CENTER);
-        panel.add(bottomPanel, BorderLayout.SOUTH);
-
-        // navigate to matching room
-        btnMatching.addActionListener(
-                e -> {
-                    List<User> matchedUsers = session.getAllUsers();
-                    JPanel matchingPanel =
-                            new MatchingRoomView(frame, currentUser, matchedUsers, session);
-                    frame.setContentPane(matchingPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
-
-        // navigate to profile
-        btnProfile.addActionListener(
-                e -> {
-                    JPanel profilePanel = new ProfileView(session.getUser(), frame, session);
-                    frame.setContentPane(profilePanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
+        panel.add(scrollPane, BorderLayout.CENTER);
 
         return panel;
     }

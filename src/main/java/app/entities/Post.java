@@ -60,4 +60,8 @@ public class Post {
     public Image getImage() {
         return this.image;
     }
+
+    public LocalDateTime getTimestamp() {
+        return this.timestamp;
+    }
 }
