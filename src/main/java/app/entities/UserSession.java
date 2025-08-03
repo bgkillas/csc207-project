@@ -3,18 +3,17 @@ package app.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
 import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-
+import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
 import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 
 /** Represents a session for a logged-in user. */
 public class UserSession {
     private User user;
-    private final List<User> incomingMatches;
-    private final List<User> outgoingMatches;
+    private final List<User> incomingFriendRequest;
+    private final List<User> outgoingFriendRequest;
     private final List<Match> matches;
     private List<Post> posts;
     private List<User> allUsers = new ArrayList<>();
@@ -35,8 +34,8 @@ public class UserSession {
             MatchDataAccessInterface matchDAO,
             PostDataAccessInterface postDAO) {
         this.setUser(user);
-        this.incomingMatches = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
-        this.outgoingMatches = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
+        this.incomingFriendRequest = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
+        this.outgoingFriendRequest = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
         this.matches = new ArrayList<>(matchDAO.getMatches(user));
         this.posts = new ArrayList<>(postDAO.getPostsByUser(user));
         this.allUsers = userDAO.getUsers();
@@ -49,8 +48,8 @@ public class UserSession {
      */
     public UserSession(User user) {
         this.setUser(user);
-        this.incomingMatches = new ArrayList<>();
-        this.outgoingMatches = new ArrayList<>();
+        this.incomingFriendRequest = new ArrayList<>();
+        this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
     }
@@ -122,7 +121,7 @@ public class UserSession {
      * @return the list of incoming match users
      */
     public List<User> getIncomingMatches() {
-        return incomingMatches;
+        return incomingFriendRequest;
     }
 
     /**
@@ -131,7 +130,7 @@ public class UserSession {
      * @return the list of outgoing match users
      */
     public List<User> getOutgoingMatches() {
-        return outgoingMatches;
+        return outgoingFriendRequest;
     }
 
     /**
@@ -149,7 +148,7 @@ public class UserSession {
      * @param other the user who sent a match request
      */
     public void addIncomingMatch(User other) {
-        incomingMatches.add(other);
+        incomingFriendRequest.add(other);
     }
 
     /**
@@ -158,7 +157,7 @@ public class UserSession {
      * @param other the user to whom a match request was sent
      */
     public void addOutgoingMatch(User other) {
-        outgoingMatches.add(other);
+        outgoingFriendRequest.add(other);
     }
 
     /**
@@ -176,8 +175,8 @@ public class UserSession {
      */
     public UserSession() {
         this.user = null;
-        this.incomingMatches = new ArrayList<>();
-        this.outgoingMatches = new ArrayList<>();
+        this.incomingFriendRequest = new ArrayList<>();
+        this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
 
