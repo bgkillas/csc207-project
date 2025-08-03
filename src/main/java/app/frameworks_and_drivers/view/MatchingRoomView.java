@@ -27,7 +27,7 @@ public class MatchingRoomView extends JPanel {
             JFrame frame, User currentUser, List<User> matches, UserSession session) {
 
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(500, 600));
+        this.setPreferredSize(new Dimension(800, 600));
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         // this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         // this.setBackground(Color.WHITE);

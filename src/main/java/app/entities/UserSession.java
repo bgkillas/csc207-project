@@ -1,9 +1,11 @@
 package app.entities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
 import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 
@@ -19,12 +21,33 @@ public class UserSession {
     private SpotifyInterface spotify;
 
     /**
+     * Constructs a UserSession for the given user and data access objects.
+     *
+     * @param user the current user.
+     * @param userDAO user data access object.
+     * @param matchDAO match data access object.
+     * @param postDAO post data access object.
+     */
+    public UserSession(
+            User user,
+            UserDataAccessInterface userDAO,
+            MatchDataAccessInterface matchDAO,
+            PostDataAccessInterface postDAO) {
+        this.setUser(user);
+        this.incomingFriendRequest = new ArrayList<>(matchDAO.getIncomingFriendRequest(user));
+        this.outgoingFriendRequest = new ArrayList<>(matchDAO.getOutgoingFriendRequest(user));
+        this.matches = new ArrayList<>(matchDAO.getMatches(user));
+        this.posts = new ArrayList<>(postDAO.getPostsByUser(user));
+        this.allUsers = userDAO.getUsers();
+    }
+
+    /**
      * Constructs a UserSession for the given user.
      *
      * @param user the current user
      */
     public UserSession(User user) {
-        this.user = user;
+        this.setUser(user);
         this.incomingFriendRequest = new ArrayList<>();
         this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
@@ -64,7 +87,23 @@ public class UserSession {
      */
     public void setUser(User user) {
         this.user = user;
-//        this.updateSpotify();
+        this.updateSpotify();
+        this.addExampleUsers();
+    }
+
+    void addExampleUsers() {
+        User userJava =
+                new User(
+                        "Java",
+                        20,
+                        "male",
+                        "Toronto Canada Ontario",
+                        "i want to see u cry",
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>());
+        this.addUser(userJava);
+        this.addIncomingMatch(userJava);
     }
 
     /**
@@ -139,17 +178,6 @@ public class UserSession {
         this.incomingFriendRequest = new ArrayList<>();
         this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
-        User u =
-                new User(
-                        "Cle",
-                        18,
-                        "female",
-                        "toronto",
-                        "Bio of user ",
-                        Collections.emptyList(),
-                        Collections.emptyList(),
-                        Collections.emptyList());
-        this.getAllUsers().add(u);
     }
 
     public List<Post> getPosts() {
