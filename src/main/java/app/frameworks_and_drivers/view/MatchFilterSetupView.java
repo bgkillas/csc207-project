@@ -43,7 +43,7 @@ public class MatchFilterSetupView {
                         String gender = genderField.getText();
                         String location = locationField.getText();
                         controller.setupFilter(minAge, maxAge, gender, location);
-                        popupFrameToClose.dispose(); // close window
+
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(panel, "Please enter valid age values.");
                     }

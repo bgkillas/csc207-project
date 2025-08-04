@@ -48,7 +48,7 @@ public class Main {
         filterController = new SetupMatchFilterController(filterInteractor);
 
         // User Profile setup
-        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter();
+        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
         SetupUserProfileController setupController =

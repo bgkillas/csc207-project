@@ -29,18 +29,33 @@ public class UserSession {
      */
     public UserSession(
             User user,
-            UserDataAccessInterface userDataAccessObject,
-            MatchDataAccessInterface matchDataAccessObject,
-            PostDataAccessInterface postDataAccessObject) {
-        this.setUser(user);
-        this.incomingFriendRequest =
-                new ArrayList<>(matchDataAccessObject.getIncomingFriendRequest(user));
-        this.outgoingFriendRequest =
-                new ArrayList<>(matchDataAccessObject.getOutgoingFriendRequest(user));
-        this.matches = new ArrayList<>(matchDataAccessObject.getMatches(user));
-        this.posts = new ArrayList<>(postDataAccessObject.getPostsByUser(user));
-        this.allUsers = userDataAccessObject.getUsers();
+            UserDataAccessInterface userDAO,
+            MatchDataAccessInterface matchDAO,
+            PostDataAccessInterface postDAO) {
+
+        this.incomingFriendRequest = new ArrayList<>();
+        this.outgoingFriendRequest = new ArrayList<>();
+        this.matches = new ArrayList<>();
+        this.posts = new ArrayList<>();
+
+        // 用 addAll 避免 null
+        List<User> fromDAOIn = matchDAO.getIncomingFriendRequest(user);
+        if (fromDAOIn != null) this.incomingFriendRequest.addAll(fromDAOIn);
+
+        List<User> fromDAOOut = matchDAO.getOutgoingFriendRequest(user);
+        if (fromDAOOut != null) this.outgoingFriendRequest.addAll(fromDAOOut);
+
+        List<Match> fromMatches = matchDAO.getMatches(user);
+        if (fromMatches != null) this.matches.addAll(fromMatches);
+
+        List<Post> fromPosts = postDAO.getPostsByUser(user);
+        if (fromPosts != null) this.posts.addAll(fromPosts);
+
+        this.allUsers = userDAO.getUsers() != null ? userDAO.getUsers() : new ArrayList<>();
+
+        this.setUser(user);  // now it's safe!
     }
+
 
     /**
      * Constructs a UserSession for the given user.
@@ -48,11 +63,11 @@ public class UserSession {
      * @param user the current user
      */
     public UserSession(User user) {
-        this.setUser(user);
         this.incomingFriendRequest = new ArrayList<>();
         this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
+        this.setUser(user);
     }
 
     /**
@@ -100,23 +115,23 @@ public class UserSession {
     public void setUser(User user) {
         this.user = user;
         this.updateSpotify();
-        this.addExampleUsers();
+//        this.addExampleUsers();
     }
 
-    void addExampleUsers() {
-        User userJava =
-                new User(
-                        "Java",
-                        20,
-                        "male",
-                        "Toronto Canada Ontario",
-                        "i want to see u cry",
-                        new ArrayList<>(),
-                        new ArrayList<>(),
-                        new ArrayList<>());
-        this.addUser(userJava);
-        this.addIncomingMatch(userJava);
-    }
+//    void addExampleUsers() {
+//        User userJava =
+//                new User(
+//                        "Java",
+//                        20,
+//                        "male",
+//                        "Toronto Canada Ontario",
+//                        "i want to see u cry",
+//                        new ArrayList<>(),
+//                        new ArrayList<>(),
+//                        new ArrayList<>());
+//        this.addUser(userJava);
+//        this.addIncomingMatch(userJava);
+//    }
 
     /**
      * Returns the current user for this session.

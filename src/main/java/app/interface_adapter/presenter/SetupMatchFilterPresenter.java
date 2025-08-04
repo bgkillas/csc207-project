@@ -6,6 +6,10 @@ import app.entities.UserSession;
 import app.frameworks_and_drivers.view.MatchingRoomView;
 import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
 import app.usecase.matching.MatchServiceImpl;
+import app.frameworks_and_drivers.view.MatchingRoomView;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
@@ -22,7 +26,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
     @Override
     public void prepareSuccessView(MatchFilter filter) {
         JOptionPane.showMessageDialog(
-                null,
+                frame,
                 "Match filter set!\nAge: "
                         + filter.getMinAge()
                         + "-"
@@ -37,8 +41,11 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
         List<User> matches = new MatchServiceImpl().findMatches(currentUser, allUsers);
 
+        frame.setTitle("Matching Room");
         JPanel matchingRoomPanel = new MatchingRoomView(frame, currentUser, matches, session);
         frame.setContentPane(matchingRoomPanel);
+        frame.setPreferredSize(new Dimension(800, 600)); // match size
+        frame.pack();
         frame.revalidate();
         frame.repaint();
     }
