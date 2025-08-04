@@ -37,7 +37,7 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
                         18, // default age (can update later in profile setup)
                         "Not specified", // default gender
                         "Not specified", // default location
-                        "Short bio about Stan.", // default bio
+                        "Empty biography", // default bio
                         new ArrayList<>(), // favGenres
                         new ArrayList<>(), // favArtists
                         new ArrayList<>() // favSongs

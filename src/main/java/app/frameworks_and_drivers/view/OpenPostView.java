@@ -40,7 +40,7 @@ public class OpenPostView extends JPanel {
 
     public JPanel create(OpenPostController controller) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(500, 600));
+        panel.setPreferredSize(new Dimension(800, 600));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
 
         // Create a JPanel for title

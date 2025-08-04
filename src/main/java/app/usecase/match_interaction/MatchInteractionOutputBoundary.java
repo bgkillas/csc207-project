@@ -1,3 +1,5 @@
 package app.usecase.match_interaction;
 
-public class MatchInteractionOutputBoundary {}
+public interface MatchInteractionOutputBoundary {
+    void presentMatchInteractionResult(MatchInteractionOutputData outputData);
+}
