@@ -11,7 +11,7 @@ import java.awt.*;
  * "Set Match Filter" button pressed
  */
 public class MatchFilterSetupView {
-    public static JPanel create(SetupMatchFilterController controller) {
+    public static JPanel create(SetupMatchFilterController controller, JFrame popupFrameToClose) {
         /**
          * Creates a JPanel that includes input fields and a submit button to set up the match
          * filter
@@ -45,6 +45,7 @@ public class MatchFilterSetupView {
                         String gender = genderField.getText();
                         String location = locationField.getText();
                         controller.setupFilter(minAge, maxAge, gender, location);
+                        popupFrameToClose.dispose(); // close window
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(panel, "Please enter valid age values.");
                     }
