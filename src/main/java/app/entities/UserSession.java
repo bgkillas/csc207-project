@@ -47,11 +47,11 @@ public class UserSession {
      * @param user the current user
      */
     public UserSession(User user) {
-        this.setUser(user);
         this.incomingFriendRequest = new ArrayList<>();
         this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
+        this.setUser(user);
     }
 
     public List<User> getAllUsers() {
