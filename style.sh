@@ -1,1 +1,1 @@
-java -jar checkstyle.jar -c style.xml src/
+java -jar checkstyle.jar -c style.xml src/main
