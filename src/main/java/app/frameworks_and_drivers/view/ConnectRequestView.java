@@ -115,7 +115,7 @@ public class ConnectRequestView extends JPanel {
                 e -> {
                     User other = requests.get(currentIndex);
                     controller.acceptRequest(session, other);
-                    //            viewModel.removeCurrentRequest();
+                    // viewModel.removeCurrentRequest();
                     currentIndex++;
                     updateCard.run();
                 });
@@ -124,7 +124,7 @@ public class ConnectRequestView extends JPanel {
                 e -> {
                     User other = requests.get(currentIndex);
                     controller.declineRequest(session, other);
-                    //            viewModel.removeCurrentRequest();
+                    // viewModel.removeCurrentRequest();
                     currentIndex++;
                     updateCard.run();
                 });
