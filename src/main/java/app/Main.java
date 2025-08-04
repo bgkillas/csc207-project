@@ -1,6 +1,5 @@
 package app;
 
-// import app.frameworks_and_drivers.view.LoginView;
 import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.SetupMatchFilterController;
 import app.usecase.matchfilter.SetupMatchFilterInputBoundary;
@@ -53,7 +52,7 @@ public class Main {
         filterController = new SetupMatchFilterController(filterInteractor);
 
         // User Profile setup
-        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter();
+        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
         SetupUserProfileController setupController =
