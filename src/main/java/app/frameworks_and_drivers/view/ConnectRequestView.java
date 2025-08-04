@@ -3,6 +3,8 @@ package app.frameworks_and_drivers.view;
 import app.entities.Match;
 import app.entities.User;
 import app.entities.UserSession;
+import app.interface_adapter.controller.FriendRequestController;
+import app.interface_adapter.viewmodel.FriendRequestViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +13,15 @@ import java.util.List;
 public class ConnectRequestView extends JPanel {
     private int currentIndex = 0;
 
-    public ConnectRequestView(JFrame frame, User currentUser, UserSession session) {
-        List<User> requests = session.getIncomingMatches();
+    public ConnectRequestView(JFrame frame,
+                              User currentUser,
+                              UserSession session,
+                              FriendRequestController controller,
+                              FriendRequestViewModel viewModel)
+    {
+        List<User> requests = viewModel.getAllRequests();
+
+
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -82,7 +91,7 @@ public class ConnectRequestView extends JPanel {
         // Display logic
         Runnable updateCard =
                 () -> {
-                    if (currentIndex >= requests.size()) {
+                    if (!viewModel.hasRequests() || currentIndex >= requests.size()) {
                         info.setText("No more requests.");
                         score.setText("");
                         countLabel.setText("");
@@ -91,7 +100,8 @@ public class ConnectRequestView extends JPanel {
                         return;
                     }
 
-                    User other = requests.get(currentIndex);
+                    User other = viewModel.getCurrentUser();
+
                     info.setText(
                             "<html><b>"
                                     + other.getName()
@@ -105,22 +115,21 @@ public class ConnectRequestView extends JPanel {
                     countLabel.setText((currentIndex + 1) + " / " + requests.size());
                 };
 
-        acceptBtn.addActionListener(
-                e -> {
-                    User other = requests.get(currentIndex);
-                    currentUser.getFriendList().add(other);
-                    other.getFriendList().add(currentUser);
-                    session.addMatch(new Match(currentUser, other));
-                    session.getIncomingMatches().remove(other);
-                    currentIndex++;
-                    updateCard.run();
-                });
+        acceptBtn.addActionListener(e -> {
+            User other = requests.get(currentIndex);
+            controller.acceptRequest(session, other);
+//            viewModel.removeCurrentRequest();
+            currentIndex++;
+            updateCard.run();
+        });
 
-        declineBtn.addActionListener(
-                e -> {
-                    currentIndex++;
-                    updateCard.run();
-                });
+        declineBtn.addActionListener(e -> {
+            User other = requests.get(currentIndex);
+            controller.declineRequest(session, other);
+//            viewModel.removeCurrentRequest();
+            currentIndex++;
+            updateCard.run();
+        });
 
         updateCard.run();
     }

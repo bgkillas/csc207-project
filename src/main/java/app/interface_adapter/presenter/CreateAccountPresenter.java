@@ -1,4 +1,4 @@
-package app.interface_adapter.presentor;
+package app.interface_adapter.presenter;
 
 import app.entities.User;
 import app.usecase.create_account.CreateAccountOutputBoundary;

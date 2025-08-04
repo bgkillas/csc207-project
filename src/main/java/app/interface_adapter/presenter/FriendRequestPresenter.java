@@ -1,26 +1,29 @@
-package app.interface_adapter.presentor;
+package app.interface_adapter.presenter;
 
+import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputData;
 
+import javax.swing.*;
+
 public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary {
+    private final FriendRequestViewModel viewModel;
+
+    public FriendRequestPresenter(FriendRequestViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     @Override
     public void presentFriendRequestSuccess(HandleFriendRequestOutputData outputData) {
-        // This logic is specific to the FriendRequestView.
-        System.out.println(
-                "Handled incoming friend request from: " + outputData.getRequesterUsername());
+        System.out.println("Friend request handled from: " + outputData.getRequesterUsername());
         System.out.println("Message: " + outputData.getMessage());
 
-        // Here you would typically update the FriendRequestViewModel,
-        // e.g., remove the handled request from the list, show confirmation, etc.
+        viewModel.removeCurrentRequest();
     }
 
     @Override
     public void presentFriendRequestFailure(String errorMessage) {
-        // Display error in FriendRequestView
         System.out.println("Error handling friend request: " + errorMessage);
-
-        // Optionally, update viewmodel or trigger error UI display
+        JOptionPane.showMessageDialog(null, errorMessage, "Friend Request Error", JOptionPane.ERROR_MESSAGE);
     }
 }

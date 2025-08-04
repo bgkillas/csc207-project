@@ -1,25 +1,24 @@
 package app.frameworks_and_drivers.view;
 
+import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.interface_adapter.controller.*;
+import app.interface_adapter.presenter.*;
+import app.interface_adapter.viewmodel.FriendRequestViewModel;
+import app.usecase.add_friend_list.AddFriendListInputBoundary;
+import app.usecase.add_friend_list.AddFriendListInteractor;
+import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.create_account.CreateAccountInteractor;
 import app.usecase.create_account.CreateAccountOutputBoundary;
+import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
-import app.interface_adapter.controller.CreateAccountController;
 import app.usecase.login.LoginManager;
 import app.usecase.login.LoginManagerMemory;
-import app.interface_adapter.controller.SetupMatchFilterController;
-import app.interface_adapter.controller.SetupUserProfileController;
 import app.usecase.create_post.CreatePostInteractor;
 import app.entities.User;
 import app.entities.UserSession;
 import app.usecase.matchfilter.SetupMatchFilterInteractor;
 import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
-import app.interface_adapter.controller.CreatePostController;
-import app.interface_adapter.controller.OpenPostController;
-import app.interface_adapter.controller.PostFeedController;
-import app.interface_adapter.presentor.CreateAccountPresenter;
-import app.interface_adapter.presentor.SetupMatchFilterPresenter;
-import app.interface_adapter.presentor.SetupUserProfilePresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,6 +103,9 @@ public class DebugMenuView {
         dummyUser.addFriend(user3);
         dummyUser.addBlock(user4);
         session.setUser(dummyUser);
+        session.getIncomingMatches().add(user1);
+        session.getIncomingMatches().add(user2);
+        session.getIncomingMatches().add(user3);
 
         // Controllers for views that require them
         SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();
@@ -147,7 +149,23 @@ public class DebugMenuView {
         addButtonWithFrame(
                 panel,
                 "ConnectRequestView",
-                tempFrame -> new ConnectRequestView(tempFrame, dummyUser, session));
+                tempFrame -> {
+                    FriendRequestViewModel viewModel = new FriendRequestViewModel();
+                    viewModel.setIncomingRequests(session.getIncomingMatches());
+                    FriendRequestPresenter presenter = new FriendRequestPresenter(viewModel);
+                    AddFriendListOutputBoundary addFriendPresenter = new AddFriendListPresenter();
+                    AddFriendListInputBoundary addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+
+                    HandleFriendRequestInteractor interactor =
+                            new HandleFriendRequestInteractor(
+                                    new InMemoryMatchDataAccessObject(), // or your actual DAO
+                                    addFriendInteractor,
+                                    presenter);
+                    FriendRequestController controller = new FriendRequestController(interactor);
+
+                    return new ConnectRequestView(tempFrame, dummyUser, session, controller, viewModel);
+                });
+
 
         // NEEDS TO BE FIXED (actionListeners don't work unless view
         // is accessed through PostFeedView
@@ -163,10 +181,13 @@ public class DebugMenuView {
                 });
 
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
-        addButton(
+
+        addButtonWithFrame(
                 panel,
                 "MatchFilterSetupView",
-                () -> MatchFilterSetupView.create(matchFilterController));
+                profileFrame -> MatchFilterSetupView.create(matchFilterController, frame)
+        );
+
         addButtonWithFrame(
                 panel,
                 "MatchingRoomView",
@@ -180,11 +201,12 @@ public class DebugMenuView {
                 panel,
                 "OpenPostView",
                 () -> new OpenPostView(dummyUser, session, frame).create(openPostController));
+
         addButtonWithFrame(
                 panel,
                 "PostFeedView",
                 tempFrame -> {
-                    User currentUser = session.getUser(); // 确保 User 不为 null
+                    User currentUser = session.getUser();
                     return new PostFeedView(currentUser, session, tempFrame)
                             .create(postFeedViewController);
                 });

@@ -2,7 +2,7 @@ package app.usecase_tests;
 
 import app.entities.*;
 import app.frameworks_and_drivers.data_access.*;
-import app.interface_adapter.presentor.AddCommentPresenter;
+import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
 import org.junit.Test;
 import app.usecase.add_comment.AddCommentInputBoundary;
