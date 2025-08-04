@@ -2,8 +2,6 @@ package app.interface_adapter.presenter;
 
 import app.Main;
 import app.entities.User;
-import app.Main;
-import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import app.frameworks_and_drivers.view.MatchFilterSetupView;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import javax.swing.*;

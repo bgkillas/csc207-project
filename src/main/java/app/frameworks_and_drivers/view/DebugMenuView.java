@@ -187,8 +187,7 @@ public class DebugMenuView {
         addButtonWithFrame(
                 panel,
                 "MatchFilterSetupView",
-                profileFrame -> MatchFilterSetupView.create(matchFilterController, frame)
-        );
+                profileFrame -> MatchFilterSetupView.create(matchFilterController, frame));
 
         addButtonWithFrame(
                 panel,

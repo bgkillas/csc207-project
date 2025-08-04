@@ -2,7 +2,7 @@ package app;
 
 // import app.frameworks_and_drivers.view.LoginView;
 import app.entities.UserSession;
-import app.frameworks_and_drivers.view.DebugMenuView;
+import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.CreateAccountController;
 import app.interface_adapter.controller.SetupMatchFilterController;
 import app.interface_adapter.controller.SetupUserProfileController;
@@ -67,7 +67,7 @@ public class Main {
         views.add(login);
 
         // Connecting to DebugMenuView
-/*        final JPanel debugView = DebugMenuView.create(session);
+        /*        final JPanel debugView = DebugMenuView.create(session);
         views.add(debugView);*/
 
         application.add(views);
