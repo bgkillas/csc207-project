@@ -10,13 +10,14 @@ import javax.swing.*;
  * "Set Match Filter" button pressed.
  */
 public class MatchFilterSetupView {
-    /**
-     * Creates a JPanel that includes input fields and a submit button to set up the match filter.
-     *
-     * @param controller the controller that handles the setup of the match filter
-     * @return a fully constructed JPanel for match filter setup
-     */
-    public static JPanel create(SetupMatchFilterController controller) {
+    public static JPanel create(SetupMatchFilterController controller, JFrame popupFrameToClose) {
+        /**
+         * Creates a JPanel that includes input fields and a submit button to set up the match
+         * filter
+         *
+         * @param controller the controller that handles the setup of the match filter
+         * @return a fully constructed JPanel for match filter setup
+         */
         JPanel panel = new JPanel(new GridLayout(6, 2));
 
         JTextField minAgeField = new JTextField();
@@ -43,6 +44,7 @@ public class MatchFilterSetupView {
                         String gender = genderField.getText();
                         String location = locationField.getText();
                         controller.setupFilter(minAge, maxAge, gender, location);
+                        popupFrameToClose.dispose(); // close window
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(panel, "Please enter valid age values.");
                     }

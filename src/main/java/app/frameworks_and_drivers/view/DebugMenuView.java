@@ -183,10 +183,13 @@ public class DebugMenuView {
                 });
 
         addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
-        addButton(
+
+        addButtonWithFrame(
                 panel,
                 "MatchFilterSetupView",
-                () -> MatchFilterSetupView.create(matchFilterController));
+                profileFrame -> MatchFilterSetupView.create(matchFilterController, frame)
+        );
+
         addButtonWithFrame(
                 panel,
                 "MatchingRoomView",
