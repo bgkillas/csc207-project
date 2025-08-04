@@ -29,7 +29,7 @@
 **S-Buddify** is a Java-based social music friend finder platform that connects users based on their musical preferences. The application integrates with Spotify's API to analyze users' listening habits and matches them with others who have similar music tastes.
 
 ### **What This Project Does**
-MusicMatch provides a comprehensive social platform where users can:
+S-Buddify provides a comprehensive social platform where users can:
 - Connect their Spotify accounts to analyze their music taste
 - Set up a unique and personalized profiles with information and a profile picture
 - Get matched with other users based on shared musical interests
@@ -84,7 +84,7 @@ This project was developed to solve the challenge of finding like-minded music e
 
 ### **Prerequisites**
 
-Before installing MusicMatch, ensure you have the following software installed:
+Before installing S-Buddify, ensure you have the following software installed:
 
 - **Java Development Kit (JDK) 17** or higher
   - Download from: [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://adoptium.net/)
