@@ -1,7 +1,7 @@
 package app.interface_adapter.controller;
 
-import app.usecase.create_post.CreatePostInteractor;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.usecase.create_post.CreatePostInteractor;
 
 public class PostFeedController {
     // This controller handles the request to view the post feed and start creating a new post.

@@ -1,20 +1,19 @@
 package app.frameworks_and_drivers.view;
 
-import app.interface_adapter.controller.SetupUserProfileController;
 import app.entities.User;
-
-import javax.swing.*;
+import app.interface_adapter.controller.SetupUserProfileController;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * This class builds the GUI form for setting up a user profile It collects user input (bio, age,
- * gender, location) and passes it to the controller
+ * gender, location) and passes it to the controller.
  */
 public class ProfileSetupView {
     private ProfileSetupView() {}
 
     /**
-     * Creates and returns a JPanel containing profile setup fields and a submit button
+     * Creates and returns a JPanel containing profile setup fields and a submit button.
      *
      * @param controller The controller that handles setting up the user profile
      * @return A JPanel with input fields and a button to submit profile data

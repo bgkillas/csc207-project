@@ -43,9 +43,9 @@ public class AddCommentInteractorTest {
 
         // Scenario: Stan wants to make a comment on user01's post
 
-        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
-        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
-        PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
+        UserDataAccessInterface userDataAccessObject = new InMemoryUserDataAccessObject();
+        MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
+        PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and posts something
         UserSession userSession1 = new UserSession(user1);
@@ -58,7 +58,7 @@ public class AddCommentInteractorTest {
                         LocalDateTime.now(),
                         user1,
                         new ArrayList<Comment>());
-        postDAO.savePost(user1, newPost); // DAO updates
+        postDataAccessObject.savePost(user1, newPost); // DataAccessObject updates
         userSession1.addPost(newPost); // Session updates
 
         // this post has no comment yet
@@ -70,13 +70,14 @@ public class AddCommentInteractorTest {
         // Stan makes a comment on user1's post
         String comment = "I agree!";
         AddCommentOutputBoundary presenter = new AddCommentPresenter();
-        AddCommentInputBoundary addcomment = new AddCommentInteractor(postDAO, presenter);
+        AddCommentInputBoundary addcomment =
+                new AddCommentInteractor(postDataAccessObject, presenter);
         addcomment.addComment(userSession0, newPost, comment);
 
-        // Check that comment is stored with the post in DAO
-        assertFalse(postDAO.getPostsByUser(user1).get(0).getComments().isEmpty());
+        // Check that comment is stored with the post in DataAccessObject
+        assertFalse(postDataAccessObject.getPostsByUser(user1).get(0).getComments().isEmpty());
         assertEquals(
-                postDAO.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(),
+                postDataAccessObject.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(),
                 user0.getName());
     }
 }

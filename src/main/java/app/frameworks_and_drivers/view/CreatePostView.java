@@ -1,22 +1,21 @@
 package app.frameworks_and_drivers.view;
 
-import app.usecase.create_post.CreatePostInteractor;
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.interface_adapter.controller.CreatePostController;
 import app.interface_adapter.controller.PostFeedController;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
-
-import javax.swing.*;
+import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
 import java.io.File;
+import javax.swing.*;
 
 public class CreatePostView {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
-    private final PostDataAccessInterface postDAO;
+    private final PostDataAccessInterface postDataAccessObject;
 
     private JTextField titleField;
     private JTextArea contentArea;
@@ -27,15 +26,18 @@ public class CreatePostView {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
-        this.postDAO = new InMemoryPostDataAccessObject();
+        this.postDataAccessObject = new InMemoryPostDataAccessObject();
     }
 
     public CreatePostView(
-            User user, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
+            User user,
+            UserSession session,
+            JFrame frame,
+            PostDataAccessInterface postDataAccessObject) {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
-        this.postDAO = postDAO;
+        this.postDataAccessObject = postDataAccessObject;
     }
 
     public JPanel create(CreatePostController controller) {
@@ -57,10 +59,11 @@ public class CreatePostView {
         back.addActionListener(
                 e -> {
                     frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame, postDAO)
+                            new PostFeedView(currentUser, session, frame, postDataAccessObject)
                                     .create(
                                             new PostFeedController(
-                                                    new CreatePostInteractor(postDAO))));
+                                                    new CreatePostInteractor(
+                                                            postDataAccessObject))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -92,10 +95,11 @@ public class CreatePostView {
 
                     // Navigate back to post feed after posting
                     frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame, postDAO)
+                            new PostFeedView(currentUser, session, frame, postDataAccessObject)
                                     .create(
                                             new PostFeedController(
-                                                    new CreatePostInteractor(postDAO))));
+                                                    new CreatePostInteractor(
+                                                            postDataAccessObject))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -116,42 +120,44 @@ public class CreatePostView {
         mainPanel.add(postImageUploadPanel);
 
         // Navigation bar
-//        JPanel navPanel = new JPanel(new GridLayout(1, 3));
-//        JButton btnMatching = new JButton("Matching");
-//        JButton btnShare = new JButton("Share");
-//        JButton btnProfile = new JButton("My Profile");
-//        navPanel.add(btnMatching);
-//        navPanel.add(btnShare);
-//        navPanel.add(btnProfile);
+        // JPanel navPanel = new JPanel(new GridLayout(1, 3));
+        // JButton btnMatching = new JButton("Matching");
+        // JButton btnShare = new JButton("Share");
+        // JButton btnProfile = new JButton("My Profile");
+        // navPanel.add(btnMatching);
+        // navPanel.add(btnShare);
+        // navPanel.add(btnProfile);
 
         // Create a JPanel for Bottom NavBar
-//        JPanel bottomPanel = new JPanel(new BorderLayout());
-//        bottomPanel.add(navPanel, BorderLayout.SOUTH);
+        // JPanel bottomPanel = new JPanel(new BorderLayout());
+        // bottomPanel.add(navPanel, BorderLayout.SOUTH);
 
         // add all components to panel
         panel.add(topPanel, BorderLayout.NORTH);
         panel.add(mainPanel, BorderLayout.CENTER);
-//        panel.add(bottomPanel, BorderLayout.SOUTH);
+        // panel.add(bottomPanel, BorderLayout.SOUTH);
 
         // navigate to matching room
-//        btnMatching.addActionListener(
-//                e -> {
-//                    java.util.List<User> matchedUsers = session.getAllUsers();
-//                    JPanel matchingPanel =
-//                            new MatchingRoomView(frame, session.getUser(), matchedUsers, session);
-//                    frame.setContentPane(matchingPanel);
-//                    frame.revalidate();
-//                    frame.repaint();
-//                });
-//
-//        // navigate to profile
-//        btnProfile.addActionListener(
-//                e -> {
-//                    JPanel profilePanel = new ProfileView(session.getUser(), frame, session);
-//                    frame.setContentPane(profilePanel);
-//                    frame.revalidate();
-//                    frame.repaint();
-//                });
+        // btnMatching.addActionListener(
+        // e -> {
+        // java.util.List<User> matchedUsers = session.getAllUsers();
+        // JPanel matchingPanel =
+        // new MatchingRoomView(frame, session.getUser(), matchedUsers,
+        // session);
+        // frame.setContentPane(matchingPanel);
+        // frame.revalidate();
+        // frame.repaint();
+        // });
+        //
+        // // navigate to profile
+        // btnProfile.addActionListener(
+        // e -> {
+        // JPanel profilePanel = new ProfileView(session.getUser(), frame,
+        // session);
+        // frame.setContentPane(profilePanel);
+        // frame.revalidate();
+        // frame.repaint();
+        // });
 
         return panel;
     }

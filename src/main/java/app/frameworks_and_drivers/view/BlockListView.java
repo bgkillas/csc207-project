@@ -3,9 +3,8 @@ package app.frameworks_and_drivers.view;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.view.components.NavButton;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class BlockListView extends JPanel {
     User user;

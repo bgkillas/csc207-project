@@ -1,16 +1,15 @@
 package app.usecase.matching;
 
 import app.entities.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/** Service class responsible for finding a list of compatible matches for a user */
+/** Service class responsible for finding a list of compatible matches for a user. */
 public class MatchServiceImpl implements MatchService {
     private final MatchCalculatorImpl matchCalculator = new MatchCalculatorImpl();
 
     /**
-     * Finds all users from the provided list who are mutually compatible with the current user
+     * Finds all users from the provided list who are mutually compatible with the current user.
      *
      * @param currentUser the user to find matches for
      * @param allUsers a list of users who are potential matches

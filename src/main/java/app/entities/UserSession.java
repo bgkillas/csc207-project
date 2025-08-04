@@ -1,13 +1,12 @@
 package app.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
 import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Represents a session for a logged-in user. */
 public class UserSession {
@@ -24,15 +23,15 @@ public class UserSession {
      * Constructs a UserSession for the given user and data access objects.
      *
      * @param user the current user.
-     * @param userDAO user data access object.
-     * @param matchDAO match data access object.
-     * @param postDAO post data access object.
+     * @param userDataAccessObject user data access object.
+     * @param matchDataAccessObject match data access object.
+     * @param postDataAccessObject post data access object.
      */
     public UserSession(
             User user,
-            UserDataAccessInterface userDAO,
-            MatchDataAccessInterface matchDAO,
-            PostDataAccessInterface postDAO) {
+            UserDataAccessInterface userDataAccessObject,
+            MatchDataAccessInterface matchDataAccessObject,
+            PostDataAccessInterface postDataAccessObject) {
 
         this.incomingFriendRequest = new ArrayList<>();
         this.outgoingFriendRequest = new ArrayList<>();
@@ -40,23 +39,33 @@ public class UserSession {
         this.posts = new ArrayList<>();
 
         // 用 addAll 避免 null
-        List<User> fromDAOIn = matchDAO.getIncomingFriendRequest(user);
-        if (fromDAOIn != null) this.incomingFriendRequest.addAll(fromDAOIn);
+        List<User> fromDataAccessObjectIn = matchDataAccessObject.getIncomingFriendRequest(user);
+        if (fromDataAccessObjectIn != null) {
+            this.incomingFriendRequest.addAll(fromDataAccessObjectIn);
+        }
 
-        List<User> fromDAOOut = matchDAO.getOutgoingFriendRequest(user);
-        if (fromDAOOut != null) this.outgoingFriendRequest.addAll(fromDAOOut);
+        List<User> fromDataAccessObjectOut = matchDataAccessObject.getOutgoingFriendRequest(user);
+        if (fromDataAccessObjectOut != null) {
+            this.outgoingFriendRequest.addAll(fromDataAccessObjectOut);
+        }
 
-        List<Match> fromMatches = matchDAO.getMatches(user);
-        if (fromMatches != null) this.matches.addAll(fromMatches);
+        List<Match> fromMatches = matchDataAccessObject.getMatches(user);
+        if (fromMatches != null) {
+            this.matches.addAll(fromMatches);
+        }
 
-        List<Post> fromPosts = postDAO.getPostsByUser(user);
-        if (fromPosts != null) this.posts.addAll(fromPosts);
+        List<Post> fromPosts = postDataAccessObject.getPostsByUser(user);
+        if (fromPosts != null) {
+            this.posts.addAll(fromPosts);
+        }
 
-        this.allUsers = userDAO.getUsers() != null ? userDAO.getUsers() : new ArrayList<>();
+        this.allUsers =
+                userDataAccessObject.getUsers() != null
+                        ? userDataAccessObject.getUsers()
+                        : new ArrayList<>();
 
-        this.setUser(user);  // now it's safe!
+        this.setUser(user); // now it's safe!
     }
-
 
     /**
      * Constructs a UserSession for the given user.
@@ -69,6 +78,17 @@ public class UserSession {
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
         this.setUser(user);
+    }
+
+    /**
+     * Temporary no-argument constructor to allow creating an empty session Use for demo; for full
+     * implementation, use constructor that takes a User.
+     */
+    public UserSession() {
+        this.user = null;
+        this.incomingFriendRequest = new ArrayList<>();
+        this.outgoingFriendRequest = new ArrayList<>();
+        this.matches = new ArrayList<>();
     }
 
     public List<User> getAllUsers() {
@@ -105,23 +125,23 @@ public class UserSession {
     public void setUser(User user) {
         this.user = user;
         this.updateSpotify();
-//        this.addExampleUsers();
+        //        this.addExampleUsers();
     }
 
-//    void addExampleUsers() {
-//        User userJava =
-//                new User(
-//                        "Java",
-//                        20,
-//                        "male",
-//                        "Toronto Canada Ontario",
-//                        "i want to see u cry",
-//                        new ArrayList<>(),
-//                        new ArrayList<>(),
-//                        new ArrayList<>());
-//        this.addUser(userJava);
-//        this.addIncomingMatch(userJava);
-//    }
+    //    void addExampleUsers() {
+    //        User userJava =
+    //                new User(
+    //                        "Java",
+    //                        20,
+    //                        "male",
+    //                        "Toronto Canada Ontario",
+    //                        "i want to see u cry",
+    //                        new ArrayList<>(),
+    //                        new ArrayList<>(),
+    //                        new ArrayList<>());
+    //        this.addUser(userJava);
+    //        this.addIncomingMatch(userJava);
+    //    }
 
     /**
      * Returns the current user for this session.
@@ -184,17 +204,6 @@ public class UserSession {
      */
     public void addMatch(Match match) {
         matches.add(match);
-    }
-
-    /**
-     * Temporary no-argument constructor to allow creating an empty session Use for demo; for full
-     * implementation, use constructor that takes a User
-     */
-    public UserSession() {
-        this.user = null;
-        this.incomingFriendRequest = new ArrayList<>();
-        this.outgoingFriendRequest = new ArrayList<>();
-        this.matches = new ArrayList<>();
     }
 
     public List<Post> getPosts() {

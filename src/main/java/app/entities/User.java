@@ -163,8 +163,8 @@ public class User {
     }
 
     /** updates the user's favorite artists. */
-    public void setFavArtists(List<String> ArtistsList) {
-        this.favArtists = ArtistsList;
+    public void setFavArtists(List<String> artistsList) {
+        this.favArtists = artistsList;
     }
 
     /** updates the user's favorite genres. */
@@ -243,8 +243,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return id.equals(user.id);
     }
@@ -253,5 +257,4 @@ public class User {
     public int hashCode() {
         return Objects.hash(id);
     }
-
 }

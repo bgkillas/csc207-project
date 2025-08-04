@@ -3,7 +3,6 @@ package app.interface_adapter.presenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputData;
-
 import javax.swing.*;
 
 public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary {
@@ -24,6 +23,7 @@ public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary
     @Override
     public void presentFriendRequestFailure(String errorMessage) {
         System.out.println("Error handling friend request: " + errorMessage);
-        JOptionPane.showMessageDialog(null, errorMessage, "Friend Request Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, errorMessage, "Friend Request Error", JOptionPane.ERROR_MESSAGE);
     }
 }

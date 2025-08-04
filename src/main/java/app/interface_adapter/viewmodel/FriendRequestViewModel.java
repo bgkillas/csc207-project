@@ -1,7 +1,6 @@
 package app.interface_adapter.viewmodel;
 
 import app.entities.User;
-
 import java.util.ArrayList;
 import java.util.List;
 

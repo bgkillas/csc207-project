@@ -26,31 +26,45 @@ public class PostTest {
         List<String> favGenres = new ArrayList<>();
         favGenres.add("Rock");
         favGenres.add("Pop");
-        
+
         List<String> favArtists = new ArrayList<>();
         favArtists.add("Coldplay");
-        
+
         List<String> favSongs = new ArrayList<>();
         favSongs.add("The Scientist");
-        
-        testUser = new User("John Doe", 25, "Male", "Toronto", 
-                           "Music lover", favGenres, favArtists, favSongs);
-        
+
+        testUser =
+                new User(
+                        "John Doe",
+                        25,
+                        "Male",
+                        "Toronto",
+                        "Music lover",
+                        favGenres,
+                        favArtists,
+                        favSongs);
+
         testTimestamp = LocalDateTime.of(2025, 12, 25, 10, 30);
-        
+
         testComments = new ArrayList<>();
         testComments.add(new Comment("Great post!", "Katy", LocalDateTime.now()));
         testComments.add(new Comment("I agree!", "George", LocalDateTime.now()));
-        
+
         // test image
         testImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
     }
 
     @Test
     void testConstructorWithAllParameters() {
-        Post post = new Post("Test Title", "Test Content", testImage, 
-                           testTimestamp, testUser, testComments);
-        
+        Post post =
+                new Post(
+                        "Test Title",
+                        "Test Content",
+                        testImage,
+                        testTimestamp,
+                        testUser,
+                        testComments);
+
         assertEquals("Test Title", post.getTitle());
         assertEquals("Test Content", post.getText());
         assertEquals(testImage, post.getImage());
@@ -62,7 +76,7 @@ public class PostTest {
     @Test
     void testDefaultConstructor() {
         Post post = new Post();
-        
+
         assertEquals("Untitled", post.getTitle());
         assertEquals("", post.getText());
         assertNull(post.getImage());
@@ -74,19 +88,28 @@ public class PostTest {
 
     @Test
     void testGetTitle() {
-        Post post = new Post("My Post", "Content", null, testTimestamp, testUser, new ArrayList<>());
+        Post post =
+                new Post("My Post", "Content", null, testTimestamp, testUser, new ArrayList<>());
         assertEquals("My Post", post.getTitle());
     }
 
     @Test
     void testGetText() {
-        Post post = new Post("Title", "This is the post content", null, testTimestamp, testUser, new ArrayList<>());
+        Post post =
+                new Post(
+                        "Title",
+                        "This is the post content",
+                        null,
+                        testTimestamp,
+                        testUser,
+                        new ArrayList<>());
         assertEquals("This is the post content", post.getText());
     }
 
     @Test
     void testGetImage() {
-        Post post = new Post("Title", "Content", testImage, testTimestamp, testUser, new ArrayList<>());
+        Post post =
+                new Post("Title", "Content", testImage, testTimestamp, testUser, new ArrayList<>());
         assertEquals(testImage, post.getImage());
     }
 
@@ -113,7 +136,7 @@ public class PostTest {
         Post post = new Post("Title", "Content", null, testTimestamp, testUser, new ArrayList<>());
         List<Comment> newComments = new ArrayList<>();
         newComments.add(new Comment("New comment", "Charlie", LocalDateTime.now()));
-        
+
         post.setComments(newComments);
         assertEquals(newComments, post.getComments());
     }
@@ -178,7 +201,7 @@ public class PostTest {
     void testMultiplePostsWithSameData() {
         Post post1 = new Post("Title", "Content", testImage, testTimestamp, testUser, testComments);
         Post post2 = new Post("Title", "Content", testImage, testTimestamp, testUser, testComments);
-        
+
         assertEquals(post1.getTitle(), post2.getTitle());
         assertEquals(post1.getText(), post2.getText());
         assertEquals(post1.getImage(), post2.getImage());
@@ -189,18 +212,27 @@ public class PostTest {
 
     @Test
     void testPostWithLongText() {
-        String longText = "This is a very long post content ................................... " +
-                         "...................................................................... " +
-                         "........................................................................";
-        
-        Post post = new Post("Long Post", longText, null, testTimestamp, testUser, new ArrayList<>());
+        String longText =
+                "This is a very long post content ..................................."
+                    + " ...................................................................... "
+                    + "........................................................................";
+
+        Post post =
+                new Post("Long Post", longText, null, testTimestamp, testUser, new ArrayList<>());
         assertEquals(longText, post.getText());
     }
 
     @Test
     void testPostWithSpecialCharacters() {
         String specialText = "Post with special chars: !@#$%^&*()_+-=[]{}|;':\",./<>?";
-        Post post = new Post("Special Characters Post", specialText, null, testTimestamp, testUser, new ArrayList<>());
+        Post post =
+                new Post(
+                        "Special Characters Post",
+                        specialText,
+                        null,
+                        testTimestamp,
+                        testUser,
+                        new ArrayList<>());
         assertEquals(specialText, post.getText());
     }
 }

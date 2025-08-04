@@ -8,7 +8,7 @@ public class SetupUserProfileInteractor implements SetupUserProfileInputBoundary
     private final UserSession session;
 
     /**
-     * Constructor to initialize the interactor with a presenter and session
+     * Constructor to initialize the interactor with a presenter and session.
      *
      * @param presenter the output boundary that will handle UI updates
      * @param session the user session holding the current user

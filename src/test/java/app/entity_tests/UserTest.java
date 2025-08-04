@@ -114,7 +114,8 @@ class UserTest {
 
     @Test
     void testAddBlockAlsoRemovesFriend() {
-        User friend = new User("alice", 22, "female", "Toronto", "", List.of(), List.of(), List.of());
+        User friend =
+                new User("alice", 22, "female", "Toronto", "", List.of(), List.of(), List.of());
         user.addFriend(friend);
         assertTrue(user.getFriendList().contains(friend));
 
@@ -145,8 +146,6 @@ class UserTest {
         assertEquals(1, user.getBlockList().size());
     }
 
-
-
     @Test
     void testRemoveBlock() {
         User blocked = new User("bob", 22, "male", "NY", "", List.of(), List.of(), List.of());
@@ -172,7 +171,8 @@ class UserTest {
 
     @Test
     void testProfilePictureSetAndGet() {
-        java.awt.Image dummyImage = new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_RGB);
+        java.awt.Image dummyImage =
+                new java.awt.image.BufferedImage(1, 1, java.awt.image.BufferedImage.TYPE_INT_RGB);
         user.setProfilePicture(dummyImage);
         assertEquals(dummyImage, user.getProfilePicture());
     }
@@ -196,6 +196,7 @@ class UserTest {
     void testEqualsDifferentClassReturnsFalse() {
         assertNotEquals("not a user", user);
     }
+
     @Test
     void testEqualsSameClassDifferentInstance() {
         User user1 = new User("a", 20, "f", "toronto", "", List.of(), List.of(), List.of());
@@ -208,5 +209,4 @@ class UserTest {
         user.addFriend(user);
         assertTrue(user.getFriendList().isEmpty());
     }
-
 }

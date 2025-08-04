@@ -1,7 +1,6 @@
 package app.usecase.matching;
 
 import app.entities.User;
-
 import java.util.List;
 
 /**
@@ -25,13 +24,13 @@ public class MatchCalculatorImpl implements MatchCalculator {
         List<String> userOneArtists = userOne.getFavArtists();
         List<String> userTwoArtists = userTwo.getFavArtists();
 
-        int ArtistsListLength = userOneArtists.size();
+        int artistsListLength = userOneArtists.size();
 
-        for (int i = 0; i < ArtistsListLength; i++) {
+        for (int i = 0; i < artistsListLength; i++) {
             String artist = userOneArtists.get(i);
             if (userTwoArtists.contains(artist)) {
                 int j = userTwoArtists.indexOf(artist);
-                score += (ArtistsListLength - i) + (ArtistsListLength - j);
+                score += (artistsListLength - i) + (artistsListLength - j);
             }
         }
 

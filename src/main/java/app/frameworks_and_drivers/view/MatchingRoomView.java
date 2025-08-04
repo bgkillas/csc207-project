@@ -1,7 +1,11 @@
 package app.frameworks_and_drivers.view;
 
+import app.entities.User;
+import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.FriendRequestController;
+import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
 import app.interface_adapter.presenter.FriendRequestPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
@@ -9,15 +13,10 @@ import app.usecase.add_friend_list.AddFriendListInputBoundary;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.create_post.CreatePostInteractor;
-import app.entities.User;
-import app.entities.UserSession;
-import app.interface_adapter.controller.PostFeedController;
-import app.frameworks_and_drivers.view.components.NavButton;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import javax.swing.*;
 
 public class MatchingRoomView extends JPanel {
 
@@ -49,30 +48,33 @@ public class MatchingRoomView extends JPanel {
         topPanel.add(title, BorderLayout.CENTER);
 
         // ConnectRequestView
-        mailIcon.addActionListener(e -> {
-            FriendRequestViewModel viewModel = new FriendRequestViewModel();
-            viewModel.setIncomingRequests(session.getIncomingMatches());
+        mailIcon.addActionListener(
+                e -> {
+                    FriendRequestViewModel viewModel = new FriendRequestViewModel();
+                    viewModel.setIncomingRequests(session.getIncomingMatches());
 
-            FriendRequestPresenter presenter = new FriendRequestPresenter(viewModel);
+                    FriendRequestPresenter presenter = new FriendRequestPresenter(viewModel);
 
-            AddFriendListOutputBoundary addFriendPresenter = new AddFriendListPresenter();
-            AddFriendListInputBoundary addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+                    AddFriendListOutputBoundary addFriendPresenter = new AddFriendListPresenter();
+                    AddFriendListInputBoundary addFriendInteractor =
+                            new AddFriendListInteractor(addFriendPresenter);
 
-            HandleFriendRequestInteractor interactor = new HandleFriendRequestInteractor(
-                    new InMemoryMatchDataAccessObject(),
-                    addFriendInteractor,
-                    presenter
-            );
+                    HandleFriendRequestInteractor interactor =
+                            new HandleFriendRequestInteractor(
+                                    new InMemoryMatchDataAccessObject(),
+                                    addFriendInteractor,
+                                    presenter);
 
-            FriendRequestController controller = new FriendRequestController(interactor);
+                    FriendRequestController controller = new FriendRequestController(interactor);
 
-            ConnectRequestView connectRequestView =
-                    new ConnectRequestView(frame, currentUser, session, controller, viewModel);
+                    ConnectRequestView connectRequestView =
+                            new ConnectRequestView(
+                                    frame, currentUser, session, controller, viewModel);
 
-            frame.setContentPane(connectRequestView);
-            frame.revalidate();
-            frame.repaint();
-        });
+                    frame.setContentPane(connectRequestView);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         // mailIcon.addMouseListener(
         // new java.awt.event.MouseAdapter() {

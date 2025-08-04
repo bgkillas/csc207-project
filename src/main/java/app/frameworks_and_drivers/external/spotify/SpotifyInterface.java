@@ -13,7 +13,7 @@ public interface SpotifyInterface {
     /** Pulls top tracks in the user profile to the class. */
     void pullTopTracks();
 
-    /** refreshes the token as it expires after 1 hour if not manually refreshed */
+    /** refreshes the token as it expires after 1 hour if not manually refreshed. */
     void refreshToken();
 
     /** gets top artists in the user profile from the class. limited to at most 10 unique artists */

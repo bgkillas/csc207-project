@@ -15,8 +15,8 @@ public class CreatePostInteractorTest {
 
     @Test
     public void testCreatePostWithoutImage() {
-        InMemoryPostDataAccessObject dao = new InMemoryPostDataAccessObject();
-        CreatePostInteractor interactor = new CreatePostInteractor(dao);
+        InMemoryPostDataAccessObject DataAccessObject = new InMemoryPostDataAccessObject();
+        CreatePostInteractor interactor = new CreatePostInteractor(DataAccessObject);
         User testUser =
                 new User(
                         "Jess Jane",
@@ -30,7 +30,7 @@ public class CreatePostInteractorTest {
 
         interactor.createPost("Hello", "This is my first post!", null, testUser);
 
-        List<Post> posts = dao.getPostsByUser(testUser);
+        List<Post> posts = DataAccessObject.getPostsByUser(testUser);
         assertEquals(1, posts.size());
 
         Post post = posts.get(0);
@@ -42,8 +42,8 @@ public class CreatePostInteractorTest {
 
     @Test
     public void testCreatePostWithInvalidImage() {
-        InMemoryPostDataAccessObject dao = new InMemoryPostDataAccessObject();
-        CreatePostInteractor interactor = new CreatePostInteractor(dao);
+        InMemoryPostDataAccessObject DataAccessObject = new InMemoryPostDataAccessObject();
+        CreatePostInteractor interactor = new CreatePostInteractor(DataAccessObject);
         User testUser =
                 new User(
                         "John Smith", 19, "Male", "Africa", "Bio", List.of(), List.of(), List.of());
@@ -52,7 +52,7 @@ public class CreatePostInteractorTest {
 
         interactor.createPost("Image Post", "Trying to upload image", fakeImage, testUser);
 
-        List<Post> posts = dao.getPostsByUser(testUser);
+        List<Post> posts = DataAccessObject.getPostsByUser(testUser);
         assertEquals(1, posts.size());
 
         Post post = posts.get(0);

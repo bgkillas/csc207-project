@@ -6,7 +6,7 @@ public class AddFriendListInteractor implements AddFriendListInputBoundary {
     private final AddFriendListOutputBoundary presenter;
 
     /**
-     * Creates Interactor to add user on friend list
+     * Creates Interactor to add user on friend list.
      *
      * @param presenter - presenter for adding into friend list
      */

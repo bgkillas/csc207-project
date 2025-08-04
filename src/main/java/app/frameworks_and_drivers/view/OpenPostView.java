@@ -1,24 +1,21 @@
 package app.frameworks_and_drivers.view;
 
 import app.entities.Post;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.usecase.create_post.CreatePostInteractor;
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
-
-import javax.swing.*;
+import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
-import java.util.List;
+import javax.swing.*;
 
 public class OpenPostView extends JPanel {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
-    private final PostDataAccessInterface postDAO;
+    private final PostDataAccessInterface postDataAccessObject;
     private final Post post;
 
     // Constructor just to satisfy debugMenu functionality
@@ -26,15 +23,20 @@ public class OpenPostView extends JPanel {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
-        this.postDAO = new InMemoryPostDataAccessObject();
+        this.postDataAccessObject = new InMemoryPostDataAccessObject();
         this.post = null;
     }
 
-    public OpenPostView(User user, UserSession session, JFrame frame, PostDataAccessInterface postDAO, Post post) {
+    public OpenPostView(
+            User user,
+            UserSession session,
+            JFrame frame,
+            PostDataAccessInterface postDataAccessObject,
+            Post post) {
         this.currentUser = user;
         this.session = session;
         this.frame = frame;
-        this.postDAO = postDAO;
+        this.postDataAccessObject = postDataAccessObject;
         this.post = post;
     }
 
@@ -53,8 +55,11 @@ public class OpenPostView extends JPanel {
         back.addActionListener(
                 e -> {
                     frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame, postDAO)
-                                    .create(new PostFeedController(new CreatePostInteractor(postDAO))));
+                            new PostFeedView(currentUser, session, frame, postDataAccessObject)
+                                    .create(
+                                            new PostFeedController(
+                                                    new CreatePostInteractor(
+                                                            postDataAccessObject))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -92,7 +97,8 @@ public class OpenPostView extends JPanel {
 
         // Post image if available
         if (post.getImage() != null) {
-            ImageIcon icon = new ImageIcon(post.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
+            ImageIcon icon =
+                    new ImageIcon(post.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH));
             JLabel imageLabel = new JLabel(icon);
             imageLabel.setBorder(BorderFactory.createEmptyBorder(10, 15, 15, 15));
             postPanel.add(imageLabel, BorderLayout.SOUTH);
@@ -114,9 +120,10 @@ public class OpenPostView extends JPanel {
         JScrollPane commentScrollPane = new JScrollPane(commentArea);
 
         JButton addCommentButton = new JButton("Add Comment");
-        addCommentButton.addActionListener(e -> {
-            //Comment something
-        });
+        addCommentButton.addActionListener(
+                e -> {
+                    // Comment something
+                });
 
         commentSection.add(commentScrollPane, BorderLayout.CENTER);
         commentSection.add(addCommentButton, BorderLayout.SOUTH);

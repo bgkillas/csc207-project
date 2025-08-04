@@ -29,18 +29,35 @@ public class HandleFriendRequestInteractorTest {
         MatchFilter generalMF = new MatchFilter(0, 100, null, null);
 
         // Step 1: create two users
-        User user0 = new User("Stan", 20, "male", "Toronto", "I luv lord", emptyList, emptyList, emptyList);
-        User user1 = new User("user01", 18, "female", "North York", "Let's go out!", emptyList, emptyList, emptyList);
+        User user0 =
+                new User(
+                        "Stan",
+                        20,
+                        "male",
+                        "Toronto",
+                        "I luv lord",
+                        emptyList,
+                        emptyList,
+                        emptyList);
+        User user1 =
+                new User(
+                        "user01",
+                        18,
+                        "female",
+                        "North York",
+                        "Let's go out!",
+                        emptyList,
+                        emptyList,
+                        emptyList);
 
-        // Step 2: set up DAOs
-        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
-        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
-        PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
+        // Step 2: set up DataAccessObjects
+        UserDataAccessInterface userDataAccessObject = new InMemoryUserDataAccessObject();
+        MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
+        PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
 
         // Step 3: create user sessions
         UserSession userSession0 = new UserSession(user0);
         UserSession userSession1 = new UserSession(user1);
-
 
         // Step 4: assert initial state
         assertTrue(userSession0.getIncomingMatches().isEmpty());
@@ -48,32 +65,36 @@ public class HandleFriendRequestInteractorTest {
         assertTrue(userSession1.getIncomingMatches().isEmpty());
 
         // Step 5: send request from user0 to user1
-        HandleFriendRequestOutputBoundary dummyPresenter = new HandleFriendRequestOutputBoundary() {
-            @Override
-            public void presentFriendRequestSuccess(HandleFriendRequestOutputData outputData) {
-                System.out.println("Sent request: " + outputData.getMessage());
-            }
+        HandleFriendRequestOutputBoundary dummyPresenter =
+                new HandleFriendRequestOutputBoundary() {
+                    @Override
+                    public void presentFriendRequestSuccess(
+                            HandleFriendRequestOutputData outputData) {
+                        System.out.println("Sent request: " + outputData.getMessage());
+                    }
 
-            @Override
-            public void presentFriendRequestFailure(String errorMessage) {
-                System.out.println("Failed to send request: " + errorMessage);
-            }
-        };
-
+                    @Override
+                    public void presentFriendRequestFailure(String errorMessage) {
+                        System.out.println("Failed to send request: " + errorMessage);
+                    }
+                };
 
         AddFriendListOutputBoundary addFriendPresenter = new AddFriendListPresenter();
-        AddFriendListInputBoundary addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+        AddFriendListInputBoundary addFriendInteractor =
+                new AddFriendListInteractor(addFriendPresenter);
 
         HandleFriendRequestInputBoundary sendInteractor =
-                new HandleFriendRequestInteractor(matchDAO, addFriendInteractor, dummyPresenter);
+                new HandleFriendRequestInteractor(
+                        matchDataAccessObject, addFriendInteractor, dummyPresenter);
         sendInteractor.sendFriendRequest(userSession0, user1);
 
         // Step 6: verify user0 has outgoing request
         assertTrue(userSession0.getOutgoingMatches().contains(user1));
 
-        // Step 7: reload userSession1 to reflect DAO changes
-        userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
-
+        // Step 7: reload userSession1 to reflect DataAccessObject changes
+        userSession1 =
+                new UserSession(
+                        user1, userDataAccessObject, matchDataAccessObject, postDataAccessObject);
 
         assertTrue(userSession1.getIncomingMatches().contains(user0));
 
@@ -83,7 +104,8 @@ public class HandleFriendRequestInteractorTest {
 
         HandleFriendRequestOutputBoundary acceptPresenter = new FriendRequestPresenter(viewModel);
         HandleFriendRequestInputBoundary acceptInteractor =
-                new HandleFriendRequestInteractor(matchDAO, addFriendInteractor, acceptPresenter);
+                new HandleFriendRequestInteractor(
+                        matchDataAccessObject, addFriendInteractor, acceptPresenter);
 
         acceptInteractor.acceptFriendRequest(userSession1, user0);
 
@@ -91,6 +113,5 @@ public class HandleFriendRequestInteractorTest {
         assertFalse(userSession1.getIncomingMatches().contains(user0));
         assertTrue(userSession1.getUser().getFriendList().contains(user0));
         assertTrue(user0.getFriendList().contains(userSession1.getUser()));
-
     }
 }

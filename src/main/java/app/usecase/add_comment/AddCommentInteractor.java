@@ -1,10 +1,9 @@
 package app.usecase.add_comment;
 
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.entities.Comment;
 import app.entities.Post;
 import app.entities.UserSession;
-
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import java.time.LocalDateTime;
 
 /**
@@ -15,18 +14,18 @@ import java.time.LocalDateTime;
  * data access layer. The outcome is passed to the presenter through the output boundary.
  */
 public class AddCommentInteractor implements AddCommentInputBoundary {
-    private final PostDataAccessInterface postDAO;
+    private final PostDataAccessInterface postDataAccessObject;
     private final AddCommentOutputBoundary presenter;
 
     /**
      * Creates the AddComment use case interactor.
      *
-     * @param postDAO The data access object used to persist post updates.
+     * @param postDataAccessObject The data access object used to persist post updates.
      * @param presenter The presenter that will handle success or failure output.
      */
     public AddCommentInteractor(
-            PostDataAccessInterface postDAO, AddCommentOutputBoundary presenter) {
-        this.postDAO = postDAO;
+            PostDataAccessInterface postDataAccessObject, AddCommentOutputBoundary presenter) {
+        this.postDataAccessObject = postDataAccessObject;
         this.presenter = presenter;
     }
 
@@ -47,7 +46,7 @@ public class AddCommentInteractor implements AddCommentInputBoundary {
         Comment newComment =
                 new Comment(commentText, userSession.getUser().getName(), LocalDateTime.now());
         post.getComments().add(newComment); // UserSession update
-        postDAO.savePost(post.getAuthor(), post); // DAO update
+        postDataAccessObject.savePost(post.getAuthor(), post); // DataAccessObject update
 
         AddCommentOutputData outputData =
                 new AddCommentOutputData(

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MatchInteractionInteractorTest {
 
-    private MatchDataAccessInterface mockDAO;
+    private MatchDataAccessInterface mockDataAccessObject;
     private HandleFriendRequestInputBoundary mockRequestSender;
     private AddFriendListInputBoundary mockFriendAdder;
     private MatchInteractionOutputBoundary mockPresenter;
@@ -28,49 +28,48 @@ class MatchInteractionInteractorTest {
     void setUp() {
         outputHistory = new ArrayList<>();
 
-        mockDAO = new MatchDataAccessInterface() {
-            private final Map<User, List<User>> outgoing = new HashMap<>();
+        mockDataAccessObject =
+                new MatchDataAccessInterface() {
+                    private final Map<User, List<User>> outgoing = new HashMap<>();
 
-            @Override
-            public List<User> getOutgoingFriendRequest(User user) {
-                return outgoing.computeIfAbsent(user, k -> new ArrayList<>());
-            }
+                    @Override
+                    public List<User> getOutgoingFriendRequest(User user) {
+                        return outgoing.computeIfAbsent(user, k -> new ArrayList<>());
+                    }
 
-            @Override
-            public List<User> getIncomingFriendRequest(User user) {
-                return outgoing.computeIfAbsent(user, k -> new ArrayList<>());
-            }
+                    @Override
+                    public List<User> getIncomingFriendRequest(User user) {
+                        return outgoing.computeIfAbsent(user, k -> new ArrayList<>());
+                    }
 
-            @Override
-            public void addOutgoingFriendRequest(User from, User to) {}
+                    @Override
+                    public void addOutgoingFriendRequest(User from, User to) {}
 
-            @Override
-            public void addIncomingFriendRequest(User to, User from) {}
+                    @Override
+                    public void addIncomingFriendRequest(User to, User from) {}
 
-            @Override
-            public void addMatch(User user, app.entities.Match match) {}
+                    @Override
+                    public void addMatch(User user, app.entities.Match match) {}
 
-            @Override
-            public List<app.entities.Match> getMatches(User user) {
-                return new ArrayList<>();
-            }
-        };
+                    @Override
+                    public List<app.entities.Match> getMatches(User user) {
+                        return new ArrayList<>();
+                    }
+                };
 
+        mockRequestSender =
+                new HandleFriendRequestInputBoundary() {
+                    @Override
+                    public void sendFriendRequest(UserSession userSession, User toUser) {
+                        // 不再添加 output，交由 presenter 处理
+                    }
 
+                    @Override
+                    public void acceptFriendRequest(UserSession userSession, User fromUser) {}
 
-        mockRequestSender = new HandleFriendRequestInputBoundary() {
-            @Override
-            public void sendFriendRequest(UserSession userSession, User toUser) {
-                // 不再添加 output，交由 presenter 处理
-            }
-
-            @Override
-            public void acceptFriendRequest(UserSession userSession, User fromUser) {}
-
-            @Override
-            public void declineFriendRequest(UserSession userSession, User fromUser) {}
-        };
-
+                    @Override
+                    public void declineFriendRequest(UserSession userSession, User fromUser) {}
+                };
 
         mockFriendAdder = (user1, user2) -> {};
 
@@ -79,27 +78,38 @@ class MatchInteractionInteractorTest {
 
     @Test
     void testMutualConnectResultsInFriendship() {
-        User alice = new User(
-                "Alice", 20, "Toronto", "Female", "I love music!",
-                List.of("Taylor Swift", "Drake"),
-                List.of("Pop", "Hip-Hop"),
-                new ArrayList<>()
-        );
+        User alice =
+                new User(
+                        "Alice",
+                        20,
+                        "Toronto",
+                        "Female",
+                        "I love music!",
+                        List.of("Taylor Swift", "Drake"),
+                        List.of("Pop", "Hip-Hop"),
+                        new ArrayList<>());
 
-        User bob = new User(
-                "Bob", 21, "Vancouver", "Male", "Hi there!",
-                List.of("Drake", "Ed Sheeran"),
-                List.of("Pop", "Rock"),
-                new ArrayList<>()
-        );
+        User bob =
+                new User(
+                        "Bob",
+                        21,
+                        "Vancouver",
+                        "Male",
+                        "Hi there!",
+                        List.of("Drake", "Ed Sheeran"),
+                        List.of("Pop", "Rock"),
+                        new ArrayList<>());
 
         UserSession session = new UserSession();
         session.setUser(alice);
 
-        mockDAO.getOutgoingFriendRequest(bob).add(alice); // simulate Bob already sent request
+        mockDataAccessObject
+                .getOutgoingFriendRequest(bob)
+                .add(alice); // simulate Bob already sent request
 
-        MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDataAccessObject, mockRequestSender, mockFriendAdder, mockPresenter);
 
         interactor.connect(session, bob);
 
@@ -114,25 +124,34 @@ class MatchInteractionInteractorTest {
 
     @Test
     void testSingleConnectSendsRequest() {
-        User bob = new User(
-                "Bob", 21, "Vancouver", "Male", "Hi there!",
-                List.of("Drake", "Ed Sheeran"),
-                List.of("Pop", "Rock"),
-                new ArrayList<>()
-        );
+        User bob =
+                new User(
+                        "Bob",
+                        21,
+                        "Vancouver",
+                        "Male",
+                        "Hi there!",
+                        List.of("Drake", "Ed Sheeran"),
+                        List.of("Pop", "Rock"),
+                        new ArrayList<>());
 
-        User alice = new User(
-                "Alice", 20, "Toronto", "Female", "I love music!",
-                List.of("Taylor Swift", "Drake"),
-                List.of("Pop", "Hip-Hop"),
-                new ArrayList<>()
-        );
+        User alice =
+                new User(
+                        "Alice",
+                        20,
+                        "Toronto",
+                        "Female",
+                        "I love music!",
+                        List.of("Taylor Swift", "Drake"),
+                        List.of("Pop", "Hip-Hop"),
+                        new ArrayList<>());
 
         UserSession session = new UserSession();
         session.setUser(alice);
 
-        MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDataAccessObject, mockRequestSender, mockFriendAdder, mockPresenter);
 
         interactor.connect(session, bob);
 
@@ -143,6 +162,5 @@ class MatchInteractionInteractorTest {
         assertFalse(result.isMutual());
         assertEquals("Bob", result.getMatchedUserName());
         assertEquals("Friend request sent to Bob", result.getMessage());
-
     }
 }

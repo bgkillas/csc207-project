@@ -1,12 +1,10 @@
 package app.interface_adapter.presenter;
 
 import app.entities.User;
-import app.usecase.create_account.CreateAccountOutputBoundary;
-
-import javax.swing.*;
-
-import app.interface_adapter.controller.SetupUserProfileController;
 import app.frameworks_and_drivers.view.ProfileSetupView;
+import app.interface_adapter.controller.SetupUserProfileController;
+import app.usecase.create_account.CreateAccountOutputBoundary;
+import javax.swing.*;
 
 public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     private final JFrame frame;

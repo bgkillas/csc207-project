@@ -7,10 +7,7 @@ public class MatchInteractionOutputData {
     private final String message;
 
     public MatchInteractionOutputData(
-            boolean success,
-            boolean isMutual,
-            String matchedUserName,
-            String message) {
+            boolean success, boolean isMutual, String matchedUserName, String message) {
         this.success = success;
         this.isMutual = isMutual;
         this.matchedUserName = matchedUserName;

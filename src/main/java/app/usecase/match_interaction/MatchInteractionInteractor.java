@@ -8,35 +8,34 @@ import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
 
 public class MatchInteractionInteractor implements MatchInteractionInputBoundary {
 
-    private final MatchDataAccessInterface matchDAO;
+    private final MatchDataAccessInterface matchDataAccessObject;
     private final HandleFriendRequestInputBoundary handleFriendRequest;
     private final AddFriendListInputBoundary addFriendList;
     private final MatchInteractionOutputBoundary presenter;
 
     public MatchInteractionInteractor(
-            MatchDataAccessInterface matchDAO,
+            MatchDataAccessInterface matchDataAccessObject,
             HandleFriendRequestInputBoundary handleFriendRequest,
             AddFriendListInputBoundary addFriendList,
             MatchInteractionOutputBoundary presenter) {
-        this.matchDAO = matchDAO;
+        this.matchDataAccessObject = matchDataAccessObject;
         this.handleFriendRequest = handleFriendRequest;
         this.addFriendList = addFriendList;
         this.presenter = presenter;
     }
-
 
     @Override
     public void connect(UserSession userSession, User matchedUser) {
         User currentUser = userSession.getUser();
 
         boolean mutualConnect =
-                matchDAO.getOutgoingFriendRequest(matchedUser).contains(currentUser);
+                matchDataAccessObject.getOutgoingFriendRequest(matchedUser).contains(currentUser);
 
         if (mutualConnect) {
             // 双向 connect → 成为好友
             addFriendList.addFriend(currentUser, matchedUser);
-            matchDAO.getOutgoingFriendRequest(matchedUser).remove(currentUser);
-            matchDAO.getIncomingFriendRequest(currentUser).remove(matchedUser);
+            matchDataAccessObject.getOutgoingFriendRequest(matchedUser).remove(currentUser);
+            matchDataAccessObject.getIncomingFriendRequest(currentUser).remove(matchedUser);
 
             presenter.presentMatchInteractionResult(
                     new MatchInteractionOutputData(
@@ -57,7 +56,6 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
         }
     }
 
-
     @Override
     public void skip(UserSession userSession, User matchedUser) {
         userSession.getIncomingMatches().remove(matchedUser);
@@ -65,4 +63,3 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
         // 可以加入 decline 记录，但你之前说不需要暂存回队列，就简单移除
     }
 }
-
