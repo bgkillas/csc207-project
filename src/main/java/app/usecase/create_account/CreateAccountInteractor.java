@@ -3,7 +3,6 @@ package app.usecase.create_account;
 import app.entities.User;
 import app.entities.UserSession;
 import app.usecase.login.LoginManager;
-
 import java.util.ArrayList;
 
 public class CreateAccountInteractor implements CreateAccountInputBoundary {
@@ -20,7 +19,7 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
 
     /**
      * This method is called when a user tries to sign up using their Spotify account The Spotify
-     * username is passed in by the controller
+     * username is passed in by the controller.
      */
     @Override
     public void create(String spotifyUsername) {

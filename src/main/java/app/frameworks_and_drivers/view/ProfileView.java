@@ -1,14 +1,14 @@
 package app.frameworks_and_drivers.view;
 
-import app.usecase.create_post.CreatePostInteractor;
 import app.entities.User;
 import app.entities.UserSession;
-import javax.swing.*;
+import app.frameworks_and_drivers.view.components.NavButton;
+import app.interface_adapter.controller.PostFeedController;
+import app.usecase.create_post.CreatePostInteractor;
+import app.usecase.matching.MatchServiceImpl;
 import java.awt.*;
 import java.util.List;
-import app.usecase.matching.MatchServiceImpl;
-import app.interface_adapter.controller.PostFeedController;
-import app.frameworks_and_drivers.view.components.NavButton;
+import javax.swing.*;
 
 public class ProfileView extends JPanel {
     private final User user;

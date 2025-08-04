@@ -5,5 +5,6 @@ import app.entities.UserSession;
 
 public interface MatchInteractionInputBoundary {
     void connect(UserSession userSession, User matchedUser);
+
     void skip(UserSession userSession, User matchedUser);
 }

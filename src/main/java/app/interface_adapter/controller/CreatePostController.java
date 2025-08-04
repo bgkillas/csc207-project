@@ -1,8 +1,8 @@
 package app.interface_adapter.controller;
 
-import app.usecase.create_post.CreatePostInteractor;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.entities.User;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.usecase.create_post.CreatePostInteractor;
 import java.io.File;
 
 public class CreatePostController {

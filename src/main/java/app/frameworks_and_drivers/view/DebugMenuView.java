@@ -1,6 +1,10 @@
 package app.frameworks_and_drivers.view;
 
+import app.entities.User;
+import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.interface_adapter.controller.*;
 import app.interface_adapter.presenter.*;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
@@ -9,32 +13,26 @@ import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.create_account.CreateAccountInteractor;
 import app.usecase.create_account.CreateAccountOutputBoundary;
+import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
-import app.usecase.user_profile_setup.SetupUserProfileInteractor;
-import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import app.usecase.login.LoginManager;
 import app.usecase.login.LoginManagerMemory;
-import app.usecase.create_post.CreatePostInteractor;
-import app.entities.User;
-import app.entities.UserSession;
 import app.usecase.matchfilter.SetupMatchFilterInteractor;
 import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
-
-import javax.swing.*;
+import app.usecase.user_profile_setup.SetupUserProfileInteractor;
+import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.function.Function;
+import javax.swing.*;
 
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
-
-/** DebugMenuView functions as a debugging panel It displays buttons to launch all UI views */
+/** DebugMenuView functions as a debugging panel It displays buttons to launch all UI views. */
 public class DebugMenuView {
 
     /**
      * Creates the debug panel with a vertical list of buttons, one for each view Clicking a button
-     * opens the corresponding view in a new JFrame
+     * opens the corresponding view in a new JFrame.
      */
     public static JPanel create(UserSession session) throws NoSuchAlgorithmException {
         JPanel panel = new JPanel();
@@ -154,18 +152,20 @@ public class DebugMenuView {
                     viewModel.setIncomingRequests(session.getIncomingMatches());
                     FriendRequestPresenter presenter = new FriendRequestPresenter(viewModel);
                     AddFriendListOutputBoundary addFriendPresenter = new AddFriendListPresenter();
-                    AddFriendListInputBoundary addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+                    AddFriendListInputBoundary addFriendInteractor =
+                            new AddFriendListInteractor(addFriendPresenter);
 
                     HandleFriendRequestInteractor interactor =
                             new HandleFriendRequestInteractor(
-                                    new InMemoryMatchDataAccessObject(), // or your actual DAO
+                                    // or your actual DataAccessObject
+                                    new InMemoryMatchDataAccessObject(),
                                     addFriendInteractor,
                                     presenter);
                     FriendRequestController controller = new FriendRequestController(interactor);
 
-                    return new ConnectRequestView(tempFrame, dummyUser, session, controller, viewModel);
+                    return new ConnectRequestView(
+                            tempFrame, dummyUser, session, controller, viewModel);
                 });
-
 
         // NEEDS TO BE FIXED (actionListeners don't work unless view
         // is accessed through PostFeedView
@@ -173,10 +173,12 @@ public class DebugMenuView {
                 panel,
                 "CreatePostView",
                 () -> {
-                    PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
-                    CreatePostInteractor interactor = new CreatePostInteractor(postDAO);
+                    PostDataAccessInterface postDataAccessObject =
+                            new InMemoryPostDataAccessObject();
+                    CreatePostInteractor interactor =
+                            new CreatePostInteractor(postDataAccessObject);
                     CreatePostController controller = new CreatePostController(interactor);
-                    return new CreatePostView(dummyUser, session, frame, postDAO)
+                    return new CreatePostView(dummyUser, session, frame, postDataAccessObject)
                             .create(controller);
                 });
 
@@ -220,7 +222,7 @@ public class DebugMenuView {
     }
 
     /**
-     * Adds a button to the debug menu that opens the given view in a new window
+     * Adds a button to the debug menu that opens the given view in a new window.
      *
      * @param panel The debug panel to add the button to
      * @param name The name of the view

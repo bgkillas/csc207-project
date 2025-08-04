@@ -1,8 +1,8 @@
 package app.interface_adapter.controller;
 
-import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
 import app.entities.User;
 import app.entities.UserSession;
+import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
 
 public class FriendRequestController {
     private final HandleFriendRequestInputBoundary handleFriendRequestInteractor;

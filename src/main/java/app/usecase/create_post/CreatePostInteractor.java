@@ -1,15 +1,14 @@
 package app.usecase.create_post;
 
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.entities.Post;
 import app.entities.User;
-
-import javax.imageio.ImageIO;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import java.awt.Image;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 
 public class CreatePostInteractor implements CreatePost {
     private final PostDataAccessInterface postDataAccess;
@@ -39,7 +38,7 @@ public class CreatePostInteractor implements CreatePost {
         Post newPost =
                 new Post(title, content, postImage, LocalDateTime.now(), author, new ArrayList<>());
 
-        // Save post in DAO
+        // Save post in DataAccessObject
         postDataAccess.savePost(author, newPost);
     }
 }

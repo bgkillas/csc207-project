@@ -1,24 +1,22 @@
 package app.frameworks_and_drivers.view;
 
 import app.interface_adapter.controller.SetupMatchFilterController;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 /**
  * This class builds the GUI form for setting up a user's match filter preferences It collects user
  * input (min age, max age, preferred gender, and location), and sends it to the controller when
- * "Set Match Filter" button pressed
+ * "Set Match Filter" button pressed.
  */
 public class MatchFilterSetupView {
+    /**
+     * Creates a JPanel that includes input fields and a submit button to set up the match filter.
+     *
+     * @param controller the controller that handles the setup of the match filter
+     * @return a fully constructed JPanel for match filter setup
+     */
     public static JPanel create(SetupMatchFilterController controller) {
-        /**
-         * Creates a JPanel that includes input fields and a submit button to set up the match
-         * filter
-         *
-         * @param controller the controller that handles the setup of the match filter
-         * @return a fully constructed JPanel for match filter setup
-         */
         JPanel panel = new JPanel(new GridLayout(6, 2));
 
         JTextField minAgeField = new JTextField();

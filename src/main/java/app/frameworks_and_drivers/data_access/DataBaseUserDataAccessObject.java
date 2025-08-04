@@ -1,3 +1,3 @@
 package app.frameworks_and_drivers.data_access;
 
-public class DBUserDataAccessObject {}
+public class DataBaseUserDataAccessObject {}

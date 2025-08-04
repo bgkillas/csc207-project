@@ -1,10 +1,9 @@
 package app.entities;
 
-import java.util.List;
-import java.util.UUID;
-
 import app.usecase.matching.MatchCalculator;
 import app.usecase.matching.MatchCalculatorImpl;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a match between the current user and another user, along with their compatibility

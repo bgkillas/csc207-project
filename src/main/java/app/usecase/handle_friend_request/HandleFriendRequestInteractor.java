@@ -1,20 +1,20 @@
 package app.usecase.handle_friend_request;
 
-import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 
 public class HandleFriendRequestInteractor implements HandleFriendRequestInputBoundary {
-    private final MatchDataAccessInterface matchDAO;
+    private final MatchDataAccessInterface matchDataAccessObject;
     private final AddFriendListInputBoundary addFriendListInteractor;
     private final HandleFriendRequestOutputBoundary presenter;
 
     public HandleFriendRequestInteractor(
-            MatchDataAccessInterface matchDAO,
+            MatchDataAccessInterface matchDataAccessObject,
             AddFriendListInputBoundary addFriendListInteractor,
             HandleFriendRequestOutputBoundary presenter) {
-        this.matchDAO = matchDAO;
+        this.matchDataAccessObject = matchDataAccessObject;
         this.addFriendListInteractor = addFriendListInteractor;
         this.presenter = presenter;
     }
@@ -38,10 +38,10 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
             return;
         }
 
-        matchDAO.addOutgoingFriendRequest(currentUser, toUser);
+        matchDataAccessObject.addOutgoingFriendRequest(currentUser, toUser);
         userSession.getOutgoingMatches().add(toUser);
 
-        matchDAO.addIncomingFriendRequest(toUser, currentUser);
+        matchDataAccessObject.addIncomingFriendRequest(toUser, currentUser);
         userSession.getIncomingMatches().add(currentUser);
 
         HandleFriendRequestOutputData outputData =
@@ -64,9 +64,9 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
             return;
         }
 
-        matchDAO.getIncomingFriendRequest(currentUser).remove(fromUser);
+        matchDataAccessObject.getIncomingFriendRequest(currentUser).remove(fromUser);
         userSession.getIncomingMatches().remove(fromUser);
-        matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);
+        matchDataAccessObject.getOutgoingFriendRequest(fromUser).remove(currentUser);
 
         addFriendListInteractor.addFriend(currentUser, fromUser);
 
@@ -90,8 +90,8 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
             return;
         }
 
-        matchDAO.getIncomingFriendRequest(currentUser).remove(fromUser);
-        matchDAO.getOutgoingFriendRequest(fromUser).remove(currentUser);
+        matchDataAccessObject.getIncomingFriendRequest(currentUser).remove(fromUser);
+        matchDataAccessObject.getOutgoingFriendRequest(fromUser).remove(currentUser);
 
         userSession.getIncomingMatches().remove(fromUser);
 

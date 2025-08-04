@@ -1,7 +1,6 @@
 package app.usecase.create_post;
 
 import app.entities.User;
-
 import java.io.File;
 
 public interface CreatePost {

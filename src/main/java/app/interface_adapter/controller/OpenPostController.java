@@ -1,18 +1,15 @@
 package app.interface_adapter.controller;
 
-import app.entities.Post;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import java.io.File;
 
 public class OpenPostController {
-    private final PostDataAccessInterface postDAO;
+    private final PostDataAccessInterface postDataAccessObject;
 
-    public OpenPostController(PostDataAccessInterface postDAO) {
-        this.postDAO = postDAO;
+    public OpenPostController(PostDataAccessInterface postDataAccessObject) {
+        this.postDataAccessObject = postDataAccessObject;
     }
 
     public OpenPostController() {
-        this.postDAO = null;
+        this.postDataAccessObject = null;
     }
-
 }

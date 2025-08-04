@@ -3,39 +3,41 @@ package app.frameworks_and_drivers.view;
 import app.entities.Post;
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.view.components.CircularButton;
+import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.CreatePostController;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
-import app.frameworks_and_drivers.view.components.CircularButton;
-import app.frameworks_and_drivers.view.components.NavButton;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.usecase.create_post.CreatePostInteractor;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import javax.swing.*;
 
 /** View for the post feed panel. */
 public class PostFeedView extends JPanel {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
-    private final PostDataAccessInterface postDAO;
+    private final PostDataAccessInterface postDataAccessObject;
 
     public PostFeedView(User currentUser, UserSession session, JFrame frame) {
         this.currentUser = currentUser;
         this.session = session;
         this.frame = frame;
-        this.postDAO = new InMemoryPostDataAccessObject();
+        this.postDataAccessObject = new InMemoryPostDataAccessObject();
     }
 
     public PostFeedView(
-            User currentUser, UserSession session, JFrame frame, PostDataAccessInterface postDAO) {
+            User currentUser,
+            UserSession session,
+            JFrame frame,
+            PostDataAccessInterface postDataAccessObject) {
         this.currentUser = currentUser;
         this.session = session;
         this.frame = frame;
-        this.postDAO = postDAO;
+        this.postDataAccessObject = postDataAccessObject;
     }
 
     public JPanel create(PostFeedController controller) {
@@ -58,7 +60,7 @@ public class PostFeedView extends JPanel {
         postFeedPanel.setLayout(new BoxLayout(postFeedPanel, BoxLayout.Y_AXIS));
 
         // Get actual posts from data access layer
-        java.util.List<Post> userPosts = postDAO.getPostsByUser(currentUser);
+        java.util.List<Post> userPosts = postDataAccessObject.getPostsByUser(currentUser);
 
         if (userPosts.isEmpty()) {
             // Show a message if no posts
@@ -123,9 +125,11 @@ public class PostFeedView extends JPanel {
                     try {
                         controller.createNewPost();
                         CreatePostController createPostController =
-                                new CreatePostController(new CreatePostInteractor(postDAO));
+                                new CreatePostController(
+                                        new CreatePostInteractor(postDataAccessObject));
                         CreatePostView createPostview =
-                                new CreatePostView(currentUser, session, frame, postDAO);
+                                new CreatePostView(
+                                        currentUser, session, frame, postDataAccessObject);
                         JPanel createPostPanel = createPostview.create(createPostController);
                         frame.setContentPane(createPostPanel);
                         frame.revalidate();
@@ -200,8 +204,11 @@ public class PostFeedView extends JPanel {
                 new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent e) {
-                        OpenPostView openPostView = new OpenPostView(currentUser, session, frame, postDAO, post);
-                        frame.setContentPane(openPostView.create(new OpenPostController(postDAO)));
+                        OpenPostView openPostView =
+                                new OpenPostView(
+                                        currentUser, session, frame, postDataAccessObject, post);
+                        frame.setContentPane(
+                                openPostView.create(new OpenPostController(postDataAccessObject)));
                         frame.revalidate();
                         frame.repaint();
                     }

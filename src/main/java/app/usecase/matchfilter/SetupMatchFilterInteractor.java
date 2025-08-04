@@ -7,7 +7,7 @@ import app.entities.UserSession;
 /**
  * This class implements the application logic for setting up a user's match filter It takes the
  * match preferences as input, creates a MatchFilter object, attaches it to the currently logged-in
- * user (from UserSession), and calls the presenter
+ * user (from UserSession), and calls the presenter.
  */
 public class SetupMatchFilterInteractor implements SetupMatchFilterInputBoundary {
     private final SetupMatchFilterOutputBoundary presenter;
@@ -20,7 +20,7 @@ public class SetupMatchFilterInteractor implements SetupMatchFilterInputBoundary
     }
 
     /**
-     * Sets up the match filter for the current user using the given preferences
+     * Sets up the match filter for the current user using the given preferences.
      *
      * @param minAge Minimum preferred age for matches
      * @param maxAge Maximum preferred age for matches

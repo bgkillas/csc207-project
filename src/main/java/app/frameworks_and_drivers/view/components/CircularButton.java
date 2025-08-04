@@ -1,7 +1,7 @@
 package app.frameworks_and_drivers.view.components;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 // Custom JButton class
 public class CircularButton extends JButton {
