@@ -1,6 +1,6 @@
 package app.usecase_tests;
 
-import app.interface_adapter.presentor.AddFriendListPresenter;
+import app.interface_adapter.presenter.AddFriendListPresenter;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.entities.MatchFilter;
 import app.entities.User;

@@ -1,4 +1,4 @@
-package app.interface_adapter.presentor;
+package app.interface_adapter.presenter;
 
 import app.usecase.handle_friend_request.HandleFriendRequestOutputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputData;

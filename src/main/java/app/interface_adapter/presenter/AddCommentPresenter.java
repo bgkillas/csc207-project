@@ -1,4 +1,4 @@
-package app.interface_adapter.presentor;
+package app.interface_adapter.presenter;
 
 import app.usecase.add_comment.AddCommentOutputBoundary;
 import app.usecase.add_comment.AddCommentOutputData;

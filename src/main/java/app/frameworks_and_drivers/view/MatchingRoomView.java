@@ -2,8 +2,8 @@ package app.frameworks_and_drivers.view;
 
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.interface_adapter.controller.FriendRequestController;
-import app.interface_adapter.presentor.AddFriendListPresenter;
-import app.interface_adapter.presentor.FriendRequestPresenter;
+import app.interface_adapter.presenter.AddFriendListPresenter;
+import app.interface_adapter.presenter.FriendRequestPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 import app.usecase.add_friend_list.AddFriendListInteractor;

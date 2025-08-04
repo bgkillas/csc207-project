@@ -5,13 +5,13 @@ import app.interface_adapter.controller.SetupMatchFilterController;
 import app.usecase.matchfilter.SetupMatchFilterInputBoundary;
 import app.usecase.matchfilter.SetupMatchFilterInteractor;
 import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
-import app.interface_adapter.presentor.SetupMatchFilterPresenter;
+import app.interface_adapter.presenter.SetupMatchFilterPresenter;
 
 import app.interface_adapter.controller.SetupUserProfileController;
 import app.usecase.user_profile_setup.SetupUserProfileInputBoundary;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
-import app.interface_adapter.presentor.SetupUserProfilePresenter;
+import app.interface_adapter.presenter.SetupUserProfilePresenter;
 
 import app.interface_adapter.controller.CreateAccountController;
 import app.usecase.login.LoginManager;
@@ -21,7 +21,7 @@ import app.entities.UserSession;
 import app.usecase.create_account.CreateAccountInputBoundary;
 import app.usecase.create_account.CreateAccountInteractor;
 import app.usecase.create_account.CreateAccountOutputBoundary;
-import app.interface_adapter.presentor.CreateAccountPresenter;
+import app.interface_adapter.presenter.CreateAccountPresenter;
 import app.frameworks_and_drivers.view.DebugMenuView;
 
 import javax.swing.JFrame;

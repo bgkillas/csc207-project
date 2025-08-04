@@ -1,4 +1,4 @@
-package app.interface_adapter.presentor;
+package app.interface_adapter.presenter;
 
 import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.add_friend_list.AddFriendListOutputData;
