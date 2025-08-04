@@ -72,7 +72,8 @@ public class HandleFriendRequestInteractorTest {
         assertTrue(userSession0.getOutgoingMatches().contains(user1));
 
         // Step 7: reload userSession1 to reflect DAO changes
-        userSession1 = new UserSession(user1);
+        userSession1 = new UserSession(user1, userDAO, matchDAO, postDAO);
+
 
         assertTrue(userSession1.getIncomingMatches().contains(user0));
 
@@ -88,7 +89,8 @@ public class HandleFriendRequestInteractorTest {
 
         // Step 9: assertions after accept
         assertFalse(userSession1.getIncomingMatches().contains(user0));
-        assertTrue(user1.getFriendList().contains(user0));
-        assertTrue(user0.getFriendList().contains(user1));
+        assertTrue(userSession1.getUser().getFriendList().contains(user0));
+        assertTrue(user0.getFriendList().contains(userSession1.getUser()));
+
     }
 }
