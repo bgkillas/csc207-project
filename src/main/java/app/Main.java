@@ -1,6 +1,7 @@
 package app.frameworks_and_drivers;
 
 // import app.frameworks_and_drivers.view.LoginView;
+import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.SetupMatchFilterController;
 import app.usecase.matchfilter.SetupMatchFilterInputBoundary;
 import app.usecase.matchfilter.SetupMatchFilterInteractor;
@@ -67,8 +68,8 @@ public class Main {
                 new CreateAccountController(createAccountInteractor);
 
         // Initial Login View
-        // final JPanel login = LoginView.create(login_manager, createAccountController);
-        // views.add(login);
+/*        final JPanel login = LoginView.create(login_manager, createAccountController);
+        views.add(login);*/
 
         // Connecting to DebugMenuView
         final JPanel debugView = DebugMenuView.create(session);
