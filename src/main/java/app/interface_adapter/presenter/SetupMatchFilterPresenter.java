@@ -6,9 +6,6 @@ import app.entities.UserSession;
 import app.frameworks_and_drivers.view.MatchingRoomView;
 import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
 import app.usecase.matching.MatchServiceImpl;
-import app.frameworks_and_drivers.view.MatchingRoomView;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;

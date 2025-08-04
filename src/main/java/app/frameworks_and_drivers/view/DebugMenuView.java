@@ -11,8 +11,6 @@ import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.add_friend_list.AddFriendListOutputBoundary;
-import app.usecase.create_account.CreateAccountInteractor;
-import app.usecase.create_account.CreateAccountOutputBoundary;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.login.LoginManager;
@@ -106,19 +104,20 @@ public class DebugMenuView {
         session.getIncomingMatches().add(user3);
 
         // Controllers for views that require them NEWWW
-/*        SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();
+        /*        SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();
         SetupUserProfileController profileController =
                 new SetupUserProfileController(
                         new SetupUserProfileInteractor(profilePresenter, session));*/
 
-/*
-        // Profile Setup: create frame and inject it into presenter
-        JFrame profileFrame = new JFrame("Set Up Profile");
-        SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter(profileFrame);
-        SetupUserProfileController profileController =
-                new SetupUserProfileController(
-                        new SetupUserProfileInteractor(profilePresenter, session));
-*/
+        /*
+                // Profile Setup: create frame and inject it into presenter
+                JFrame profileFrame = new JFrame("Set Up Profile");
+                SetupUserProfileOutputBoundary profilePresenter =
+                    new SetupUserProfilePresenter(profileFrame);
+                SetupUserProfileController profileController =
+                        new SetupUserProfileController(
+                                new SetupUserProfileInteractor(profilePresenter, session));
+        */
 
         JFrame frame = new JFrame();
         SetupMatchFilterOutputBoundary matchFilterPresenter =
@@ -191,13 +190,12 @@ public class DebugMenuView {
                             .create(controller);
                 });
 
-    /*    addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
-*/
+        /*    addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
+         */
         addButtonWithFrame(
                 panel,
                 "MatchFilterSetupView",
-                tempFrame -> MatchFilterSetupView.create(matchFilterController, frame)
-        );
+                tempFrame -> MatchFilterSetupView.create(matchFilterController, frame));
 
         addButtonWithFrame(
                 panel,
@@ -221,17 +219,18 @@ public class DebugMenuView {
                     return new PostFeedView(currentUser, session, tempFrame)
                             .create(postFeedViewController);
                 });
-/*        addButton( NEWWW
-                panel,
-                "ProfileSetupView",
-                () -> ProfileSetupView.create(profileController, session.getUser()));*/
+        /*        addButton( NEWWW
+        panel,
+        "ProfileSetupView",
+        () -> ProfileSetupView.create(profileController, session.getUser()));*/
 
         addButtonWithFrame(
                 panel,
                 "ProfileSetupView",
                 tempFrame -> {
                     // Recreate the presenter and controller using this new tempFrame
-                    SetupUserProfileOutputBoundary tempPresenter = new SetupUserProfilePresenter(tempFrame);
+                    SetupUserProfileOutputBoundary tempPresenter =
+                            new SetupUserProfilePresenter(tempFrame);
                     SetupUserProfileController tempController =
                             new SetupUserProfileController(
                                     new SetupUserProfileInteractor(tempPresenter, session));
