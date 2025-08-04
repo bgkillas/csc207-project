@@ -195,12 +195,13 @@ public class PostFeedView extends JPanel {
         postCard.add(textPanel, BorderLayout.CENTER);
 
         // Make the entire card clickable
+        postCard.setCursor(new Cursor(Cursor.HAND_CURSOR));
         postCard.addMouseListener(
                 new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent e) {
-                        OpenPostView openPostView = new OpenPostView(currentUser, session, frame);
-                        frame.setContentPane(openPostView.create(new OpenPostController()));
+                        OpenPostView openPostView = new OpenPostView(currentUser, session, frame, postDAO, post);
+                        frame.setContentPane(openPostView.create(new OpenPostController(postDAO)));
                         frame.revalidate();
                         frame.repaint();
                     }
