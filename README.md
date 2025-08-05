@@ -241,6 +241,10 @@ src/
 - **JSON**: Data handling
 
 ---
+### **Accessibility Report**
+Universal Principle of Design
+- Principle 1: Equitable Use
+---
 
 ## **Contributing**
 
@@ -249,6 +253,7 @@ src/
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
