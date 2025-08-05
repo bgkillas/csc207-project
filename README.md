@@ -154,6 +154,8 @@ Before installing S-Buddify, ensure you have the following software installed:
 1. **Access Matching Room**
    - Navigate to the "Matching" section
    - View potential matches based on your preferences
+   - Connect or Skip potential matches
+![Matching Flow Demo](https://raw.githubusercontent.com/bgkillas/csc207-project/main/assets/matching_demo.gif)
 
 2. **Browse Profiles**
    - See compatibility scores with each potential match
@@ -247,6 +249,7 @@ src/
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
