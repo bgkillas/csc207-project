@@ -4,8 +4,10 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Post {
+    private UUID id;
     private String title;
     private String text;
     private Image image;
@@ -20,6 +22,7 @@ public class Post {
             LocalDateTime timestamp,
             User author,
             List<Comment> comments) {
+        this.id = UUID.randomUUID();
         this.title = title;
         this.text = text;
         this.image = image;
@@ -29,6 +32,7 @@ public class Post {
     }
 
     public Post() {
+        this.id = null;
         this.title = "Untitled";
         this.text = "";
         this.image = null;
@@ -36,6 +40,10 @@ public class Post {
         this.author = null;
         this.comments = new ArrayList<Comment>();
     }
+
+    public UUID getId() {return this.id;}
+
+    public void setId(UUID id) {this.id = id;}
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;

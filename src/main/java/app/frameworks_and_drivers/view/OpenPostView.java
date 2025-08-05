@@ -11,7 +11,6 @@ import app.interface_adapter.controller.AddCommentController;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddCommentPresenter;
-import app.usecase.add_comment.AddCommentInputBoundary;
 import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
@@ -116,7 +115,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
         postPanel.add(contentScrollPane, BorderLayout.CENTER);
 
         mainPanel.add(postPanel);
-        mainPanel.add(Box.createVerticalStrut(20));
+//        mainPanel.add(Box.createVerticalStrut(20));
 
         // Comment Section Bar
         JPanel commentSection = new JPanel(new BorderLayout());
@@ -153,14 +152,14 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
 
         JScrollPane commentScrollPane = new JScrollPane(commentPanel);
 
-        JTextArea commentArea = new JTextArea(3, 1);
+        JTextArea commentArea = new JTextArea();
+        commentArea.setBackground(Color.BLACK);
         commentArea.setLineWrap(true);
         commentArea.setWrapStyleWord(true);
 
         JButton addCommentButton = new JButton("Add Comment");
         addCommentButton.addActionListener(
                 e -> {
-                    // Comment something
                     String comment = commentArea.getText();
                     AddCommentInteractor interactor =
                             new AddCommentInteractor(postDataAccessObject, new AddCommentPresenter(this));
