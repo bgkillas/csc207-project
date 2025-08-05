@@ -2,12 +2,16 @@ package app.usecase_tests;
 
 import app.entities.*;
 import app.frameworks_and_drivers.data_access.*;
+import app.frameworks_and_drivers.view.AddCommentViewInterface;
+import app.frameworks_and_drivers.view.OpenPostView;
+import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
 import org.junit.Test;
 import app.usecase.add_comment.AddCommentInputBoundary;
 import app.usecase.add_comment.AddCommentOutputBoundary;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +68,15 @@ public class AddCommentInteractorTest {
         // this post has no comment yet
         assertTrue(newPost.getComments().isEmpty());
 
-        // user0 (Stan) logs in to the app and finds the new post in his post feed.
+        // Stan (user0) logs in to the app and opens that specific post in his post feed.
         UserSession userSession0 = new UserSession(user0);
+
+        // Stan can see the OpenPostView
+        AddCommentViewInterface view = new OpenPostView(user0, userSession0, new JFrame());
 
         // Stan makes a comment on user1's post
         String comment = "I agree!";
-        AddCommentOutputBoundary presenter = new AddCommentPresenter();
+        AddCommentOutputBoundary presenter = new AddCommentPresenter(view);
         AddCommentInputBoundary addcomment =
                 new AddCommentInteractor(postDataAccessObject, presenter);
         addcomment.addComment(userSession0, newPost, comment);
