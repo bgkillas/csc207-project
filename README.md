@@ -171,7 +171,7 @@ Before installing S-Buddify, ensure you have the following software installed:
 3. **Send Friend Requests**
    - Click the Connect button to send connection requests
    - Manage incoming and outgoing requests
-![Matching Flow Demo](https://github.com/bgkillas/csc207-project/blob/main/assets/connectrequestview.gif)
+![Handle Connect Request Demo](https://github.com/bgkillas/csc207-project/blob/main/assets/connectrequestview.gif)
 
 ### **Creating and Sharing Posts**
 
@@ -261,6 +261,7 @@ Universal Principle of Design
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
