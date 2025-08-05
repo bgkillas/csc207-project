@@ -3,14 +3,24 @@ package app.frameworks_and_drivers.view;
 import app.entities.Post;
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CircularButton;
 import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.CreatePostController;
+import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
+import app.interface_adapter.presenter.AddFriendListPresenter;
+import app.interface_adapter.presenter.FriendRequestPresenter;
+import app.interface_adapter.presenter.MatchInteractionPresenter;
+import app.interface_adapter.viewmodel.FriendRequestViewModel;
+import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
+import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
+import app.usecase.match_interaction.MatchInteractionInteractor;
+
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -140,16 +150,36 @@ public class PostFeedView extends JPanel {
                 });
 
         // navigate to matching room
-        btnMatching.addActionListener(
-                e -> {
-                    List matches = (List) session.getAllUsers();
-                    JPanel matchingPanel =
-                            new MatchingRoomView(
-                                    frame, currentUser, (java.util.List<User>) matches, session);
-                    frame.setContentPane(matchingPanel);
-                    frame.revalidate();
-                    frame.repaint();
-                });
+        btnMatching.addActionListener(e -> {
+            List<User> matches = (List<User>) session.getAllUsers();
+
+            MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
+
+            InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
+
+            AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
+            AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+
+            HandleFriendRequestInteractor friendRequestInteractor = new HandleFriendRequestInteractor(
+                    matchDAO, addFriendInteractor, new FriendRequestPresenter(new FriendRequestViewModel())
+            );
+
+            MatchInteractionInteractor interactor = new MatchInteractionInteractor(
+                    matchDAO,
+                    friendRequestInteractor,
+                    addFriendInteractor,
+                    matchPresenter
+            );
+
+            MatchInteractionController matchcontroller = new MatchInteractionController(interactor);
+
+            JPanel matchingPanel = new MatchingRoomView(frame, currentUser, matches, session, matchcontroller);
+
+            frame.setContentPane(matchingPanel);
+            frame.revalidate();
+            frame.repaint();
+        });
+
         // navigate to profile
         btnProfile.addActionListener(
                 e -> {

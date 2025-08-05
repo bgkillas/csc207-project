@@ -2,8 +2,17 @@ package app.frameworks_and_drivers.view;
 
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.interface_adapter.controller.FriendRequestController;
+import app.interface_adapter.controller.MatchInteractionController;
+import app.interface_adapter.presenter.AddFriendListPresenter;
+import app.interface_adapter.presenter.FriendRequestPresenter;
+import app.interface_adapter.presenter.MatchInteractionPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
+import app.usecase.add_friend_list.AddFriendListInteractor;
+import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
+import app.usecase.match_interaction.MatchInteractionInteractor;
+
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -30,14 +39,34 @@ public class ConnectRequestView extends JPanel {
         JLabel countLabel = new JLabel("", SwingConstants.CENTER);
         countLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
+        MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
+        InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
+
+        AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
+        AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+
+        HandleFriendRequestInteractor friendRequestInteractor =
+                new HandleFriendRequestInteractor(
+                        matchDAO, addFriendInteractor, new FriendRequestPresenter(new FriendRequestViewModel()));
+
+        MatchInteractionInteractor matchInteractor = new MatchInteractionInteractor(
+                matchDAO,
+                friendRequestInteractor,
+                addFriendInteractor,
+                matchPresenter
+        );
+
+        MatchInteractionController matchController = new MatchInteractionController(matchInteractor);
+
         JButton back = new JButton("← Back");
         back.addActionListener(
                 e -> {
-                    frame.setContentPane(
-                            new MatchingRoomView(
-                                    frame, currentUser, session.getAllUsers(), session));
+                    JPanel matchingRoom = new MatchingRoomView(
+                            frame, currentUser, session.getAllUsers(), session, matchController);
+                    frame.setContentPane(matchingRoom);
                     frame.revalidate();
                 });
+
 
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.add(back, BorderLayout.WEST);
