@@ -22,6 +22,9 @@ public class SpotifyTest {
         System.out.println(spotify.getToken());
         spotify.refreshToken();
         System.out.println(spotify.getToken());
+        spotify.pullUserData();
+        System.out.println(spotify.getUserName());
+        System.out.println(spotify.getUserId());
     }
 
     @Test

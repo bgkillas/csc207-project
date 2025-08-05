@@ -13,8 +13,17 @@ public interface SpotifyInterface {
     /** Pulls top tracks in the user profile to the class. */
     void pullTopTracks();
 
+    /** Pulls the user id and name from the user profile to the class. */
+    void pullUserData();
+
     /** refreshes the token as it expires after 1 hour if not manually refreshed. */
     void refreshToken();
+
+    /** gets the previously pulled userid. */
+    String getUserId();
+
+    /** gets the previously pulled user name. */
+    String getUserName();
 
     /** gets top artists in the user profile from the class. limited to at most 10 unique artists */
     List<String> getTopArtists();

@@ -34,11 +34,16 @@ public class Spotify implements SpotifyInterface {
 
     final String secret = "6b29dd91b6c24248ad585dda1814a003";
 
+    String userId;
+
+    String userName;
+
     String code;
 
     String token;
 
     String refreshToken;
+
 
     /** Initializes spotify class. */
     public Spotify() {}
@@ -219,6 +224,34 @@ public class Spotify implements SpotifyInterface {
     }
 
     @Override
+    public void pullUserData() {
+        try {
+            topTracks.clear();
+            URL url = new URL("https://api.spotify.com/v1/me");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            int responseCode = conn.getResponseCode();
+            InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
+            if (responseCode >= 400) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+                String line = in.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = in.readLine();
+                }
+                return;
+            }
+            JSONObject json = new JSONObject(new JSONTokener(is));
+            this.userId = json.getString("id");
+            this.userName = json.getString("display_name");
+            conn.disconnect();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void refreshToken() {
         try {
             String credentials = clientId + ":" + secret;
@@ -257,6 +290,16 @@ public class Spotify implements SpotifyInterface {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String getUserId() {
+        return this.userId;
+    }
+
+    @Override
+    public String getUserName() {
+        return this.userName;
     }
 
     @Override
