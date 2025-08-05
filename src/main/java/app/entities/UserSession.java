@@ -3,7 +3,6 @@ package app.entities;
 import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
-import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,15 +94,29 @@ public class UserSession {
         return allUsers;
     }
 
+    /** adds a user to the user list. */
     public void addUser(User user) {
         allUsers.add(user);
     }
 
-    public void initiateSpotify() {
-        spotify = new Spotify();
+    /** initiates spotify api. */
+    public void initiateSpotify(SpotifyInterface spotify) {
+        this.spotify = spotify;
         spotify.initSpotify();
+        spotify.pullUserData();
     }
 
+    /** returns the user name from spotify info. */
+    public String getUserName() {
+        return spotify.getUserName();
+    }
+
+    /** returns the user id from spotify info. */
+    public String getUserId() {
+        return spotify.getUserId();
+    }
+
+    /** updates tracks/artists/genres data from spotify api if available. */
     public void updateSpotify() {
         if (spotify != null) {
             spotify.pullTopArtistsAndGenres();
