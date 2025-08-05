@@ -15,6 +15,7 @@ import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.login.LoginManager;
 import app.usecase.login.LoginManagerMemory;
+import app.usecase.match_interaction.MatchInteractionInteractor;
 import app.usecase.matchfilter.SetupMatchFilterInteractor;
 import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
@@ -200,16 +201,38 @@ public class DebugMenuView {
         addButtonWithFrame(
                 panel,
                 "MatchingRoomView",
-                tempFrame ->
-                        new MatchingRoomView(
-                                tempFrame,
-                                dummyUser,
-                                Collections.singletonList(dummyUser),
-                                session));
-        addButton(
-                panel,
-                "OpenPostView",
-                () -> new OpenPostView(dummyUser, session, frame).create(openPostController));
+                tempFrame -> {
+
+                    MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
+
+                    InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
+
+                    AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
+                    AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+
+                    FriendRequestViewModel requestViewModel = new FriendRequestViewModel();
+                    FriendRequestPresenter requestPresenter = new FriendRequestPresenter(requestViewModel);
+                    HandleFriendRequestInteractor friendRequestInteractor = new HandleFriendRequestInteractor(
+                            matchDAO, addFriendInteractor, requestPresenter
+                    );
+
+                    MatchInteractionInteractor interactor = new MatchInteractionInteractor(
+                            matchDAO,
+                            friendRequestInteractor,
+                            addFriendInteractor,
+                            matchPresenter
+                    );
+
+                    MatchInteractionController controller = new MatchInteractionController(interactor);
+
+                    return new MatchingRoomView(
+                            tempFrame,
+                            dummyUser,
+                            Collections.singletonList(dummyUser),
+                            session,
+                            controller
+                    );
+                });
 
         addButtonWithFrame(
                 panel,

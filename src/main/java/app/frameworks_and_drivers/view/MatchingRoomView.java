@@ -3,8 +3,10 @@ package app.frameworks_and_drivers.view;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.FriendRequestController;
+import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
 import app.interface_adapter.presenter.FriendRequestPresenter;
@@ -13,7 +15,11 @@ import app.usecase.add_friend_list.AddFriendListInputBoundary;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.create_post.CreatePostInteractor;
+import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
+import app.usecase.match_interaction.MatchInteractionInteractor;
+import app.usecase.match_interaction.MatchInteractionOutputBoundary;
+
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -21,9 +27,19 @@ import javax.swing.*;
 public class MatchingRoomView extends JPanel {
 
     private int currentIndex = 0;
+//    // old version
+//    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches, UserSession session) {
+//        this(frame, currentUser, matches, session, null);
+//    }
 
+   //new version
     public MatchingRoomView(
-            JFrame frame, User currentUser, List<User> matches, UserSession session) {
+            JFrame frame,
+            User currentUser,
+            List<User> matches,
+            UserSession session,
+            MatchInteractionController matchInteractionController)
+ {
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -167,7 +183,7 @@ public class MatchingRoomView extends JPanel {
 
         this.add(topPanel, BorderLayout.NORTH);
         this.add(mainPanel, BorderLayout.CENTER);
-        this.add(bottomPanel, BorderLayout.SOUTH); // ✅ ONLY ONE add to BorderLayout.SOUTH
+        this.add(bottomPanel, BorderLayout.SOUTH);
 
         // display logic
         Runnable updateDisplay =
@@ -207,18 +223,20 @@ public class MatchingRoomView extends JPanel {
                     score.setText("97%");
                 };
 
-        connectBtn.addActionListener(
-                e -> {
-                    currentUser.getFriendList().add(matches.get(currentIndex));
-                    currentIndex++;
-                    updateDisplay.run();
-                });
+         connectBtn.addActionListener(
+                 e -> {
+                     matchInteractionController.connect(session, matches.get(currentIndex));
+                     currentIndex++;
+                     updateDisplay.run();
+                 });
 
-        skipBtn.addActionListener(
-                e -> {
-                    currentIndex++;
-                    updateDisplay.run();
-                });
+         skipBtn.addActionListener(
+                 e -> {
+                     matchInteractionController.skip(session, matches.get(currentIndex));
+                     currentIndex++;
+                     updateDisplay.run();
+                 });
+
 
         yourProfileBtn.addActionListener(
                 e -> {
@@ -259,12 +277,35 @@ public class MatchingRoomView extends JPanel {
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
 
-        // build a dummy session to avoid null
         UserSession dummySession = new UserSession();
         dummySession.setUser(currentUser);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession);
+        MatchInteractionOutputBoundary presenter = outputData ->
+                JOptionPane.showMessageDialog(null, outputData.getMessage());
+
+        AddFriendListInputBoundary dummyAddFriend = (user1, user2) -> {};
+
+        HandleFriendRequestInputBoundary dummyFriendRequest = new HandleFriendRequestInputBoundary() {
+            @Override public void sendFriendRequest(UserSession u, User m) {}
+            @Override public void acceptFriendRequest(UserSession u, User m) {}
+            @Override public void declineFriendRequest(UserSession u, User m) {}
+        };
+
+        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
+
+        MatchInteractionInteractor interactor = new MatchInteractionInteractor(
+                matchDAO,
+                dummyFriendRequest,
+                dummyAddFriend,
+                presenter
+        );
+
+        MatchInteractionController controller = new MatchInteractionController(interactor);
+
+        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession, controller);
         frame.setContentPane(view);
         frame.setVisible(true);
     }
+
+
 }

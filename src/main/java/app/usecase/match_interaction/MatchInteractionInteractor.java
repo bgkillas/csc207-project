@@ -32,7 +32,6 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
                 matchDataAccessObject.getOutgoingFriendRequest(matchedUser).contains(currentUser);
 
         if (mutualConnect) {
-            // 双向 connect → 成为好友
             addFriendList.addFriend(currentUser, matchedUser);
             matchDataAccessObject.getOutgoingFriendRequest(matchedUser).remove(currentUser);
             matchDataAccessObject.getIncomingFriendRequest(currentUser).remove(matchedUser);
@@ -44,7 +43,6 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
                             matchedUser.getName(),
                             "You are now friends with " + matchedUser.getName()));
         } else {
-            // 单向 connect → 发起好友请求
             handleFriendRequest.sendFriendRequest(userSession, matchedUser);
 
             presenter.presentMatchInteractionResult(
@@ -60,6 +58,5 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
     public void skip(UserSession userSession, User matchedUser) {
         userSession.getIncomingMatches().remove(matchedUser);
         userSession.getOutgoingMatches().remove(matchedUser);
-        // 可以加入 decline 记录，但你之前说不需要暂存回队列，就简单移除
     }
 }
