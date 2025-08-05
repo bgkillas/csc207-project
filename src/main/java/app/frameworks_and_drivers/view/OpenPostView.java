@@ -1,22 +1,30 @@
 package app.frameworks_and_drivers.view;
 
+import app.entities.Comment;
 import app.entities.Post;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.view.components.CommentViewPanel;
+import app.interface_adapter.controller.AddCommentController;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
+import app.interface_adapter.presenter.AddCommentPresenter;
+import app.usecase.add_comment.AddCommentInputBoundary;
+import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 
-public class OpenPostView extends JPanel {
+public class OpenPostView extends JPanel implements AddCommentViewInterface{
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
     private final PostDataAccessInterface postDataAccessObject;
     private final Post post;
+    private JTextArea commentArea;
 
     // Constructor just to satisfy debugMenu functionality
     public OpenPostView(User user, UserSession session, JFrame frame) {
@@ -114,18 +122,55 @@ public class OpenPostView extends JPanel {
         JPanel commentSection = new JPanel(new BorderLayout());
         commentSection.setBorder(BorderFactory.createTitledBorder("Comments"));
 
-        JTextArea commentArea = new JTextArea(3, 30);
+        JPanel commentPanel = new JPanel(new BorderLayout());
+
+        // Get actual posts from data access layer
+        if (post.getComments().isEmpty()) {
+            // Show a message if no posts
+            JLabel noPostsLabel =
+                    new JLabel("No Comment yet. Be the first to connect!", SwingConstants.CENTER);
+            noPostsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            commentPanel.add(noPostsLabel);
+        } else {
+            // Display actual comments
+            List<Comment> currentPostComments = post.getComments();
+
+            for (Comment comment : currentPostComments) {
+                CommentViewPanel commentViewPanel =
+                        new CommentViewPanel(
+                        comment.getAuthor(),
+                        comment.getText(),
+                        comment.getDate(),
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                return;
+                            }
+                        });
+                commentPanel.add(commentViewPanel);
+            }
+        }
+
+        JScrollPane commentScrollPane = new JScrollPane(commentPanel);
+
+        JTextArea commentArea = new JTextArea(3, 1);
         commentArea.setLineWrap(true);
         commentArea.setWrapStyleWord(true);
-        JScrollPane commentScrollPane = new JScrollPane(commentArea);
 
         JButton addCommentButton = new JButton("Add Comment");
         addCommentButton.addActionListener(
                 e -> {
                     // Comment something
+                    String comment = commentArea.getText();
+                    AddCommentInteractor interactor =
+                            new AddCommentInteractor(postDataAccessObject, new AddCommentPresenter(this));
+                    AddCommentController commentController = new AddCommentController(interactor); //TODO: make it another instance attribute
+                    commentController.addComment(session, post, comment);
+
                 });
 
-        commentSection.add(commentScrollPane, BorderLayout.CENTER);
+        commentSection.add(commentScrollPane, BorderLayout.NORTH);
+        commentSection.add(commentArea, BorderLayout.CENTER);
         commentSection.add(addCommentButton, BorderLayout.SOUTH);
 
         mainPanel.add(commentSection);
@@ -137,5 +182,11 @@ public class OpenPostView extends JPanel {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         return panel;
+    }
+
+    @Override
+    public void render(String message, boolean isSuccess) {
+        int messageType = isSuccess ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE;
+        JOptionPane.showMessageDialog(this, message, isSuccess ? "Success" : "Error", messageType);
     }
 }
