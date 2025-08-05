@@ -18,9 +18,9 @@
 - [Installation Instructions](#installation-instructions)
 - [Usage Guide](#usage-guide)
 - [Architecture Overview](#architecture-overview)
-- [Contributing](#contributing)
-- [Feedback](#feedback)
 - [License](#license)
+<!--- [Contributing](#contributing)-->
+<!--- [Feedback](#feedback)-->
 
 ---
 
@@ -120,12 +120,19 @@ Before installing S-Buddify, ensure you have the following software installed:
    # Should show Maven version 3.6 or higher
    ```
 
-4. **Run the Application**
-- Run Main
+4. **Build application**
+   ```
+   mvn package
+   ```
 
-### **Common Installation Issues**
+4. **Run application**
+   ```
+   java -jar target/csc207-project-1.0-SNAPSHOT.jar 
+   ```
 
-// 
+<!--### **Common Installation Issues**
+
+// -->
 
 ---
 
@@ -246,9 +253,9 @@ Universal Principle of Design
 - Principle 1: Equitable Use
 ---
 
-## **Contributing**
+<!--## **Contributing**
 
-### **How to Contribute**
+### **How to Contribute**-->
 
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
