@@ -15,7 +15,6 @@ public class UserSession {
     private final List<Match> matches;
     private List<Post> posts;
     private List<User> allUsers = new ArrayList<>();
-
     private SpotifyInterface spotify;
 
     /**
@@ -31,13 +30,12 @@ public class UserSession {
             UserDataAccessInterface userDataAccessObject,
             MatchDataAccessInterface matchDataAccessObject,
             PostDataAccessInterface postDataAccessObject) {
-
+        this.allUsers = new ArrayList<>();
         this.incomingFriendRequest = new ArrayList<>();
         this.outgoingFriendRequest = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.posts = new ArrayList<>();
 
-        // 用 addAll 避免 null
         List<User> fromDataAccessObjectIn = matchDataAccessObject.getIncomingFriendRequest(user);
         if (fromDataAccessObjectIn != null) {
             this.incomingFriendRequest.addAll(fromDataAccessObjectIn);
@@ -63,7 +61,7 @@ public class UserSession {
                         ? userDataAccessObject.getUsers()
                         : new ArrayList<>();
 
-        this.setUser(user); // now it's safe!
+        this.setUser(user);
     }
 
     /**
@@ -118,7 +116,7 @@ public class UserSession {
 
     /** updates tracks/artists/genres data from spotify api if available. */
     public void updateSpotify() {
-        if (spotify != null) {
+        if (this.user != null && this.spotify != null) {
             spotify.pullTopArtistsAndGenres();
             this.user.setFavArtists(spotify.getTopArtists());
             this.user.setFavGenres(spotify.getTopGenres());
@@ -126,6 +124,7 @@ public class UserSession {
             this.user.setFavSongs(spotify.getTopTracks());
         }
     }
+
 
     /**
      * Sets the current user for this session. This method is used when a user signs up or logs in
