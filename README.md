@@ -130,13 +130,12 @@ Before installing S-Buddify, ensure you have the following software installed:
 ---
 
 ## **Usage Guide**
-
 ### **Getting Started**
 
 1. **Launch the Application**
    - Run the application by running Main
    - The main window will appear with Login View
-   - 
+     
 2. **Connect Spotify**
     - A browser window will open for Spotify authorization
     - Login to Spotify and grant permissions to access your listening data
@@ -244,4 +243,10 @@ src/
 ## **Contributing**
 
 ### **How to Contribute**
+
+## **License**
+This project is licensed under the [MIT License](./LICENSE).  
+You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
+
 
