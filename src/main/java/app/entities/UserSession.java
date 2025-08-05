@@ -95,15 +95,29 @@ public class UserSession {
         return allUsers;
     }
 
+    /** adds a user to the user list. */
     public void addUser(User user) {
         allUsers.add(user);
     }
 
+    /** initiates spotify api. */
     public void initiateSpotify() {
         spotify = new Spotify();
         spotify.initSpotify();
+        spotify.pullUserData();
     }
 
+    /** returns the user name from spotify info. */
+    public String getUserName() {
+        return spotify.getUserName();
+    }
+
+    /** returns the user id from spotify info. */
+    public String getUserId() {
+        return spotify.getUserId();
+    }
+
+    /** updates tracks/artists/genres data from spotify api if available. */
     public void updateSpotify() {
         if (spotify != null) {
             spotify.pullTopArtistsAndGenres();

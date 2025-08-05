@@ -9,7 +9,7 @@ public class CreateAccountController {
         this.interactor = interactor;
     }
 
-    public void createAccount(String spotifyUsername) {
-        interactor.create(spotifyUsername);
+    public void createAccount() {
+        interactor.create();
     }
 }

@@ -22,12 +22,14 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
      * username is passed in by the controller.
      */
     @Override
-    public void create(String spotifyUsername) {
+    public void create() {
+        String spotifyUserId = session.getUserId();
         // If the user hasn't already been registered in the login system,
         // register them using a dummy password ("spotify") to simulate login tracking
-        if (!loginManager.hasLogin(spotifyUsername)) {
-            loginManager.registerLogin(spotifyUsername, "spotify");
+        if (!loginManager.hasLogin(spotifyUserId)) {
+            loginManager.registerLogin(spotifyUserId, "spotify");
         }
+        String spotifyUsername = session.getUserName();
         // Create a new User object using the Spotify username
         // This object represents the full user in the app (bio, preferences, etc.)
         User user =

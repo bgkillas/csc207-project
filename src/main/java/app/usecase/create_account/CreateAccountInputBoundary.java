@@ -7,5 +7,5 @@ package app.usecase.create_account;
  * username directly as a String to simulate that the user has already authenticated with Spotify.
  */
 public interface CreateAccountInputBoundary {
-    void create(String spotifyUsername);
+    void create();
 }

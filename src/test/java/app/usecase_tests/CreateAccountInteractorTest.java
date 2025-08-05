@@ -43,9 +43,9 @@ class CreateAccountInteractorTest {
     // Test for creating a new user who is not yet in the login system
     @Test
     void testCreateAccount_NewUser() {
-        String username = "test_spotify_user";
+        String username = "test_spotify_userid";
 
-        interactor.create(username);
+        interactor.create();
 
         // Check user was registered in login manager
         assertTrue(loginManager.wasRegisterCalled);
