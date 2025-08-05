@@ -1,5 +1,6 @@
 package app.interface_adapter.controller;
 
+import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import app.usecase.create_account.CreateAccountInputBoundary;
 
 public class CreateAccountController {
@@ -9,7 +10,7 @@ public class CreateAccountController {
         this.interactor = interactor;
     }
 
-    public void createAccount() {
-        interactor.create();
+    public void createAccount(SpotifyInterface spotify) {
+        interactor.create(spotify);
     }
 }

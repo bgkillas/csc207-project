@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.interface_adapter.controller.CreateAccountController;
 import app.usecase.login.LoginManager;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class LoginView {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
-                        controller.createAccount();
+                        controller.createAccount(new Spotify());
                     }
                 });
         panel.setPreferredSize(new Dimension(800, 600));

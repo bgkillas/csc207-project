@@ -29,7 +29,6 @@ class CreateAccountInteractorTest {
         mockPresenter = new MockPresenter();
         // New session for each test
         session = new UserSession();
-        session.initiateSpotify(new SpotifyOffline());
         // Override tryLogin because it's abstract
         loginManager =
                 new MockLoginManager() {
@@ -47,7 +46,7 @@ class CreateAccountInteractorTest {
     void testCreateAccount_NewUser() {
         String username = "";
 
-        interactor.create();
+        interactor.create(new SpotifyOffline());
 
         // Check user was registered in login manager
         assertTrue(loginManager.wasRegisterCalled);

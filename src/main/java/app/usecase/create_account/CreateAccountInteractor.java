@@ -2,6 +2,7 @@ package app.usecase.create_account;
 
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import app.usecase.login.LoginManager;
 import java.util.ArrayList;
 
@@ -22,7 +23,8 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
      * username is passed in by the controller.
      */
     @Override
-    public void create() {
+    public void create(SpotifyInterface spotify) {
+        session.initiateSpotify(spotify);
         String spotifyUserId = session.getUserId();
         // If the user hasn't already been registered in the login system,
         // register them using a dummy password ("spotify") to simulate login tracking

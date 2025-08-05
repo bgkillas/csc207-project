@@ -1,5 +1,7 @@
 package app.usecase.create_account;
 
+import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
+
 /**
  * This interface defines the input boundary for account creation In a full implementation, a user
  * would log in through Spotify using OAuth The app would receive an access token from Spotify to
@@ -7,5 +9,5 @@ package app.usecase.create_account;
  * username directly as a String to simulate that the user has already authenticated with Spotify.
  */
 public interface CreateAccountInputBoundary {
-    void create();
+    void create(SpotifyInterface spotify);
 }
