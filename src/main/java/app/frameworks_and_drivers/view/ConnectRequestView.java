@@ -28,9 +28,11 @@ public class ConnectRequestView extends JPanel {
             FriendRequestViewModel viewModel) {
         List<User> requests = viewModel.getAllRequests();
 
+
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
+
 
         // Top bar
         JLabel title = new JLabel("Connect Request", SwingConstants.CENTER);
@@ -98,18 +100,22 @@ public class ConnectRequestView extends JPanel {
         this.add(cardPanel, BorderLayout.CENTER);
 
         // Action buttons
-        JPanel actionPanel = new JPanel();
-        JButton acceptBtn = new JButton("accept");
-        JButton declineBtn = new JButton("decline");
+        JButton acceptBtn = createStyledButton("accept", new Color(0x4CAF50));
+        JButton declineBtn = createStyledButton("decline", new Color(0xF44336));
 
-        acceptBtn.setBackground(new Color(0x4CAF50));
-        acceptBtn.setForeground(Color.WHITE);
+        JPanel actionPanel = new JPanel(new BorderLayout());
 
-        declineBtn.setBackground(new Color(0xF44336));
-        declineBtn.setForeground(Color.WHITE);
+        JPanel leftPanel = new JPanel();
+        leftPanel.add(acceptBtn);
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));  // optional padding
 
-        actionPanel.add(acceptBtn);
-        actionPanel.add(declineBtn);
+        JPanel rightPanel = new JPanel();
+        rightPanel.add(declineBtn);
+        rightPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0)); // optional padding
+
+        actionPanel.add(leftPanel, BorderLayout.WEST);
+        actionPanel.add(rightPanel, BorderLayout.EAST);
+
 
         this.add(actionPanel, BorderLayout.SOUTH);
 
@@ -159,5 +165,17 @@ public class ConnectRequestView extends JPanel {
                 });
 
         updateCard.run();
+    }
+
+    private static JButton createStyledButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setBackground(backgroundColor);
+        button.setForeground(Color.WHITE);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setPreferredSize(new Dimension(120, 40));
+        button.setMaximumSize(new Dimension(120, 40));
+        return button;
     }
 }
