@@ -4,6 +4,7 @@ import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.FriendRequestController;
 import app.interface_adapter.controller.MatchInteractionController;
@@ -27,18 +28,14 @@ import javax.swing.*;
 public class MatchingRoomView extends JPanel {
 
     private int currentIndex = 0;
-//    // old version
-//    public MatchingRoomView(JFrame frame, User currentUser, List<User> matches, UserSession session) {
-//        this(frame, currentUser, matches, session, null);
-//    }
 
-   //new version
     public MatchingRoomView(
             JFrame frame,
             User currentUser,
             List<User> matches,
             UserSession session,
-            MatchInteractionController matchInteractionController)
+            MatchInteractionController matchInteractionController,
+            PostDataAccessInterface postDataAccessObject)
  {
 
         this.setLayout(new BorderLayout());
@@ -85,7 +82,7 @@ public class MatchingRoomView extends JPanel {
 
                     ConnectRequestView connectRequestView =
                             new ConnectRequestView(
-                                    frame, currentUser, session, controller, viewModel);
+                                    frame, currentUser, session, controller, viewModel, postDataAccessObject);
 
                     frame.setContentPane(connectRequestView);
                     frame.revalidate();
@@ -240,18 +237,19 @@ public class MatchingRoomView extends JPanel {
 
         yourProfileBtn.addActionListener(
                 e -> {
-                    frame.setContentPane(new ProfileView(currentUser, frame, session));
+                    frame.setContentPane(new ProfileView(currentUser, frame, session, postDataAccessObject));
                     frame.revalidate();
                     frame.repaint();
                 });
 
         shareBtn.addActionListener(
                 e -> {
-                    PostFeedController controller =
-                            new PostFeedController(new CreatePostInteractor());
-                    JPanel postFeedPanel =
-                            new PostFeedView(currentUser, session, frame).create(controller);
-                    frame.setContentPane(postFeedPanel);
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, session, frame, postDataAccessObject)
+                                    .create(
+                                            new PostFeedController(
+                                                    new CreatePostInteractor(
+                                                            postDataAccessObject))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -271,7 +269,7 @@ public class MatchingRoomView extends JPanel {
         return button;
     }
 
-    public static void showInFrame(User currentUser, List<User> matches) {
+    public static void showInFrame(User currentUser, List<User> matches, PostDataAccessInterface postDataAccessObject) {
         JFrame frame = new JFrame("JRMC Matching Room");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 600);
@@ -302,7 +300,7 @@ public class MatchingRoomView extends JPanel {
 
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession, controller);
+        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession, controller, postDataAccessObject);
         frame.setContentPane(view);
         frame.setVisible(true);
     }

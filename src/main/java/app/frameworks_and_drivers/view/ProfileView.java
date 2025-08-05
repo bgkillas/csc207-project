@@ -3,6 +3,7 @@ package app.frameworks_and_drivers.view;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.PostFeedController;
@@ -23,6 +24,7 @@ public class ProfileView extends JPanel {
     private final User user;
     private final JFrame frame;
     private final UserSession userSession;
+    private final PostDataAccessInterface postDataAccessObject;
 
     /**
      * Constructs a ProfileView for the given user.
@@ -31,10 +33,11 @@ public class ProfileView extends JPanel {
      * @param frame the JFrame to which this view will be added
      * @param userSession the user session containing all users and matches
      */
-    public ProfileView(User user, JFrame frame, UserSession userSession) {
+    public ProfileView(User user, JFrame frame, UserSession userSession, PostDataAccessInterface postDataAccessObject) {
         this.user = user;
         this.frame = frame;
         this.userSession = userSession;
+        this.postDataAccessObject = postDataAccessObject;
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -115,7 +118,7 @@ public class ProfileView extends JPanel {
             MatchInteractionController controller = new MatchInteractionController(interactor);
 
             JPanel matchingRoomPanel =
-                    new MatchingRoomView(frame, currentUser, matches, userSession, controller);
+                    new MatchingRoomView(frame, currentUser, matches, userSession, controller, postDataAccessObject);
 
             frame.setContentPane(matchingRoomPanel);
             frame.revalidate();
@@ -124,19 +127,19 @@ public class ProfileView extends JPanel {
 
         myProfileBtn.addActionListener(
                 e -> {
-                    ProfileView profileView = new ProfileView(currentUser, frame, userSession);
+                    ProfileView profileView = new ProfileView(currentUser, frame, userSession, postDataAccessObject);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
                 });
         shareBtn.addActionListener(
                 e -> {
-                    PostFeedController controller =
-                            new PostFeedController(new CreatePostInteractor());
-                    JPanel postFeedPanel =
-                            new PostFeedView(userSession.getUser(), userSession, frame)
-                                    .create(controller);
-                    frame.setContentPane(postFeedPanel);
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, userSession, frame, postDataAccessObject)
+                                    .create(
+                                            new PostFeedController(
+                                                    new CreatePostInteractor(
+                                                            postDataAccessObject))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -253,14 +256,14 @@ public class ProfileView extends JPanel {
 
         buddyListBtn.addActionListener(
                 e -> {
-                    BuddyListView buddyList = new BuddyListView(user, userSession, frame);
+                    BuddyListView buddyList = new BuddyListView(user, userSession, frame, postDataAccessObject);
                     frame.setContentPane(buddyList.create());
                     frame.revalidate();
                     frame.repaint();
                 });
         blockListBtn.addActionListener(
                 e -> {
-                    BlockListView blockList = new BlockListView(user, userSession, frame);
+                    BlockListView blockList = new BlockListView(user, userSession, frame, postDataAccessObject);
                     frame.setContentPane(blockList.create());
                     frame.revalidate();
                     frame.repaint();
@@ -268,7 +271,7 @@ public class ProfileView extends JPanel {
         blockBtn.addActionListener(
                 e -> {
                     userSession.getUser().addBlock(user);
-                    ProfileView profileView = new ProfileView(user, frame, userSession);
+                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -276,7 +279,7 @@ public class ProfileView extends JPanel {
         unBlockBtn.addActionListener(
                 e -> {
                     userSession.getUser().removeBlock(user);
-                    ProfileView profileView = new ProfileView(user, frame, userSession);
+                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();

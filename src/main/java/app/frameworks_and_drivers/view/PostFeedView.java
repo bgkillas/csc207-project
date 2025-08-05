@@ -173,7 +173,7 @@ public class PostFeedView extends JPanel {
 
             MatchInteractionController matchcontroller = new MatchInteractionController(interactor);
 
-            JPanel matchingPanel = new MatchingRoomView(frame, currentUser, matches, session, matchcontroller);
+            JPanel matchingPanel = new MatchingRoomView(frame, currentUser, matches, session, matchcontroller, postDataAccessObject);
 
             frame.setContentPane(matchingPanel);
             frame.revalidate();
@@ -183,7 +183,7 @@ public class PostFeedView extends JPanel {
         // navigate to profile
         btnProfile.addActionListener(
                 e -> {
-                    JPanel profilePanel = new ProfileView(currentUser, frame, session);
+                    JPanel profilePanel = new ProfileView(currentUser, frame, session, postDataAccessObject);
                     frame.setContentPane(profilePanel);
                     frame.revalidate();
                     frame.repaint();
