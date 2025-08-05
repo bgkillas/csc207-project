@@ -2,6 +2,7 @@ package app.frameworks_and_drivers.view;
 
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
 import java.awt.*;
 import javax.swing.*;
@@ -10,11 +11,13 @@ public class BuddyListView extends JPanel {
     User user;
     UserSession session;
     JFrame frame;
+    PostDataAccessInterface postDataAccessObject;
 
-    public BuddyListView(User user, UserSession session, JFrame frame) {
+    public BuddyListView(User user, UserSession session, JFrame frame, PostDataAccessInterface postDataAccessObject) {
         this.user = user;
         this.session = session;
         this.frame = frame;
+        this.postDataAccessObject = postDataAccessObject;
     }
 
     public JComponent create() {
@@ -23,7 +26,7 @@ public class BuddyListView extends JPanel {
         JButton back = new NavButton("back");
         back.addActionListener(
                 e -> {
-                    ProfileView profileView = new ProfileView(user, frame, session);
+                    ProfileView profileView = new ProfileView(user, frame, session, postDataAccessObject);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -47,7 +50,7 @@ public class BuddyListView extends JPanel {
             buddyList.add(buddy);
             buddy.addActionListener(
                     e -> {
-                        ProfileView profileView = new ProfileView(user, frame, session);
+                        ProfileView profileView = new ProfileView(user, frame, session, postDataAccessObject);
                         frame.setContentPane(profileView);
                         frame.revalidate();
                         frame.repaint();

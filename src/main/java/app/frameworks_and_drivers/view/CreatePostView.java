@@ -22,13 +22,6 @@ public class CreatePostView {
     private JLabel imagePreview;
     private File imageFile;
 
-    public CreatePostView(User user, UserSession session, JFrame frame) {
-        this.currentUser = user;
-        this.session = session;
-        this.frame = frame;
-        this.postDataAccessObject = new InMemoryPostDataAccessObject();
-    }
-
     public CreatePostView(
             User user,
             UserSession session,

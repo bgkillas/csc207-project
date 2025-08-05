@@ -3,6 +3,7 @@ package app.frameworks_and_drivers.view;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.interface_adapter.controller.FriendRequestController;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
@@ -25,7 +26,8 @@ public class ConnectRequestView extends JPanel {
             User currentUser,
             UserSession session,
             FriendRequestController controller,
-            FriendRequestViewModel viewModel) {
+            FriendRequestViewModel viewModel,
+            PostDataAccessInterface postDataAccessObject) {
         List<User> requests = viewModel.getAllRequests();
 
 
@@ -64,7 +66,7 @@ public class ConnectRequestView extends JPanel {
         back.addActionListener(
                 e -> {
                     JPanel matchingRoom = new MatchingRoomView(
-                            frame, currentUser, session.getAllUsers(), session, matchController);
+                            frame, currentUser, session.getAllUsers(), session, matchController, postDataAccessObject);
                     frame.setContentPane(matchingRoom);
                     frame.revalidate();
                 });

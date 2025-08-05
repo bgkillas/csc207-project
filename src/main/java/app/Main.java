@@ -2,6 +2,8 @@ package app;
 
 // import app.frameworks_and_drivers.view.LoginView;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.CreateAccountController;
 import app.interface_adapter.controller.SetupMatchFilterController;
@@ -38,9 +40,12 @@ public class Main {
         // Shared user session across the app
         UserSession session = new UserSession();
 
+        // initalize postDAO
+        PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
+
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
-                new SetupMatchFilterPresenter(application, session);
+                new SetupMatchFilterPresenter(application, session, postDataAccessObject);
 
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);

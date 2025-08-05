@@ -4,6 +4,7 @@ import app.entities.MatchFilter;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
+import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.MatchingRoomView;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
@@ -20,10 +21,12 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
     private final JFrame frame;
     private final UserSession session;
+    private final PostDataAccessInterface postDataAccessObject;
 
-    public SetupMatchFilterPresenter(JFrame frame, UserSession session) {
+    public SetupMatchFilterPresenter(JFrame frame, UserSession session, PostDataAccessInterface postDataAccessObject) {
         this.frame = frame;
         this.session = session;
+        this.postDataAccessObject = postDataAccessObject;
     }
 
     @Override
@@ -64,7 +67,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
 
         JPanel matchingRoomPanel =
-                new MatchingRoomView(frame, currentUser, matches, session, controller);
+                new MatchingRoomView(frame, currentUser, matches, session, controller, postDataAccessObject);
         frame.setTitle("Matching Room");
         frame.setContentPane(matchingRoomPanel);
         frame.setPreferredSize(new Dimension(800, 600));
