@@ -2,6 +2,7 @@ package app;
 
 // import app.frameworks_and_drivers.view.LoginView;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.CreateAccountController;
 import app.interface_adapter.controller.SetupMatchFilterController;
@@ -37,7 +38,7 @@ public class Main {
 
         // Shared user session across the app
         UserSession session = new UserSession();
-        session.initiateSpotify();
+        session.initiateSpotify(new Spotify());
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =

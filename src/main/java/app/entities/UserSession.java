@@ -3,7 +3,6 @@ package app.entities;
 import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
-import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,8 +100,8 @@ public class UserSession {
     }
 
     /** initiates spotify api. */
-    public void initiateSpotify() {
-        spotify = new Spotify();
+    public void initiateSpotify(SpotifyInterface spotify) {
+        this.spotify = spotify;
         spotify.initSpotify();
         spotify.pullUserData();
     }

@@ -2,6 +2,7 @@ package app.usecase_tests;
 
 import app.entities.User;
 import app.entities.UserSession;
+import app.frameworks_and_drivers.external.spotify.SpotifyOffline;
 import app.usecase.login.LoginManager;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,7 @@ class CreateAccountInteractorTest {
         mockPresenter = new MockPresenter();
         // New session for each test
         session = new UserSession();
+        session.initiateSpotify(new SpotifyOffline());
         // Override tryLogin because it's abstract
         loginManager =
                 new MockLoginManager() {
@@ -43,7 +45,7 @@ class CreateAccountInteractorTest {
     // Test for creating a new user who is not yet in the login system
     @Test
     void testCreateAccount_NewUser() {
-        String username = "test_spotify_userid";
+        String username = "";
 
         interactor.create();
 
