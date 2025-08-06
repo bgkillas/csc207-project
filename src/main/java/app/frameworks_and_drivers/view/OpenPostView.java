@@ -17,7 +17,12 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
-public class OpenPostView extends JPanel implements AddCommentViewInterface{
+/**
+ * A view for displaying the details of a post, including title, content, image, and comments. Users
+ * can view existing comments and add a new one. This class implements AddCommentViewInterface to
+ * render comment result feedback.
+ */
+public class OpenPostView extends JPanel implements AddCommentViewInterface {
     private final User currentUser;
     private final UserSession session;
     private final JFrame frame;
@@ -25,7 +30,13 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
     private final Post post;
     private JTextArea commentArea;
 
-    // Constructor just to satisfy debugMenu functionality
+    /**
+     * Debug-only constructor.
+     *
+     * @param user The current user
+     * @param session The user's session
+     * @param frame The main application frame
+     */
     public OpenPostView(User user, UserSession session, JFrame frame) {
         this.currentUser = user;
         this.session = session;
@@ -34,6 +45,15 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
         this.post = null;
     }
 
+    /**
+     * Constructs an OpenPostView with the necessary data to show a post and interact with it.
+     *
+     * @param user The user currently logged in
+     * @param session The user's session
+     * @param frame The main application frame
+     * @param postDataAccessObject Data access object for post and comment data
+     * @param post The post to be displayed
+     */
     public OpenPostView(
             User user,
             UserSession session,
@@ -47,6 +67,12 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
         this.post = post;
     }
 
+    /**
+     * Creates the main UI panel for displaying post content and allowing comments.
+     *
+     * @param controller The controller responsible for handling open post logic (currently unused)
+     * @return A fully assembled JPanel containing the view
+     */
     public JPanel create(OpenPostController controller) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(800, 600));
@@ -134,18 +160,20 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
             // Display actual comments
             List<Comment> currentPostComments = post.getComments();
 
+            Runnable runnable =
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            return;
+                        }
+                    };
             for (Comment comment : currentPostComments) {
                 CommentViewPanel commentViewPanel =
                         new CommentViewPanel(
-                        comment.getAuthor(),
-                        comment.getText(),
-                        comment.getDate(),
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                return;
-                            }
-                        });
+                                comment.getAuthor(),
+                                comment.getText(),
+                                comment.getDate(),
+                                runnable);
                 commentPanel.add(commentViewPanel);
             }
         }
@@ -162,10 +190,11 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
                 e -> {
                     String comment = commentArea.getText();
                     AddCommentInteractor interactor =
-                            new AddCommentInteractor(postDataAccessObject, new AddCommentPresenter(this));
-                    AddCommentController commentController = new AddCommentController(interactor); //TODO: make it another instance attribute
+                            new AddCommentInteractor(
+                                    postDataAccessObject, new AddCommentPresenter(this));
+                    // TODO: make it another instance attribute
+                    AddCommentController commentController = new AddCommentController(interactor);
                     commentController.addComment(session, post, comment);
-
                 });
 
         commentSection.add(commentScrollPane, BorderLayout.NORTH);
@@ -183,6 +212,12 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface{
         return panel;
     }
 
+    /**
+     * Displays a popup message in the UI to indicate the result of a comment submission.
+     *
+     * @param message The message to display
+     * @param isSuccess True if successful, false if error
+     */
     @Override
     public void render(String message, boolean isSuccess) {
         int messageType = isSuccess ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE;

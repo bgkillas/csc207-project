@@ -43,9 +43,10 @@ public class AddCommentInteractor implements AddCommentInputBoundary {
             return;
         }
 
-        Comment newComment = new Comment(commentText, userSession.getUser().getName(), LocalDateTime.now());
-        post.getComments().add(newComment); // UserSession update
-//        postDataAccessObject.savePost(post.getAuthor(), post); // TODO: DAO update
+        Comment newComment =
+                new Comment(commentText, userSession.getUser().getName(), LocalDateTime.now());
+        // UserSession update
+        post.getComments().add(newComment);
 
         AddCommentOutputData outputData =
                 new AddCommentOutputData(

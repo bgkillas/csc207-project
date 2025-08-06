@@ -7,5 +7,10 @@ import app.entities.User;
  * the presenter after a successful profile setup.
  */
 public interface SetupUserProfileOutputBoundary {
+    /**
+     * Prepares the view to reflect a successful profile setup.
+     *
+     * @param user the User whose profile has been successfully updated.
+     */
     void prepareSuccessView(User user);
 }

@@ -141,18 +141,19 @@ Before installing S-Buddify, ensure you have the following software installed:
 
 1. **Launch the Application**
    - Run the application by running Main
-   - The main window will appear with Login View
+   - The window will appear with Login View
      
 2. **Connect Spotify**
+    - Click "Continue With Spotify"
     - A browser window will open for Spotify authorization
     - Login to Spotify and grant permissions to access your listening data
 
-3. **Create Your Account**
+4. **Setup Your Profile**
    - Sign up and login
    - Fill in your basic information (name, age, location)
    - Upload a profile picture to your account (Optional)
 
-4. **Set Up Match Filters**
+5. **Set Up Match Filters**
    - Configure your matching preferences (age range, location, etc.)
    - These filters will help find compatible matches
 
@@ -261,6 +262,7 @@ Universal Principle of Design
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 

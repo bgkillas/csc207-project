@@ -9,5 +9,10 @@ import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
  * username directly as a String to simulate that the user has already authenticated with Spotify.
  */
 public interface CreateAccountInputBoundary {
+    /**
+     * Initiates account creation using the given authenticated Spotify interface.
+     *
+     * @param spotify an interface representing the authenticated Spotify user
+     */
     void create(SpotifyInterface spotify);
 }
