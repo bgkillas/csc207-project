@@ -4,6 +4,7 @@ package app;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.view.DebugMenuView;
 import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.CreateAccountController;
 import app.interface_adapter.controller.SetupMatchFilterController;
@@ -40,7 +41,7 @@ public class Main {
         // Shared user session across the app
         UserSession session = new UserSession();
 
-        // initalize postDAO
+        // initalize postDataAccessObject
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
 
         // Match Filter setup
@@ -66,13 +67,15 @@ public class Main {
         CreateAccountController createAccountController =
                 new CreateAccountController(createAccountInteractor);
 
-        // Initial Login View
-        final JPanel login = LoginView.create(login_manager, createAccountController);
-        views.add(login);
-
-        // Connecting to DebugMenuView
-        /*        final JPanel debugView = DebugMenuView.create(session);
-        views.add(debugView);*/
+        if (args.length > 0 && args[0].equals("--debug")) {
+            // Connecting to DebugMenuView
+            final JPanel debugView = DebugMenuView.create(session);
+            views.add(debugView);
+        } else {
+            // Initial Login View
+            final JPanel login = LoginView.create(login_manager, createAccountController);
+            views.add(login);
+        }
 
         application.add(views);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
