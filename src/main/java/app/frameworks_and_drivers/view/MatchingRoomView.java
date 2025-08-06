@@ -25,6 +25,10 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * A view for displaying and interacting with matched users. Users can connect, skip, or navigate to
+ * other screens.
+ */
 public class MatchingRoomView extends JPanel {
 
     private int currentIndex = 0;
