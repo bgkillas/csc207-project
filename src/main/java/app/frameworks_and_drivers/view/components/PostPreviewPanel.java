@@ -6,15 +6,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 /**
- * A UI component that displays a preview of a post in a clickable panel format.
- * When clicked, it runs a specified action (e.g., opening the full post).
- * On hover, the panel changes background color and cursor style to indicate interactivity.
+ * A UI component that displays a preview of a post in a clickable panel format. When clicked, it
+ * runs a specified action (e.g., opening the full post). On hover, the panel changes background
+ * color and cursor style to indicate interactivity.
  */
 public class PostPreviewPanel extends JPanel {
     /**
      * Constructs a PostPreviewPanel with the given title and click behavior.
      *
-     * @param title   the title text to display in the preview panel
+     * @param title the title text to display in the preview panel
      * @param onClick the action to perform when the panel is clicked
      */
     public PostPreviewPanel(String title, Runnable onClick) {

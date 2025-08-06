@@ -4,9 +4,9 @@ import app.entities.User;
 import java.util.List;
 
 /**
- * Interface for accessing and managing user data in the application.
- * This defines the contract for how user data can be retrieved and stored,
- * regardless of the specific underlying implementation (e.g., in-memory, database).
+ * Interface for accessing and managing user data in the application. This defines the contract for
+ * how user data can be retrieved and stored, regardless of the specific underlying implementation
+ * (e.g., in-memory, database).
  */
 public interface UserDataAccessInterface {
     /**

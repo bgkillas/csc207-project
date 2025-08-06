@@ -3,8 +3,8 @@ package app.entities;
 import java.time.LocalDateTime;
 
 /**
- * Represents a comment made by a user.
- * Each comment contains text content, an author identifier, and the date and time it was created.
+ * Represents a comment made by a user. Each comment contains text content, an author identifier,
+ * and the date and time it was created.
  */
 public class Comment {
     private String text;
@@ -14,9 +14,9 @@ public class Comment {
     /**
      * Constructs a new {Comment} with the given text, author, and timestamp.
      *
-     * @param text   the content of the comment
+     * @param text the content of the comment
      * @param author the author of the comment
-     * @param date   the time the comment was created
+     * @param date the time the comment was created
      */
     public Comment(String text, String author, LocalDateTime date) {
         this.text = text;

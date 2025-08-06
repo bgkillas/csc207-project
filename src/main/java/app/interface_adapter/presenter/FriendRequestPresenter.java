@@ -6,9 +6,9 @@ import app.usecase.handle_friend_request.HandleFriendRequestOutputData;
 import javax.swing.*;
 
 /**
- * Presenter for the Handle Friend Request use case.
- * This presenter updates the FriendRequestViewModel when a friend request
- * is successfully processed and handles UI feedback for both success and failure cases.
+ * Presenter for the Handle Friend Request use case. This presenter updates the
+ * FriendRequestViewModel when a friend request is successfully processed and handles UI feedback
+ * for both success and failure cases.
  */
 public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary {
     private final FriendRequestViewModel viewModel;
@@ -23,8 +23,8 @@ public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary
     }
 
     /**
-     * Handles the view logic for a successfully processed friend request.
-     * Removes the current request from the view model and logs the result.
+     * Handles the view logic for a successfully processed friend request. Removes the current
+     * request from the view model and logs the result.
      *
      * @param outputData the output data containing requester's username and status message
      */
@@ -37,8 +37,8 @@ public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary
     }
 
     /**
-     * Handles the view logic for a failed attempt to process a friend request.
-     * Displays an error dialog to inform the user.
+     * Handles the view logic for a failed attempt to process a friend request. Displays an error
+     * dialog to inform the user.
      *
      * @param errorMessage the error message to display
      */

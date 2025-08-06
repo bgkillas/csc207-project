@@ -5,9 +5,8 @@ import app.usecase.add_comment.AddCommentOutputBoundary;
 import app.usecase.add_comment.AddCommentOutputData;
 
 /**
- * Presenter for the Add Comment use case.
- * This class implements the output boundary and prepares the view
- * based on whether the comment addition was successful or not.
+ * Presenter for the Add Comment use case. This class implements the output boundary and prepares
+ * the view based on whether the comment addition was successful or not.
  */
 public class AddCommentPresenter implements AddCommentOutputBoundary {
     private final AddCommentViewInterface view;

@@ -3,9 +3,7 @@ package app.interface_adapter.presenter;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestOutputData;
 
-/**
- * Presenter for handling the output of friend requests made within the Matching Room view.
- */
+/** Presenter for handling the output of friend requests made within the Matching Room view. */
 public class MatchingRoomPresenter implements HandleFriendRequestOutputBoundary {
     /**
      * Handles successful friend request actions.

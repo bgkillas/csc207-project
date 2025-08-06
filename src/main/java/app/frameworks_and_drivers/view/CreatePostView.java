@@ -2,7 +2,6 @@ package app.frameworks_and_drivers.view;
 
 import app.entities.User;
 import app.entities.UserSession;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.interface_adapter.controller.CreatePostController;
 import app.interface_adapter.controller.PostFeedController;
@@ -12,10 +11,9 @@ import java.io.File;
 import javax.swing.*;
 
 /**
- * A Swing view that allows users to create a new post.
- * This view contains fields for title and content, an optional image upload,
- * and a post button to submit the post. After posting, the user is navigated
- * back to the post feed.
+ * A Swing view that allows users to create a new post. This view contains fields for title and
+ * content, an optional image upload, and a post button to submit the post. After posting, the user
+ * is navigated back to the post feed.
  */
 public class CreatePostView {
     private final User currentUser;
@@ -31,9 +29,9 @@ public class CreatePostView {
     /**
      * Constructs a new CreatePostView.
      *
-     * @param user                 the currently logged-in user
-     * @param session              the user session object
-     * @param frame                the main application frame
+     * @param user the currently logged-in user
+     * @param session the user session object
+     * @param frame the main application frame
      * @param postDataAccessObject the data access object used for post operations
      */
     public CreatePostView(
@@ -48,15 +46,13 @@ public class CreatePostView {
     }
 
     /**
-     * Creates the full post creation view panel.
-     * Users can enter a post title and content, upload an image,
-     * and submit the post. On submission, the post is saved and the user is
-     * navigated back to the post feed.
+     * Creates the full post creation view panel. Users can enter a post title and content, upload
+     * an image, and submit the post. On submission, the post is saved and the user is navigated
+     * back to the post feed.
      *
      * @param controller the controller handling post creation logic
-     * @return a  JPanel containing all UI components for creating a post
+     * @return a JPanel containing all UI components for creating a post
      */
-
     public JPanel create(CreatePostController controller) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(800, 600));

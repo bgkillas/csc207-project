@@ -28,8 +28,8 @@ public class Match {
     /**
      * Constructs a Match with provided score and shared artists list.
      *
-     * @param matchUser     the user this match refers to
-     * @param score         the compatibility score between users
+     * @param matchUser the user this match refers to
+     * @param score the compatibility score between users
      * @param sharedArtists a list of favorite artists shared by both users
      */
     public Match(User matchUser, int score, List<String> sharedArtists) {
@@ -39,11 +39,11 @@ public class Match {
     }
 
     /**
-     * Constructs a Match by calculating the score and shared artists
-     * between the current user and the matched user.
+     * Constructs a Match by calculating the score and shared artists between the current user and
+     * the matched user.
      *
      * @param currentUser the current user
-     * @param other       the user to be matched with
+     * @param other the user to be matched with
      */
     public Match(User currentUser, User other) {
         this.matchUser = other;

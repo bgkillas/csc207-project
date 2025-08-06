@@ -1,9 +1,8 @@
 package app.usecase.add_comment;
 
 /**
- * The output boundary interface for the Add Comment use case.
- * This interface defines methods that the presenter must implement to
- * handle adding a comment successfully and not.
+ * The output boundary interface for the Add Comment use case. This interface defines methods that
+ * the presenter must implement to handle adding a comment successfully and not.
  */
 public interface AddCommentOutputBoundary {
     /**

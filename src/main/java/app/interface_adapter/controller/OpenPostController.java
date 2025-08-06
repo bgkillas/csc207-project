@@ -2,9 +2,7 @@ package app.interface_adapter.controller;
 
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 
-/**
- * Controller for handling actions related to opening a post.
- */
+/** Controller for handling actions related to opening a post. */
 public class OpenPostController {
     private final PostDataAccessInterface postDataAccessObject;
 
@@ -17,9 +15,7 @@ public class OpenPostController {
         this.postDataAccessObject = postDataAccessObject;
     }
 
-    /**
-     * Default constructor. Creates a controller with no data access object.
-     */
+    /** Default constructor. Creates a controller with no data access object. */
     public OpenPostController() {
         this.postDataAccessObject = null;
     }

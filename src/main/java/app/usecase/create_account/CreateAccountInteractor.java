@@ -7,11 +7,10 @@ import app.usecase.login.LoginManager;
 import java.util.ArrayList;
 
 /**
- * Interactor for the Create Account use case.
- * This class handles the creation of a new user account based on Spotify authentication.
- * It interacts with the Spotify interface to extract the user's ID and username,
- * registers the user in the login system if they don't already exist, and creates a new
- * User entity with default values for age, gender, location, and bio.
+ * Interactor for the Create Account use case. This class handles the creation of a new user account
+ * based on Spotify authentication. It interacts with the Spotify interface to extract the user's ID
+ * and username, registers the user in the login system if they don't already exist, and creates a
+ * new User entity with default values for age, gender, location, and bio.
  */
 public class CreateAccountInteractor implements CreateAccountInputBoundary {
     private final CreateAccountOutputBoundary presenter;
@@ -21,9 +20,9 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
     /**
      * Constructs a new {CreateAccountInteractor}.
      *
-     * @param presenter     the output boundary to handle the success view
-     * @param session       the current user session
-     * @param loginManager  the login manager responsible for account registration
+     * @param presenter the output boundary to handle the success view
+     * @param session the current user session
+     * @param loginManager the login manager responsible for account registration
      */
     public CreateAccountInteractor(
             CreateAccountOutputBoundary presenter, UserSession session, LoginManager loginManager) {
@@ -58,8 +57,7 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
                         // favGenres, favArtists, and favSongs
                         new ArrayList<>(),
                         new ArrayList<>(),
-                        new ArrayList<>()
-                        );
+                        new ArrayList<>());
         // updated UserSession to have a setter
         session.setUser(user);
         presenter.prepareSuccessView(user);

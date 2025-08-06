@@ -25,8 +25,8 @@ import java.util.List;
 import javax.swing.*;
 
 /**
- * A view for displaying and interacting with matched users.
- * Users can connect, skip, or navigate to other screens.
+ * A view for displaying and interacting with matched users. Users can connect, skip, or navigate to
+ * other screens.
  */
 public class MatchingRoomView extends JPanel {
     private int currentIndex = 0;
@@ -92,14 +92,18 @@ public class MatchingRoomView extends JPanel {
                     FriendRequestController controller = new FriendRequestController(interactor);
 
                     ConnectRequestView connectRequestView =
-                            new ConnectRequestView(frame, currentUser, session, controller,
-                                    viewModel, postDataAccessObject);
+                            new ConnectRequestView(
+                                    frame,
+                                    currentUser,
+                                    session,
+                                    controller,
+                                    viewModel,
+                                    postDataAccessObject);
 
                     frame.setContentPane(connectRequestView);
                     frame.revalidate();
                     frame.repaint();
-                }
-        );
+                });
 
         // mailIcon.addMouseListener(
         // new java.awt.event.MouseAdapter() {
@@ -195,61 +199,76 @@ public class MatchingRoomView extends JPanel {
         this.add(bottomPanel, BorderLayout.SOUTH);
 
         // display logic
-        Runnable updateDisplay = () -> {
-            if (currentIndex >= matches.size()) {
-                profileInfo.setText("No more matches.");
-                score.setText("");
-                connectBtn.setEnabled(false);
-                skipBtn.setEnabled(false);
-                return;
-            }
+        Runnable updateDisplay =
+                () -> {
+                    if (currentIndex >= matches.size()) {
+                        profileInfo.setText("No more matches.");
+                        score.setText("");
+                        connectBtn.setEnabled(false);
+                        skipBtn.setEnabled(false);
+                        return;
+                    }
 
-            User match = matches.get(currentIndex);
+                    User match = matches.get(currentIndex);
 
-            // Update profile picture
-            Image profileImg = match.getProfilePicture();
-            if (profileImg != null) {
-                ImageIcon icon =
-                        new ImageIcon(
-                                profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
-                profilePic.setIcon(icon);
-            } else {
-                profilePic.setIcon(null);
-                profilePic.setText("?");
-            }
-            profileInfo.setText("<html><b>" + match.getName() + "</b><br/>" + match.getAge()
-                    + "<br/>" + match.getLocation() + "<br/>" + "\"" + match.getBio()
-                    + "\"</html>");
-            score.setText("97%");
-        };
+                    // Update profile picture
+                    Image profileImg = match.getProfilePicture();
+                    if (profileImg != null) {
+                        ImageIcon icon =
+                                new ImageIcon(
+                                        profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+                        profilePic.setIcon(icon);
+                    } else {
+                        profilePic.setIcon(null);
+                        profilePic.setText("?");
+                    }
+                    profileInfo.setText(
+                            "<html><b>"
+                                    + match.getName()
+                                    + "</b><br/>"
+                                    + match.getAge()
+                                    + "<br/>"
+                                    + match.getLocation()
+                                    + "<br/>"
+                                    + "\""
+                                    + match.getBio()
+                                    + "\"</html>");
+                    score.setText("97%");
+                };
 
-        connectBtn.addActionListener(e -> {
-            matchInteractionController.connect(session, matches.get(currentIndex));
-            currentIndex++;
-            updateDisplay.run();
-        });
+        connectBtn.addActionListener(
+                e -> {
+                    matchInteractionController.connect(session, matches.get(currentIndex));
+                    currentIndex++;
+                    updateDisplay.run();
+                });
 
-        skipBtn.addActionListener(e -> {
-            matchInteractionController.skip(session, matches.get(currentIndex));
-            currentIndex++;
-            updateDisplay.run();
-        });
+        skipBtn.addActionListener(
+                e -> {
+                    matchInteractionController.skip(session, matches.get(currentIndex));
+                    currentIndex++;
+                    updateDisplay.run();
+                });
 
-        yourProfileBtn.addActionListener(e -> {
-            frame.setContentPane(new ProfileView(currentUser, frame, session,
-                    postDataAccessObject));
-            frame.revalidate();
-            frame.repaint();
-        }
-        );
+        yourProfileBtn.addActionListener(
+                e -> {
+                    frame.setContentPane(
+                            new ProfileView(currentUser, frame, session, postDataAccessObject));
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
-        shareBtn.addActionListener(e -> {
-            frame.setContentPane(new PostFeedView(currentUser, session, frame,
-                    postDataAccessObject).create(new PostFeedController(
-                            new CreatePostInteractor(postDataAccessObject))));
-            frame.revalidate();
-            frame.repaint();
-        });
+        shareBtn.addActionListener(
+                e -> {
+                    frame.setContentPane(
+                            new PostFeedView(currentUser, session, frame, postDataAccessObject)
+                                    .create(
+                                            new PostFeedController(
+                                                    new CreatePostInteractor(
+                                                            postDataAccessObject))));
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         updateDisplay.run();
     }
@@ -280,8 +299,8 @@ public class MatchingRoomView extends JPanel {
      * @param matches Matched users
      * @param postDataAccessObject Post data access
      */
-    public static void showInFrame(User currentUser, List<User> matches,
-                                   PostDataAccessInterface postDataAccessObject) {
+    public static void showInFrame(
+            User currentUser, List<User> matches, PostDataAccessInterface postDataAccessObject) {
         JFrame frame = new JFrame("JRMC Matching Room");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 600);
@@ -290,48 +309,40 @@ public class MatchingRoomView extends JPanel {
         dummySession.setUser(currentUser);
 
         MatchInteractionOutputBoundary presenter =
-                outputData -> JOptionPane.showMessageDialog(
-                        null, outputData.getMessage());
+                outputData -> JOptionPane.showMessageDialog(null, outputData.getMessage());
 
-        AddFriendListInputBoundary dummyAddFriend = (user1, user2) -> {
-
-        };
+        AddFriendListInputBoundary dummyAddFriend = (user1, user2) -> {};
 
         HandleFriendRequestInputBoundary dummyFriendRequest =
                 new HandleFriendRequestInputBoundary() {
 
                     @Override
-                    public void sendFriendRequest(UserSession u, User m) {
-
-                    }
+                    public void sendFriendRequest(UserSession u, User m) {}
 
                     @Override
-                    public void acceptFriendRequest(UserSession u, User m) {
-
-                    }
+                    public void acceptFriendRequest(UserSession u, User m) {}
 
                     @Override
-                    public void declineFriendRequest(UserSession u, User m) {
-
-                    }
+                    public void declineFriendRequest(UserSession u, User m) {}
                 };
 
         MatchDataAccessInterface matchdao = new InMemoryMatchDataAccessObject();
 
-        MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                matchdao,
-                dummyFriendRequest,
-                dummyAddFriend,
-                presenter
-        );
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        matchdao, dummyFriendRequest, dummyAddFriend, presenter);
 
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession,
-                controller, postDataAccessObject);
+        MatchingRoomView view =
+                new MatchingRoomView(
+                        frame,
+                        currentUser,
+                        matches,
+                        dummySession,
+                        controller,
+                        postDataAccessObject);
         frame.setContentPane(view);
         frame.setVisible(true);
     }
-
-
 }

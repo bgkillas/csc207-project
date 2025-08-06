@@ -4,8 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * A custom circular button with centered text.
- * This button overrides the default Swing `JButton`.
+ * A custom circular button with centered text. This button overrides the default Swing `JButton`.
  */
 public class CircularButton extends JButton {
 

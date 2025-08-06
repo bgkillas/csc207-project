@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ViewModel for managing and accessing a list of incoming friend requests.
- * This class maintains the list of requests and the current index,
- * providing methods to navigate, remove, and retrieve friend requests.
+ * ViewModel for managing and accessing a list of incoming friend requests. This class maintains the
+ * list of requests and the current index, providing methods to navigate, remove, and retrieve
+ * friend requests.
  */
 public class FriendRequestViewModel {
     private final List<User> incomingRequests;
     private int currentIndex = 0;
 
-    /**
-     * Constructs a new FriendRequestViewModel with an empty request list.
-     */
+    /** Constructs a new FriendRequestViewModel with an empty request list. */
     public FriendRequestViewModel() {
         this.incomingRequests = new ArrayList<>();
     }
@@ -44,8 +42,8 @@ public class FriendRequestViewModel {
     }
 
     /**
-     * Removes the user at the current index from the list of incoming requests.
-     * Does nothing if the list is empty or the index is out of bounds.
+     * Removes the user at the current index from the list of incoming requests. Does nothing if the
+     * list is empty or the index is out of bounds.
      */
     public void removeCurrentRequest() {
         if (!incomingRequests.isEmpty() && currentIndex < incomingRequests.size()) {

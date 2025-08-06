@@ -3,9 +3,8 @@ package app.usecase.create_account;
 import app.entities.User;
 
 /**
- * Output boundary for the Create Account use case.
- * This interface defines how the interactor communicates a successful account
- * creation event to the presenter layer.
+ * Output boundary for the Create Account use case. This interface defines how the interactor
+ * communicates a successful account creation event to the presenter layer.
  */
 public interface CreateAccountOutputBoundary {
     /**

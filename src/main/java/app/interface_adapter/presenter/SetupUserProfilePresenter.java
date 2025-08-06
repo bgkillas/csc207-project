@@ -8,8 +8,8 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * Presenter class responsible for handling the output of the user profile setup use case.
- * Updates the UI to reflect success and transitions the user to the match filter setup view.
+ * Presenter class responsible for handling the output of the user profile setup use case. Updates
+ * the UI to reflect success and transitions the user to the match filter setup view.
  */
 public class SetupUserProfilePresenter implements SetupUserProfileOutputBoundary {
     private final JFrame profileFrame;
@@ -24,8 +24,8 @@ public class SetupUserProfilePresenter implements SetupUserProfileOutputBoundary
     }
 
     /**
-     * Displays a success message to the user and transitions the application to the
-     * match filter setup view using the same frame.
+     * Displays a success message to the user and transitions the application to the match filter
+     * setup view using the same frame.
      *
      * @param user the User whose profile was successfully set up.
      */

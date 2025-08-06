@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the session of a currently logged-in user.
- * Maintains the user's state, including friend requests, matches, posts, all users,
- * and optional Spotify data if connected.
+ * Represents the session of a currently logged-in user. Maintains the user's state, including
+ * friend requests, matches, posts, all users, and optional Spotify data if connected.
  */
 public class UserSession {
     private User user;
@@ -139,9 +138,7 @@ public class UserSession {
         return spotify.getUserId();
     }
 
-    /**
-     * Updates the user's top tracks, artists, and genres using Spotify data.
-     */
+    /** Updates the user's top tracks, artists, and genres using Spotify data. */
     public void updateSpotify() {
         if (this.user != null && this.spotify != null) {
             spotify.pullTopArtistsAndGenres();

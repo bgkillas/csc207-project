@@ -18,11 +18,10 @@ import java.util.List;
 import javax.swing.*;
 
 /**
- * Presenter for handling the successful setup of a match filter.
- * Transitions the UI from the match filter setup view to the matching room view,
- * and displays a confirmation message with the selected filter values.
- * Also initializes the necessary interactors and controllers for user interactions
- * in the matching room.
+ * Presenter for handling the successful setup of a match filter. Transitions the UI from the match
+ * filter setup view to the matching room view, and displays a confirmation message with the
+ * selected filter values. Also initializes the necessary interactors and controllers for user
+ * interactions in the matching room.
  */
 public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary {
 
@@ -33,21 +32,21 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
     /**
      * Constructs the presenter with the necessary application state and data access objects.
      *
-     * @param frame                the shared application window to update the content pane
-     * @param session              the current user session containing user data
+     * @param frame the shared application window to update the content pane
+     * @param session the current user session containing user data
      * @param postDataAccessObject the data access object for user-generated posts
      */
-    public SetupMatchFilterPresenter(JFrame frame, UserSession session,
-                                     PostDataAccessInterface postDataAccessObject) {
+    public SetupMatchFilterPresenter(
+            JFrame frame, UserSession session, PostDataAccessInterface postDataAccessObject) {
         this.frame = frame;
         this.session = session;
         this.postDataAccessObject = postDataAccessObject;
     }
 
     /**
-     * Called when the match filter is successfully created.
-     * Displays a success message and initializes the matching room view with the matched users.
-     * Sets up all necessary dependencies, including friend interaction logic and UI transition.
+     * Called when the match filter is successfully created. Displays a success message and
+     * initializes the matching room view with the matched users. Sets up all necessary
+     * dependencies, including friend interaction logic and UI transition.
      *
      * @param filter the MatchFilter object representing the user's selected preferences
      */
@@ -73,25 +72,23 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
 
         AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
-        AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(
-                addFriendPresenter);
+        AddFriendListInteractor addFriendInteractor =
+                new AddFriendListInteractor(addFriendPresenter);
 
-        HandleFriendRequestInteractor friendRequestInteractor = new HandleFriendRequestInteractor(
-                matchdao, addFriendInteractor, new FriendRequestPresenter(
-                        new FriendRequestViewModel())
-        );
+        HandleFriendRequestInteractor friendRequestInteractor =
+                new HandleFriendRequestInteractor(
+                        matchdao,
+                        addFriendInteractor,
+                        new FriendRequestPresenter(new FriendRequestViewModel()));
 
-        MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                matchdao,
-                friendRequestInteractor,
-                addFriendInteractor,
-                presenter
-        );
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        matchdao, friendRequestInteractor, addFriendInteractor, presenter);
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
         JPanel matchingRoomPanel =
-                new MatchingRoomView(frame, currentUser, matches, session, controller,
-                        postDataAccessObject);
+                new MatchingRoomView(
+                        frame, currentUser, matches, session, controller, postDataAccessObject);
         frame.setTitle("Matching Room");
         frame.setContentPane(matchingRoomPanel);
         frame.setPreferredSize(new Dimension(800, 600));
@@ -99,5 +96,4 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         frame.revalidate();
         frame.repaint();
     }
-
 }

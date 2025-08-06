@@ -20,10 +20,10 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
     /**
      * Constructs a MatchInteractionInteractor.
      *
-     * @param matchDataAccessObject   interface for accessing and modifying match-related data
-     * @param handleFriendRequest     input boundary for sending/handling friend requests
-     * @param addFriendList           input boundary for adding users to the friend list
-     * @param presenter               output boundary for presenting match interaction results
+     * @param matchDataAccessObject interface for accessing and modifying match-related data
+     * @param handleFriendRequest input boundary for sending/handling friend requests
+     * @param addFriendList input boundary for adding users to the friend list
+     * @param presenter output boundary for presenting match interaction results
      */
     public MatchInteractionInteractor(
             MatchDataAccessInterface matchDataAccessObject,
@@ -37,12 +37,12 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
     }
 
     /**
-     * Called when the current user chooses to connect with a matched user.
-     * If the matched user has already sent a request, they become friends.
-     * Otherwise, a friend request is sent to the matched user.
+     * Called when the current user chooses to connect with a matched user. If the matched user has
+     * already sent a request, they become friends. Otherwise, a friend request is sent to the
+     * matched user.
      *
-     * @param userSession  the current user's session
-     * @param matchedUser  the user to connect with
+     * @param userSession the current user's session
+     * @param matchedUser the user to connect with
      */
     @Override
     public void connect(UserSession userSession, User matchedUser) {
@@ -75,11 +75,11 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
     }
 
     /**
-     * Called when the current user chooses to skip a matched user.
-     * The matched user is removed from both incoming and outgoing match lists.
+     * Called when the current user chooses to skip a matched user. The matched user is removed from
+     * both incoming and outgoing match lists.
      *
-     * @param userSession  the current user's session
-     * @param matchedUser  the user to skip
+     * @param userSession the current user's session
+     * @param matchedUser the user to skip
      */
     @Override
     public void skip(UserSession userSession, User matchedUser) {

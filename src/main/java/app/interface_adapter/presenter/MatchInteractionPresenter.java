@@ -5,8 +5,8 @@ import app.usecase.match_interaction.MatchInteractionOutputData;
 import javax.swing.*;
 
 /**
- * Presenter for handling the output of match interactions.
- * Displays a dialog box to the user with the result of the interaction.
+ * Presenter for handling the output of match interactions. Displays a dialog box to the user with
+ * the result of the interaction.
  */
 public class MatchInteractionPresenter implements MatchInteractionOutputBoundary {
 
@@ -26,7 +26,7 @@ public class MatchInteractionPresenter implements MatchInteractionOutputBoundary
             title = "Friend Request Sent";
         }
 
-        JOptionPane.showMessageDialog(null, outputData.getMessage(), title,
-                JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, outputData.getMessage(), title, JOptionPane.INFORMATION_MESSAGE);
     }
 }

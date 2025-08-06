@@ -2,13 +2,11 @@ package app.usecase.matching;
 
 import app.entities.User;
 
-/**
- * Interface for calculating compatibility between two users based on their preferences.
- */
+/** Interface for calculating compatibility between two users based on their preferences. */
 public interface MatchCalculator {
     /**
-     * Calculates a compatibility score between two users.
-     * This score is based on shared interests, favorite artists, genres, etc.
+     * Calculates a compatibility score between two users. This score is based on shared interests,
+     * favorite artists, genres, etc.
      *
      * @param userOne the first user
      * @param userTwo the second user

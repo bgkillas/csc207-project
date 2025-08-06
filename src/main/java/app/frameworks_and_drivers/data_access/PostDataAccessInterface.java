@@ -5,9 +5,8 @@ import app.entities.User;
 import java.util.List;
 
 /**
- * Interface for accessing and managing post data associated with users.
- * This abstracts the storage and retrieval of posts, allowing for various
- * implementations (e.g., in-memory, database-backed).
+ * Interface for accessing and managing post data associated with users. This abstracts the storage
+ * and retrieval of posts, allowing for various implementations (e.g., in-memory, database-backed).
  */
 public interface PostDataAccessInterface {
     /**

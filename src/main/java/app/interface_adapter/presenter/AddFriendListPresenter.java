@@ -4,9 +4,8 @@ import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.add_friend_list.AddFriendListOutputData;
 
 /**
- * Presenter for the Add Friend use case.
- * This class implements the output boundary and formats the output
- * for display.
+ * Presenter for the Add Friend use case. This class implements the output boundary and formats the
+ * output for display.
  */
 public class AddFriendListPresenter implements AddFriendListOutputBoundary {
 

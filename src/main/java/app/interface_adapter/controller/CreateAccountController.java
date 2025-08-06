@@ -4,9 +4,8 @@ import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import app.usecase.create_account.CreateAccountInputBoundary;
 
 /**
- * Controller for handling account creation logic.
- * This class receives input from the UI and delegates the task
- * of creating a new account to the interactor.
+ * Controller for handling account creation logic. This class receives input from the UI and
+ * delegates the task of creating a new account to the interactor.
  */
 public class CreateAccountController {
     private final CreateAccountInputBoundary interactor;

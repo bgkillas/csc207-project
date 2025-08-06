@@ -4,9 +4,8 @@ import app.entities.User;
 import app.entities.UserSession;
 
 /**
- * Input boundary for the Handle Friend Request use case.
- * Defines the actions available for managing friend requests, including sending,
- * accepting, and declining requests between users.
+ * Input boundary for the Handle Friend Request use case. Defines the actions available for managing
+ * friend requests, including sending, accepting, and declining requests between users.
  */
 public interface HandleFriendRequestInputBoundary {
     /**

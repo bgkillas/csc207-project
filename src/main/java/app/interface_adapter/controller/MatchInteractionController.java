@@ -5,8 +5,8 @@ import app.entities.UserSession;
 import app.usecase.match_interaction.MatchInteractionInputBoundary;
 
 /**
- * Controller class for handling user interactions with matched users,
- * such as choosing to connect or skip a match.
+ * Controller class for handling user interactions with matched users, such as choosing to connect
+ * or skip a match.
  */
 public class MatchInteractionController {
     private final MatchInteractionInputBoundary interactor;
@@ -40,4 +40,3 @@ public class MatchInteractionController {
         interactor.skip(session, matchedUser);
     }
 }
-

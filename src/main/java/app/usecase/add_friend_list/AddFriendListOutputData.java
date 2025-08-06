@@ -1,9 +1,8 @@
 package app.usecase.add_friend_list;
 
 /**
- * Output data model for the Add Friend use case.
- * This class holds the result message to be displayed
- * when a friend is successfully added.
+ * Output data model for the Add Friend use case. This class holds the result message to be
+ * displayed when a friend is successfully added.
  */
 public class AddFriendListOutputData {
     private final String message;

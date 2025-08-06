@@ -4,8 +4,8 @@ import app.entities.User;
 import app.entities.UserSession;
 
 /**
- * Input boundary interface for handling match interaction use cases.
- * Defines the contract for user actions on matches such as connecting or skipping.
+ * Input boundary interface for handling match interaction use cases. Defines the contract for user
+ * actions on matches such as connecting or skipping.
  */
 public interface MatchInteractionInputBoundary {
     /**

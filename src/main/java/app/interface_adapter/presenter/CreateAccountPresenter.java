@@ -7,9 +7,8 @@ import app.usecase.create_account.CreateAccountOutputBoundary;
 import javax.swing.*;
 
 /**
- * Presenter for the Create Account use case.
- * This presenter is responsible for transitioning the user interface
- * to the profile setup screen after successful account creation.
+ * Presenter for the Create Account use case. This presenter is responsible for transitioning the
+ * user interface to the profile setup screen after successful account creation.
  */
 public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     private final JFrame frame;
@@ -18,7 +17,7 @@ public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     /**
      * Constructs a new {CreateAccountPresenter}.
      *
-     * @param frame           the main application window
+     * @param frame the main application window
      * @param setupController the controller used to initiate profile setup
      */
     public CreateAccountPresenter(JFrame frame, SetupUserProfileController setupController) {
@@ -27,8 +26,8 @@ public class CreateAccountPresenter implements CreateAccountOutputBoundary {
     }
 
     /**
-     * Called when a user account is successfully created.
-     * Updates the application's main frame to display the profile setup view.
+     * Called when a user account is successfully created. Updates the application's main frame to
+     * display the profile setup view.
      *
      * @param user the newly created User object
      */

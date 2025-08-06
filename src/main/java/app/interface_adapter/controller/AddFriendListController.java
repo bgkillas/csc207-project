@@ -4,11 +4,9 @@ import app.entities.User;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 
 /**
- * Controller for adding a friend to the user's friend list.
- * This class receives input from the user interface and delegates
- * the friend addition logic to the interactor.
+ * Controller for adding a friend to the user's friend list. This class receives input from the user
+ * interface and delegates the friend addition logic to the interactor.
  */
-
 public class AddFriendListController {
     private final AddFriendListInputBoundary interactor;
 

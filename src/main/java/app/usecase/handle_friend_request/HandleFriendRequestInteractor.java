@@ -6,10 +6,10 @@ import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 
 /**
- * Interactor for handling friend request operations.
- * This class contains the  logic for sending, accepting, and declining friend requests.
- * It validates inputs, updates match-related data, and delegates friend addition to the
- * appropriate interactor. It also communicates outcomes to the presenter.
+ * Interactor for handling friend request operations. This class contains the logic for sending,
+ * accepting, and declining friend requests. It validates inputs, updates match-related data, and
+ * delegates friend addition to the appropriate interactor. It also communicates outcomes to the
+ * presenter.
  */
 public class HandleFriendRequestInteractor implements HandleFriendRequestInputBoundary {
     private final MatchDataAccessInterface matchDataAccessObject;
@@ -19,9 +19,9 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
     /**
      * Constructs a new HandleFriendRequestInteractor.
      *
-     * @param matchDataAccessObject    the dao responsible for tracking friend request state
-     * @param addFriendListInteractor  the interactor used to add users to each other’s friend lists
-     * @param presenter                the presenter that formats the result for the UI
+     * @param matchDataAccessObject the dao responsible for tracking friend request state
+     * @param addFriendListInteractor the interactor used to add users to each other’s friend lists
+     * @param presenter the presenter that formats the result for the UI
      */
     public HandleFriendRequestInteractor(
             MatchDataAccessInterface matchDataAccessObject,
@@ -33,11 +33,11 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
     }
 
     /**
-     * Sends a friend request from the current user to the specified target user.
-     * Performs checks for null users, self-requests, and duplicate requests.
+     * Sends a friend request from the current user to the specified target user. Performs checks
+     * for null users, self-requests, and duplicate requests.
      *
      * @param userSession the current user's session
-     * @param toUser      the user to whom the friend request is being sent
+     * @param toUser the user to whom the friend request is being sent
      */
     @Override
     public void sendFriendRequest(UserSession userSession, User toUser) {
@@ -71,11 +71,11 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
     }
 
     /**
-     * Accepts a pending friend request from the specified user.
-     * Validates existence of the request before proceeding and updates both users' friend lists.
+     * Accepts a pending friend request from the specified user. Validates existence of the request
+     * before proceeding and updates both users' friend lists.
      *
      * @param userSession the current user's session
-     * @param fromUser    the user who sent the friend request
+     * @param fromUser the user who sent the friend request
      */
     @Override
     public void acceptFriendRequest(UserSession userSession, User fromUser) {
@@ -104,11 +104,11 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
     }
 
     /**
-     * Declines a pending friend request from the specified user.
-     * Validates existence of the request and removes it from both users' request lists.
+     * Declines a pending friend request from the specified user. Validates existence of the request
+     * and removes it from both users' request lists.
      *
      * @param userSession the current user's session
-     * @param fromUser    the user who sent the friend request
+     * @param fromUser the user who sent the friend request
      */
     @Override
     public void declineFriendRequest(UserSession userSession, User fromUser) {

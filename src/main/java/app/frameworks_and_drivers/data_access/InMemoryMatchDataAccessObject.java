@@ -5,9 +5,9 @@ import app.entities.User;
 import java.util.*;
 
 /**
- * In-memory implementation of the MatchDataAccessInterface.
- * Stores incoming and outgoing friend requests and confirmed matches using HashMaps.
- * This class is primarily used for testing/demo and does not persist data.
+ * In-memory implementation of the MatchDataAccessInterface. Stores incoming and outgoing friend
+ * requests and confirmed matches using HashMaps. This class is primarily used for testing/demo and
+ * does not persist data.
  */
 public class InMemoryMatchDataAccessObject implements MatchDataAccessInterface {
     private final Map<User, List<User>> incoming = new HashMap<>();
@@ -50,7 +50,7 @@ public class InMemoryMatchDataAccessObject implements MatchDataAccessInterface {
     /**
      * Adds an incoming friend request for the given user.
      *
-     * @param toUser   the recipient of the friend request
+     * @param toUser the recipient of the friend request
      * @param fromUser the sender of the friend request
      */
     @Override
@@ -64,7 +64,7 @@ public class InMemoryMatchDataAccessObject implements MatchDataAccessInterface {
      * Adds an outgoing friend request from the given user.
      *
      * @param fromUser the sender of the friend request
-     * @param toUser   the recipient of the friend request
+     * @param toUser the recipient of the friend request
      */
     @Override
     public void addOutgoingFriendRequest(User fromUser, User toUser) {
@@ -76,7 +76,7 @@ public class InMemoryMatchDataAccessObject implements MatchDataAccessInterface {
     /**
      * Adds a match to the list of matches for the given user.
      *
-     * @param user  the user to whom the match is added
+     * @param user the user to whom the match is added
      * @param match the match object to be added
      */
     @Override

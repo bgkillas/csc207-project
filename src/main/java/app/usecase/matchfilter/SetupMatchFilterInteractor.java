@@ -17,7 +17,7 @@ public class SetupMatchFilterInteractor implements SetupMatchFilterInputBoundary
      * Constructs a SetupMatchFilterInteractor with the given presenter and session.
      *
      * @param presenter the output boundary that handles presenting the success view
-     * @param session   the current user session containing the logged-in user
+     * @param session the current user session containing the logged-in user
      */
     public SetupMatchFilterInteractor(
             SetupMatchFilterOutputBoundary presenter, UserSession session) {

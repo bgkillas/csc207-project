@@ -5,9 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 
-/**
- * A custom navigation button with hover and active state styling.
- */
+/** A custom navigation button with hover and active state styling. */
 public class NavButton extends JButton {
     private final Color defaultBg = new Color(245, 245, 245); // light gray
     private final Color hoverBg = new Color(230, 230, 230); // hover color
@@ -46,8 +44,8 @@ public class NavButton extends JButton {
     }
 
     /**
-     * Sets this button as active or inactive.
-     * Disables the button and applies active styling if true.
+     * Sets this button as active or inactive. Disables the button and applies active styling if
+     * true.
      *
      * @param active Whether the button should appear active
      */

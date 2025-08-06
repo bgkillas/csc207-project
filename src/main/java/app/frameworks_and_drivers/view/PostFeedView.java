@@ -25,10 +25,9 @@ import java.util.List;
 import javax.swing.*;
 
 /**
- * A Swing view that displays the user's post feed along with a navigation bar and the ability
- * to create new posts or navigate to other parts of the app (Matching Room, My Profile).
+ * A Swing view that displays the user's post feed along with a navigation bar and the ability to
+ * create new posts or navigate to other parts of the app (Matching Room, My Profile).
  */
-
 public class PostFeedView extends JPanel {
     private final User currentUser;
     private final UserSession session;
@@ -39,8 +38,8 @@ public class PostFeedView extends JPanel {
      * Constructs a PostFeedView with a default in-memory post data access object.
      *
      * @param currentUser the user currently logged in
-     * @param session     the session managing users and matches
-     * @param frame       the main application frame
+     * @param session the session managing users and matches
+     * @param frame the main application frame
      */
     public PostFeedView(User currentUser, UserSession session, JFrame frame) {
         this.currentUser = currentUser;
@@ -52,10 +51,10 @@ public class PostFeedView extends JPanel {
     /**
      * Constructs a PostFeedView with a custom post data access object.
      *
-     * @param currentUser           the user currently logged in
-     * @param session               the session managing users and matches
-     * @param frame                 the main application frame
-     * @param postDataAccessObject  the post data access object (e.g., in-memory or persistent)
+     * @param currentUser the user currently logged in
+     * @param session the session managing users and matches
+     * @param frame the main application frame
+     * @param postDataAccessObject the post data access object (e.g., in-memory or persistent)
      */
     public PostFeedView(
             User currentUser,
@@ -174,45 +173,53 @@ public class PostFeedView extends JPanel {
                 });
 
         // navigate to matching room
-        btnMatching.addActionListener(e -> {
-            List<User> matches = (List<User>) session.getAllUsers();
+        btnMatching.addActionListener(
+                e -> {
+                    List<User> matches = (List<User>) session.getAllUsers();
 
-            MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
+                    MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
 
-            InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+                    InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
 
-            AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
-            AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(
-                    addFriendPresenter);
+                    AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
+                    AddFriendListInteractor addFriendInteractor =
+                            new AddFriendListInteractor(addFriendPresenter);
 
-            HandleFriendRequestInteractor friendRequestInteractor =
-                    new HandleFriendRequestInteractor(
-                    matchdao, addFriendInteractor, new FriendRequestPresenter(
-                            new FriendRequestViewModel())
-            );
+                    HandleFriendRequestInteractor friendRequestInteractor =
+                            new HandleFriendRequestInteractor(
+                                    matchdao,
+                                    addFriendInteractor,
+                                    new FriendRequestPresenter(new FriendRequestViewModel()));
 
-            MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                    matchdao,
-                    friendRequestInteractor,
-                    addFriendInteractor,
-                    matchPresenter
-            );
+                    MatchInteractionInteractor interactor =
+                            new MatchInteractionInteractor(
+                                    matchdao,
+                                    friendRequestInteractor,
+                                    addFriendInteractor,
+                                    matchPresenter);
 
-            MatchInteractionController matchcontroller = new MatchInteractionController(interactor);
+                    MatchInteractionController matchcontroller =
+                            new MatchInteractionController(interactor);
 
-            JPanel matchingPanel = new MatchingRoomView(frame, currentUser, matches, session,
-                    matchcontroller, postDataAccessObject);
+                    JPanel matchingPanel =
+                            new MatchingRoomView(
+                                    frame,
+                                    currentUser,
+                                    matches,
+                                    session,
+                                    matchcontroller,
+                                    postDataAccessObject);
 
-            frame.setContentPane(matchingPanel);
-            frame.revalidate();
-            frame.repaint();
-        });
+                    frame.setContentPane(matchingPanel);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         // navigate to profile
         btnProfile.addActionListener(
                 e -> {
-                    JPanel profilePanel = new ProfileView(currentUser, frame, session,
-                            postDataAccessObject);
+                    JPanel profilePanel =
+                            new ProfileView(currentUser, frame, session, postDataAccessObject);
                     frame.setContentPane(profilePanel);
                     frame.revalidate();
                     frame.repaint();
@@ -222,8 +229,8 @@ public class PostFeedView extends JPanel {
     }
 
     /**
-     * Constructs a visual card for an individual post, showing the title, content snippet,
-     * and image (if available). Clicking the card opens the full post.
+     * Constructs a visual card for an individual post, showing the title, content snippet, and
+     * image (if available). Clicking the card opens the full post.
      *
      * @param post the {@link Post} to display
      * @return a {@code JPanel} representing the post preview

@@ -4,10 +4,9 @@ import app.entities.User;
 import app.entities.UserSession;
 
 /**
- * Interactor for the user profile setup use case.
- * This class handles the  logic for updating a user's profile,
- * modifying the current User stored in the UserSession and
- * sending the response to the SetupUserProfileOutputBoundary.
+ * Interactor for the user profile setup use case. This class handles the logic for updating a
+ * user's profile, modifying the current User stored in the UserSession and sending the response to
+ * the SetupUserProfileOutputBoundary.
  */
 public class SetupUserProfileInteractor implements SetupUserProfileInputBoundary {
     private final SetupUserProfileOutputBoundary presenter;

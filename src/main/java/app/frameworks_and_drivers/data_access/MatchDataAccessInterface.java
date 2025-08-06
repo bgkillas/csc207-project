@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Interface defining data access operations related to friend requests and matches between users.
  */
-
 public interface MatchDataAccessInterface {
     /**
      * Retrieves the list of users who have sent friend requests to the specified user.

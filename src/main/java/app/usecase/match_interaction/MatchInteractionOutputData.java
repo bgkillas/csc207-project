@@ -1,8 +1,8 @@
 package app.usecase.match_interaction;
 
 /**
- * Output data object representing the result of a match interaction.
- * Used to pass information from the interactor to the presenter.
+ * Output data object representing the result of a match interaction. Used to pass information from
+ * the interactor to the presenter.
  */
 public class MatchInteractionOutputData {
     private final boolean success;

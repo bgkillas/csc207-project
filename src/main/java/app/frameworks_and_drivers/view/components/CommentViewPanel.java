@@ -7,17 +7,16 @@ import java.time.LocalDateTime;
 import javax.swing.*;
 
 /**
- * A panel for displaying a single comment.
- * This panel shows the comment's author, text content, and date.
- * It also responds to mouse events like clicks and hover for interactivity.
+ * A panel for displaying a single comment. This panel shows the comment's author, text content, and
+ * date. It also responds to mouse events like clicks and hover for interactivity.
  */
 public class CommentViewPanel extends JPanel {
     /**
      * Constructs a new {CommentViewPanel} displaying the given comment information.
      *
-     * @param author  the name or username of the comment's author
-     * @param text    the text content of the comment
-     * @param date    the timestamp when the comment was posted
+     * @param author the name or username of the comment's author
+     * @param text the text content of the comment
+     * @param date the timestamp when the comment was posted
      * @param onClick the action to perform when the panel is clicked
      */
     public CommentViewPanel(String author, String text, LocalDateTime date, Runnable onClick) {

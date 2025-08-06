@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a social media post created by a user.
- * A post may include a title, text content, an optional image, a timestamp,
- * the author who created it, and a list of comments.
+ * Represents a social media post created by a user. A post may include a title, text content, an
+ * optional image, a timestamp, the author who created it, and a list of comments.
  */
 public class Post {
     private String title;
@@ -21,12 +20,12 @@ public class Post {
     /**
      * Constructs a Post with specified values.
      *
-     * @param title     The title of the post
-     * @param text      The textual content of the post
-     * @param image     An optional image associated with the post
+     * @param title The title of the post
+     * @param text The textual content of the post
+     * @param image An optional image associated with the post
      * @param timestamp The time the post was created
-     * @param author    The user who created the post
-     * @param comments  The list of comments associated with the post
+     * @param author The user who created the post
+     * @param comments The list of comments associated with the post
      */
     public Post(
             String title,
@@ -44,8 +43,8 @@ public class Post {
     }
 
     /**
-     * Constructs a default Post with no content, no image,
-     * current timestamp, and no author or comments.
+     * Constructs a default Post with no content, no image, current timestamp, and no author or
+     * comments.
      */
     public Post() {
         this.title = "Untitled";

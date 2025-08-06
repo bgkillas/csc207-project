@@ -18,16 +18,33 @@ class UserSessionTest {
 
     @BeforeEach
     void setUp() {
-        user = new User("user", 20, "other", "city", "bio", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        friend = new User("friend", 22, "female", "another city", "music lover", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        user =
+                new User(
+                        "user",
+                        20,
+                        "other",
+                        "city",
+                        "bio",
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>());
+        friend =
+                new User(
+                        "friend",
+                        22,
+                        "female",
+                        "another city",
+                        "music lover",
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>());
         match = new Match(user, friend);
-        post = new Post("1","hello world", null, LocalDateTime.now(),user, new ArrayList<>());
+        post = new Post("1", "hello world", null, LocalDateTime.now(), user, new ArrayList<>());
     }
 
     @Test
     void testConstructor() {
         UserSession session = new UserSession(user);
-
 
         assertEquals(user, session.getUser());
         assertTrue(session.getIncomingMatches().isEmpty());
@@ -35,7 +52,7 @@ class UserSessionTest {
         assertTrue(session.getMatches().isEmpty());
         assertTrue(session.getPosts().isEmpty());
 
-//        assertEquals(2, session.getAllUsers().size());
+        //        assertEquals(2, session.getAllUsers().size());
     }
 
     @Test
@@ -89,7 +106,16 @@ class UserSessionTest {
 
     @Test
     void testSetUser() {
-        User anotherUser = new User("another", 25, "male", "town", "bio2", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        User anotherUser =
+                new User(
+                        "another",
+                        25,
+                        "male",
+                        "town",
+                        "bio2",
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>());
         UserSession session = new UserSession();
 
         session.setUser(anotherUser);

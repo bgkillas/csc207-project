@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * In-memory implementation of UserDataAccessInterface.
- * Stores user data in a simple list structure.
+ * In-memory implementation of UserDataAccessInterface. Stores user data in a simple list structure.
  */
 public class InMemoryUserDataAccessObject implements UserDataAccessInterface {
     private final List<User> users = new ArrayList<>();

@@ -5,8 +5,8 @@ import app.entities.User;
 import java.util.*;
 
 /**
- * In-memory implementation of the PostDataAccessInterface.
- * Stores and retrieves user posts using a HashMap.
+ * In-memory implementation of the PostDataAccessInterface. Stores and retrieves user posts using a
+ * HashMap.
  */
 public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     private final Map<User, List<Post>> userPosts = new HashMap<>();
@@ -23,8 +23,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     }
 
     /**
-     * Saves a new post for the given user.
-     * If the user has no posts yet, a new list is created.
+     * Saves a new post for the given user. If the user has no posts yet, a new list is created.
      *
      * @param user the author of the post
      * @param post the post to be saved
