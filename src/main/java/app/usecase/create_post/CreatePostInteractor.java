@@ -10,17 +10,40 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+/**
+ * Interactor for the Create Post use case. This class handles the logic of creating a new post,
+ * optionally loading an image from file, and saving the post via PostDataAccessInterface
+ */
 public class CreatePostInteractor implements CreatePost {
     private final PostDataAccessInterface postDataAccess;
 
+    /**
+     * Constructs a CreatePostInteractor with the specified data access object.
+     *
+     * @param postDataAccess the data access interface used to persist posts
+     */
     public CreatePostInteractor(PostDataAccessInterface postDataAccess) {
         this.postDataAccess = postDataAccess;
     }
 
+    /**
+     * Constructs a CreatePostInteractor using an in-memory data access object. This constructor is
+     * primarily for testing.
+     */
     public CreatePostInteractor() {
         this.postDataAccess = new InMemoryPostDataAccessObject();
     }
 
+    /**
+     * Creates a new post and saves it using the configured data access object. If an image file is
+     * provided, it attempts to load it into an Image object. A new Post is then created with the
+     * current timestamp and associated with the author.
+     *
+     * @param title the title of the post
+     * @param content the textual content of the post
+     * @param image an optional image file to be included (can be null)
+     * @param author the user creating the post
+     */
     @Override
     public void createPost(String title, String content, File image, User author) {
         Image postImage = null;

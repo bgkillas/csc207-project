@@ -1,4 +1,4 @@
- package app.frameworks_and_drivers.view;
+package app.frameworks_and_drivers.view;
 
 import app.entities.User;
 import app.entities.UserSession;

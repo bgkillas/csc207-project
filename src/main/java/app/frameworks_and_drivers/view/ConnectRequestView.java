@@ -13,14 +13,29 @@ import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
-
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * A Swing view that displays incoming friend requests and allows the user to accept or decline each
+ * one. This view shows one request at a time in a card layout with basic profile info and
+ * interactive buttons for responding to the request. Once the user responds, the next request is
+ * shown.
+ */
 public class ConnectRequestView extends JPanel {
     private int currentIndex = 0;
 
+    /**
+     * Constructs a new {ConnectRequestView}.
+     *
+     * @param frame the main application window
+     * @param currentUser the user currently logged in
+     * @param session the active user session
+     * @param controller the controller handling friend request actions
+     * @param viewModel the view model containing pending friend requests
+     * @param postDataAccessObject the data access object for post data
+     */
     public ConnectRequestView(
             JFrame frame,
             User currentUser,
@@ -30,11 +45,9 @@ public class ConnectRequestView extends JPanel {
             PostDataAccessInterface postDataAccessObject) {
         List<User> requests = viewModel.getAllRequests();
 
-
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
-
 
         // Top bar
         JLabel title = new JLabel("Connect Request", SwingConstants.CENTER);
@@ -44,33 +57,39 @@ public class ConnectRequestView extends JPanel {
         countLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
         MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
-        InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
+        InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
 
         AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
-        AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+        AddFriendListInteractor addFriendInteractor =
+                new AddFriendListInteractor(addFriendPresenter);
 
         HandleFriendRequestInteractor friendRequestInteractor =
                 new HandleFriendRequestInteractor(
-                        matchDAO, addFriendInteractor, new FriendRequestPresenter(new FriendRequestViewModel()));
+                        matchdao,
+                        addFriendInteractor,
+                        new FriendRequestPresenter(new FriendRequestViewModel()));
 
-        MatchInteractionInteractor matchInteractor = new MatchInteractionInteractor(
-                matchDAO,
-                friendRequestInteractor,
-                addFriendInteractor,
-                matchPresenter
-        );
+        MatchInteractionInteractor matchInteractor =
+                new MatchInteractionInteractor(
+                        matchdao, friendRequestInteractor, addFriendInteractor, matchPresenter);
 
-        MatchInteractionController matchController = new MatchInteractionController(matchInteractor);
+        MatchInteractionController matchController =
+                new MatchInteractionController(matchInteractor);
 
         JButton back = new JButton("← Back");
         back.addActionListener(
                 e -> {
-                    JPanel matchingRoom = new MatchingRoomView(
-                            frame, currentUser, session.getAllUsers(), session, matchController, postDataAccessObject);
+                    JPanel matchingRoom =
+                            new MatchingRoomView(
+                                    frame,
+                                    currentUser,
+                                    session.getAllUsers(),
+                                    session,
+                                    matchController,
+                                    postDataAccessObject);
                     frame.setContentPane(matchingRoom);
                     frame.revalidate();
                 });
-
 
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.add(back, BorderLayout.WEST);
@@ -109,7 +128,7 @@ public class ConnectRequestView extends JPanel {
 
         JPanel leftPanel = new JPanel();
         leftPanel.add(acceptBtn);
-        leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));  // optional padding
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0)); // optional padding
 
         JPanel rightPanel = new JPanel();
         rightPanel.add(declineBtn);
@@ -117,7 +136,6 @@ public class ConnectRequestView extends JPanel {
 
         actionPanel.add(leftPanel, BorderLayout.WEST);
         actionPanel.add(rightPanel, BorderLayout.EAST);
-
 
         this.add(actionPanel, BorderLayout.SOUTH);
 
@@ -169,6 +187,13 @@ public class ConnectRequestView extends JPanel {
         updateCard.run();
     }
 
+    /**
+     * Creates a styled button with specified text and background color.
+     *
+     * @param text the button text
+     * @param backgroundColor the background color of the button
+     * @return the styled {@code JButton}
+     */
     private static JButton createStyledButton(String text, Color backgroundColor) {
         JButton button = new JButton(text);
         button.setBackground(backgroundColor);

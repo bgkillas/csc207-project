@@ -4,7 +4,6 @@ import app.entities.*;
 import app.frameworks_and_drivers.data_access.*;
 import app.frameworks_and_drivers.view.AddCommentViewInterface;
 import app.frameworks_and_drivers.view.OpenPostView;
-import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
 import org.junit.Test;

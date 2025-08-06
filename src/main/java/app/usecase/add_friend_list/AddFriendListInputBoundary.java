@@ -2,6 +2,10 @@ package app.usecase.add_friend_list;
 
 import app.entities.User;
 
+/**
+ * Input boundary for the Add Friend use case. This interface defines the method that the controller
+ * calls to add a new friend to a user's friend list.
+ */
 public interface AddFriendListInputBoundary {
 
     /**
