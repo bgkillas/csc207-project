@@ -30,8 +30,8 @@
 //public class DebugMenuView {
 //
 //    /**
-//     * Creates the debug panel with a vertical list of buttons, one for each view Clicking a button
-//     * opens the corresponding view in a new JFrame.
+//     * Creates the debug panel with a vertical list of buttons, one for each view clicking a
+//     * button opens the corresponding view in a new JFrame.
 //     */
 //    public static JPanel create(UserSession session) throws NoSuchAlgorithmException {
 //        JPanel panel = new JPanel();
@@ -105,7 +105,8 @@
 //        session.getIncomingMatches().add(user3);
 //
 //        // Controllers for views that require them NEWWW
-//        /*        SetupUserProfileOutputBoundary profilePresenter = new SetupUserProfilePresenter();
+//        /*        SetupUserProfileOutputBoundary profilePresenter =
+//        new SetupUserProfilePresenter();
 //        SetupUserProfileController profileController =
 //                new SetupUserProfileController(
 //                        new SetupUserProfileInteractor(profilePresenter, session));*/
@@ -191,7 +192,8 @@
 //                            .create(controller);
 //                });
 //
-//        /*    addButton(panel, "LoginView", () -> LoginView.create(loginManager, createController));
+//        /*    addButton(panel, "LoginView", () -> LoginView.create(loginManager,
+//        createController));
 //         */
 //        addButtonWithFrame(
 //                panel,
@@ -208,11 +210,14 @@
 //                    InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
 //
 //                    AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
-//                    AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+//                    AddFriendListInteractor addFriendInteractor =
+//                    new AddFriendListInteractor(addFriendPresenter);
 //
 //                    FriendRequestViewModel requestViewModel = new FriendRequestViewModel();
-//                    FriendRequestPresenter requestPresenter = new FriendRequestPresenter(requestViewModel);
-//                    HandleFriendRequestInteractor friendRequestInteractor = new HandleFriendRequestInteractor(
+//                    FriendRequestPresenter requestPresenter =
+//                    new FriendRequestPresenter(requestViewModel);
+//                    HandleFriendRequestInteractor friendRequestInteractor =
+//                    new HandleFriendRequestInteractor(
 //                            matchDAO, addFriendInteractor, requestPresenter
 //                    );
 //
@@ -223,7 +228,8 @@
 //                            matchPresenter
 //                    );
 //
-//                    MatchInteractionController controller = new MatchInteractionController(interactor);
+//                    MatchInteractionController controller =
+//                    new MatchInteractionController(interactor);
 //
 //                    return new MatchingRoomView(
 //                            tempFrame,

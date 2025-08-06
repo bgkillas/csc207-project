@@ -17,18 +17,40 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * Presenter for handling the successful setup of a match filter.
+ * Transitions the UI from the match filter setup view to the matching room view,
+ * and displays a confirmation message with the selected filter values.
+ * Also initializes the necessary interactors and controllers for user interactions
+ * in the matching room.
+ */
 public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary {
 
     private final JFrame frame;
     private final UserSession session;
     private final PostDataAccessInterface postDataAccessObject;
 
-    public SetupMatchFilterPresenter(JFrame frame, UserSession session, PostDataAccessInterface postDataAccessObject) {
+    /**
+     * Constructs the presenter with the necessary application state and data access objects.
+     *
+     * @param frame                the shared application window to update the content pane
+     * @param session              the current user session containing user data
+     * @param postDataAccessObject the data access object for user-generated posts
+     */
+    public SetupMatchFilterPresenter(JFrame frame, UserSession session,
+                                     PostDataAccessInterface postDataAccessObject) {
         this.frame = frame;
         this.session = session;
         this.postDataAccessObject = postDataAccessObject;
     }
 
+    /**
+     * Called when the match filter is successfully created.
+     * Displays a success message and initializes the matching room view with the matched users.
+     * Sets up all necessary dependencies, including friend interaction logic and UI transition.
+     *
+     * @param filter the MatchFilter object representing the user's selected preferences
+     */
     @Override
     public void prepareSuccessView(MatchFilter filter) {
         JOptionPane.showMessageDialog(
@@ -48,26 +70,28 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
         MatchInteractionPresenter presenter = new MatchInteractionPresenter();
 
-        InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
+        InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
 
         AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
-        AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
+        AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(
+                addFriendPresenter);
 
         HandleFriendRequestInteractor friendRequestInteractor = new HandleFriendRequestInteractor(
-                matchDAO, addFriendInteractor, new FriendRequestPresenter(new FriendRequestViewModel())
+                matchdao, addFriendInteractor, new FriendRequestPresenter(
+                        new FriendRequestViewModel())
         );
 
         MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                matchDAO,
+                matchdao,
                 friendRequestInteractor,
                 addFriendInteractor,
                 presenter
         );
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
-
         JPanel matchingRoomPanel =
-                new MatchingRoomView(frame, currentUser, matches, session, controller, postDataAccessObject);
+                new MatchingRoomView(frame, currentUser, matches, session, controller,
+                        postDataAccessObject);
         frame.setTitle("Matching Room");
         frame.setContentPane(matchingRoomPanel);
         frame.setPreferredSize(new Dimension(800, 600));

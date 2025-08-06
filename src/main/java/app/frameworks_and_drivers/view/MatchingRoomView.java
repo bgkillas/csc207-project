@@ -20,23 +20,34 @@ import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
 import app.usecase.match_interaction.MatchInteractionOutputBoundary;
-
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * A view for displaying and interacting with matched users.
+ * Users can connect, skip, or navigate to other screens.
+ */
 public class MatchingRoomView extends JPanel {
-
     private int currentIndex = 0;
 
+    /**
+     * Creates the matching room view.
+     *
+     * @param frame Main application frame
+     * @param currentUser The logged-in user
+     * @param matches List of matched users
+     * @param session Current user session
+     * @param matchInteractionController Handles connect/skip actions
+     * @param postDataAccessObject Access to post data
+     */
     public MatchingRoomView(
             JFrame frame,
             User currentUser,
             List<User> matches,
             UserSession session,
             MatchInteractionController matchInteractionController,
-            PostDataAccessInterface postDataAccessObject)
- {
+            PostDataAccessInterface postDataAccessObject) {
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -81,13 +92,14 @@ public class MatchingRoomView extends JPanel {
                     FriendRequestController controller = new FriendRequestController(interactor);
 
                     ConnectRequestView connectRequestView =
-                            new ConnectRequestView(
-                                    frame, currentUser, session, controller, viewModel, postDataAccessObject);
+                            new ConnectRequestView(frame, currentUser, session, controller,
+                                    viewModel, postDataAccessObject);
 
                     frame.setContentPane(connectRequestView);
                     frame.revalidate();
                     frame.repaint();
-                });
+                }
+        );
 
         // mailIcon.addMouseListener(
         // new java.awt.event.MouseAdapter() {
@@ -183,80 +195,72 @@ public class MatchingRoomView extends JPanel {
         this.add(bottomPanel, BorderLayout.SOUTH);
 
         // display logic
-        Runnable updateDisplay =
-                () -> {
-                    if (currentIndex >= matches.size()) {
-                        profileInfo.setText("No more matches.");
-                        score.setText("");
-                        connectBtn.setEnabled(false);
-                        skipBtn.setEnabled(false);
-                        return;
-                    }
-                    User match = matches.get(currentIndex);
+        Runnable updateDisplay = () -> {
+            if (currentIndex >= matches.size()) {
+                profileInfo.setText("No more matches.");
+                score.setText("");
+                connectBtn.setEnabled(false);
+                skipBtn.setEnabled(false);
+                return;
+            }
 
-                    // Update profile picture
-                    Image profileImg = match.getProfilePicture();
-                    if (profileImg != null) {
-                        ImageIcon icon =
-                                new ImageIcon(
-                                        profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
-                        profilePic.setIcon(icon);
-                    } else {
-                        profilePic.setIcon(null);
-                        profilePic.setText("?");
-                    }
+            User match = matches.get(currentIndex);
 
-                    profileInfo.setText(
-                            "<html><b>"
-                                    + match.getName()
-                                    + "</b><br/>"
-                                    + match.getAge()
-                                    + "<br/>"
-                                    + match.getLocation()
-                                    + "<br/>"
-                                    + "\""
-                                    + match.getBio()
-                                    + "\"</html>");
-                    score.setText("97%");
-                };
+            // Update profile picture
+            Image profileImg = match.getProfilePicture();
+            if (profileImg != null) {
+                ImageIcon icon =
+                        new ImageIcon(
+                                profileImg.getScaledInstance(120, 120, Image.SCALE_SMOOTH));
+                profilePic.setIcon(icon);
+            } else {
+                profilePic.setIcon(null);
+                profilePic.setText("?");
+            }
+            profileInfo.setText("<html><b>" + match.getName() + "</b><br/>" + match.getAge()
+                    + "<br/>" + match.getLocation() + "<br/>" + "\"" + match.getBio()
+                    + "\"</html>");
+            score.setText("97%");
+        };
 
-         connectBtn.addActionListener(
-                 e -> {
-                     matchInteractionController.connect(session, matches.get(currentIndex));
-                     currentIndex++;
-                     updateDisplay.run();
-                 });
+        connectBtn.addActionListener(e -> {
+            matchInteractionController.connect(session, matches.get(currentIndex));
+            currentIndex++;
+            updateDisplay.run();
+        });
 
-         skipBtn.addActionListener(
-                 e -> {
-                     matchInteractionController.skip(session, matches.get(currentIndex));
-                     currentIndex++;
-                     updateDisplay.run();
-                 });
+        skipBtn.addActionListener(e -> {
+            matchInteractionController.skip(session, matches.get(currentIndex));
+            currentIndex++;
+            updateDisplay.run();
+        });
 
+        yourProfileBtn.addActionListener(e -> {
+            frame.setContentPane(new ProfileView(currentUser, frame, session,
+                    postDataAccessObject));
+            frame.revalidate();
+            frame.repaint();
+        }
+        );
 
-        yourProfileBtn.addActionListener(
-                e -> {
-                    frame.setContentPane(new ProfileView(currentUser, frame, session, postDataAccessObject));
-                    frame.revalidate();
-                    frame.repaint();
-                });
-
-        shareBtn.addActionListener(
-                e -> {
-                    frame.setContentPane(
-                            new PostFeedView(currentUser, session, frame, postDataAccessObject)
-                                    .create(
-                                            new PostFeedController(
-                                                    new CreatePostInteractor(
-                                                            postDataAccessObject))));
-                    frame.revalidate();
-                    frame.repaint();
-                });
+        shareBtn.addActionListener(e -> {
+            frame.setContentPane(new PostFeedView(currentUser, session, frame,
+                    postDataAccessObject).create(new PostFeedController(
+                            new CreatePostInteractor(postDataAccessObject))));
+            frame.revalidate();
+            frame.repaint();
+        });
 
         updateDisplay.run();
     }
 
+    /**
+     * Creates a styled button.
+     *
+     * @param text Button label
+     * @param backgroundColor Background color
+     * @return Styled JButton
+     */
     private static JButton createStyledButton(String text, Color backgroundColor) {
         JButton button = new JButton(text);
         button.setBackground(backgroundColor);
@@ -269,30 +273,53 @@ public class MatchingRoomView extends JPanel {
         return button;
     }
 
-    public static void showInFrame(User currentUser, List<User> matches, PostDataAccessInterface postDataAccessObject) {
+    /**
+     * Displays the matching room in a new frame.
+     *
+     * @param currentUser Logged-in user
+     * @param matches Matched users
+     * @param postDataAccessObject Post data access
+     */
+    public static void showInFrame(User currentUser, List<User> matches,
+                                   PostDataAccessInterface postDataAccessObject) {
         JFrame frame = new JFrame("JRMC Matching Room");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
-
         UserSession dummySession = new UserSession();
         dummySession.setUser(currentUser);
 
-        MatchInteractionOutputBoundary presenter = outputData ->
-                JOptionPane.showMessageDialog(null, outputData.getMessage());
+        MatchInteractionOutputBoundary presenter =
+                outputData -> JOptionPane.showMessageDialog(
+                        null, outputData.getMessage());
 
-        AddFriendListInputBoundary dummyAddFriend = (user1, user2) -> {};
+        AddFriendListInputBoundary dummyAddFriend = (user1, user2) -> {
 
-        HandleFriendRequestInputBoundary dummyFriendRequest = new HandleFriendRequestInputBoundary() {
-            @Override public void sendFriendRequest(UserSession u, User m) {}
-            @Override public void acceptFriendRequest(UserSession u, User m) {}
-            @Override public void declineFriendRequest(UserSession u, User m) {}
         };
 
-        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
+        HandleFriendRequestInputBoundary dummyFriendRequest =
+                new HandleFriendRequestInputBoundary() {
+
+                    @Override
+                    public void sendFriendRequest(UserSession u, User m) {
+
+                    }
+
+                    @Override
+                    public void acceptFriendRequest(UserSession u, User m) {
+
+                    }
+
+                    @Override
+                    public void declineFriendRequest(UserSession u, User m) {
+
+                    }
+                };
+
+        MatchDataAccessInterface matchdao = new InMemoryMatchDataAccessObject();
 
         MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                matchDAO,
+                matchdao,
                 dummyFriendRequest,
                 dummyAddFriend,
                 presenter
@@ -300,7 +327,8 @@ public class MatchingRoomView extends JPanel {
 
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
-        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession, controller, postDataAccessObject);
+        MatchingRoomView view = new MatchingRoomView(frame, currentUser, matches, dummySession,
+                controller, postDataAccessObject);
         frame.setContentPane(view);
         frame.setVisible(true);
     }

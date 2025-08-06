@@ -3,14 +3,28 @@ package app.frameworks_and_drivers.view.components;
 import java.awt.*;
 import javax.swing.*;
 
-// Custom JButton class
+/**
+ * A custom circular button with centered text.
+ * This button overrides the default Swing `JButton`.
+ */
 public class CircularButton extends JButton {
+
+    /**
+     * Constructs a new {CircularButton} with the specified label text.
+     *
+     * @param label the text to display on the button
+     */
     public CircularButton(String label) {
         super(label);
         setContentAreaFilled(false);
         setFocusPainted(false);
     }
 
+    /**
+     * Paints the circular button with centered text.
+     *
+     * @param g the {Graphics} context in which to paint
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -36,6 +50,13 @@ public class CircularButton extends JButton {
         g2.dispose();
     }
 
+    /**
+     * Overrides the default hitbox detection to match the circular shape.
+     *
+     * @param x the x-coordinate of the point
+     * @param y the y-coordinate of the point
+     * @return true if the point is inside the circular area, false otherwise
+     */
     @Override
     public boolean contains(int x, int y) {
         int radius = getWidth() / 2;

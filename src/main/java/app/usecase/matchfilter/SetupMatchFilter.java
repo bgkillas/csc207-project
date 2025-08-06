@@ -2,6 +2,10 @@ package app.usecase.matchfilter;
 
 import app.entities.User;
 
+/**
+ * Interface for setting match filter preferences.
+ * Defines a method that updates a user's match filter based on provided preferences.
+ */
 public interface SetupMatchFilter {
     /**
      * Sets the match filter preferences for a given user.

@@ -6,11 +6,25 @@ import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import app.usecase.login.LoginManager;
 import java.util.ArrayList;
 
+/**
+ * Interactor for the Create Account use case.
+ * This class handles the creation of a new user account based on Spotify authentication.
+ * It interacts with the Spotify interface to extract the user's ID and username,
+ * registers the user in the login system if they don't already exist, and creates a new
+ * User entity with default values for age, gender, location, and bio.
+ */
 public class CreateAccountInteractor implements CreateAccountInputBoundary {
     private final CreateAccountOutputBoundary presenter;
     private final UserSession session;
     private final LoginManager loginManager;
 
+    /**
+     * Constructs a new {CreateAccountInteractor}.
+     *
+     * @param presenter     the output boundary to handle the success view
+     * @param session       the current user session
+     * @param loginManager  the login manager responsible for account registration
+     */
     public CreateAccountInteractor(
             CreateAccountOutputBoundary presenter, UserSession session, LoginManager loginManager) {
         this.presenter = presenter;
@@ -37,13 +51,14 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
         User user =
                 new User(
                         spotifyUsername,
-                        18, // default age (can update later in profile setup)
-                        "Not specified", // default gender
-                        "Not specified", // default location
-                        "Empty biography", // default bio
-                        new ArrayList<>(), // favGenres
-                        new ArrayList<>(), // favArtists
-                        new ArrayList<>() // favSongs
+                        18,
+                        "Not specified",
+                        "Not specified",
+                        "Empty biography",
+                        // favGenres, favArtists, and favSongs
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>()
                         );
         // updated UserSession to have a setter
         session.setUser(user);

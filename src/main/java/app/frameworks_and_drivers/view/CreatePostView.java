@@ -11,6 +11,12 @@ import java.awt.*;
 import java.io.File;
 import javax.swing.*;
 
+/**
+ * A Swing view that allows users to create a new post.
+ * This view contains fields for title and content, an optional image upload,
+ * and a post button to submit the post. After posting, the user is navigated
+ * back to the post feed.
+ */
 public class CreatePostView {
     private final User currentUser;
     private final UserSession session;
@@ -22,6 +28,14 @@ public class CreatePostView {
     private JLabel imagePreview;
     private File imageFile;
 
+    /**
+     * Constructs a new CreatePostView.
+     *
+     * @param user                 the currently logged-in user
+     * @param session              the user session object
+     * @param frame                the main application frame
+     * @param postDataAccessObject the data access object used for post operations
+     */
     public CreatePostView(
             User user,
             UserSession session,
@@ -32,6 +46,16 @@ public class CreatePostView {
         this.frame = frame;
         this.postDataAccessObject = postDataAccessObject;
     }
+
+    /**
+     * Creates the full post creation view panel.
+     * Users can enter a post title and content, upload an image,
+     * and submit the post. On submission, the post is saved and the user is
+     * navigated back to the post feed.
+     *
+     * @param controller the controller handling post creation logic
+     * @return a  JPanel containing all UI components for creating a post
+     */
 
     public JPanel create(CreatePostController controller) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -141,7 +165,7 @@ public class CreatePostView {
         // frame.revalidate();
         // frame.repaint();
         // });
-        //
+
         // // navigate to profile
         // btnProfile.addActionListener(
         // e -> {

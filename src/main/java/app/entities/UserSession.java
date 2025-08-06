@@ -7,7 +7,11 @@ import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Represents a session for a logged-in user. */
+/**
+ * Represents the session of a currently logged-in user.
+ * Maintains the user's state, including friend requests, matches, posts, all users,
+ * and optional Spotify data if connected.
+ */
 public class UserSession {
     private User user;
     private final List<User> incomingFriendRequest;
@@ -88,33 +92,56 @@ public class UserSession {
         this.matches = new ArrayList<>();
     }
 
+    /**
+     * Returns the list of all users known to this session.
+     *
+     * @return the list of all users
+     */
     public List<User> getAllUsers() {
         return allUsers;
     }
 
-    /** adds a user to the user list. */
+    /**
+     * Adds a user to the list of all users.
+     *
+     * @param user the user to add
+     */
     public void addUser(User user) {
         allUsers.add(user);
     }
 
-    /** initiates spotify api. */
+    /**
+     * Initializes the Spotify API and pulls user-level metadata.
+     *
+     * @param spotify the Spotify interface implementation to initialize
+     */
     public void initiateSpotify(SpotifyInterface spotify) {
         this.spotify = spotify;
         spotify.initSpotify();
         spotify.pullUserData();
     }
 
-    /** returns the user name from spotify info. */
+    /**
+     * Returns the current user's Spotify username.
+     *
+     * @return the Spotify username
+     */
     public String getUserName() {
         return spotify.getUserName();
     }
 
-    /** returns the user id from spotify info. */
+    /**
+     * Returns the current user's Spotify ID.
+     *
+     * @return the Spotify user ID
+     */
     public String getUserId() {
         return spotify.getUserId();
     }
 
-    /** updates tracks/artists/genres data from spotify api if available. */
+    /**
+     * Updates the user's top tracks, artists, and genres using Spotify data.
+     */
     public void updateSpotify() {
         if (this.user != null && this.spotify != null) {
             spotify.pullTopArtistsAndGenres();
@@ -125,12 +152,8 @@ public class UserSession {
         }
     }
 
-
     /**
-     * Sets the current user for this session. This method is used when a user signs up or logs in
-     * so the app can associate a User object with the current session. This is needed for account
-     * creation, profile setup, and matching (need to know who the active user is) Changed the
-     * 'user' field to not be final for this to work
+     * Sets the current user for this session and updates Spotify preferences if available.
      *
      * @param user the user to set as the current session user
      */
@@ -218,14 +241,29 @@ public class UserSession {
         matches.add(match);
     }
 
+    /**
+     * Returns the list of posts created by the current user.
+     *
+     * @return the list of posts
+     */
     public List<Post> getPosts() {
         return posts;
     }
 
+    /**
+     * Sets the list of posts for the current user.
+     *
+     * @param posts the list of posts to assign
+     */
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 
+    /**
+     * Adds a single post to the user's list of posts.
+     *
+     * @param post the post to add
+     */
     public void addPost(Post post) {
         posts.add(post);
     }

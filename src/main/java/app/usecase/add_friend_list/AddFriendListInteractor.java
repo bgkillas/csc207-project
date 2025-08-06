@@ -2,6 +2,12 @@ package app.usecase.add_friend_list;
 
 import app.entities.User;
 
+/**
+ * Interactor for the Add Friend use case.
+ * This class implements the logic for adding a new friend
+ * to a user's friend list. It performs validation and communicates the result
+ * to the output boundary (presenter).
+ */
 public class AddFriendListInteractor implements AddFriendListInputBoundary {
     private final AddFriendListOutputBoundary presenter;
 
