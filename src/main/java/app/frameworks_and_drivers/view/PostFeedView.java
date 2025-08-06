@@ -21,6 +21,7 @@ import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
 
+import app.Main;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -31,13 +32,6 @@ public class PostFeedView extends JPanel {
     private final UserSession session;
     private final JFrame frame;
     private final PostDataAccessInterface postDataAccessObject;
-
-    public PostFeedView(User currentUser, UserSession session, JFrame frame) {
-        this.currentUser = currentUser;
-        this.session = session;
-        this.frame = frame;
-        this.postDataAccessObject = new InMemoryPostDataAccessObject();
-    }
 
     public PostFeedView(
             User currentUser,
@@ -183,7 +177,7 @@ public class PostFeedView extends JPanel {
         // navigate to profile
         btnProfile.addActionListener(
                 e -> {
-                    JPanel profilePanel = new ProfileView(currentUser, frame, session, postDataAccessObject);
+                    JPanel profilePanel = new ProfileView(currentUser, frame, session, postDataAccessObject, Main.getSetupController());
                     frame.setContentPane(profilePanel);
                     frame.revalidate();
                     frame.repaint();

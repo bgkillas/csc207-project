@@ -5,17 +5,29 @@ import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
+import app.frameworks_and_drivers.view.ProfileSetupView;
+import app.usecase.login.LoginManagerMemory;
+import app.interface_adapter.controller.CreateAccountController;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.PostFeedController;
-import app.interface_adapter.presenter.AddFriendListPresenter;
-import app.interface_adapter.presenter.FriendRequestPresenter;
-import app.interface_adapter.presenter.MatchInteractionPresenter;
+import app.interface_adapter.controller.SetupUserProfileController;
+import app.interface_adapter.presenter.*;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.add_friend_list.AddFriendListInteractor;
+import app.usecase.create_account.CreateAccountInputBoundary;
+import app.usecase.create_account.CreateAccountInteractor;
+import app.usecase.create_account.CreateAccountOutputBoundary;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
+import app.usecase.login.LoginManager;
+import app.usecase.login.LoginManagerMemory;
 import app.usecase.match_interaction.MatchInteractionInteractor;
 import app.usecase.matching.MatchServiceImpl;
+import app.usecase.user_profile_setup.SetupUserProfileInputBoundary;
+import app.usecase.user_profile_setup.SetupUserProfileInteractor;
+import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
+import app.Main;
+
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -25,6 +37,7 @@ public class ProfileView extends JPanel {
     private final JFrame frame;
     private final UserSession userSession;
     private final PostDataAccessInterface postDataAccessObject;
+    private final SetupUserProfileController profileSetupController;
 
     /**
      * Constructs a ProfileView for the given user.
@@ -33,11 +46,12 @@ public class ProfileView extends JPanel {
      * @param frame the JFrame to which this view will be added
      * @param userSession the user session containing all users and matches
      */
-    public ProfileView(User user, JFrame frame, UserSession userSession, PostDataAccessInterface postDataAccessObject) {
+    public ProfileView(User user, JFrame frame, UserSession userSession, PostDataAccessInterface postDataAccessObject, SetupUserProfileController profileSetupController) {
         this.user = user;
         this.frame = frame;
         this.userSession = userSession;
         this.postDataAccessObject = postDataAccessObject;
+        this.profileSetupController = profileSetupController;
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -127,7 +141,7 @@ public class ProfileView extends JPanel {
 
         myProfileBtn.addActionListener(
                 e -> {
-                    ProfileView profileView = new ProfileView(currentUser, frame, userSession, postDataAccessObject);
+                    ProfileView profileView = new ProfileView(currentUser, frame, userSession, postDataAccessObject, profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -254,6 +268,18 @@ public class ProfileView extends JPanel {
         JButton blockBtn = createActionButton("block");
         JButton unBlockBtn = createActionButton("unblock");
 
+
+        editProfileBtn.addActionListener(e -> {
+            JPanel profileSetupPanel = ProfileSetupView.create(profileSetupController, userSession.getUser());
+            frame.setContentPane(profileSetupPanel);
+            frame.setTitle("Edit Profile");
+            frame.setPreferredSize(new Dimension(800, 600));
+            frame.pack();
+            frame.revalidate();
+            frame.repaint();
+        });
+
+        
         buddyListBtn.addActionListener(
                 e -> {
                     BuddyListView buddyList = new BuddyListView(user, userSession, frame, postDataAccessObject);
@@ -271,7 +297,7 @@ public class ProfileView extends JPanel {
         blockBtn.addActionListener(
                 e -> {
                     userSession.getUser().addBlock(user);
-                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject);
+                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject, profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -279,7 +305,7 @@ public class ProfileView extends JPanel {
         unBlockBtn.addActionListener(
                 e -> {
                     userSession.getUser().removeBlock(user);
-                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject);
+                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject, profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -296,15 +322,6 @@ public class ProfileView extends JPanel {
                 actionPanel.add(blockBtn);
             }
         }
-        // before: you had !isUser(), why not use else?
-        // if (!isUser()) {
-        // if (userSession.getUser().hasBlock(user)) {
-        // navPanel.add(unBlockBtn);
-        // } else {
-        // navPanel.add(blockBtn);
-        // }
-        // }
-
         return actionPanel;
     }
 

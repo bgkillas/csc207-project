@@ -30,6 +30,7 @@ import javax.swing.WindowConstants;
 /** Main executable class. */
 public class Main {
     private static SetupMatchFilterController filterController;
+    private static SetupUserProfileController setupController;
 
     /** Main executable point. */
     public static void main(String[] args) throws NoSuchAlgorithmException {
@@ -55,8 +56,7 @@ public class Main {
         SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
-        SetupUserProfileController setupController =
-                new SetupUserProfileController(setupInteractor);
+        setupController = new SetupUserProfileController(setupInteractor);
 
         // Create Account setup
         CreateAccountOutputBoundary createAccountPresenter =
@@ -82,5 +82,9 @@ public class Main {
 
     public static SetupMatchFilterController getFilterController() {
         return filterController;
+    }
+
+    public static SetupUserProfileController getSetupController() {
+        return setupController;
     }
 }

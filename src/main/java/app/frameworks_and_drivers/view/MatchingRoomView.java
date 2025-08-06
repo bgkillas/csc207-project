@@ -21,6 +21,7 @@ import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
 import app.usecase.match_interaction.MatchInteractionOutputBoundary;
 
+import app.Main;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -237,7 +238,7 @@ public class MatchingRoomView extends JPanel {
 
         yourProfileBtn.addActionListener(
                 e -> {
-                    frame.setContentPane(new ProfileView(currentUser, frame, session, postDataAccessObject));
+                    frame.setContentPane(new ProfileView(currentUser, frame, session, postDataAccessObject, Main.getSetupController()));
                     frame.revalidate();
                     frame.repaint();
                 });
