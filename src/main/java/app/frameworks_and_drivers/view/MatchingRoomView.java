@@ -58,8 +58,8 @@ public class MatchingRoomView extends JPanel {
         for (User candidate : matches) {
             if (candidate.equals(currentUser)) continue;
             if (currentUser.getFriendList().contains(candidate)) continue;
-            if (currentUser.hasBlock(candidate)) continue;
-            if (!filter.isValid(candidate)) continue;
+//            if (currentUser.hasBlock(candidate)) continue;
+//            if (!filter.isValid(candidate)) continue;
             filteredMatches.add(candidate);
         }
 
@@ -315,6 +315,7 @@ public class MatchingRoomView extends JPanel {
      * @param matches Matched users
      * @param postDataAccessObject Post data access
      */
+
     public static void showInFrame(
             User currentUser, List<User> matches, PostDataAccessInterface postDataAccessObject) {
         JFrame frame = new JFrame("JRMC Matching Room");
