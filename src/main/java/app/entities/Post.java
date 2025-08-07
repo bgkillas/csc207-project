@@ -4,12 +4,14 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a social media post created by a user. A post may include a title, text content, an
  * optional image, a timestamp, the author who created it, and a list of comments.
  */
 public class Post {
+    private UUID id;
     private String title;
     private String text;
     private Image image;
@@ -34,6 +36,7 @@ public class Post {
             LocalDateTime timestamp,
             User author,
             List<Comment> comments) {
+        this.id = UUID.randomUUID();
         this.title = title;
         this.text = text;
         this.image = image;
@@ -47,6 +50,7 @@ public class Post {
      * comments.
      */
     public Post() {
+        this.id = UUID.randomUUID();
         this.title = "Untitled";
         this.text = "";
         this.image = null;
@@ -54,6 +58,20 @@ public class Post {
         this.author = null;
         this.comments = new ArrayList<Comment>();
     }
+
+    /**
+     * Returns the id of this post.
+     *
+     * @return UUID of this.
+     */
+    public UUID getId() {return this.id;}
+
+    /**
+     * Sets the id of this post.
+     *
+     * @param id The id to be set.
+     */
+    public void setId(UUID id) {this.id = id;}
 
     /**
      * Sets the list of comments on the post.
@@ -116,5 +134,38 @@ public class Post {
      */
     public LocalDateTime getTimestamp() {
         return this.timestamp;
+    }
+
+    /**
+     * Returns String of comments seperated by commas.
+     * This is a temporary method used mainly for debugging.
+     *
+     * @return String of comments
+     */
+    public String getAllCommentsInString() {
+        if (this.comments == null) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        for (Comment comment : this.comments) {
+            result.append(comment.getText());
+            result.append(", ");
+        }
+        result.delete(result.length() - 2, result.length());
+        return result.toString();
+    }
+
+    public List<Comment> getFilteredComments(User user) {
+        List<Comment> filteredComments = new ArrayList<>();
+        for (Comment comment : this.comments) {
+            User author = comment.getAuthor();
+            if (user.hasBlock(author)) {
+                // do not add this comment to the filtered comment list.
+            }
+            else {
+                filteredComments.add(comment);
+            }
+        }
+        return filteredComments;
     }
 }

@@ -47,8 +47,12 @@ public class PostTest {
         testTimestamp = LocalDateTime.of(2025, 12, 25, 10, 30);
 
         testComments = new ArrayList<>();
-        testComments.add(new Comment("Great post!", "Katy", LocalDateTime.now()));
-        testComments.add(new Comment("I agree!", "George", LocalDateTime.now()));
+        User katy = new User("Katy", 20, null, null,
+                null, null, null, null);
+        User george = new User("George", 20, null, null,
+                null, null, null, null);
+        testComments.add(new Comment("Great post!", katy, LocalDateTime.now()));
+        testComments.add(new Comment("I agree!", george, LocalDateTime.now()));
 
         // test image
         testImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
@@ -133,9 +137,12 @@ public class PostTest {
 
     @Test
     void testSetComments() {
+        User charlie = new User("Charlie", 20, null, null,
+                null, null, null, null);
+
         Post post = new Post("Title", "Content", null, testTimestamp, testUser, new ArrayList<>());
         List<Comment> newComments = new ArrayList<>();
-        newComments.add(new Comment("New comment", "Charlie", LocalDateTime.now()));
+        newComments.add(new Comment("New comment", charlie, LocalDateTime.now()));
 
         post.setComments(newComments);
         assertEquals(newComments, post.getComments());

@@ -42,16 +42,22 @@ public class AddCommentInteractor implements AddCommentInputBoundary {
             presenter.presentAddCommentFailure("Comment cannot be empty.");
             return;
         }
+        else if (commentText.equals("Enter your comment here!")) {
+            presenter.presentAddCommentFailure("Please enter a comment here.");
+            return;
+        }
 
         Comment newComment =
-                new Comment(commentText, userSession.getUser().getName(), LocalDateTime.now());
+                new Comment(commentText, userSession.getUser(), LocalDateTime.now());
         // UserSession update
         post.getComments().add(newComment);
+        // postDAO update
+        postDataAccessObject.updatePost(post);
 
         AddCommentOutputData outputData =
                 new AddCommentOutputData(
                         newComment.getText(),
-                        newComment.getAuthor(),
+                        newComment.getAuthor().getName(),
                         newComment.getDate(),
                         "Comment added successfully.");
         presenter.presentAddCommentSuccess(outputData);

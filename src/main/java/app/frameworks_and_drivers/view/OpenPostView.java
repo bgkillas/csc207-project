@@ -8,12 +8,12 @@ import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CommentViewPanel;
 import app.interface_adapter.controller.AddCommentController;
-import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.*;
 
@@ -70,10 +70,9 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
     /**
      * Creates the main UI panel for displaying post content and allowing comments.
      *
-     * @param controller The controller responsible for handling open post logic (currently unused)
      * @return A fully assembled JPanel containing the view
      */
-    public JPanel create(OpenPostController controller) {
+    public JPanel create() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(800, 600));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -97,19 +96,19 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
                     frame.repaint();
                 });
 
+        // Create top panel - JPanel with title and back button
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(back, BorderLayout.WEST);
         topPanel.add(titlePanel, BorderLayout.CENTER);
 
-        // Create a JPanel for main content
+        // Create main panel - JPanel for main content
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BorderLayout());
 
-        // Display post content
+        // Create post panel - JPanel for displaying post title & content
         JPanel postPanel = new JPanel(new BorderLayout());
         postPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
         postPanel.setBackground(Color.WHITE);
-        postPanel.setMaximumSize(new Dimension(450, 400));
 
         // Post title
         JLabel postTitleLabel = new JLabel(post.getTitle());
@@ -140,75 +139,64 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         postPanel.add(postTitleLabel, BorderLayout.NORTH);
         postPanel.add(contentScrollPane, BorderLayout.CENTER);
 
-        mainPanel.add(postPanel);
-        mainPanel.add(Box.createVerticalStrut(20));
-
         // Comment Section Bar
         JPanel commentSection = new JPanel(new BorderLayout());
         commentSection.setBorder(BorderFactory.createTitledBorder("Comments"));
 
-        JPanel commentPanel = new JPanel(new BorderLayout());
+        JPanel commentPanel = new JPanel();
+        commentPanel.setLayout(new BoxLayout(commentPanel, BoxLayout.Y_AXIS));
 
-        // Get actual posts from data access layer
-        if (post.getComments().isEmpty()) {
-            // Show a message if no posts
-            JLabel noPostsLabel =
-                    new JLabel("No Comment yet. Be the first to connect!", SwingConstants.CENTER);
-            noPostsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-            commentPanel.add(noPostsLabel);
-        } else {
-            // Display actual comments
-            List<Comment> currentPostComments = post.getComments();
+        // Get actual comments from data access layer
+        addComments(commentPanel);
 
-            Runnable runnable =
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            return;
-                        }
-                    };
-            for (Comment comment : currentPostComments) {
-                CommentViewPanel commentViewPanel =
-                        new CommentViewPanel(
-                                comment.getAuthor(),
-                                comment.getText(),
-                                comment.getDate(),
-                                runnable);
-                commentPanel.add(commentViewPanel);
-            }
-        }
+        // Wrap commentPanel in a fixed-height container panel
+        JPanel scrollableWrapper = new JPanel(new BorderLayout());
+        scrollableWrapper.add(commentPanel, BorderLayout.NORTH);
 
-        JScrollPane commentScrollPane = new JScrollPane(commentPanel);
+        JScrollPane commentScrollPane = new JScrollPane(scrollableWrapper);
+        // set max height for scroll area
+        commentScrollPane.setPreferredSize(new Dimension(400, 120));
 
-        JTextArea commentArea = new JTextArea(3, 1);
+        JTextArea commentArea = new JTextArea();
+        setupPlaceholder(commentArea, "Enter your comment here!");
         commentArea.setLineWrap(true);
         commentArea.setWrapStyleWord(true);
 
-        JButton addCommentButton = new JButton("Add Comment");
+        JButton addCommentButton = new JButton("Comment");
         addCommentButton.addActionListener(
                 e -> {
-                    // Comment something
                     String comment = commentArea.getText();
                     AddCommentInteractor interactor =
                             new AddCommentInteractor(
                                     postDataAccessObject, new AddCommentPresenter(this));
-                    // TODO: make it another instance attribute
                     AddCommentController commentController = new AddCommentController(interactor);
                     commentController.addComment(session, post, comment);
+
+                    // refresh the page
+                    OpenPostView openPostView =
+                            new OpenPostView(
+                                    currentUser, session, frame, postDataAccessObject, post);
+                    frame.setContentPane(
+                            openPostView.create());
+                    frame.revalidate();
+                    frame.repaint();
                 });
 
-        commentSection.add(commentScrollPane, BorderLayout.NORTH);
-        commentSection.add(commentArea, BorderLayout.CENTER);
-        commentSection.add(addCommentButton, BorderLayout.SOUTH);
+        JPanel addCommentPanel = new JPanel(new BorderLayout());
+        addCommentPanel.add(commentArea);
+        addCommentPanel.add(addCommentButton, BorderLayout.EAST);
 
-        mainPanel.add(commentSection);
+        commentSection.add(commentScrollPane, BorderLayout.CENTER);
+        commentSection.add(addCommentPanel, BorderLayout.SOUTH);
 
-        JScrollPane scrollPane = new JScrollPane(mainPanel);
-        scrollPane.setBorder(null);
+        mainPanel.add(postPanel, BorderLayout.CENTER);
+        mainPanel.add(commentSection, BorderLayout.SOUTH);
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
 
         panel.add(topPanel, BorderLayout.NORTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-
+        panel.add(mainPanel, BorderLayout.CENTER);
+        panel.add(bottomPanel, BorderLayout.SOUTH);
         return panel;
     }
 
@@ -222,5 +210,54 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
     public void render(String message, boolean isSuccess) {
         int messageType = isSuccess ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE;
         JOptionPane.showMessageDialog(this, message, isSuccess ? "Success" : "Error", messageType);
+    }
+
+    private void addComments(JPanel commentPanel) {
+        // Get actual comments from data access layer
+        if (post.getComments().isEmpty()) {
+            // Show a message if no posts
+            JLabel noPostsLabel =
+                    new JLabel("No Comment yet. Be the first to connect!", SwingConstants.CENTER);
+            noPostsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+            commentPanel.add(noPostsLabel);
+        } else {
+            // Display filtered list of comments for the currentUser
+            List<Comment> currentPostComments = post.getFilteredComments(currentUser);
+            // reverse order to newest to oldest.
+            Collections.reverse(currentPostComments);
+
+            Runnable runnable =
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            return;
+                        }
+                    };
+            for (Comment comment : currentPostComments) {
+                CommentViewPanel commentViewPanel =
+                        new CommentViewPanel(
+                                comment.getAuthor().getName(),
+                                comment.getText(),
+                                comment.getDate(),
+                                runnable);
+                commentPanel.add(commentViewPanel);
+                commentPanel.revalidate();
+                commentPanel.repaint();
+            }
+        }
+    }
+
+    private void setupPlaceholder(JTextArea textArea, String placeholder) {
+        textArea.setText(placeholder);
+        textArea.addFocusListener(new java.awt.event.FocusAdapter() {
+            boolean cleared = false;
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (!cleared) {
+                    textArea.setText("");
+                    cleared = true;
+                }
+            }
+        });
     }
 }

@@ -3,12 +3,34 @@ package app.frameworks_and_drivers.data_access;
 import app.entities.Post;
 import app.entities.User;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface for accessing and managing post data associated with users. This abstracts the storage
  * and retrieval of posts, allowing for various implementations (e.g., in-memory, database-backed).
  */
 public interface PostDataAccessInterface {
+    /**
+     * Saves a new post.
+     *
+     * @param post The post to be saved
+     */
+    void savePost(Post post);
+
+    /**
+     * Update pre-existing post in the postDAO.
+     *
+     * @param post The post to be updated
+     */
+    void updatePost(Post post);
+
+    /**
+     * Get all the posts' IDs in the DAO.
+     *
+     * @return list of UUID of posts in DAO.
+     */
+    Post getPostById(UUID id);
+
     /**
      * Retrieves all posts made by a specific user.
      *
@@ -18,10 +40,17 @@ public interface PostDataAccessInterface {
     List<Post> getPostsByUser(User user);
 
     /**
-     * Saves a new post for the specified user.
+     * Get all the posts saved in the DAO.
      *
-     * @param user The user creating the post
-     * @param post The post to be saved
+     * @return Post if it is found in DAO, null otherwise.
      */
-    void savePost(User user, Post post);
+    List<Post> getAllPosts();
+
+    /**
+     * Get all the posts of current user or the user's friend(s) saved in the DAO.
+     *
+     * @param user given user.
+     * @return Posts of currentUser and users in currentUser's friend list.
+     */
+    List<Post> getPostFeed(User user);
 }

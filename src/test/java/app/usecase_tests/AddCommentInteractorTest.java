@@ -46,8 +46,6 @@ public class AddCommentInteractorTest {
 
         // Scenario: Stan wants to make a comment on user01's post
 
-        UserDataAccessInterface userDataAccessObject = new InMemoryUserDataAccessObject();
-        MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
 
         // user1 logs in to the app and posts something
@@ -60,8 +58,8 @@ public class AddCommentInteractorTest {
                         null,
                         LocalDateTime.now(),
                         user1,
-                        new ArrayList<Comment>());
-        postDataAccessObject.savePost(user1, newPost); // DataAccessObject updates
+                        new ArrayList<>());
+        postDataAccessObject.savePost(newPost); // DataAccessObject updates
         userSession1.addPost(newPost); // Session updates
 
         // this post has no comment yet
@@ -76,14 +74,19 @@ public class AddCommentInteractorTest {
         // Stan makes a comment on user1's post
         String comment = "I agree!";
         AddCommentOutputBoundary presenter = new AddCommentPresenter(view);
-        AddCommentInputBoundary addcomment =
+        AddCommentInputBoundary interactor =
                 new AddCommentInteractor(postDataAccessObject, presenter);
-        addcomment.addComment(userSession0, newPost, comment);
+        interactor.addComment(userSession0, newPost, comment);
 
         // Check that comment is stored with the post in DataAccessObject
         assertFalse(postDataAccessObject.getPostsByUser(user1).get(0).getComments().isEmpty());
         assertEquals(
                 postDataAccessObject.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(),
                 user0.getName());
+
+        String comment2 = "I disagree.";
+        interactor.addComment(userSession0, newPost, comment2);
+
+        assertEquals(2, postDataAccessObject.getPostsByUser(user1).get(0).getComments().size());
     }
 }

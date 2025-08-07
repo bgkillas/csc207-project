@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 public class Comment {
     private String text;
-    private String author;
+    private User author;
     private LocalDateTime date;
 
     /**
@@ -18,7 +18,7 @@ public class Comment {
      * @param author the author of the comment
      * @param date the time the comment was created
      */
-    public Comment(String text, String author, LocalDateTime date) {
+    public Comment(String text, User author, LocalDateTime date) {
         this.text = text;
         this.author = author;
         this.date = date;
@@ -47,7 +47,7 @@ public class Comment {
      *
      * @return the author's identifier (e.g., username)
      */
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
@@ -56,7 +56,7 @@ public class Comment {
      *
      * @param author the author's identifier
      */
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 

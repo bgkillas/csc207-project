@@ -62,6 +62,6 @@ public class CreatePostInteractor implements CreatePost {
                 new Post(title, content, postImage, LocalDateTime.now(), author, new ArrayList<>());
 
         // Save post in DataAccessObject
-        postDataAccess.savePost(author, newPost);
+        postDataAccess.savePost(newPost);
     }
 }
