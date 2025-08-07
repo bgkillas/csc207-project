@@ -8,7 +8,6 @@ import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CommentViewPanel;
 import app.interface_adapter.controller.AddCommentController;
-import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
@@ -70,10 +69,9 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
     /**
      * Creates the main UI panel for displaying post content and allowing comments.
      *
-     * @param controller The controller responsible for handling open post logic (currently unused)
      * @return A fully assembled JPanel containing the view
      */
-    public JPanel create(OpenPostController controller) {
+    public JPanel create() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(800, 600));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -192,7 +190,6 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
                     AddCommentInteractor interactor =
                             new AddCommentInteractor(
                                     postDataAccessObject, new AddCommentPresenter(this));
-                    // TODO: make it another instance attribute
                     AddCommentController commentController = new AddCommentController(interactor);
                     commentController.addComment(session, post, comment);
                 });

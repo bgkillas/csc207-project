@@ -8,14 +8,13 @@ import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CircularButton;
 import app.frameworks_and_drivers.view.components.NavButton;
-import app.interface_adapter.controller.CreatePostController;
-import app.interface_adapter.controller.MatchInteractionController;
-import app.interface_adapter.controller.OpenPostController;
-import app.interface_adapter.controller.PostFeedController;
+import app.interface_adapter.controller.*;
+import app.interface_adapter.presenter.AddCommentPresenter;
 import app.interface_adapter.presenter.AddFriendListPresenter;
 import app.interface_adapter.presenter.FriendRequestPresenter;
 import app.interface_adapter.presenter.MatchInteractionPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
+import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
@@ -175,7 +174,7 @@ public class PostFeedView extends JPanel {
         // navigate to matching room
         btnMatching.addActionListener(
                 e -> {
-                    List<User> matches = (List<User>) session.getAllUsers();
+                    List<User> matches = session.getAllUsers();
 
                     MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
 
@@ -281,7 +280,7 @@ public class PostFeedView extends JPanel {
                                 new OpenPostView(
                                         currentUser, session, frame, postDataAccessObject, post);
                         frame.setContentPane(
-                                openPostView.create(new OpenPostController(postDataAccessObject)));
+                                openPostView.create());
                         frame.revalidate();
                         frame.repaint();
                     }
