@@ -271,6 +271,15 @@ public class UserSession {
     }
 
     /**
+     * Returns the list of all matches for the match view.
+     *
+     * @return the list of incoming match users
+     */
+    public List<User> getMatchesTemp() {
+        return allUsers;
+    }
+
+    /**
      * Returns the list of users to whom the current user has sent match requests.
      *
      * @return the list of outgoing match users

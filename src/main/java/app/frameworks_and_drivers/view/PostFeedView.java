@@ -202,7 +202,7 @@ public class PostFeedView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    session.getIncomingMatches(),
+                                    session.getMatchesTemp(),
                                     session,
                                     matchcontroller,
                                     postDataAccessObject);

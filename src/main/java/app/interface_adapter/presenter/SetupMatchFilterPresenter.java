@@ -95,7 +95,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
         if (!first) {
-            matches = session.getIncomingMatches();
+            matches = session.getMatchesTemp();
         }
         first = false;
         JPanel matchingRoomPanel =
