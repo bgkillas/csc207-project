@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.*;
 
 /**
@@ -21,15 +22,16 @@ public class CommentViewPanel extends JPanel {
      */
     public CommentViewPanel(String author, String text, LocalDateTime date, Runnable onClick) {
         setLayout(new BorderLayout());
-        setMaximumSize(new Dimension(450, 15));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
         setBackground(Color.WHITE);
 
         JLabel authorLabel = new JLabel(author);
         JLabel textLabel = new JLabel(text);
 
-        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        // String formatted = sdf.format(date.toString());
-        JLabel dateLabel = new JLabel(date.toString());
+        // Format date into human-readable form
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm, MMMM dd, yyyy");
+        String formatted = date.format(formatter);
+        JLabel dateLabel = new JLabel(formatted);
 
         textLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         textLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

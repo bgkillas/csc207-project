@@ -32,8 +32,8 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
                 this.userPosts.set(i, post);
                 return;
             }
-            System.out.println("Post not found");
         }
+        System.out.println("Post not found");
     }
 
     /**
