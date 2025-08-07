@@ -50,7 +50,7 @@ public class Post {
      * comments.
      */
     public Post() {
-        this.id = null;
+        this.id = UUID.randomUUID();
         this.title = "Untitled";
         this.text = "";
         this.image = null;
@@ -59,8 +59,18 @@ public class Post {
         this.comments = new ArrayList<Comment>();
     }
 
+    /**
+     * Returns the id of this post.
+     *
+     * @return UUID of this.
+     */
     public UUID getId() {return this.id;}
 
+    /**
+     * Sets the id of this post.
+     *
+     * @param id The id to be set.
+     */
     public void setId(UUID id) {this.id = id;}
 
     /**
@@ -124,5 +134,24 @@ public class Post {
      */
     public LocalDateTime getTimestamp() {
         return this.timestamp;
+    }
+
+    /**
+     * Returns String of comments seperated by commas.
+     * This is a temporary method used mainly for debugging.
+     *
+     * @return String of comments
+     */
+    public String getAllCommentsInString() {
+        if (this.comments == null) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        for (Comment comment : this.comments) {
+            result.append(comment.getText());
+            result.append(", ");
+        }
+        result.delete(result.length() - 2, result.length());
+        return result.toString();
     }
 }

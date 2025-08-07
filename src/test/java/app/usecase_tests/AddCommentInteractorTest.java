@@ -61,7 +61,7 @@ public class AddCommentInteractorTest {
                         LocalDateTime.now(),
                         user1,
                         new ArrayList<Comment>());
-        postDataAccessObject.savePost(user1, newPost); // DataAccessObject updates
+        postDataAccessObject.savePost(newPost); // DataAccessObject updates
         userSession1.addPost(newPost); // Session updates
 
         // this post has no comment yet
