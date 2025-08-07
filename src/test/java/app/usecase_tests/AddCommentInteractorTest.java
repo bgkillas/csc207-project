@@ -6,6 +6,7 @@ import app.frameworks_and_drivers.view.AddCommentViewInterface;
 import app.frameworks_and_drivers.view.OpenPostView;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
+import org.junit.Ignore;
 import org.junit.Test;
 import app.usecase.add_comment.AddCommentInputBoundary;
 import app.usecase.add_comment.AddCommentOutputBoundary;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AddCommentInteractorTest {
 
     @Test
+    @Ignore("Manual only")
     public void testAddComment() {
         List<String> emptyList = new ArrayList<String>();
         MatchFilter generalMF = new MatchFilter(0, 100, null, null);

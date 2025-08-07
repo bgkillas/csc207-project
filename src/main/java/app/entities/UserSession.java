@@ -150,10 +150,10 @@ public class UserSession {
     }
 
     /**
-     * Sets the current user for this session and updates Spotify preferences if available.
-     * If the user has no existing friends, two default friends ("Diana" and "Eric") are added
-     * with mutual friendship links. It also adds three dummy incoming friend requests
-     * from themed users: "Java", "Python", and "C++". (for demo)
+     * Sets the current user for this session and updates Spotify preferences if available. If the
+     * user has no existing friends, two default friends ("Diana" and "Eric") are added with mutual
+     * friendship links. It also adds three dummy incoming friend requests from themed users:
+     * "Java", "Python", and "C++". (for demo)
      *
      * @param user the user to set as the current session user
      */
@@ -164,7 +164,6 @@ public class UserSession {
             addDefaultFriends();
         }
         addDummyIncomingRequests();
-
     }
 
     /**
@@ -205,11 +204,10 @@ public class UserSession {
     }
 
     /**
-     * Adds three dummy incoming friend requests to the current session user.
-     * The requests are from themed users: "Java", "Python", and "C++", each with
-     * distinct music preferences and bios. These users are also added to the global
-     * user list so that they can be referenced throughout the app.
-     * Intended for demonstration, UI testing, or placeholder data purposes.
+     * Adds three dummy incoming friend requests to the current session user. The requests are from
+     * themed users: "Java", "Python", and "C++", each with distinct music preferences and bios.
+     * These users are also added to the global user list so that they can be referenced throughout
+     * the app. Intended for demonstration, UI testing, or placeholder data purposes.
      */
     private void addDummyIncomingRequests() {
         User alice =
@@ -255,7 +253,6 @@ public class UserSession {
         this.addIncomingMatch(bob);
         this.addIncomingMatch(charlie);
     }
-
 
     /**
      * Returns the current user for this session.
