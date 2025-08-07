@@ -154,4 +154,18 @@ public class Post {
         result.delete(result.length() - 2, result.length());
         return result.toString();
     }
+
+    public List<Comment> getFilteredComments(User user) {
+        List<Comment> filteredComments = new ArrayList<>();
+        for (Comment comment : this.comments) {
+            User author = comment.getAuthor();
+            if (user.hasBlock(author)) {
+                // do not add this comment to the filtered comment list.
+            }
+            else {
+                filteredComments.add(comment);
+            }
+        }
+        return filteredComments;
+    }
 }

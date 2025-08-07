@@ -147,7 +147,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         commentPanel.setLayout(new BoxLayout(commentPanel, BoxLayout.Y_AXIS));
 
         // Get actual comments from data access layer
-        getComments(commentPanel);
+        addComments(commentPanel);
 
         // Wrap commentPanel in a fixed-height container panel
         JPanel scrollableWrapper = new JPanel(new BorderLayout());
@@ -212,7 +212,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         JOptionPane.showMessageDialog(this, message, isSuccess ? "Success" : "Error", messageType);
     }
 
-    private void getComments(JPanel commentPanel) {
+    private void addComments(JPanel commentPanel) {
         // Get actual comments from data access layer
         if (post.getComments().isEmpty()) {
             // Show a message if no posts
@@ -221,8 +221,8 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
             noPostsLabel.setFont(new Font("Arial", Font.PLAIN, 16));
             commentPanel.add(noPostsLabel);
         } else {
-            // Display actual comments
-            List<Comment> currentPostComments = post.getComments();
+            // Display filtered list of comments for the currentUser
+            List<Comment> currentPostComments = post.getFilteredComments(currentUser);
             // reverse order to newest to oldest.
             Collections.reverse(currentPostComments);
 
@@ -236,7 +236,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
             for (Comment comment : currentPostComments) {
                 CommentViewPanel commentViewPanel =
                         new CommentViewPanel(
-                                comment.getAuthor(),
+                                comment.getAuthor().getName(),
                                 comment.getText(),
                                 comment.getDate(),
                                 runnable);
