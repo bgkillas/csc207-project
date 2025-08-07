@@ -176,8 +176,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
                     OpenPostView openPostView =
                             new OpenPostView(
                                     currentUser, session, frame, postDataAccessObject, post);
-                    frame.setContentPane(
-                            openPostView.create());
+                    frame.setContentPane(openPostView.create());
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -249,15 +248,17 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
 
     private void setupPlaceholder(JTextArea textArea, String placeholder) {
         textArea.setText(placeholder);
-        textArea.addFocusListener(new java.awt.event.FocusAdapter() {
-            boolean cleared = false;
-            @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                if (!cleared) {
-                    textArea.setText("");
-                    cleared = true;
-                }
-            }
-        });
+        textArea.addFocusListener(
+                new java.awt.event.FocusAdapter() {
+                    boolean cleared = false;
+
+                    @Override
+                    public void focusGained(java.awt.event.FocusEvent e) {
+                        if (!cleared) {
+                            textArea.setText("");
+                            cleared = true;
+                        }
+                    }
+                });
     }
 }

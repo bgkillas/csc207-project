@@ -10,12 +10,10 @@ import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CircularButton;
 import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.*;
-import app.interface_adapter.presenter.AddCommentPresenter;
 import app.interface_adapter.presenter.AddFriendListPresenter;
 import app.interface_adapter.presenter.FriendRequestPresenter;
 import app.interface_adapter.presenter.MatchInteractionPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
-import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
@@ -286,8 +284,7 @@ public class PostFeedView extends JPanel {
                         OpenPostView openPostView =
                                 new OpenPostView(
                                         currentUser, session, frame, postDataAccessObject, post);
-                        frame.setContentPane(
-                                openPostView.create());
+                        frame.setContentPane(openPostView.create());
                         frame.revalidate();
                         frame.repaint();
                     }

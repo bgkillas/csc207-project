@@ -47,10 +47,8 @@ public class PostTest {
         testTimestamp = LocalDateTime.of(2025, 12, 25, 10, 30);
 
         testComments = new ArrayList<>();
-        User katy = new User("Katy", 20, null, null,
-                null, null, null, null);
-        User george = new User("George", 20, null, null,
-                null, null, null, null);
+        User katy = new User("Katy", 20, null, null, null, null, null, null);
+        User george = new User("George", 20, null, null, null, null, null, null);
         testComments.add(new Comment("Great post!", katy, LocalDateTime.now()));
         testComments.add(new Comment("I agree!", george, LocalDateTime.now()));
 
@@ -137,8 +135,7 @@ public class PostTest {
 
     @Test
     void testSetComments() {
-        User charlie = new User("Charlie", 20, null, null,
-                null, null, null, null);
+        User charlie = new User("Charlie", 20, null, null, null, null, null, null);
 
         Post post = new Post("Title", "Content", null, testTimestamp, testUser, new ArrayList<>());
         List<Comment> newComments = new ArrayList<>();

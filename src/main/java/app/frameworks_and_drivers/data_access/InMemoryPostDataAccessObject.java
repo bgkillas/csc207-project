@@ -5,10 +5,12 @@ import app.entities.User;
 import java.util.*;
 
 /**
- * In-memory implementation of the PostDataAccessInterface. Stores and retrieves posts using an ArrayList
+ * In-memory implementation of the PostDataAccessInterface. Stores and retrieves posts using an
+ * ArrayList
  */
 public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     private final List<Post> userPosts = new ArrayList();
+
     /**
      * Saves a new post.
      *
@@ -20,8 +22,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     }
 
     /**
-     * Update pre-existing post in the postDAO.
-     * If not existing already, save as new post.
+     * Update pre-existing post in the postDAO. If not existing already, save as new post.
      *
      * @param post The post to be updated
      */
@@ -93,11 +94,12 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
         // Loop through all the posts saved in the DAO.
         for (Post post : this.userPosts) {
             if (post.getAuthor() == null) {
-                // this post doesn't have a valid user as the author, so it will be skipped and not appear on post feed.
+                // this post doesn't have a valid user as the author, so it will be skipped and not
+                // appear on post feed.
                 continue;
-            }
-            else {
-                // Here author is not null. We check if it is either the currentUser or currentUser's friend.
+            } else {
+                // Here author is not null. We check if it is either the currentUser or
+                // currentUser's friend.
                 User author = post.getAuthor();
                 if (author.equals(currentUser) || currentUser.getFriendList().contains(author)) {
                     // If so, post gets added to the post feed list.
@@ -106,7 +108,8 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
             }
         }
 
-        // Currently the list is ordered oldest to newest, however we want to show from newest to oldest.
+        // Currently the list is ordered oldest to newest, however we want to show from newest to
+        // oldest.
         Collections.reverse(postFeedList);
         return postFeedList;
     }

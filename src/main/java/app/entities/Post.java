@@ -64,14 +64,18 @@ public class Post {
      *
      * @return UUID of this.
      */
-    public UUID getId() {return this.id;}
+    public UUID getId() {
+        return this.id;
+    }
 
     /**
      * Sets the id of this post.
      *
      * @param id The id to be set.
      */
-    public void setId(UUID id) {this.id = id;}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     /**
      * Sets the list of comments on the post.
@@ -137,8 +141,8 @@ public class Post {
     }
 
     /**
-     * Returns String of comments seperated by commas.
-     * This is a temporary method used mainly for debugging.
+     * Returns String of comments seperated by commas. This is a temporary method used mainly for
+     * debugging.
      *
      * @return String of comments
      */
@@ -155,14 +159,14 @@ public class Post {
         return result.toString();
     }
 
+    /** TODO. */
     public List<Comment> getFilteredComments(User user) {
         List<Comment> filteredComments = new ArrayList<>();
         for (Comment comment : this.comments) {
             User author = comment.getAuthor();
             if (user.hasBlock(author)) {
                 // do not add this comment to the filtered comment list.
-            }
-            else {
+            } else {
                 filteredComments.add(comment);
             }
         }
