@@ -8,19 +8,42 @@ import app.Main;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * A Swing view that displays the user's list of friends ("buddies"). Each friend is represented as
+ * a button that navigates to their profile view when clicked. The view also includes a back button
+ * that returns to the current user's profile.
+ */
 public class BuddyListView extends JPanel {
     User user;
     UserSession session;
     JFrame frame;
     PostDataAccessInterface postDataAccessObject;
 
-    public BuddyListView(User user, UserSession session, JFrame frame, PostDataAccessInterface postDataAccessObject) {
+    /**
+     * Constructs a new BuddyListView for the given user and session context.
+     *
+     * @param user the current user whose buddy list is being displayed
+     * @param session the active user session
+     * @param frame the main application window
+     * @param postDataAccessObject the data access object for post-related operations
+     */
+    public BuddyListView(
+            User user,
+            UserSession session,
+            JFrame frame,
+            PostDataAccessInterface postDataAccessObject) {
         this.user = user;
         this.session = session;
         this.frame = frame;
         this.postDataAccessObject = postDataAccessObject;
     }
 
+    /**
+     * Creates and returns the full buddy list UI as a JComponent. Each buddy is shown as a button,
+     * and clicking a button transitions to that buddy's profile view.
+     *
+     * @return the constructed buddy list panel
+     */
     public JComponent create() {
         this.setLayout(new BorderLayout());
 
@@ -65,6 +88,12 @@ public class BuddyListView extends JPanel {
         return this;
     }
 
+    /**
+     * Creates a styled button for a buddy's name.
+     *
+     * @param text the name to display on the button
+     * @return a customized {@link JButton} representing the buddy
+     */
     private JButton createActionButton(String text) {
         JButton button = new JButton(text);
         button.setFocusPainted(false);

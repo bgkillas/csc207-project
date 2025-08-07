@@ -1,9 +1,9 @@
 package app;
 
 // import app.frameworks_and_drivers.view.LoginView;
-import app.entities.UserSession;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.entities.*;
+import app.frameworks_and_drivers.data_access.*;
+import app.frameworks_and_drivers.view.DebugMenuView;
 import app.frameworks_and_drivers.view.LoginView;
 import app.interface_adapter.controller.CreateAccountController;
 import app.interface_adapter.controller.SetupMatchFilterController;
@@ -23,6 +23,9 @@ import app.usecase.user_profile_setup.SetupUserProfileInputBoundary;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -41,8 +44,66 @@ public class Main {
         // Shared user session across the app
         UserSession session = new UserSession();
 
-        // initalize postDAO
+        // initalize postDataAccessObject
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
+
+        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
+        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
+        // ==== Dummy User Setup (for demo) ====
+
+        User alice = new User(
+                "Alice", 22, "female", "Toronto", "Loves concerts and pop music",
+                List.of("Pop", "Rock"),
+                List.of("Taylor Swift", "Adele", "Coldplay"),
+                List.of("Shake It Off", "Hello", "Yellow")
+        );
+        User bob = new User(
+                "Bob", 24, "male", "Toronto", "Hip-hop and basketball fan",
+                List.of("Hip Hop"),
+                List.of("Drake", "Kanye West"),
+                List.of("Hotline Bling", "Stronger")
+        );
+        User charlie = new User(
+                "Charlie", 23, "non-binary", "Montreal", "Chill lo-fi beats all day",
+                List.of("Lo-fi", "Jazz"),
+                List.of("Joji", "Norah Jones"),
+                List.of("Sanctuary", "Don’t Know Why")
+        );
+
+        // Add users to DAO and session
+        for (User user : List.of(alice, bob, charlie)) {
+            user.setMatchFilter(new MatchFilter(20, 30, "Any", "Any"));
+            userDAO.addUser(user);
+            session.addUser(user);
+        }
+
+        // Alice sends request to Bob
+        matchDAO.addOutgoingFriendRequest(alice, bob);
+        matchDAO.addIncomingFriendRequest(bob, alice);
+
+        // Alice and Charlie are matched
+        Match matchAC = new Match(alice, charlie);
+        Match matchCA = new Match(charlie, alice);
+        matchDAO.addMatch(alice, matchAC);
+        matchDAO.addMatch(charlie, matchCA);
+
+        // Everyone posts
+        for (User user : List.of(alice, bob, charlie)) {
+            Post post = new Post(
+                    user.getName() + "'s First Post",
+                    "Hello! I'm " + user.getName(),
+                    null,
+                    LocalDateTime.now(),
+                    user,
+                    new ArrayList<>()
+            );
+            postDataAccessObject.savePost(user, post);
+
+            // Add a comment to Alice’s post
+            if (user.equals(alice)) {
+                post.getComments().add(new Comment("Nice post Alice!", bob.getName(), LocalDateTime.now()));
+            }
+        }
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
@@ -66,13 +127,15 @@ public class Main {
         CreateAccountController createAccountController =
                 new CreateAccountController(createAccountInteractor);
 
-        // Initial Login View
-        final JPanel login = LoginView.create(login_manager, createAccountController);
-        views.add(login);
-
-        // Connecting to DebugMenuView
-        /*        final JPanel debugView = DebugMenuView.create(session);
-        views.add(debugView);*/
+        if (args.length > 0 && args[0].equals("--debug")) {
+            // Connecting to DebugMenuView
+            final JPanel debugView = DebugMenuView.create(session);
+            views.add(debugView);
+        } else {
+            // Initial Login View
+            final JPanel login = LoginView.create(login_manager, createAccountController);
+            views.add(login);
+        }
 
         application.add(views);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

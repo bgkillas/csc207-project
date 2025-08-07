@@ -20,6 +20,11 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
+/**
+ * A panel that displays a user's profile, including bio, music preferences, and profile actions.
+ * Shows edit/buddy/block options for the current user, or block/unblock for other users. Includes
+ * bottom navigation to Matching, Share (Post Feed), and My Profile views.
+ */
 public class ProfileView extends JPanel {
     private final User user;
     private final JFrame frame;
@@ -94,38 +99,50 @@ public class ProfileView extends JPanel {
         User currentUser = userSession.getUser();
 
         // Add the matching button action
-        matchingBtn.addActionListener(e -> {
-            MatchServiceImpl matchService = new MatchServiceImpl();
-            List<User> matches = matchService.findMatches(currentUser, userSession.getAllUsers());
+        matchingBtn.addActionListener(
+                e -> {
+                    MatchServiceImpl matchService = new MatchServiceImpl();
+                    List<User> matches =
+                            matchService.findMatches(currentUser, userSession.getAllUsers());
 
+                    InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
 
-            InMemoryMatchDataAccessObject matchDAO = new InMemoryMatchDataAccessObject();
+                    FriendRequestViewModel requestViewModel = new FriendRequestViewModel();
+                    FriendRequestPresenter requestPresenter =
+                            new FriendRequestPresenter(requestViewModel);
+                    AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
+                    MatchInteractionPresenter matchPresenter =
+                            new MatchInteractionPresenter(); // 弹窗提示
 
-            FriendRequestViewModel requestViewModel = new FriendRequestViewModel();
-            FriendRequestPresenter requestPresenter = new FriendRequestPresenter(requestViewModel);
-            AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
-            MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter(); // 弹窗提示
+                    AddFriendListInteractor addFriendInteractor =
+                            new AddFriendListInteractor(addFriendPresenter);
+                    HandleFriendRequestInteractor friendRequestInteractor =
+                            new HandleFriendRequestInteractor(
+                                    matchdao, addFriendInteractor, requestPresenter);
 
-            AddFriendListInteractor addFriendInteractor = new AddFriendListInteractor(addFriendPresenter);
-            HandleFriendRequestInteractor friendRequestInteractor =
-                    new HandleFriendRequestInteractor(matchDAO, addFriendInteractor, requestPresenter);
+                    MatchInteractionInteractor interactor =
+                            new MatchInteractionInteractor(
+                                    matchdao,
+                                    friendRequestInteractor,
+                                    addFriendInteractor,
+                                    matchPresenter);
 
-            MatchInteractionInteractor interactor = new MatchInteractionInteractor(
-                    matchDAO,
-                    friendRequestInteractor,
-                    addFriendInteractor,
-                    matchPresenter
-            );
+                    MatchInteractionController controller =
+                            new MatchInteractionController(interactor);
 
-            MatchInteractionController controller = new MatchInteractionController(interactor);
+                    JPanel matchingRoomPanel =
+                            new MatchingRoomView(
+                                    frame,
+                                    currentUser,
+                                    matches,
+                                    userSession,
+                                    controller,
+                                    postDataAccessObject);
 
-            JPanel matchingRoomPanel =
-                    new MatchingRoomView(frame, currentUser, matches, userSession, controller, postDataAccessObject);
-
-            frame.setContentPane(matchingRoomPanel);
-            frame.revalidate();
-            frame.repaint();
-        });
+                    frame.setContentPane(matchingRoomPanel);
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
         myProfileBtn.addActionListener(
                 e -> {
@@ -270,14 +287,16 @@ public class ProfileView extends JPanel {
         
         buddyListBtn.addActionListener(
                 e -> {
-                    BuddyListView buddyList = new BuddyListView(user, userSession, frame, postDataAccessObject);
+                    BuddyListView buddyList =
+                            new BuddyListView(user, userSession, frame, postDataAccessObject);
                     frame.setContentPane(buddyList.create());
                     frame.revalidate();
                     frame.repaint();
                 });
         blockListBtn.addActionListener(
                 e -> {
-                    BlockListView blockList = new BlockListView(user, userSession, frame, postDataAccessObject);
+                    BlockListView blockList =
+                            new BlockListView(user, userSession, frame, postDataAccessObject);
                     frame.setContentPane(blockList.create());
                     frame.revalidate();
                     frame.repaint();
