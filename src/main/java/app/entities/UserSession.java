@@ -196,11 +196,11 @@ public class UserSession {
         this.addUser(diana);
         this.addUser(eric);
 
-        this.user.getFriendList().add(diana);
-        this.user.getFriendList().add(eric);
+        this.user.addFriend(diana);
+        this.user.addFriend(eric);
 
-        diana.getFriendList().add(this.user);
-        eric.getFriendList().add(this.user);
+        diana.addFriend(this.user);
+        eric.addFriend(this.user);
     }
 
     /**

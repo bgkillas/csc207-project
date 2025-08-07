@@ -88,6 +88,9 @@ class UserTest {
 
         user.addFriend(friend);
         assertTrue(user.getFriendList().contains(friend));
+        assertEquals(1, user.getFriendList().size());
+        user.addFriend(friend);
+        assertEquals(1, user.getFriendList().size());
     }
 
     @Test
