@@ -157,23 +157,28 @@ public class UserSession {
     public void setUser(User user) {
         this.user = user;
         this.updateSpotify();
-        //        this.addExampleUsers();
+        if (user.getFriendList().isEmpty()) {
+            addDefaultFriends();
+        }
     }
 
-    //    void addExampleUsers() {
-    //        User userJava =
-    //                new User(
-    //                        "Java",
-    //                        20,
-    //                        "male",
-    //                        "Toronto Canada Ontario",
-    //                        "i want to see u cry",
-    //                        new ArrayList<>(),
-    //                        new ArrayList<>(),
-    //                        new ArrayList<>());
-    //        this.addUser(userJava);
-    //        this.addIncomingMatch(userJava);
-    //    }
+    private void addDefaultFriends() {
+        User diana = new User("Diana", 21, "female", "Vancouver", "EDM is life!",
+                List.of("EDM", "Pop"), List.of("Zedd", "Avicii"), List.of("Clarity", "Wake Me Up"));
+        User eric = new User("Eric", 25, "male", "Calgary", "Guitarist and metalhead",
+                List.of("Metal", "Rock"), List.of("Metallica", "Nirvana"), List.of("Enter Sandman", "Smells Like Teen Spirit"));
+
+        this.addUser(diana);
+        this.addUser(eric);
+
+        this.user.getFriendList().add(diana);
+        this.user.getFriendList().add(eric);
+
+        diana.getFriendList().add(this.user);
+        eric.getFriendList().add(this.user);
+    }
+
+
 
     /**
      * Returns the current user for this session.

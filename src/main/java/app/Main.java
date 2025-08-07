@@ -84,39 +84,10 @@ public class Main {
 
         // Add users to DataAccessObject and session
         for (User user : List.of(alice, bob, charlie)) {
-            user.setMatchFilter(new MatchFilter(20, 30, "Any", "Any"));
             userDataAccessObject.addUser(user);
             session.addUser(user);
         }
 
-        // Alice sends request to Bob
-        matchDataAccessObject.addOutgoingFriendRequest(alice, bob);
-        matchDataAccessObject.addIncomingFriendRequest(bob, alice);
-
-        // Alice and Charlie are matched
-        Match matchAc = new Match(alice, charlie);
-        Match matchCa = new Match(charlie, alice);
-        matchDataAccessObject.addMatch(alice, matchAc);
-        matchDataAccessObject.addMatch(charlie, matchCa);
-
-        // Everyone posts
-        for (User user : List.of(alice, bob, charlie)) {
-            Post post =
-                    new Post(
-                            user.getName() + "'s First Post",
-                            "Hello! I'm " + user.getName(),
-                            null,
-                            LocalDateTime.now(),
-                            user,
-                            new ArrayList<>());
-            postDataAccessObject.savePost(user, post);
-
-            // Add a comment to Alice’s post
-            if (user.equals(alice)) {
-                post.getComments()
-                        .add(new Comment("Nice post Alice!", bob.getName(), LocalDateTime.now()));
-            }
-        }
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
