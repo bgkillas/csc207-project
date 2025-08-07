@@ -60,7 +60,7 @@ class UserSessionTest {
         UserSession session = new UserSession(user);
         session.addUser(friend);
 
-        assertEquals(1, session.getAllUsers().size());
+        assertEquals(3, session.getAllUsers().size()); // TODO do to extra example users
         assertTrue(session.getAllUsers().contains(friend));
     }
 

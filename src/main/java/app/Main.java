@@ -23,8 +23,6 @@ import app.usecase.user_profile_setup.SetupUserProfileInputBoundary;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -87,7 +85,6 @@ public class Main {
             userDataAccessObject.addUser(user);
             session.addUser(user);
         }
-
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
