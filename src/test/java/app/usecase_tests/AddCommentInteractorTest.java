@@ -6,6 +6,7 @@ import app.frameworks_and_drivers.view.AddCommentViewInterface;
 import app.frameworks_and_drivers.view.OpenPostView;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
+import app.usecase.add_comment.AddCommentOutputData;
 import org.junit.Test;
 import app.usecase.add_comment.AddCommentInputBoundary;
 import app.usecase.add_comment.AddCommentOutputBoundary;
@@ -20,73 +21,141 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AddCommentInteractorTest {
 
     @Test
-    public void testAddComment() {
-        List<String> emptyList = new ArrayList<String>();
-        MatchFilter generalMF = new MatchFilter(0, 100, null, null);
-        User user0 =
-                new User(
-                        "Stan",
-                        20,
-                        "male",
-                        "Toronto",
-                        "I luv lord",
-                        emptyList,
-                        emptyList,
-                        emptyList);
-        User user1 =
-                new User(
-                        "user01",
-                        18,
-                        "female",
-                        "North York",
-                        "Let's go out!",
-                        emptyList,
-                        emptyList,
-                        emptyList);
+    public void testAddFirstComment() {
+        List<String> emptyList = new ArrayList<>();
 
-        // Scenario: Stan wants to make a comment on user01's post
+        User user0 = new User("Stan", 20, "male", "Toronto", "I luv lord", emptyList, emptyList, emptyList);
+        User user1 = new User("user01", 18, "female", "North York", "Let's go out!", emptyList, emptyList, emptyList);
 
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
-
-        // user1 logs in to the app and posts something
         UserSession userSession1 = new UserSession(user1);
 
-        Post newPost =
-                new Post(
-                        "Check this out!",
-                        "Lord's new release is FIRE!",
-                        null,
-                        LocalDateTime.now(),
-                        user1,
-                        new ArrayList<>());
-        postDataAccessObject.savePost(newPost); // DataAccessObject updates
-        userSession1.addPost(newPost); // Session updates
+        Post newPost = new Post("Check this out!", "Lord's new release is FIRE!", null,
+                LocalDateTime.now(), user1, new ArrayList<>());
+        postDataAccessObject.savePost(newPost);
+        userSession1.addPost(newPost);
 
-        // this post has no comment yet
         assertTrue(newPost.getComments().isEmpty());
 
-        // Stan (user0) logs in to the app and opens that specific post in his post feed.
         UserSession userSession0 = new UserSession(user0);
-
-        // Stan can see the OpenPostView
-        AddCommentViewInterface view = new OpenPostView(user0, userSession0, new JFrame());
-
-        // Stan makes a comment on user1's post
         String comment = "I agree!";
-        AddCommentOutputBoundary presenter = new AddCommentPresenter(view);
-        AddCommentInputBoundary interactor =
-                new AddCommentInteractor(postDataAccessObject, presenter);
+
+        AddCommentOutputBoundary presenter = new AddCommentOutputBoundary() {
+            @Override
+            public void presentAddCommentSuccess(AddCommentOutputData outputData) {
+                assertEquals("I agree!", outputData.getText());
+                assertEquals("Stan", outputData.getAuthor());
+                assertEquals("Comment added successfully.", outputData.getMessage());
+                assertNotNull(outputData.getDate());
+            }
+
+            @Override
+            public void presentAddCommentFailure(String message) {
+                fail("Should not fail for a valid comment.");
+            }
+        };
+
+        AddCommentInputBoundary interactor = new AddCommentInteractor(postDataAccessObject, presenter);
         interactor.addComment(userSession0, newPost, comment);
 
-        // Check that comment is stored with the post in DataAccessObject
-        assertFalse(postDataAccessObject.getPostsByUser(user1).get(0).getComments().isEmpty());
-        assertEquals(
-                postDataAccessObject.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(),
-                user0.getName());
+        List<Comment> comments = postDataAccessObject.getPostsByUser(user1).get(0).getComments();
+        assertEquals(1, comments.size());
+        assertEquals(user0.getName(), comments.get(0).getAuthor().getName());
+    }
 
-        String comment2 = "I disagree.";
-        interactor.addComment(userSession0, newPost, comment2);
+    @Test
+    public void testAddSecondComment() {
+        List<String> emptyList = new ArrayList<>();
 
-        assertEquals(2, postDataAccessObject.getPostsByUser(user1).get(0).getComments().size());
+        User user0 = new User("Stan", 20, "male", "Toronto", "I luv lord", emptyList, emptyList, emptyList);
+        User user1 = new User("user01", 18, "female", "North York", "Let's go out!", emptyList, emptyList, emptyList);
+
+        PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
+        UserSession userSession0 = new UserSession(user0);
+        UserSession userSession1 = new UserSession(user1);
+
+        Post newPost = new Post("Check this out!", "Lord's new release is FIRE!", null,
+                LocalDateTime.now(), user1, new ArrayList<>());
+        postDataAccessObject.savePost(newPost);
+        userSession1.addPost(newPost);
+
+        // Add the first comment directly
+        newPost.getComments().add(new Comment("I agree!", user0, LocalDateTime.now()));
+
+        AddCommentOutputBoundary presenter = new AddCommentOutputBoundary() {
+            @Override
+            public void presentAddCommentSuccess(AddCommentOutputData outputData) {
+                assertEquals("I disagree.", outputData.getText());
+                assertEquals("Stan", outputData.getAuthor());
+                assertEquals("Comment added successfully.", outputData.getMessage());
+                assertNotNull(outputData.getDate());
+            }
+
+            @Override
+            public void presentAddCommentFailure(String message) {
+                fail("Should not fail for a valid comment.");
+            }
+        };
+
+        AddCommentInputBoundary interactor = new AddCommentInteractor(postDataAccessObject, presenter);
+        interactor.addComment(userSession0, newPost, "I disagree.");
+
+        List<Comment> comments = postDataAccessObject.getPostsByUser(user1).get(0).getComments();
+        assertEquals(2, comments.size());
+        assertEquals("I disagree.", comments.get(1).getText());
+        assertEquals(user0.getName(), comments.get(1).getAuthor().getName());
+    }
+
+    @Test
+    public void testEmptyCommentFails() {
+        AddCommentOutputBoundary presenter = new AddCommentOutputBoundary() {
+            @Override
+            public void presentAddCommentSuccess(AddCommentOutputData outputData) {
+                fail("Should not succeed with empty comment.");
+            }
+
+            @Override
+            public void presentAddCommentFailure(String message) {
+                assertEquals("Comment cannot be empty.", message);
+            }
+        };
+
+        AddCommentInputBoundary interactor = new AddCommentInteractor(new InMemoryPostDataAccessObject(), presenter);
+        User user = new User("u", 20, "f", "loc", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user);
+        Post post = new Post("t", "b", null, LocalDateTime.now(), user, new ArrayList<>());
+        interactor.addComment(session, post, "  ");
+    }
+
+    @Test
+    public void testPlaceholderCommentFails() {
+        AddCommentOutputBoundary presenter = new AddCommentOutputBoundary() {
+            @Override
+            public void presentAddCommentSuccess(AddCommentOutputData outputData) {
+                fail("Should not succeed with placeholder comment.");
+            }
+
+            @Override
+            public void presentAddCommentFailure(String message) {
+                assertEquals("Please enter a comment here.", message);
+            }
+        };
+
+        AddCommentInputBoundary interactor = new AddCommentInteractor(new InMemoryPostDataAccessObject(), presenter);
+        User user = new User("u", 20, "f", "loc", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user);
+        Post post = new Post("t", "b", null, LocalDateTime.now(), user, new ArrayList<>());
+        interactor.addComment(session, post, "Enter your comment here!");
+    }
+
+    @Test
+    public void testAddCommentOutputData() {
+        LocalDateTime now = LocalDateTime.now();
+        AddCommentOutputData output = new AddCommentOutputData("Nice post", "Alice", now, "Success!");
+
+        assertEquals("Nice post", output.getText());
+        assertEquals("Alice", output.getAuthor());
+        assertEquals(now, output.getDate());
+        assertEquals("Success!", output.getMessage());
     }
 }

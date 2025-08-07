@@ -61,4 +61,20 @@ public class CreatePostInteractorTest {
         assertEquals(testUser, post.getAuthor());
         assertNull(post.getImage()); // Because file doesn't exist
     }
+
+    @Test
+    public void testCreatePostWithEmptyTitleAndContent() {
+        InMemoryPostDataAccessObject dataAccessObject = new InMemoryPostDataAccessObject();
+        CreatePostInteractor interactor = new CreatePostInteractor(dataAccessObject);
+        User testUser = new User("Sam", 22, "Other", "NYC", "Bio", List.of(), List.of(), List.of());
+
+        interactor.createPost("", "", null, testUser);
+
+        List<Post> posts = dataAccessObject.getPostsByUser(testUser);
+        assertEquals(1, posts.size());
+
+        Post post = posts.get(0);
+        assertEquals("", post.getTitle());
+        assertEquals("", post.getText());
+    }
 }
