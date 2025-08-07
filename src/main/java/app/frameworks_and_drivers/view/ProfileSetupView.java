@@ -10,7 +10,8 @@ import javax.swing.*;
  * gender, location) and passes it to the controller.
  */
 public class ProfileSetupView {
-    private ProfileSetupView() {}
+    /** constructor. */
+    public ProfileSetupView() {}
 
     /**
      * Creates and returns a JPanel containing profile setup fields and a submit button.

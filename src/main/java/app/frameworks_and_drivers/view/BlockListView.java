@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.Main;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
@@ -48,7 +49,12 @@ public class BlockListView extends JPanel {
         back.addActionListener(
                 e -> {
                     ProfileView profileView =
-                            new ProfileView(user, frame, session, postDataAccessObject);
+                            new ProfileView(
+                                    user,
+                                    frame,
+                                    session,
+                                    postDataAccessObject,
+                                    Main.getSetupController());
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -73,7 +79,12 @@ public class BlockListView extends JPanel {
             block.addActionListener(
                     e -> {
                         ProfileView profileView =
-                                new ProfileView(user, frame, session, postDataAccessObject);
+                                new ProfileView(
+                                        user,
+                                        frame,
+                                        session,
+                                        postDataAccessObject,
+                                        Main.getSetupController());
                         frame.setContentPane(profileView);
                         frame.revalidate();
                         frame.repaint();

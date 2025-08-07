@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.Main;
 import app.entities.Post;
 import app.entities.User;
 import app.entities.UserSession;
@@ -179,7 +180,8 @@ public class PostFeedView extends JPanel {
 
                     MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
 
-                    InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+                    InMemoryMatchDataAccessObject matchDataAccessObject =
+                            new InMemoryMatchDataAccessObject();
 
                     AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
                     AddFriendListInteractor addFriendInteractor =
@@ -187,13 +189,13 @@ public class PostFeedView extends JPanel {
 
                     HandleFriendRequestInteractor friendRequestInteractor =
                             new HandleFriendRequestInteractor(
-                                    matchdao,
+                                    matchDataAccessObject,
                                     addFriendInteractor,
                                     new FriendRequestPresenter(new FriendRequestViewModel()));
 
                     MatchInteractionInteractor interactor =
                             new MatchInteractionInteractor(
-                                    matchdao,
+                                    matchDataAccessObject,
                                     friendRequestInteractor,
                                     addFriendInteractor,
                                     matchPresenter);
@@ -219,7 +221,12 @@ public class PostFeedView extends JPanel {
         btnProfile.addActionListener(
                 e -> {
                     JPanel profilePanel =
-                            new ProfileView(currentUser, frame, session, postDataAccessObject);
+                            new ProfileView(
+                                    currentUser,
+                                    frame,
+                                    session,
+                                    postDataAccessObject,
+                                    Main.getSetupController());
                     frame.setContentPane(profilePanel);
                     frame.revalidate();
                     frame.repaint();

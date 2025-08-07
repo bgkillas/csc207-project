@@ -33,6 +33,7 @@ import javax.swing.WindowConstants;
 /** Main executable class. */
 public class Main {
     private static SetupMatchFilterController filterController;
+    private static SetupUserProfileController setupController;
 
     /** Main executable point. */
     public static void main(String[] args) throws NoSuchAlgorithmException {
@@ -46,61 +47,74 @@ public class Main {
         // initalize postDataAccessObject
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
 
-        UserDataAccessInterface userDAO = new InMemoryUserDataAccessObject();
-        MatchDataAccessInterface matchDAO = new InMemoryMatchDataAccessObject();
+        UserDataAccessInterface userDataAccessObject = new InMemoryUserDataAccessObject();
+        MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
         // ==== Dummy User Setup (for demo) ====
 
-        User alice = new User(
-                "Alice", 22, "female", "Toronto", "Loves concerts and pop music",
-                List.of("Pop", "Rock"),
-                List.of("Taylor Swift", "Adele", "Coldplay"),
-                List.of("Shake It Off", "Hello", "Yellow")
-        );
-        User bob = new User(
-                "Bob", 24, "male", "Toronto", "Hip-hop and basketball fan",
-                List.of("Hip Hop"),
-                List.of("Drake", "Kanye West"),
-                List.of("Hotline Bling", "Stronger")
-        );
-        User charlie = new User(
-                "Charlie", 23, "non-binary", "Montreal", "Chill lo-fi beats all day",
-                List.of("Lo-fi", "Jazz"),
-                List.of("Joji", "Norah Jones"),
-                List.of("Sanctuary", "Don’t Know Why")
-        );
+        User alice =
+                new User(
+                        "Alice",
+                        22,
+                        "female",
+                        "Toronto",
+                        "Loves concerts and pop music",
+                        List.of("Pop", "Rock"),
+                        List.of("Taylor Swift", "Adele", "Coldplay"),
+                        List.of("Shake It Off", "Hello", "Yellow"));
+        User bob =
+                new User(
+                        "Bob",
+                        24,
+                        "male",
+                        "Toronto",
+                        "Hip-hop and basketball fan",
+                        List.of("Hip Hop"),
+                        List.of("Drake", "Kanye West"),
+                        List.of("Hotline Bling", "Stronger"));
+        User charlie =
+                new User(
+                        "Charlie",
+                        23,
+                        "non-binary",
+                        "Montreal",
+                        "Chill lo-fi beats all day",
+                        List.of("Lo-fi", "Jazz"),
+                        List.of("Joji", "Norah Jones"),
+                        List.of("Sanctuary", "Don’t Know Why"));
 
-        // Add users to DAO and session
+        // Add users to DataAccessObject and session
         for (User user : List.of(alice, bob, charlie)) {
             user.setMatchFilter(new MatchFilter(20, 30, "Any", "Any"));
-            userDAO.addUser(user);
+            userDataAccessObject.addUser(user);
             session.addUser(user);
         }
 
         // Alice sends request to Bob
-        matchDAO.addOutgoingFriendRequest(alice, bob);
-        matchDAO.addIncomingFriendRequest(bob, alice);
+        matchDataAccessObject.addOutgoingFriendRequest(alice, bob);
+        matchDataAccessObject.addIncomingFriendRequest(bob, alice);
 
         // Alice and Charlie are matched
-        Match matchAC = new Match(alice, charlie);
-        Match matchCA = new Match(charlie, alice);
-        matchDAO.addMatch(alice, matchAC);
-        matchDAO.addMatch(charlie, matchCA);
+        Match matchAc = new Match(alice, charlie);
+        Match matchCa = new Match(charlie, alice);
+        matchDataAccessObject.addMatch(alice, matchAc);
+        matchDataAccessObject.addMatch(charlie, matchCa);
 
         // Everyone posts
         for (User user : List.of(alice, bob, charlie)) {
-            Post post = new Post(
-                    user.getName() + "'s First Post",
-                    "Hello! I'm " + user.getName(),
-                    null,
-                    LocalDateTime.now(),
-                    user,
-                    new ArrayList<>()
-            );
+            Post post =
+                    new Post(
+                            user.getName() + "'s First Post",
+                            "Hello! I'm " + user.getName(),
+                            null,
+                            LocalDateTime.now(),
+                            user,
+                            new ArrayList<>());
             postDataAccessObject.savePost(user, post);
 
             // Add a comment to Alice’s post
             if (user.equals(alice)) {
-                post.getComments().add(new Comment("Nice post Alice!", bob.getName(), LocalDateTime.now()));
+                post.getComments()
+                        .add(new Comment("Nice post Alice!", bob.getName(), LocalDateTime.now()));
             }
         }
 
@@ -116,8 +130,7 @@ public class Main {
         SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
-        SetupUserProfileController setupController =
-                new SetupUserProfileController(setupInteractor);
+        setupController = new SetupUserProfileController(setupInteractor);
 
         // Create Account setup
         CreateAccountOutputBoundary createAccountPresenter =
@@ -145,5 +158,9 @@ public class Main {
 
     public static SetupMatchFilterController getFilterController() {
         return filterController;
+    }
+
+    public static SetupUserProfileController getSetupController() {
+        return setupController;
     }
 }

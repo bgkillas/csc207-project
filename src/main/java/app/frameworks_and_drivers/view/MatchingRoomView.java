@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.Main;
 import app.entities.MatchFilter;
 import app.entities.User;
 import app.entities.UserSession;
@@ -56,10 +57,14 @@ public class MatchingRoomView extends JPanel {
         MatchFilter filter = currentUser.getMatchFilter();
 
         for (User candidate : matches) {
-            if (candidate.equals(currentUser)) continue;
-            if (currentUser.getFriendList().contains(candidate)) continue;
-//            if (currentUser.hasBlock(candidate)) continue;
-//            if (!filter.isValid(candidate)) continue;
+            if (candidate.equals(currentUser)) {
+                continue;
+            }
+            if (currentUser.getFriendList().contains(candidate)) {
+                continue;
+            }
+            //            if (currentUser.hasBlock(candidate)) continue;
+            //            if (!filter.isValid(candidate)) continue;
             filteredMatches.add(candidate);
         }
 
@@ -254,14 +259,16 @@ public class MatchingRoomView extends JPanel {
 
         connectBtn.addActionListener(
                 e -> {
-                    matchInteractionController.connect(session, filteredMatchesFinal.get(currentIndex));
+                    matchInteractionController.connect(
+                            session, filteredMatchesFinal.get(currentIndex));
                     currentIndex++;
                     updateDisplay.run();
                 });
 
         skipBtn.addActionListener(
                 e -> {
-                    matchInteractionController.skip(session, filteredMatchesFinal.get(currentIndex));
+                    matchInteractionController.skip(
+                            session, filteredMatchesFinal.get(currentIndex));
                     currentIndex++;
                     updateDisplay.run();
                 });
@@ -269,7 +276,12 @@ public class MatchingRoomView extends JPanel {
         yourProfileBtn.addActionListener(
                 e -> {
                     frame.setContentPane(
-                            new ProfileView(currentUser, frame, session, postDataAccessObject));
+                            new ProfileView(
+                                    currentUser,
+                                    frame,
+                                    session,
+                                    postDataAccessObject,
+                                    Main.getSetupController()));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -315,7 +327,6 @@ public class MatchingRoomView extends JPanel {
      * @param matches Matched users
      * @param postDataAccessObject Post data access
      */
-
     public static void showInFrame(
             User currentUser, List<User> matches, PostDataAccessInterface postDataAccessObject) {
         JFrame frame = new JFrame("JRMC Matching Room");
@@ -343,11 +354,11 @@ public class MatchingRoomView extends JPanel {
                     public void declineFriendRequest(UserSession u, User m) {}
                 };
 
-        MatchDataAccessInterface matchdao = new InMemoryMatchDataAccessObject();
+        MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
 
         MatchInteractionInteractor interactor =
                 new MatchInteractionInteractor(
-                        matchdao, dummyFriendRequest, dummyAddFriend, presenter);
+                        matchDataAccessObject, dummyFriendRequest, dummyAddFriend, presenter);
 
         MatchInteractionController controller = new MatchInteractionController(interactor);
 

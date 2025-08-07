@@ -69,7 +69,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
         MatchInteractionPresenter presenter = new MatchInteractionPresenter();
 
-        InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+        InMemoryMatchDataAccessObject matchDataAccessObject = new InMemoryMatchDataAccessObject();
 
         AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
         AddFriendListInteractor addFriendInteractor =
@@ -77,13 +77,16 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
         HandleFriendRequestInteractor friendRequestInteractor =
                 new HandleFriendRequestInteractor(
-                        matchdao,
+                        matchDataAccessObject,
                         addFriendInteractor,
                         new FriendRequestPresenter(new FriendRequestViewModel()));
 
         MatchInteractionInteractor interactor =
                 new MatchInteractionInteractor(
-                        matchdao, friendRequestInteractor, addFriendInteractor, presenter);
+                        matchDataAccessObject,
+                        friendRequestInteractor,
+                        addFriendInteractor,
+                        presenter);
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
         JPanel matchingRoomPanel =

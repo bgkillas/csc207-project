@@ -7,9 +7,8 @@ import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.PostFeedController;
-import app.interface_adapter.presenter.AddFriendListPresenter;
-import app.interface_adapter.presenter.FriendRequestPresenter;
-import app.interface_adapter.presenter.MatchInteractionPresenter;
+import app.interface_adapter.controller.SetupUserProfileController;
+import app.interface_adapter.presenter.*;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
 import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
@@ -30,6 +29,7 @@ public class ProfileView extends JPanel {
     private final JFrame frame;
     private final UserSession userSession;
     private final PostDataAccessInterface postDataAccessObject;
+    private final SetupUserProfileController profileSetupController;
 
     /**
      * Constructs a ProfileView for the given user.
@@ -42,11 +42,13 @@ public class ProfileView extends JPanel {
             User user,
             JFrame frame,
             UserSession userSession,
-            PostDataAccessInterface postDataAccessObject) {
+            PostDataAccessInterface postDataAccessObject,
+            SetupUserProfileController profileSetupController) {
         this.user = user;
         this.frame = frame;
         this.userSession = userSession;
         this.postDataAccessObject = postDataAccessObject;
+        this.profileSetupController = profileSetupController;
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -107,7 +109,8 @@ public class ProfileView extends JPanel {
                     List<User> matches =
                             matchService.findMatches(currentUser, userSession.getAllUsers());
 
-                    InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+                    InMemoryMatchDataAccessObject matchDataAccessObject =
+                            new InMemoryMatchDataAccessObject();
 
                     FriendRequestViewModel requestViewModel = new FriendRequestViewModel();
                     FriendRequestPresenter requestPresenter =
@@ -120,11 +123,11 @@ public class ProfileView extends JPanel {
                             new AddFriendListInteractor(addFriendPresenter);
                     HandleFriendRequestInteractor friendRequestInteractor =
                             new HandleFriendRequestInteractor(
-                                    matchdao, addFriendInteractor, requestPresenter);
+                                    matchDataAccessObject, addFriendInteractor, requestPresenter);
 
                     MatchInteractionInteractor interactor =
                             new MatchInteractionInteractor(
-                                    matchdao,
+                                    matchDataAccessObject,
                                     friendRequestInteractor,
                                     addFriendInteractor,
                                     matchPresenter);
@@ -149,7 +152,12 @@ public class ProfileView extends JPanel {
         myProfileBtn.addActionListener(
                 e -> {
                     ProfileView profileView =
-                            new ProfileView(currentUser, frame, userSession, postDataAccessObject);
+                            new ProfileView(
+                                    currentUser,
+                                    frame,
+                                    userSession,
+                                    postDataAccessObject,
+                                    profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -276,6 +284,18 @@ public class ProfileView extends JPanel {
         JButton blockBtn = createActionButton("block");
         JButton unBlockBtn = createActionButton("unblock");
 
+        editProfileBtn.addActionListener(
+                e -> {
+                    JPanel profileSetupPanel =
+                            ProfileSetupView.create(profileSetupController, userSession.getUser());
+                    frame.setContentPane(profileSetupPanel);
+                    frame.setTitle("Edit Profile");
+                    frame.setPreferredSize(new Dimension(800, 600));
+                    frame.pack();
+                    frame.revalidate();
+                    frame.repaint();
+                });
+
         buddyListBtn.addActionListener(
                 e -> {
                     BuddyListView buddyList =
@@ -296,7 +316,12 @@ public class ProfileView extends JPanel {
                 e -> {
                     userSession.getUser().addBlock(user);
                     ProfileView profileView =
-                            new ProfileView(user, frame, userSession, postDataAccessObject);
+                            new ProfileView(
+                                    user,
+                                    frame,
+                                    userSession,
+                                    postDataAccessObject,
+                                    profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -305,7 +330,12 @@ public class ProfileView extends JPanel {
                 e -> {
                     userSession.getUser().removeBlock(user);
                     ProfileView profileView =
-                            new ProfileView(user, frame, userSession, postDataAccessObject);
+                            new ProfileView(
+                                    user,
+                                    frame,
+                                    userSession,
+                                    postDataAccessObject,
+                                    profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -322,15 +352,6 @@ public class ProfileView extends JPanel {
                 actionPanel.add(blockBtn);
             }
         }
-        // before: you had !isUser(), why not use else?
-        // if (!isUser()) {
-        // if (userSession.getUser().hasBlock(user)) {
-        // navPanel.add(unBlockBtn);
-        // } else {
-        // navPanel.add(blockBtn);
-        // }
-        // }
-
         return actionPanel;
     }
 
