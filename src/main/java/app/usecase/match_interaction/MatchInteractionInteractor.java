@@ -56,6 +56,9 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
             matchDataAccessObject.getOutgoingFriendRequest(matchedUser).remove(currentUser);
             matchDataAccessObject.getIncomingFriendRequest(currentUser).remove(matchedUser);
 
+            userSession.getIncomingMatches().remove(matchedUser);
+            userSession.getOutgoingMatches().remove(matchedUser);
+
             presenter.presentMatchInteractionResult(
                     new MatchInteractionOutputData(
                             true,
@@ -73,6 +76,7 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
                             "Friend request sent to " + matchedUser.getName()));
         }
     }
+
 
     /**
      * Called when the current user chooses to skip a matched user. The matched user is removed from

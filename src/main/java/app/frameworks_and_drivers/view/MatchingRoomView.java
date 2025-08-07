@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.entities.MatchFilter;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
@@ -21,6 +22,7 @@ import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
 import app.usecase.match_interaction.MatchInteractionOutputBoundary;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
@@ -48,6 +50,20 @@ public class MatchingRoomView extends JPanel {
             UserSession session,
             MatchInteractionController matchInteractionController,
             PostDataAccessInterface postDataAccessObject) {
+
+        // Filter matched users: remove friends, blocks, filter mismatches ===
+        List<User> filteredMatches = new ArrayList<>();
+        MatchFilter filter = currentUser.getMatchFilter();
+
+        for (User candidate : matches) {
+            if (candidate.equals(currentUser)) continue;
+            if (currentUser.getFriendList().contains(candidate)) continue;
+            if (currentUser.hasBlock(candidate)) continue;
+            if (!filter.isValid(candidate)) continue;
+            filteredMatches.add(candidate);
+        }
+
+        final List<User> filteredMatchesFinal = filteredMatches;
 
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(800, 600));
@@ -201,7 +217,7 @@ public class MatchingRoomView extends JPanel {
         // display logic
         Runnable updateDisplay =
                 () -> {
-                    if (currentIndex >= matches.size()) {
+                    if (currentIndex >= filteredMatchesFinal.size()) {
                         profileInfo.setText("No more matches.");
                         score.setText("");
                         connectBtn.setEnabled(false);
@@ -209,7 +225,7 @@ public class MatchingRoomView extends JPanel {
                         return;
                     }
 
-                    User match = matches.get(currentIndex);
+                    User match = filteredMatchesFinal.get(currentIndex);
 
                     // Update profile picture
                     Image profileImg = match.getProfilePicture();
@@ -238,14 +254,14 @@ public class MatchingRoomView extends JPanel {
 
         connectBtn.addActionListener(
                 e -> {
-                    matchInteractionController.connect(session, matches.get(currentIndex));
+                    matchInteractionController.connect(session, filteredMatchesFinal.get(currentIndex));
                     currentIndex++;
                     updateDisplay.run();
                 });
 
         skipBtn.addActionListener(
                 e -> {
-                    matchInteractionController.skip(session, matches.get(currentIndex));
+                    matchInteractionController.skip(session, filteredMatchesFinal.get(currentIndex));
                     currentIndex++;
                     updateDisplay.run();
                 });
