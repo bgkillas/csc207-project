@@ -87,7 +87,7 @@ public class ConnectRequestView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    session.getAllUsers(),
+                                    session.getIncomingMatches(),
                                     session,
                                     matchController,
                                     postDataAccessObject);

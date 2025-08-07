@@ -27,7 +27,6 @@ public class MatchServiceImpl implements MatchService {
                 matches.add(potentialMatch);
             }
         }
-
         return matches;
     }
 }

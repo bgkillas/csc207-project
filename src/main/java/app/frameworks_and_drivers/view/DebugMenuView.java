@@ -124,7 +124,7 @@ public class DebugMenuView {
         JFrame frame = new JFrame();
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
         SetupMatchFilterOutputBoundary matchFilterPresenter =
-                new SetupMatchFilterPresenter(frame, session, postDataAccessObject);
+                new SetupMatchFilterPresenter(frame, session, postDataAccessObject, true);
 
         SetupMatchFilterController matchFilterController =
                 new SetupMatchFilterController(
