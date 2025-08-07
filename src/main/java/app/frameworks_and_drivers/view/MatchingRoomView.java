@@ -65,7 +65,7 @@ public class MatchingRoomView extends JPanel {
             }
             if (currentUser.hasBlock(candidate)) continue;
             if (!filter.isValid(candidate)) continue;
-            if (currentUser.getIncomingMatches().contains(candidate)){
+            if (session.getIncomingMatches().contains(candidate)) {
                 continue;
             }
 
