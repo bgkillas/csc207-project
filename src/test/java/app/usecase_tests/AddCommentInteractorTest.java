@@ -81,7 +81,7 @@ public class AddCommentInteractorTest {
         // Check that comment is stored with the post in DataAccessObject
         assertFalse(postDataAccessObject.getPostsByUser(user1).get(0).getComments().isEmpty());
         assertEquals(
-                postDataAccessObject.getPostsByUser(user1).get(0).getComments().get(0).getAuthor(),
+                postDataAccessObject.getPostsByUser(user1).get(0).getComments().get(0).getAuthor().getName(),
                 user0.getName());
 
         String comment2 = "I disagree.";
