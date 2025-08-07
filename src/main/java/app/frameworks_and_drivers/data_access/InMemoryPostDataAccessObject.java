@@ -34,7 +34,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
                 return;
             }
         }
-        System.out.println("Post not found");
+        // System.out.println("Post not found");
     }
 
     /**
@@ -50,7 +50,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
                 return post;
             }
         }
-        System.out.println("No post found with id " + id);
+        // System.out.println("No post found with id " + id);
         return null;
     }
 

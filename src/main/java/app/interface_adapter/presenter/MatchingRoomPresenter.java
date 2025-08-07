@@ -14,7 +14,7 @@ public class MatchingRoomPresenter implements HandleFriendRequestOutputBoundary 
     public void presentFriendRequestSuccess(HandleFriendRequestOutputData outputData) {
         if (outputData.isSuccess()) {
             // TODO: Update the MatchingRoom view model or UI here
-            System.out.println("Friend request succeeded: " + outputData.getMessage());
+            // System.out.println("Friend request succeeded: " + outputData.getMessage());
         }
     }
 
