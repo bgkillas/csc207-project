@@ -44,6 +44,7 @@ public class FriendRequestView extends JPanel {
             FriendRequestViewModel viewModel,
             PostDataAccessInterface postDataAccessObject) {
         List<User> requests = viewModel.getAllRequests();
+        requests.removeIf(u -> u.equals(currentUser));
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
