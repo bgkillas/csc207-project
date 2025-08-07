@@ -109,6 +109,7 @@ public class UserSession {
         allUsers.add(user);
     }
 
+    // TODO: get rid of
     /**
      * Initializes the Spotify API and pulls user-level metadata.
      *
@@ -120,24 +121,7 @@ public class UserSession {
         spotify.pullUserData();
     }
 
-    /**
-     * Returns the current user's Spotify username.
-     *
-     * @return the Spotify username
-     */
-    public String getUserName() {
-        return spotify.getUserName();
-    }
-
-    /**
-     * Returns the current user's Spotify ID.
-     *
-     * @return the Spotify user ID
-     */
-    public String getUserId() {
-        return spotify.getUserId();
-    }
-
+    // TODO: get rid of
     /** Updates the user's top tracks, artists, and genres using Spotify data. */
     public void updateSpotify() {
         if (this.user != null && this.spotify != null) {

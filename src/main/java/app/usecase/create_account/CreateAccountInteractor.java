@@ -37,14 +37,23 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
      */
     @Override
     public void create(SpotifyInterface spotify) {
-        session.initiateSpotify(spotify);
-        String spotifyUserId = session.getUserId();
+
+
+        session.initiateSpotify(spotify); // we don't want entity UserSession to know about spotify
+//        // Instead below is the logic inside initiateSpotify()
+//        spotify.initSpotify();
+//        spotify.pullUserData();
+
+        // Rather than pulling from session, pulling directly from our local variable makes sense more!
+        String spotifyUserId = spotify.getUserId();
+
         // If the user hasn't already been registered in the login system,
         // register them using a dummy password ("spotify") to simulate login tracking
         if (!loginManager.hasLogin(spotifyUserId)) {
             loginManager.registerLogin(spotifyUserId, "spotify");
         }
-        String spotifyUsername = session.getUserName();
+
+        String spotifyUsername = spotify.getUserName();
         // Create a new User object using the Spotify username
         // This object represents the full user in the app (bio, preferences, etc.)
         User user =
