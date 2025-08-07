@@ -150,7 +150,10 @@ public class UserSession {
     }
 
     /**
-     * Sets the current user for this session and updates Spotify preferences if available.
+     * Sets the current user for this session and updates Spotify preferences if available. If the
+     * user has no existing friends, two default friends ("Diana" and "Eric") are added with mutual
+     * friendship links. It also adds three dummy incoming friend requests from themed users:
+     * "Java", "Python", and "C++". (for demo)
      *
      * @param user the user to set as the current session user
      */
@@ -160,8 +163,14 @@ public class UserSession {
         if (user.getFriendList().isEmpty()) {
             addDefaultFriends();
         }
+        addDummyIncomingRequests();
     }
 
+    /**
+     * Adds two default friends ("Diana" and "Eric") to the current user if the user has no friends.
+     * The default users are music-themed and represent sample friend connections for demonstration
+     * or testing purposes. Mutual friendship links are established.
+     */
     private void addDefaultFriends() {
         User diana =
                 new User(
@@ -192,6 +201,55 @@ public class UserSession {
 
         diana.getFriendList().add(this.user);
         eric.getFriendList().add(this.user);
+    }
+
+    /**
+     * Adds three dummy incoming friend requests to the current session user. The requests are from
+     * themed users: "Java", "Python", and "C++", each with distinct music preferences and bios.
+     * These users are also added to the global user list so that they can be referenced throughout
+     * the app. Intended for demonstration, UI testing, or placeholder data purposes.
+     */
+    private void addDummyIncomingRequests() {
+        User javaa =
+                new User(
+                        "Java",
+                        22,
+                        "female",
+                        "Toronto",
+                        "Indie lover, always looking for concert buddies",
+                        List.of("Indie", "Folk"),
+                        List.of("Phoebe Bridgers", "Bon Iver"),
+                        List.of("Motion Sickness", "Skinny Love"));
+
+        User pythonn =
+                new User(
+                        "Python",
+                        24,
+                        "male",
+                        "Toronto",
+                        "Hip-hop fan and amateur DJ",
+                        List.of("Hip-hop", "Rap"),
+                        List.of("Kendrick Lamar", "Drake"),
+                        List.of("HUMBLE.", "Hotline Bling"));
+
+        User charlie =
+                new User(
+                        "C++",
+                        27,
+                        "non-binary",
+                        "Montreal",
+                        "Electronic vibes only",
+                        List.of("Electronic", "House"),
+                        List.of("Deadmau5", "Calvin Harris"),
+                        List.of("Ghosts 'n' Stuff", "Summer"));
+
+        this.addUser(javaa);
+        this.addUser(pythonn);
+        this.addUser(charlie);
+
+        this.addIncomingMatch(javaa);
+        this.addIncomingMatch(pythonn);
+        this.addIncomingMatch(charlie);
     }
 
     /**

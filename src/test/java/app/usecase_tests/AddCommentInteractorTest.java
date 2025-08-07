@@ -7,6 +7,7 @@ import app.frameworks_and_drivers.view.OpenPostView;
 import app.interface_adapter.presenter.AddCommentPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.add_comment.AddCommentOutputData;
+import org.junit.Ignore;
 import org.junit.Test;
 import app.usecase.add_comment.AddCommentInputBoundary;
 import app.usecase.add_comment.AddCommentOutputBoundary;
@@ -23,7 +24,6 @@ public class AddCommentInteractorTest {
     @Test
     public void testAddFirstComment() {
         List<String> emptyList = new ArrayList<>();
-
         User user0 = new User("Stan", 20, "male", "Toronto", "I luv lord", emptyList, emptyList, emptyList);
         User user1 = new User("user01", 18, "female", "North York", "Let's go out!", emptyList, emptyList, emptyList);
 

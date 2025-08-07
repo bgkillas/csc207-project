@@ -63,8 +63,12 @@ public class MatchingRoomView extends JPanel {
             if (currentUser.getFriendList().contains(candidate)) {
                 continue;
             }
-            //            if (currentUser.hasBlock(candidate)) continue;
-            //            if (!filter.isValid(candidate)) continue;
+            if (currentUser.hasBlock(candidate)) continue;
+            if (!filter.isValid(candidate)) continue;
+            if (currentUser.getIncomingMatches().contains(candidate)){
+                continue;
+            }
+
             filteredMatches.add(candidate);
         }
 

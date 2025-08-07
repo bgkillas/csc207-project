@@ -36,6 +36,7 @@ class MatchFilterTest {
                         Collections.emptyList(),
                         Collections.emptyList(),
                         Collections.emptyList());
+
     }
 
     @Test
@@ -73,19 +74,19 @@ class MatchFilterTest {
 
     @Test
     void testValidMatch_WithAnyGenderAndLocation() {
-        MatchFilter filter = new MatchFilter(20, 25, "Any", "Any");
+        MatchFilter filter = new MatchFilter(20, 25, "N/A", "N/A");
         assertTrue(filter.isValid(alice));
     }
 
     @Test
     void testValidMatch_OnlyGenderAny() {
-        MatchFilter filter = new MatchFilter(20, 25, "Any", "Toronto");
+        MatchFilter filter = new MatchFilter(20, 25, "N/A", "Toronto");
         assertTrue(filter.isValid(alice));
     }
 
     @Test
     void testValidMatch_OnlyLocationAny() {
-        MatchFilter filter = new MatchFilter(20, 25, "female", "Any");
+        MatchFilter filter = new MatchFilter(20, 25, "female", "N/A");
         assertTrue(filter.isValid(alice));
     }
 

@@ -46,7 +46,6 @@ public class ConnectRequestView extends JPanel {
         List<User> requests = viewModel.getAllRequests();
         requests.removeIf(u -> u.equals(currentUser));
 
-
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         this.setBackground(Color.WHITE);
