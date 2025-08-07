@@ -57,7 +57,7 @@ public class ConnectRequestView extends JPanel {
         countLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
         MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
-        InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+        InMemoryMatchDataAccessObject matchDataAccessObject = new InMemoryMatchDataAccessObject();
 
         AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
         AddFriendListInteractor addFriendInteractor =
@@ -65,13 +65,16 @@ public class ConnectRequestView extends JPanel {
 
         HandleFriendRequestInteractor friendRequestInteractor =
                 new HandleFriendRequestInteractor(
-                        matchdao,
+                        matchDataAccessObject,
                         addFriendInteractor,
                         new FriendRequestPresenter(new FriendRequestViewModel()));
 
         MatchInteractionInteractor matchInteractor =
                 new MatchInteractionInteractor(
-                        matchdao, friendRequestInteractor, addFriendInteractor, matchPresenter);
+                        matchDataAccessObject,
+                        friendRequestInteractor,
+                        addFriendInteractor,
+                        matchPresenter);
 
         MatchInteractionController matchController =
                 new MatchInteractionController(matchInteractor);

@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.Main;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
@@ -276,7 +277,11 @@ public class DebugMenuView {
                 "ProfileView",
                 tempFrame ->
                         new ProfileView(
-                                session.getUser(), tempFrame, session, postDataAccessObject));
+                                session.getUser(),
+                                tempFrame,
+                                session,
+                                postDataAccessObject,
+                                Main.getSetupController()));
 
         return panel;
     }

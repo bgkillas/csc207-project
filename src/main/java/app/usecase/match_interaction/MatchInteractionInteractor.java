@@ -77,7 +77,6 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
         }
     }
 
-
     /**
      * Called when the current user chooses to skip a matched user. The matched user is removed from
      * both incoming and outgoing match lists.

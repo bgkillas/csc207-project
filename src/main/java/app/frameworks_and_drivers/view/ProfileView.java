@@ -15,7 +15,6 @@ import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
 import app.usecase.matching.MatchServiceImpl;
-
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -39,7 +38,12 @@ public class ProfileView extends JPanel {
      * @param frame the JFrame to which this view will be added
      * @param userSession the user session containing all users and matches
      */
-    public ProfileView(User user, JFrame frame, UserSession userSession, PostDataAccessInterface postDataAccessObject, SetupUserProfileController profileSetupController) {
+    public ProfileView(
+            User user,
+            JFrame frame,
+            UserSession userSession,
+            PostDataAccessInterface postDataAccessObject,
+            SetupUserProfileController profileSetupController) {
         this.user = user;
         this.frame = frame;
         this.userSession = userSession;
@@ -105,7 +109,8 @@ public class ProfileView extends JPanel {
                     List<User> matches =
                             matchService.findMatches(currentUser, userSession.getAllUsers());
 
-                    InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+                    InMemoryMatchDataAccessObject matchDataAccessObject =
+                            new InMemoryMatchDataAccessObject();
 
                     FriendRequestViewModel requestViewModel = new FriendRequestViewModel();
                     FriendRequestPresenter requestPresenter =
@@ -118,11 +123,11 @@ public class ProfileView extends JPanel {
                             new AddFriendListInteractor(addFriendPresenter);
                     HandleFriendRequestInteractor friendRequestInteractor =
                             new HandleFriendRequestInteractor(
-                                    matchdao, addFriendInteractor, requestPresenter);
+                                    matchDataAccessObject, addFriendInteractor, requestPresenter);
 
                     MatchInteractionInteractor interactor =
                             new MatchInteractionInteractor(
-                                    matchdao,
+                                    matchDataAccessObject,
                                     friendRequestInteractor,
                                     addFriendInteractor,
                                     matchPresenter);
@@ -146,7 +151,13 @@ public class ProfileView extends JPanel {
 
         myProfileBtn.addActionListener(
                 e -> {
-                    ProfileView profileView = new ProfileView(currentUser, frame, userSession, postDataAccessObject, profileSetupController);
+                    ProfileView profileView =
+                            new ProfileView(
+                                    currentUser,
+                                    frame,
+                                    userSession,
+                                    postDataAccessObject,
+                                    profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -273,18 +284,18 @@ public class ProfileView extends JPanel {
         JButton blockBtn = createActionButton("block");
         JButton unBlockBtn = createActionButton("unblock");
 
+        editProfileBtn.addActionListener(
+                e -> {
+                    JPanel profileSetupPanel =
+                            ProfileSetupView.create(profileSetupController, userSession.getUser());
+                    frame.setContentPane(profileSetupPanel);
+                    frame.setTitle("Edit Profile");
+                    frame.setPreferredSize(new Dimension(800, 600));
+                    frame.pack();
+                    frame.revalidate();
+                    frame.repaint();
+                });
 
-        editProfileBtn.addActionListener(e -> {
-            JPanel profileSetupPanel = ProfileSetupView.create(profileSetupController, userSession.getUser());
-            frame.setContentPane(profileSetupPanel);
-            frame.setTitle("Edit Profile");
-            frame.setPreferredSize(new Dimension(800, 600));
-            frame.pack();
-            frame.revalidate();
-            frame.repaint();
-        });
-
-        
         buddyListBtn.addActionListener(
                 e -> {
                     BuddyListView buddyList =
@@ -304,7 +315,13 @@ public class ProfileView extends JPanel {
         blockBtn.addActionListener(
                 e -> {
                     userSession.getUser().addBlock(user);
-                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject, profileSetupController);
+                    ProfileView profileView =
+                            new ProfileView(
+                                    user,
+                                    frame,
+                                    userSession,
+                                    postDataAccessObject,
+                                    profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -312,7 +329,13 @@ public class ProfileView extends JPanel {
         unBlockBtn.addActionListener(
                 e -> {
                     userSession.getUser().removeBlock(user);
-                    ProfileView profileView = new ProfileView(user, frame, userSession, postDataAccessObject, profileSetupController);
+                    ProfileView profileView =
+                            new ProfileView(
+                                    user,
+                                    frame,
+                                    userSession,
+                                    postDataAccessObject,
+                                    profileSetupController);
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();

@@ -1,10 +1,10 @@
 package app.frameworks_and_drivers.view;
 
+import app.Main;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.NavButton;
-import app.Main;
 import java.awt.*;
 import javax.swing.*;
 
@@ -48,9 +48,15 @@ public class BuddyListView extends JPanel {
         this.setLayout(new BorderLayout());
 
         JButton back = new NavButton("back");
-                        back.addActionListener(
+        back.addActionListener(
                 e -> {
-                    ProfileView profileView = new ProfileView(user, frame, session, postDataAccessObject, Main.getSetupController());
+                    ProfileView profileView =
+                            new ProfileView(
+                                    user,
+                                    frame,
+                                    session,
+                                    postDataAccessObject,
+                                    Main.getSetupController());
                     frame.setContentPane(profileView);
                     frame.revalidate();
                     frame.repaint();
@@ -74,7 +80,13 @@ public class BuddyListView extends JPanel {
             buddyList.add(buddy);
             buddy.addActionListener(
                     e -> {
-                        ProfileView profileView = new ProfileView(user, frame, session, postDataAccessObject, Main.getSetupController());
+                        ProfileView profileView =
+                                new ProfileView(
+                                        user,
+                                        frame,
+                                        session,
+                                        postDataAccessObject,
+                                        Main.getSetupController());
                         frame.setContentPane(profileView);
                         frame.revalidate();
                         frame.repaint();

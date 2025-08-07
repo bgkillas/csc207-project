@@ -1,5 +1,6 @@
 package app.frameworks_and_drivers.view;
 
+import app.Main;
 import app.entities.Post;
 import app.entities.User;
 import app.entities.UserSession;
@@ -20,7 +21,6 @@ import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
-import app.Main;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -180,7 +180,8 @@ public class PostFeedView extends JPanel {
 
                     MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
 
-                    InMemoryMatchDataAccessObject matchdao = new InMemoryMatchDataAccessObject();
+                    InMemoryMatchDataAccessObject matchDataAccessObject =
+                            new InMemoryMatchDataAccessObject();
 
                     AddFriendListPresenter addFriendPresenter = new AddFriendListPresenter();
                     AddFriendListInteractor addFriendInteractor =
@@ -188,13 +189,13 @@ public class PostFeedView extends JPanel {
 
                     HandleFriendRequestInteractor friendRequestInteractor =
                             new HandleFriendRequestInteractor(
-                                    matchdao,
+                                    matchDataAccessObject,
                                     addFriendInteractor,
                                     new FriendRequestPresenter(new FriendRequestViewModel()));
 
                     MatchInteractionInteractor interactor =
                             new MatchInteractionInteractor(
-                                    matchdao,
+                                    matchDataAccessObject,
                                     friendRequestInteractor,
                                     addFriendInteractor,
                                     matchPresenter);
@@ -219,7 +220,13 @@ public class PostFeedView extends JPanel {
         // navigate to profile
         btnProfile.addActionListener(
                 e -> {
-                    JPanel profilePanel = new ProfileView(currentUser, frame, session, postDataAccessObject, Main.getSetupController());
+                    JPanel profilePanel =
+                            new ProfileView(
+                                    currentUser,
+                                    frame,
+                                    session,
+                                    postDataAccessObject,
+                                    Main.getSetupController());
                     frame.setContentPane(profilePanel);
                     frame.revalidate();
                     frame.repaint();

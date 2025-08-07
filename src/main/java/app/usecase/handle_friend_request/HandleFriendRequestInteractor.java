@@ -19,7 +19,8 @@ public class HandleFriendRequestInteractor implements HandleFriendRequestInputBo
     /**
      * Constructs a new HandleFriendRequestInteractor.
      *
-     * @param matchDataAccessObject the dao responsible for tracking friend request state
+     * @param matchDataAccessObject the DataAccessObject responsible for tracking friend request
+     *     state
      * @param addFriendListInteractor the interactor used to add users to each other’s friend lists
      * @param presenter the presenter that formats the result for the UI
      */

@@ -10,6 +10,7 @@ import javax.swing.*;
  * gender, location) and passes it to the controller.
  */
 public class ProfileSetupView {
+    /** constructor. */
     public ProfileSetupView() {}
 
     /**
