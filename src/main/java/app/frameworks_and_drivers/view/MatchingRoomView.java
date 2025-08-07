@@ -100,7 +100,7 @@ public class MatchingRoomView extends JPanel {
         topPanel.add(mailIcon, BorderLayout.WEST);
         topPanel.add(title, BorderLayout.CENTER);
 
-        // ConnectRequestView
+        // FriendRequestView
         mailIcon.addActionListener(
                 e -> {
                     FriendRequestViewModel viewModel = new FriendRequestViewModel();
@@ -120,8 +120,8 @@ public class MatchingRoomView extends JPanel {
 
                     FriendRequestController controller = new FriendRequestController(interactor);
 
-                    ConnectRequestView connectRequestView =
-                            new ConnectRequestView(
+                    FriendRequestView friendRequestView =
+                            new FriendRequestView(
                                     frame,
                                     currentUser,
                                     session,
@@ -129,7 +129,7 @@ public class MatchingRoomView extends JPanel {
                                     viewModel,
                                     postDataAccessObject);
 
-                    frame.setContentPane(connectRequestView);
+                    frame.setContentPane(friendRequestView);
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -138,7 +138,7 @@ public class MatchingRoomView extends JPanel {
         // new java.awt.event.MouseAdapter() {
         // @Override
         // public void mouseClicked(java.awt.event.MouseEvent e) {
-        // frame.setContentPane(new ConnectRequestView(frame, currentUser,
+        // frame.setContentPane(new FriendRequestView(frame, currentUser,
         // session));
         // frame.revalidate();
         // frame.repaint();

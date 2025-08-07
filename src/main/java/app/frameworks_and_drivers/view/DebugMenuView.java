@@ -161,7 +161,7 @@ public class DebugMenuView {
                                 .create());
         addButtonWithFrame(
                 panel,
-                "ConnectRequestView",
+                "FriendRequestView",
                 tempFrame -> {
                     FriendRequestViewModel viewModel = new FriendRequestViewModel();
                     viewModel.setIncomingRequests(session.getIncomingMatches());
@@ -178,7 +178,7 @@ public class DebugMenuView {
                                     presenter);
                     FriendRequestController controller = new FriendRequestController(interactor);
 
-                    return new ConnectRequestView(
+                    return new FriendRequestView(
                             tempFrame,
                             dummyUser,
                             session,
