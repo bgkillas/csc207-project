@@ -133,7 +133,7 @@ public class ProfileView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    userSession.getIncomingMatches(),
+                                    userSession.getMatchesTemp(),
                                     userSession,
                                     controller,
                                     postDataAccessObject);
