@@ -93,7 +93,7 @@ public class PostFeedView extends JPanel {
         postFeedPanel.setLayout(new BoxLayout(postFeedPanel, BoxLayout.Y_AXIS));
 
         // Get actual posts from data access layer
-        java.util.List<Post> userPosts = postDataAccessObject.getPostsByUser(currentUser);
+        List<Post> userPosts = postDataAccessObject.getPostFeed(currentUser);
 
         if (userPosts.isEmpty()) {
             // Show a message if no posts
