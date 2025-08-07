@@ -19,8 +19,12 @@ public class MatchFilter {
     public MatchFilter(int minAge, int maxAge, String preferredGender, String preferredLocation) {
         this.minAge = minAge;
         this.maxAge = maxAge;
-        this.preferredGender = (preferredGender == null || preferredGender.isBlank()) ? "N/A" : preferredGender;
-        this.preferredLocation = (preferredLocation == null || preferredLocation.isBlank()) ? "N/A" : preferredLocation;
+        this.preferredGender =
+                (preferredGender == null || preferredGender.isBlank()) ? "N/A" : preferredGender;
+        this.preferredLocation =
+                (preferredLocation == null || preferredLocation.isBlank())
+                        ? "N/A"
+                        : preferredLocation;
     }
 
     /**
