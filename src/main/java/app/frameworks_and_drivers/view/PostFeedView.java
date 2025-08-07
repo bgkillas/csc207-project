@@ -13,6 +13,7 @@ import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import app.interface_adapter.presenter.FriendRequestPresenter;
 import app.interface_adapter.presenter.MatchInteractionPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
@@ -156,10 +157,12 @@ public class PostFeedView extends JPanel {
         newPost.addActionListener(
                 e -> {
                     try {
+
+                        CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
                         controller.createNewPost();
                         CreatePostController createPostController =
                                 new CreatePostController(
-                                        new CreatePostInteractor(postDataAccessObject));
+                                        new CreatePostInteractor(postDataAccessObject, createPostPresenter));
                         CreatePostView createPostview =
                                 new CreatePostView(
                                         currentUser, session, frame, postDataAccessObject);

@@ -136,11 +136,12 @@ public class DebugMenuView {
                         new CreateAccountInteractor(createPresenter, session, loginManager));*/
 
         // Controller for post feed view
-        CreatePostInteractor createPostInteractor = new CreatePostInteractor();
+        CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
+        CreatePostInteractor createPostInteractor = new CreatePostInteractor(postDataAccessObject, createPostPresenter);
         PostFeedController postFeedViewController = new PostFeedController(createPostInteractor);
 
         // Controller for create post view
-        CreatePostController createPostViewController = new CreatePostController();
+        CreatePostController createPostViewController = new CreatePostController(frame);
 
         // Controller for create post view
         OpenPostController openPostController = new OpenPostController();
@@ -193,7 +194,7 @@ public class DebugMenuView {
                 "CreatePostView",
                 tempFrame -> {
                     CreatePostInteractor interactor =
-                            new CreatePostInteractor(postDataAccessObject);
+                            new CreatePostInteractor(postDataAccessObject, createPostPresenter);
                     CreatePostController controller = new CreatePostController(interactor);
                     return new CreatePostView(dummyUser, session, tempFrame, postDataAccessObject)
                             .create(controller);

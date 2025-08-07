@@ -5,6 +5,7 @@ import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.interface_adapter.controller.CreatePostController;
 import app.interface_adapter.controller.PostFeedController;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
 import java.io.File;
@@ -71,12 +72,14 @@ public class CreatePostView {
 
         back.addActionListener(
                 e -> {
+                    CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
+
                     frame.setContentPane(
                             new PostFeedView(currentUser, session, frame, postDataAccessObject)
                                     .create(
                                             new PostFeedController(
                                                     new CreatePostInteractor(
-                                                            postDataAccessObject))));
+                                                            postDataAccessObject, createPostPresenter))));
                     frame.revalidate();
                     frame.repaint();
                 });
@@ -106,13 +109,15 @@ public class CreatePostView {
                     String content = contentArea.getText();
                     controller.postNewPost(title, content, imageFile, currentUser);
 
+                    CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
+
                     // Navigate back to post feed after posting
                     frame.setContentPane(
                             new PostFeedView(currentUser, session, frame, postDataAccessObject)
                                     .create(
                                             new PostFeedController(
                                                     new CreatePostInteractor(
-                                                            postDataAccessObject))));
+                                                            postDataAccessObject, createPostPresenter))));
                     frame.revalidate();
                     frame.repaint();
                 });

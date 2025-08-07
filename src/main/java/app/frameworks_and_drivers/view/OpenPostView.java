@@ -11,6 +11,7 @@ import app.interface_adapter.controller.AddCommentController;
 import app.interface_adapter.controller.OpenPostController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddCommentPresenter;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import app.usecase.add_comment.AddCommentInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import java.awt.*;
@@ -87,12 +88,13 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         JButton back = new JButton("← Back");
         back.addActionListener(
                 e -> {
+                    CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
                     frame.setContentPane(
                             new PostFeedView(currentUser, session, frame, postDataAccessObject)
                                     .create(
                                             new PostFeedController(
                                                     new CreatePostInteractor(
-                                                            postDataAccessObject))));
+                                                            postDataAccessObject, createPostPresenter))));
                     frame.revalidate();
                     frame.repaint();
                 });

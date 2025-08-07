@@ -2,8 +2,10 @@ package app.interface_adapter.controller;
 
 import app.entities.User;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import app.usecase.create_post.CreatePostInteractor;
 import java.io.File;
+import javax.swing.JFrame;
 
 /**
  * Controller for handling the creation of new posts. This class receives input from the user
@@ -14,12 +16,13 @@ public class CreatePostController {
     private final CreatePostInteractor interactor;
 
     /**
-     * Constructs a CreatePostController using an in-memory post data access object. This
-     * constructor is primarily used for testing or default behavior where persistent storage is not
-     * required.
+     * Constructs a CreatePostController with frame for presenter creation.
+     *
+     * @param frame the main application frame for presenter
      */
-    public CreatePostController() {
-        this.interactor = new CreatePostInteractor(new InMemoryPostDataAccessObject());
+    public CreatePostController(JFrame frame) {
+        CreatePostPresenter presenter = new CreatePostPresenter(frame);
+        this.interactor = new CreatePostInteractor(new InMemoryPostDataAccessObject(), presenter);
     }
 
     /**

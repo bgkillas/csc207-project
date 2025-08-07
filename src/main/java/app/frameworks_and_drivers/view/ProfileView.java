@@ -8,6 +8,7 @@ import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import app.interface_adapter.presenter.FriendRequestPresenter;
 import app.interface_adapter.presenter.MatchInteractionPresenter;
 import app.interface_adapter.viewmodel.FriendRequestViewModel;
@@ -156,12 +157,13 @@ public class ProfileView extends JPanel {
                 });
         shareBtn.addActionListener(
                 e -> {
+                    CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
                     frame.setContentPane(
                             new PostFeedView(currentUser, userSession, frame, postDataAccessObject)
                                     .create(
                                             new PostFeedController(
                                                     new CreatePostInteractor(
-                                                            postDataAccessObject))));
+                                                            postDataAccessObject, createPostPresenter))));
                     frame.revalidate();
                     frame.repaint();
                 });

@@ -3,9 +3,11 @@ package app.usecase_tests;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.entities.Post;
 import app.entities.User;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import org.junit.Test;
 import app.usecase.create_post.CreatePostInteractor;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.List;
 
@@ -13,10 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CreatePostInteractorTest {
 
+    JFrame frame = new JFrame();
+    CreatePostPresenter createPostPresenter = new CreatePostPresenter(frame);
+
     @Test
     public void testCreatePostWithoutImage() {
         InMemoryPostDataAccessObject DataAccessObject = new InMemoryPostDataAccessObject();
-        CreatePostInteractor interactor = new CreatePostInteractor(DataAccessObject);
+        CreatePostInteractor interactor = new CreatePostInteractor(DataAccessObject, createPostPresenter);
         User testUser =
                 new User(
                         "Jess Jane",
@@ -43,7 +48,7 @@ public class CreatePostInteractorTest {
     @Test
     public void testCreatePostWithInvalidImage() {
         InMemoryPostDataAccessObject DataAccessObject = new InMemoryPostDataAccessObject();
-        CreatePostInteractor interactor = new CreatePostInteractor(DataAccessObject);
+        CreatePostInteractor interactor = new CreatePostInteractor(DataAccessObject, createPostPresenter);
         User testUser =
                 new User(
                         "John Smith", 19, "Male", "Africa", "Bio", List.of(), List.of(), List.of());

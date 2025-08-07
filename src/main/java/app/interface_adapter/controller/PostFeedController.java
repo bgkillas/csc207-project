@@ -1,7 +1,9 @@
 package app.interface_adapter.controller;
 
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.interface_adapter.presenter.CreatePostPresenter;
 import app.usecase.create_post.CreatePostInteractor;
+import javax.swing.JFrame;
 
 /**
  * Controller for the Post Feed feature. Responsible for handling user actions related to viewing
@@ -20,9 +22,14 @@ public class PostFeedController {
         this.interactor = interactor;
     }
 
-    /** Default constructor that initializes the controller with an in-memory data access object. */
-    public PostFeedController() {
-        this.interactor = new CreatePostInteractor(new InMemoryPostDataAccessObject());
+    /**
+     * Constructs a PostFeedController with frame for presenter creation.
+     *
+     * @param frame the main application frame for presenter
+     */
+    public PostFeedController(JFrame frame) {
+        CreatePostPresenter presenter = new CreatePostPresenter(frame);
+        this.interactor = new CreatePostInteractor(new InMemoryPostDataAccessObject(), presenter);
     }
 
     /**

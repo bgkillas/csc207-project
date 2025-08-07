@@ -2,7 +2,6 @@ package app.usecase.create_post;
 
 import app.entities.Post;
 import app.entities.User;
-import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import java.awt.Image;
 import java.io.File;
@@ -11,57 +10,84 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 /**
- * Interactor for the Create Post use case. This class handles the logic of creating a new post,
- * optionally loading an image from file, and saving the post via PostDataAccessInterface
+ * Use case interactor for creating a new post.
+ *
+ * <p>This class handles the logic for creating a new Post entity based on the user's input,
+ * optionally loading an image, and saving it through the data access layer. The outcome is passed
+ * to the presenter through the output boundary.
  */
-public class CreatePostInteractor implements CreatePost {
-    private final PostDataAccessInterface postDataAccess;
+public class CreatePostInteractor implements CreatePostInputBoundary {
+    private final PostDataAccessInterface postDataAccessObject;
+    private final CreatePostOutputBoundary presenter;
 
     /**
-     * Constructs a CreatePostInteractor with the specified data access object.
+     * Creates the CreatePost use case interactor.
      *
-     * @param postDataAccess the data access interface used to persist posts
+     * @param postDataAccessObject The data access object used to persist posts.
+     * @param presenter The presenter that will handle success or failure output.
      */
-    public CreatePostInteractor(PostDataAccessInterface postDataAccess) {
-        this.postDataAccess = postDataAccess;
+    public CreatePostInteractor(
+            PostDataAccessInterface postDataAccessObject, CreatePostOutputBoundary presenter) {
+        this.postDataAccessObject = postDataAccessObject;
+        this.presenter = presenter;
     }
 
     /**
-     * Constructs a CreatePostInteractor using an in-memory data access object. This constructor is
-     * primarily for testing.
-     */
-    public CreatePostInteractor() {
-        this.postDataAccess = new InMemoryPostDataAccessObject();
-    }
-
-    /**
-     * Creates a new post and saves it using the configured data access object. If an image file is
-     * provided, it attempts to load it into an Image object. A new Post is then created with the
-     * current timestamp and associated with the author.
+     * Creates a new post with the given details.
      *
      * @param title the title of the post
-     * @param content the textual content of the post
-     * @param image an optional image file to be included (can be null)
+     * @param content the content of the post
+     * @param image an optional image file to include with the post (can be null)
      * @param author the user creating the post
      */
     @Override
     public void createPost(String title, String content, File image, User author) {
-        Image postImage = null;
-
-        // Convert file to Image if it exists
-        if (image != null && image.exists()) {
-            try {
-                postImage = ImageIO.read(image);
-            } catch (Exception e) {
-                System.err.println("Failed to load image: " + e.getMessage());
-            }
+        if (title == null || title.trim().isEmpty()) {
+            presenter.presentCreatePostFailure("Post title cannot be empty.");
+            return;
         }
 
-        // Create new post
-        Post newPost =
-                new Post(title, content, postImage, LocalDateTime.now(), author, new ArrayList<>());
+        if (content == null || content.trim().isEmpty()) {
+            presenter.presentCreatePostFailure("Post content cannot be empty.");
+            return;
+        }
 
-        // Save post in DataAccessObject
-        postDataAccess.savePost(author, newPost);
+        if (author == null) {
+            presenter.presentCreatePostFailure("Author cannot be null.");
+            return;
+        }
+
+        try {
+            Image postImage = null;
+
+            // Convert file to Image if it exists
+            if (image != null && image.exists()) {
+                try {
+                    postImage = ImageIO.read(image);
+                } catch (Exception e) {
+                    presenter.presentCreatePostFailure("Failed to load image: " + e.getMessage());
+                    return;
+                }
+            }
+
+            // Create new post
+            Post newPost = new Post(title, content, postImage, LocalDateTime.now(), author, new ArrayList<>());
+
+            // Save post in DataAccessObject
+            postDataAccessObject.savePost(author, newPost);
+
+            CreatePostOutputData outputData = new CreatePostOutputData(
+                    newPost.getTitle(),
+                    newPost.getText(),
+                    author.getName(),
+                    LocalDateTime.now(),
+                    newPost.getImage() != null,
+                    "Post created successfully."
+            );
+            presenter.presentCreatePostSuccess(outputData);
+
+        } catch (Exception e) {
+            presenter.presentCreatePostFailure("Failed to create post: " + e.getMessage());
+        }
     }
 }
