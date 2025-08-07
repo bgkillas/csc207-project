@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.*;
 
@@ -113,5 +114,139 @@ public class HandleFriendRequestInteractorTest {
         assertFalse(userSession1.getIncomingMatches().contains(user0));
         assertTrue(userSession1.getUser().getFriendList().contains(user0));
         assertTrue(user0.getFriendList().contains(userSession1.getUser()));
+    }
+
+    @Test
+    public void testSendFriendRequestToNullUser() {
+        UserSession session = new UserSession(new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of()));
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter = new HandleFriendRequestOutputBoundary() {
+            @Override
+            public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                fail("Should not succeed");
+            }
+
+            @Override
+            public void presentFriendRequestFailure(String message) {
+                failureMessage.set(message);
+            }
+        };
+
+        HandleFriendRequestInteractor interactor = new HandleFriendRequestInteractor(
+                new InMemoryMatchDataAccessObject(),
+                (a, b) -> {},
+                presenter
+        );
+
+        interactor.sendFriendRequest(session, null);
+        assertEquals("Cannot send friend request: user does not exist.", failureMessage.get());
+    }
+
+    @Test
+    public void testSendFriendRequestToSelf() {
+        User user = new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user);
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter = new HandleFriendRequestOutputBoundary() {
+            public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                fail("Should not succeed");
+            }
+            public void presentFriendRequestFailure(String message) {
+                failureMessage.set(message);
+            }
+        };
+
+        HandleFriendRequestInteractor interactor = new HandleFriendRequestInteractor(
+                new InMemoryMatchDataAccessObject(),
+                (a, b) -> {},
+                presenter
+        );
+
+        interactor.sendFriendRequest(session, user);
+        assertEquals("Cannot send friend request to yourself.", failureMessage.get());
+    }
+
+    @Test
+    public void testSendDuplicateFriendRequest() {
+        User user0 = new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of());
+        User user1 = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user0);
+        session.getOutgoingMatches().add(user1);
+
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter = new HandleFriendRequestOutputBoundary() {
+            public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                fail("Should not succeed");
+            }
+            public void presentFriendRequestFailure(String message) {
+                failureMessage.set(message);
+            }
+        };
+
+        HandleFriendRequestInteractor interactor = new HandleFriendRequestInteractor(
+                new InMemoryMatchDataAccessObject(),
+                (a, b) -> {},
+                presenter
+        );
+
+        interactor.sendFriendRequest(session, user1);
+        assertEquals("Already friends or request already sent.", failureMessage.get());
+    }
+
+    @Test
+    public void testAcceptNonexistentFriendRequest() {
+        User user0 = new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of());
+        User user1 = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user1);  // Jess is current user
+
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter = new HandleFriendRequestOutputBoundary() {
+            public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                fail("Should not succeed");
+            }
+            public void presentFriendRequestFailure(String message) {
+                failureMessage.set(message);
+            }
+        };
+
+        HandleFriendRequestInteractor interactor = new HandleFriendRequestInteractor(
+                new InMemoryMatchDataAccessObject(),
+                (a, b) -> {},
+                presenter
+        );
+
+        interactor.acceptFriendRequest(session, user0);  // Stan sent no request
+        assertEquals("Friend request does not exist.", failureMessage.get());
+    }
+
+    @Test
+    public void testDeclineNonexistentFriendRequest() {
+        User user0 = new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of());
+        User user1 = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user1);  // Jess is current user
+
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter = new HandleFriendRequestOutputBoundary() {
+            public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                fail("Should not succeed");
+            }
+            public void presentFriendRequestFailure(String message) {
+                failureMessage.set(message);
+            }
+        };
+
+        HandleFriendRequestInteractor interactor = new HandleFriendRequestInteractor(
+                new InMemoryMatchDataAccessObject(),
+                (a, b) -> {},
+                presenter
+        );
+
+        interactor.declineFriendRequest(session, user0);  // Stan sent no request
+        assertEquals("Friend request does not exist.", failureMessage.get());
     }
 }
