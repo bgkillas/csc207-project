@@ -177,7 +177,6 @@ public class AddCommentInteractorTest {
         interactor.addComment(session, post, "  ");
     }
 
-
     @Test
     public void testPlaceholderCommentFails() {
         AddCommentOutputBoundary presenter =

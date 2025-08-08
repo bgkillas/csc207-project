@@ -173,8 +173,6 @@ public class PostFeedView extends JPanel {
         // navigate to matching room
         btnMatching.addActionListener(
                 e -> {
-                    List<User> matches = session.getAllUsers();
-
                     MatchInteractionPresenter matchPresenter = new MatchInteractionPresenter();
 
                     InMemoryMatchDataAccessObject matchDataAccessObject =
@@ -204,7 +202,7 @@ public class PostFeedView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    matches,
+                                    session.getMatchesTemp(),
                                     session,
                                     matchcontroller,
                                     postDataAccessObject);

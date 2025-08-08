@@ -88,7 +88,7 @@ public class Main {
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
-                new SetupMatchFilterPresenter(application, session, postDataAccessObject);
+                new SetupMatchFilterPresenter(application, session, postDataAccessObject, true);
 
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);
