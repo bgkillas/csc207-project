@@ -86,7 +86,7 @@ public class Main {
                 new Post(
                         "Anybody going to the coldplay concert?",
                         "Hi, I'm looking for some friends to go to concerts together! Comment here"
-                            + " and lmk :)",
+                                + " and lmk :)",
                         null,
                         LocalDateTime.now(),
                         alice,
