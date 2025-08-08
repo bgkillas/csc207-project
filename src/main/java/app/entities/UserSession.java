@@ -151,20 +151,27 @@ public class UserSession {
     }
 
     /**
-     * Sets the current user for this session and updates Spotify preferences if available. If the
-     * user has no existing friends, two default friends ("Diana" and "Eric") are added with mutual
-     * friendship links. It also adds three dummy incoming friend requests from themed users:
-     * "Java", "Python", and "C++". (for demo)
+     * Sets the current user for this session and updates Spotify preferences if available.
      *
      * @param user the user to set as the current session user
      */
     public void setUser(User user) {
         this.user = user;
         this.updateSpotify();
-        if (user.getFriendList().isEmpty()) {
-            addDefaultFriends();
-        }
-        addDummyIncomingRequests();
+    }
+
+    /**
+     * Sets the current user for this session and updates Spotify preferences if available.
+     * Two default friends ("Diana" and "Eric") are added with mutual friendship links.
+     * It also adds three dummy incoming friend requests from themed users: "Java", "Python", and "C++".
+     *
+     * @param user the user to set as the current session user
+     */
+    public void setUserForDemo(User user) {
+        this.user = user;
+        this.updateSpotify();
+        // For demo, dummy users are created and set as friends / users that requested to be friends
+        addDefaultFriends();
     }
 
     /**
@@ -205,52 +212,24 @@ public class UserSession {
     }
 
     /**
-     * Adds three dummy incoming friend requests to the current session user. The requests are from
-     * themed users: "Java", "Python", and "C++", each with distinct music preferences and bios.
-     * These users are also added to the global user list so that they can be referenced throughout
-     * the app. Intended for demonstration, UI testing, or placeholder data purposes.
+     * Set every user in the allUser attribute of this UserSession to have the same favGenres, favArtists, and favSongs
+     * so that they are all considered compatible with the given user. This is for the Demo!
+     *
+     * @param user - logged in user
      */
-    private void addDummyIncomingRequests() {
-        User javaa =
-                new User(
-                        "Java",
-                        22,
-                        "female",
-                        "Toronto",
-                        "Indie lover, always looking for concert buddies",
-                        List.of("Indie", "Folk"),
-                        List.of("Phoebe Bridgers", "Bon Iver"),
-                        List.of("Motion Sickness", "Skinny Love"));
+    public void makeAllUsersCompatible(User user) {
+        List<String> favGenres = user.getFavGenres();
+        List<String> favArtists = user.getFavArtists();
+        List<String> favSongs = user.getFavSongs();
 
-        User pythonn =
-                new User(
-                        "Python",
-                        24,
-                        "male",
-                        "Toronto",
-                        "Hip-hop fan and amateur DJ",
-                        List.of("Hip-hop", "Rap"),
-                        List.of("Kendrick Lamar", "Drake"),
-                        List.of("HUMBLE.", "Hotline Bling"));
+        // for debugging, this allows us to see user's fav lists
+        System.out.println("User's fav: " + favGenres + favArtists + favSongs);
 
-        User charlie =
-                new User(
-                        "C++",
-                        27,
-                        "non-binary",
-                        "Montreal",
-                        "Electronic vibes only",
-                        List.of("Electronic", "House"),
-                        List.of("Deadmau5", "Calvin Harris"),
-                        List.of("Ghosts 'n' Stuff", "Summer"));
-
-        this.addUser(javaa);
-        this.addUser(pythonn);
-        this.addUser(charlie);
-
-        this.addIncomingMatch(javaa);
-        this.addIncomingMatch(pythonn);
-        this.addIncomingMatch(charlie);
+        for (User u : allUsers) {
+            u.setFavGenres(favGenres);
+            u.setFavArtists(favArtists);
+            u.setFavSongs(favSongs);
+        }
     }
 
     /**

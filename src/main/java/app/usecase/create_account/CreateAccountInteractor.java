@@ -58,8 +58,11 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
                         new ArrayList<>(),
                         new ArrayList<>(),
                         new ArrayList<>());
-        // updated UserSession to have a setter
-        session.setUser(user);
+        // For the purpose of the demo, we want other users to pre-exist.
+        // we also want the user of the userSession to be compatible with all the other users.
+        // Below updates UserSession to have a setter
+        session.setUserForDemo(user);
+        session.makeAllUsersCompatible(user);
         presenter.prepareSuccessView(user);
     }
 }
