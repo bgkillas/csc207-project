@@ -267,6 +267,7 @@ public class MatchingRoomView extends JPanel {
 
         connectBtn.addActionListener(
                 e -> {
+                    session.getMatchesTemp().remove(filteredMatchesFinal.get(currentIndex));
                     matchInteractionController.connect(
                             session, filteredMatchesFinal.get(currentIndex));
                     currentIndex++;
@@ -275,6 +276,7 @@ public class MatchingRoomView extends JPanel {
 
         skipBtn.addActionListener(
                 e -> {
+                    session.getMatchesTemp().remove(filteredMatchesFinal.get(currentIndex));
                     matchInteractionController.skip(
                             session, filteredMatchesFinal.get(currentIndex));
                     currentIndex++;

@@ -87,7 +87,7 @@ public class FriendRequestView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    session.getAllUsers(),
+                                    session.getMatchesTemp(),
                                     session,
                                     matchController,
                                     postDataAccessObject);

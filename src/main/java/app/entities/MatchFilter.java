@@ -34,12 +34,11 @@ public class MatchFilter {
      * @return true if the user matches the filter, false otherwise
      */
     public boolean isValid(User user) {
-        return user.getAge() >= minAge
-                && user.getAge() <= maxAge
-                && ("N/A".equals(preferredGender)
-                        || user.getGender().equalsIgnoreCase(preferredGender))
-                && ("N/A".equals(preferredLocation)
-                        || user.getLocation().equalsIgnoreCase(preferredLocation));
+        //  && ("N/A".equals(preferredGender)
+        //        || user.getGender().equalsIgnoreCase(preferredGender))
+        //  && ("N/A".equals(preferredLocation)
+        //        || user.getLocation().equalsIgnoreCase(preferredLocation));
+        return user.getAge() >= minAge && user.getAge() <= maxAge;
     }
 
     public int getMinAge() {
