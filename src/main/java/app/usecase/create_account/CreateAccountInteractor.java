@@ -39,12 +39,11 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
     public void create(SpotifyInterface spotify) {
 
 
-        session.initiateSpotify(spotify); // we don't want entity UserSession to know about spotify
-//        // Instead below is the logic inside initiateSpotify()
-//        spotify.initSpotify();
-//        spotify.pullUserData();
+        // We will call Spotify API to pull user data!
+        spotify.initSpotify();
+        spotify.pullUserData();
 
-        // Rather than pulling from session, pulling directly from our local variable makes sense more!
+        // the spotify object is filled with required info including userID, username, and some  fav lists.
         String spotifyUserId = spotify.getUserId();
 
         // If the user hasn't already been registered in the login system,
@@ -53,9 +52,9 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
             loginManager.registerLogin(spotifyUserId, "spotify");
         }
 
-        String spotifyUsername = spotify.getUserName();
-        // Create a new User object using the Spotify username
+        // Create a new User object using the Spotify username and default information.
         // This object represents the full user in the app (bio, preferences, etc.)
+        String spotifyUsername = spotify.getUserName();
         User user =
                 new User(
                         spotifyUsername,
@@ -67,8 +66,30 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
                         new ArrayList<>(),
                         new ArrayList<>(),
                         new ArrayList<>());
-        // updated UserSession to have a setter
+
+        // Now we set the userSession owned by this user object.
         session.setUser(user);
+        // the user object's default data will be overwritten with information from spotify.
+        updateUserWithSpotifyData(user, spotify);
+
+        // Now, for the purpose of the demo, we will add pre-existing friends and friend requests.
+        if (user.getFriendList().isEmpty()) {
+            session.addDefaultFriends();
+        }
+        session.addDummyIncomingRequests();
         presenter.prepareSuccessView(user);
     }
+
+    /** Updates the user's top tracks, artists, and genres using Spotify data. */
+    private void updateUserWithSpotifyData(User user, SpotifyInterface spotify) {
+        if (user != null && spotify != null) {
+            spotify.pullTopArtistsAndGenres();
+            user.setFavArtists(spotify.getTopArtists());
+            user.setFavGenres(spotify.getTopGenres());
+
+            spotify.pullTopTracks();
+            user.setFavSongs(spotify.getTopTracks());
+        }
+    }
+
 }

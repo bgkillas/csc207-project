@@ -1,6 +1,5 @@
 package app.entities;
 
-import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,6 @@ public class UserSession {
     private final List<Match> matches;
     private List<Post> posts;
     private List<User> allUsers = new ArrayList<>();
-    private SpotifyInterface spotify;
 
     /**
      * Constructs a UserSession for the given user.
@@ -59,30 +57,6 @@ public class UserSession {
         allUsers.add(user);
     }
 
-    // TODO: get rid of
-    /**
-     * Initializes the Spotify API and pulls user-level metadata.
-     *
-     * @param spotify the Spotify interface implementation to initialize
-     */
-    public void initiateSpotify(SpotifyInterface spotify) {
-        this.spotify = spotify;
-        spotify.initSpotify();
-        spotify.pullUserData();
-    }
-
-    // TODO: get rid of
-    /** Updates the user's top tracks, artists, and genres using Spotify data. */
-    public void updateSpotify() {
-        if (this.user != null && this.spotify != null) {
-            spotify.pullTopArtistsAndGenres();
-            this.user.setFavArtists(spotify.getTopArtists());
-            this.user.setFavGenres(spotify.getTopGenres());
-            spotify.pullTopTracks();
-            this.user.setFavSongs(spotify.getTopTracks());
-        }
-    }
-
     /**
      * Sets the current user for this session and updates Spotify preferences if available. If the
      * user has no existing friends, two default friends ("Diana" and "Eric") are added with mutual
@@ -93,11 +67,6 @@ public class UserSession {
      */
     public void setUser(User user) {
         this.user = user;
-        this.updateSpotify();
-        if (user.getFriendList().isEmpty()) {
-            addDefaultFriends();
-        }
-        addDummyIncomingRequests();
     }
 
     /**
@@ -105,7 +74,7 @@ public class UserSession {
      * The default users are music-themed and represent sample friend connections for demonstration
      * or testing purposes. Mutual friendship links are established.
      */
-    private void addDefaultFriends() {
+    public void addDefaultFriends() {
         User diana =
                 new User(
                         "Diana",
@@ -143,7 +112,7 @@ public class UserSession {
      * These users are also added to the global user list so that they can be referenced throughout
      * the app. Intended for demonstration, UI testing, or placeholder data purposes.
      */
-    private void addDummyIncomingRequests() {
+    public void addDummyIncomingRequests() {
         User javaa =
                 new User(
                         "Java",
