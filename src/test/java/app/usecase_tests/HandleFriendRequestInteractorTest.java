@@ -69,8 +69,8 @@ public class HandleFriendRequestInteractorTest {
         // Step 4: assert initial state
         System.out.println(userSession0.getIncomingMatches());
         assertTrue(userSession0.getIncomingMatches().isEmpty());
-//        Assertions.assertTrue(userSession0.getOutgoingMatches().isEmpty());
-//        Assertions.assertTrue(userSession1.getIncomingMatches().isEmpty());
+        assertTrue(userSession0.getOutgoingMatches().isEmpty());
+        assertTrue(userSession1.getIncomingMatches().isEmpty());
     }
 
     @Test
@@ -103,12 +103,7 @@ public class HandleFriendRequestInteractorTest {
         assertTrue(userSession0.getOutgoingMatches().contains(user1));
 
         // Step 7: reload userSession1 to reflect DataAccessObject changes
-        // TODO: After creating an interactor with the logic of creating a userSession by
-        //  pulling from DAOs and API, use userSession with single constructor parameter here.
         userSession1 = new UserSession(user1); // TODO: to use this, call the interactor that fills in required data.
-//        userSession1 =
-//                new UserSession(
-//                        user1, userDataAccessObject, matchDAO, postDataAccessObject);
 
         assertTrue(userSession1.getIncomingMatches().contains(user0));
 

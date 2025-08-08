@@ -23,6 +23,8 @@ import app.usecase.user_profile_setup.SetupUserProfileInputBoundary;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -79,6 +81,29 @@ public class Main {
                         List.of("Lo-fi", "Jazz"),
                         List.of("Joji", "Norah Jones"),
                         List.of("Sanctuary", "Don’t Know Why"));
+
+        // temporary code for dummy post to show up in demo after user befriends Alice
+        Post post =
+                new Post(
+                        "Anybody going to the coldplay concert?",
+                        "Hi, I'm looking for some friends to go to concerts together! Comment here"
+                                + " and lmk :)",
+                        null,
+                        LocalDateTime.now(),
+                        alice,
+                        null);
+        Comment comment1 = new Comment("Hey that sounds fun!!", bob, LocalDateTime.now());
+        Comment comment2 = new Comment("OMG I'm so down", charlie, LocalDateTime.now());
+
+        List<Comment> comments = new ArrayList<>();
+        comments.add(comment1);
+        comments.add(comment2);
+
+        post.setComments(comments);
+
+        postDataAccessObject.savePost(post);
+        session.setPosts(List.of(post)); // for now start with having this post
+        session.getIncomingMatches().add(alice); // this puts alice in the friendRequest view.
 
         // Add users to DataAccessObject and session
         for (User user : List.of(alice, bob, charlie)) {

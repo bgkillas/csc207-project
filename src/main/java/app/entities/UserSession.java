@@ -1,8 +1,5 @@
 package app.entities;
 
-import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
 import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,53 +16,6 @@ public class UserSession {
     private List<Post> posts;
     private List<User> allUsers = new ArrayList<>();
     private SpotifyInterface spotify;
-
-    /**
-     * Constructs a UserSession for the given user and data access objects.
-     *
-     * @param user the current user.
-     * @param userDataAccessObject user data access object.
-     * @param matchDataAccessObject match data access object.
-     * @param postDataAccessObject post data access object.
-     */
-    public UserSession(
-            User user,
-            UserDataAccessInterface userDataAccessObject,
-            MatchDataAccessInterface matchDataAccessObject,
-            PostDataAccessInterface postDataAccessObject) {
-        this.allUsers = new ArrayList<>();
-        this.incomingFriendRequest = new ArrayList<>();
-        this.outgoingFriendRequest = new ArrayList<>();
-        this.matches = new ArrayList<>();
-        this.posts = new ArrayList<>();
-
-        List<User> fromDataAccessObjectIn = matchDataAccessObject.getIncomingFriendRequest(user);
-        if (fromDataAccessObjectIn != null) {
-            this.incomingFriendRequest.addAll(fromDataAccessObjectIn);
-        }
-
-        List<User> fromDataAccessObjectOut = matchDataAccessObject.getOutgoingFriendRequest(user);
-        if (fromDataAccessObjectOut != null) {
-            this.outgoingFriendRequest.addAll(fromDataAccessObjectOut);
-        }
-
-        List<Match> fromMatches = matchDataAccessObject.getMatches(user);
-        if (fromMatches != null) {
-            this.matches.addAll(fromMatches);
-        }
-
-        List<Post> fromPosts = postDataAccessObject.getPostsByUser(user);
-        if (fromPosts != null) {
-            this.posts.addAll(fromPosts);
-        }
-
-        this.allUsers =
-                userDataAccessObject.getUsers() != null
-                        ? userDataAccessObject.getUsers()
-                        : new ArrayList<>();
-
-        this.setUser(user);
-    }
 
     /**
      * Constructs a UserSession for the given user.
