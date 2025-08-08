@@ -24,6 +24,7 @@ import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -94,8 +95,11 @@ public class Main {
         Comment comment1 = new Comment("Hey that sounds fun!!", bob, LocalDateTime.now());
         Comment comment2 = new Comment("OMG I'm so down", charlie, LocalDateTime.now());
 
-        post.setComments(List.of(comment1, comment2));
+        List<Comment> comments = new ArrayList<>();
+        comments.add(comment1);
+        comments.add(comment2);
 
+        post.setComments(comments);
         postDataAccessObject.savePost(post);
         session.setPosts(List.of(post)); // for now start with having this post
         session.getIncomingMatches().add(alice); // this puts alice in the friendRequest view.
