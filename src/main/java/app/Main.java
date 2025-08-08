@@ -82,9 +82,15 @@ public class Main {
                         List.of("Sanctuary", "Don’t Know Why"));
 
         // temporary code for dummy post to show up in demo after user befriends Alice
-        Post post = new Post("Anybody going to the coldplay concert?",
-                "Hi, I'm looking for some friends to go to concerts together! Comment here and lmk :)",
-                null, LocalDateTime.now(), alice, null);
+        Post post =
+                new Post(
+                        "Anybody going to the coldplay concert?",
+                        "Hi, I'm looking for some friends to go to concerts together! Comment here"
+                            + " and lmk :)",
+                        null,
+                        LocalDateTime.now(),
+                        alice,
+                        null);
         Comment comment1 = new Comment("Hey that sounds fun!!", bob, LocalDateTime.now());
         Comment comment2 = new Comment("OMG I'm so down", charlie, LocalDateTime.now());
 
@@ -92,7 +98,7 @@ public class Main {
 
         postDataAccessObject.savePost(post);
         session.setPosts(List.of(post)); // for now start with having this post
-        session.getIncomingMatches().add(alice);    // this puts alice in the friendRequest view.
+        session.getIncomingMatches().add(alice); // this puts alice in the friendRequest view.
 
         // Add users to DataAccessObject and session
         for (User user : List.of(alice, bob, charlie)) {
