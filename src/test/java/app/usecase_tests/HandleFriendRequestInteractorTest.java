@@ -63,7 +63,7 @@ public class HandleFriendRequestInteractorTest {
         // Step 4: assert initial state
         // assertTrue(userSession0.getIncomingMatches().isEmpty());
         assertTrue(userSession0.getOutgoingMatches().isEmpty());
-        // assertTrue(userSession1.getIncomingMatches().isEmpty()); TODO example users
+        assertTrue(userSession1.getIncomingMatches().isEmpty());
 
         // Step 5: send request from user0 to user1
         HandleFriendRequestOutputBoundary dummyPresenter =
