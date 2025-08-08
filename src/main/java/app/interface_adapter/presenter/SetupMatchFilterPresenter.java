@@ -71,6 +71,9 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         User currentUser = session.getUser();
         List<User> allUsers = session.getAllUsers();
         List<User> matches = new MatchServiceImpl().findMatches(currentUser, allUsers);
+        for (User user : matches) {
+            session.getMatchesTemp().add(user);
+        }
 
         MatchInteractionPresenter presenter = new MatchInteractionPresenter();
 

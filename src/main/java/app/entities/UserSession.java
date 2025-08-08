@@ -16,6 +16,7 @@ public class UserSession {
     private final List<User> incomingFriendRequest;
     private final List<User> outgoingFriendRequest;
     private final List<Match> matches;
+    private final List<User> matchesTemp = new ArrayList<>();
     private List<Post> posts;
     private List<User> allUsers = new ArrayList<>();
     private SpotifyInterface spotify;
@@ -276,7 +277,7 @@ public class UserSession {
      * @return the list of incoming match users
      */
     public List<User> getMatchesTemp() {
-        return allUsers;
+        return matchesTemp;
     }
 
     /**
