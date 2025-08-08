@@ -59,6 +59,7 @@ public class MatchCalculatorImpl implements MatchCalculator {
      */
     @Override
     public boolean isCompatible(User userOne, User userTwo) {
+        // return true;
         return calculateCompatibilityScore(userOne, userTwo) > 85;
     }
 }

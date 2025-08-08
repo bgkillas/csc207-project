@@ -30,8 +30,8 @@ public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary
      */
     @Override
     public void presentFriendRequestSuccess(HandleFriendRequestOutputData outputData) {
-        System.out.println("Friend request handled from: " + outputData.getRequesterUsername());
-        System.out.println("Message: " + outputData.getMessage());
+        // System.out.println("Friend request handled from: " + outputData.getRequesterUsername());
+        // System.out.println("Message: " + outputData.getMessage());
 
         viewModel.removeCurrentRequest();
     }
@@ -44,7 +44,7 @@ public class FriendRequestPresenter implements HandleFriendRequestOutputBoundary
      */
     @Override
     public void presentFriendRequestFailure(String errorMessage) {
-        System.out.println("Error handling friend request: " + errorMessage);
+        // System.out.println("Error handling friend request: " + errorMessage);
         JOptionPane.showMessageDialog(
                 null, errorMessage, "Friend Request Error", JOptionPane.ERROR_MESSAGE);
     }

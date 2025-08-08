@@ -14,9 +14,7 @@ import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
-import app.usecase.matching.MatchServiceImpl;
 import java.awt.*;
-import java.util.List;
 import javax.swing.*;
 
 /**
@@ -105,10 +103,6 @@ public class ProfileView extends JPanel {
         // Add the matching button action
         matchingBtn.addActionListener(
                 e -> {
-                    MatchServiceImpl matchService = new MatchServiceImpl();
-                    List<User> matches =
-                            matchService.findMatches(currentUser, userSession.getAllUsers());
-
                     InMemoryMatchDataAccessObject matchDataAccessObject =
                             new InMemoryMatchDataAccessObject();
 
@@ -139,7 +133,7 @@ public class ProfileView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    matches,
+                                    userSession.getMatchesTemp(),
                                     userSession,
                                     controller,
                                     postDataAccessObject);

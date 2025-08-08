@@ -100,7 +100,6 @@ public class Main {
         comments.add(comment2);
 
         post.setComments(comments);
-
         postDataAccessObject.savePost(post);
         session.setPosts(List.of(post)); // for now start with having this post
         session.getIncomingMatches().add(alice); // this puts alice in the friendRequest view.
@@ -113,7 +112,7 @@ public class Main {
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
-                new SetupMatchFilterPresenter(application, session, postDataAccessObject);
+                new SetupMatchFilterPresenter(application, session, postDataAccessObject, true);
 
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);
