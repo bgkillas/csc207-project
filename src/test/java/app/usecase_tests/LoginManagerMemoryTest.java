@@ -1,4 +1,4 @@
-package account.login;
+package app.usecase_tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

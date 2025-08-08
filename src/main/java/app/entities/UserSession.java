@@ -180,11 +180,11 @@ public class UserSession {
         this.addUser(diana);
         this.addUser(eric);
 
-        this.user.getFriendList().add(diana);
-        this.user.getFriendList().add(eric);
+        this.user.addFriend(diana);
+        this.user.addFriend(eric);
 
-        diana.getFriendList().add(this.user);
-        eric.getFriendList().add(this.user);
+        diana.addFriend(this.user);
+        eric.addFriend(this.user);
     }
 
     /**
@@ -194,7 +194,7 @@ public class UserSession {
      * the app. Intended for demonstration, UI testing, or placeholder data purposes.
      */
     private void addDummyIncomingRequests() {
-        User alice =
+        User javaa =
                 new User(
                         "Java",
                         22,
@@ -205,7 +205,7 @@ public class UserSession {
                         List.of("Phoebe Bridgers", "Bon Iver"),
                         List.of("Motion Sickness", "Skinny Love"));
 
-        User bob =
+        User pythonn =
                 new User(
                         "Python",
                         24,
@@ -227,14 +227,12 @@ public class UserSession {
                         List.of("Deadmau5", "Calvin Harris"),
                         List.of("Ghosts 'n' Stuff", "Summer"));
 
-        // Add to global user list
-        this.addUser(alice);
-        this.addUser(bob);
+        this.addUser(javaa);
+        this.addUser(pythonn);
         this.addUser(charlie);
 
-        // Add to incoming friend requests
-        this.addIncomingMatch(alice);
-        this.addIncomingMatch(bob);
+        this.addIncomingMatch(javaa);
+        this.addIncomingMatch(pythonn);
         this.addIncomingMatch(charlie);
     }
 
