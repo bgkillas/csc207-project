@@ -169,6 +169,7 @@ matcher.connect(session, matchedUser);
 - **Comment System**: Engage with other users' posts
 - **Friend Requests**: Send and manage friend requests
 - **Blocking System**: Block users you don't want to interact with
+**Example (programmatic usage)**
 ```java
 // Prepare a DAO 
 PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
@@ -402,6 +403,7 @@ Universal Principle of Design
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
