@@ -276,10 +276,11 @@ Before installing S-Buddify, ensure you have the following software installed:
    - Sign up and login
    - Fill in your basic information (name, age, location)
    - Upload a profile picture to your account (Optional)
-
+![Set Up Profile Demo](https://github.com/bgkillas/csc207-project/blob/main/assets/setupprofile.gif)
 5. **Set Up Match Filters**
    - Configure your matching preferences (age range, location, etc.)
    - These filters will help find compatible matches
+![Set Up Match Filter]([https://github.com/bgkillas/csc207-project/blob/main/assets/setupprofile.gif](https://github.com/bgkillas/csc207-project/blob/main/assets/matchfilter.gif))
 
 ### **Using the Matching System**
 
@@ -403,6 +404,7 @@ Universal Principle of Design
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
