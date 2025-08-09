@@ -173,7 +173,8 @@ public class Main {
         filterController = new SetupMatchFilterController(filterInteractor);
 
         // User Profile setup
-        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
+        SetupUserProfileOutputBoundary setupPresenter =
+                new SetupUserProfilePresenter(application, filterController); // pass it in
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
         setupController = new SetupUserProfileController(setupInteractor);
@@ -188,7 +189,7 @@ public class Main {
 
         if (args.length > 0 && args[0].equals("--debug")) {
             // Connecting to DebugMenuView
-            final JPanel debugView = DebugMenuView.create(session);
+            final JPanel debugView = DebugMenuView.create(session, filterController);
             views.add(debugView);
         } else {
             // Initial Login View

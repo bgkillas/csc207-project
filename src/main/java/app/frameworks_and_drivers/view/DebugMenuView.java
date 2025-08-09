@@ -34,7 +34,9 @@ public class DebugMenuView {
      * Creates the debug panel with a vertical list of buttons, one for each view Clicking a button
      * opens the corresponding view in a new JFrame.
      */
-    public static JPanel create(UserSession session) throws NoSuchAlgorithmException {
+    public static JPanel create(UserSession session,
+                                SetupMatchFilterController filterController)
+            throws NoSuchAlgorithmException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1)); // vertical list of buttons
 
@@ -265,10 +267,12 @@ public class DebugMenuView {
                 tempFrame -> {
                     // Recreate the presenter and controller using this new tempFrame
                     SetupUserProfileOutputBoundary tempPresenter =
-                            new SetupUserProfilePresenter(tempFrame);
+                            new SetupUserProfilePresenter(tempFrame, filterController); // pass it
+
                     SetupUserProfileController tempController =
                             new SetupUserProfileController(
                                     new SetupUserProfileInteractor(tempPresenter, session));
+
                     return ProfileSetupView.create(tempController, session.getUser());
                 });
 
