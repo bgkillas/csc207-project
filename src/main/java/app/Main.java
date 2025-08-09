@@ -133,7 +133,6 @@ public class Main {
                         List.of("Metallica", "Nirvana"),
                         List.of("Enter Sandman", "Smells Like Teen Spirit"));
 
-
         // temporary code for dummy post to show up in demo after user befriends Alice
         Post post =
                 new Post(
@@ -152,7 +151,6 @@ public class Main {
         postDataAccessObject.savePost(post);
         session.setPosts(List.of(post)); // for now start with having this post
         session.getIncomingMatches().add(alice); // this puts alice in the friendRequest view.
-
 
         session.getIncomingMatches().add(cplus);
         session.getIncomingMatches().add(javaa);
@@ -173,7 +171,8 @@ public class Main {
         filterController = new SetupMatchFilterController(filterInteractor);
 
         // User Profile setup
-        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
+        SetupUserProfileOutputBoundary setupPresenter =
+                new SetupUserProfilePresenter(application, filterController); // pass it in
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
         setupController = new SetupUserProfileController(setupInteractor);
@@ -188,7 +187,7 @@ public class Main {
 
         if (args.length > 0 && args[0].equals("--debug")) {
             // Connecting to DebugMenuView
-            final JPanel debugView = DebugMenuView.create(session);
+            final JPanel debugView = DebugMenuView.create(session, filterController);
             views.add(debugView);
         } else {
             // Initial Login View
