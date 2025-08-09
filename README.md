@@ -56,6 +56,28 @@ This project was developed to solve the challenge of finding like-minded music e
 - **Automatic Profile Creation**: Connects to your Spotify account to automatically populate your music preferences
 - **Top Tracks Analysis**: Analyzes your most-listened tracks, genres, and artists to understand your music taste
 
+**Example**
+```java
+// Example: fetch Spotify data used for matching (pseudo-usage)
+SpotifyInterface spotify = session.getSpotify(); // Get the SpotifyInterface instance from the current user session
+spotify.initSpotify(); // Start Spotify authentication process (opens browser for user login)
+spotify.pullUserData(); // Retrieve the logged-in Spotify user's ID and display name
+spotify.pullTopArtistsAndGenres(); // Retrieve the user's top artists and genres from Spotify
+spotify.pullTopTracks(); // Retrieve the user's top tracks from Spotify
+
+System.out.println("User: " + spotify.getUserName() + " (" + spotify.getUserId() + ")");
+System.out.println("Top Artists: " + spotify.getTopArtists());
+System.out.println("Top Tracks: " + spotify.getTopTracks());
+System.out.println("Top Genres: " + spotify.getTopGenres());
+```
+**Output**
+```text
+User: Alice (user_12345)
+Top Artists: [Taylor Swift, The Weeknd, Coldplay, Joji, Ed Sheeran]
+Top Tracks: [Cardigan, Blinding Lights, Yellow, Glimpse of Us, Shivers]
+Top Genres: [pop, indie pop, alt-pop, pop, pop rock, indie pop]
+```
+
 ### **User Matching System**
 - **Artist Matching**: Identifies shared favorite artists with potential matches
 - **Compatibility Scoring**: Algorithm that calculates match percentages based on music preferences
@@ -279,6 +301,7 @@ Universal Principle of Design
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
