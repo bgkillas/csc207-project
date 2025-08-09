@@ -53,10 +53,10 @@ This project was developed to solve the challenge of finding like-minded music e
 ## **Features**
 
 ### **Spotify Integration**
-- **Automatic Profile Creation**: Connects to your Spotify account to automatically populate your music preferences
-- **Top Tracks Analysis**: Analyzes your most-listened tracks, genres, and artists to understand your music taste
+- **Automatic Profile Creation**: Connects to your Spotify account to automatically populate your music preferences.
+- **Top Tracks Analysis**: Analyzes your most-listened tracks, genres, and artists to understand your music taste.
 
-**Example**
+**Example (programmatic usage & output)**
 ```java
 // Example: fetch Spotify data used for matching (pseudo-usage)
 SpotifyInterface spotify = session.getSpotify(); // Get the SpotifyInterface instance from the current user session
@@ -79,17 +79,115 @@ Top Genres: [pop, indie pop, alt-pop, pop, pop rock, indie pop]
 ```
 
 ### **User Matching System**
-- **Artist Matching**: Identifies shared favorite artists with potential matches
-- **Compatibility Scoring**: Algorithm that calculates match percentages based on music preferences
-- **Filtered Matching**: Set age ranges, location preferences, and other criteria
-- **Profile Browsing**: View detailed profiles of potential matches
-- **Match Discovery**: Swipe through potential matches with detailed compatibility information
+- **Artist & Genre Matching**: Compares users’ favourite artists and genres.
+- **Compatibility Scoring**: Computes a numeric score from overlap in artists and genres.
+- **Filtered Matching**: Set preferred age range, gender, and location for potential matches.
+
+**Example (programmatic usage & output)**
+```java
+// Assume we have a logged-in session
+UserSession session = ...;
+
+// Get current user and all registered users
+User currentUser = session.getUser();
+List<User> allUsers = session.getAllUsers();
+
+// Set the current user's match filter
+SetupMatchFilterInteractor setupFilter = new SetupMatchFilterInteractor(
+        filter -> System.out.println("Filter saved: " + filter),
+        session
+);
+setupFilter.setupFilter(20, 30, "female", "Toronto");
+
+// Find candidates that pass both users' filters
+MatchService matchService = new MatchServiceImpl(); // no-arg constructor
+List<User> candidates = matchService.findMatches(currentUser, allUsers);
+
+// Display compatibility scores (calculated separately)
+MatchCalculatorImpl calculator = new MatchCalculatorImpl();
+System.out.println("=== Match Candidates ===");
+for (User u : candidates) {
+    int score = calculator.calculateCompatibilityScore(currentUser, u);
+    System.out.println(u.getName() + " — " + score + "%");
+}
+```
+**Output**
+```text
+Filter saved: MatchFilter{minAge=20, maxAge=30, gender='female', location='Toronto'}
+=== Match Candidates ===
+Diana — 92%
+Eric — 87%
+Alice — 85%
+```
+
+### **Matching Interaction**
+- **Profile Browsing** – View profiles of potential matches, including name, age, location, biography, and compatibility score in the matchingroom.  
+- **Connect or Skip** – Choose to connect with or skip a potential match. Clicking **Connect** sends a friend request to the other user's mailbox. Clicking **Skip** removes the other user from your matching queue.  
+- **Handle Incoming Requests** – Receive friend requests from other users in your mailbox. Click **Accept** to add them to your friend list, or **Decline** to remove them from your matching queue.
+
+**Example (programmatic usage & output)**
+
+```java
+// Presenter stub for README/demo purposes
+MatchInteractionOutputBoundary presenter = data ->
+        System.out.println("[Presenter] " + data.getMessage());
+
+// Construct the interactor with your app's dependencies
+MatchInteractionInputBoundary matcher = new MatchInteractionInteractor(
+        matchDataAccessObject,          // MatchDataAccessInterface
+        handleFriendRequestInteractor,  // HandleFriendRequestInputBoundary
+        addFriendListInteractor,        // AddFriendListInputBoundary
+        presenter
+);
+
+// Assume we have a logged-in session and a candidate user
+UserSession session = ...;
+User matchedUser = ...;  // a user from your match candidates
+
+// Connect flow (non‑mutual): sends a friend request to matchedUser
+matcher.connect(session, matchedUser);
+
+// Skip flow: removes the user from incoming/outgoing match queues
+matcher.skip(session, matchedUser);
+
+// Simulate that 'matchedUser' has already sent a request to 'currentUser'
+User currentUser = session.getUser();
+matchDataAccessObject.getOutgoingFriendRequest(matchedUser).add(currentUser);
+
+// Now connect — should immediately become friends
+matcher.connect(session, matchedUser);
+```
+**Output**
+```text
+[Presenter] Friend request sent to Diana
+[Presenter] You are now friends with Diana
+```
+
 
 ### **Social Features**
 - **Post Creation**: Share your thoughts about music, concerts, or new music discoveries
 - **Comment System**: Engage with other users' posts
 - **Friend Requests**: Send and manage friend requests
 - **Blocking System**: Block users you don't want to interact with
+```java
+// Prepare a DAO 
+PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
+CreatePost createPost = new CreatePostInteractor(postDAO);
+
+// Build an optional image file (can be null)
+File cover = new File("cover.jpg"); // will be loaded if exists
+
+// Authoring user
+User author = currentUser; // assume you already have a logged-in user
+
+// Create a post
+createPost.createPost(
+        "Found a great indie band!",
+        "Check out their latest single—warm guitars and dreamy vocals.",
+        cover, 
+        author
+);
+```
 
 ### **User Profiles**
 - **Comprehensive Profiles**: Age, location, bio, and music preferences
@@ -97,8 +195,10 @@ Top Genres: [pop, indie pop, alt-pop, pop, pop rock, indie pop]
 - **Music Statistics**: View your top artists, tracks, and genres
 - **Privacy Controls**: Manage who can see your profile
 
+
 ### **Advanced Features**
 - **Responsive UI**: Clean, intuitive Java Swing interface
+
 
 ---
 
@@ -169,6 +269,7 @@ Before installing S-Buddify, ensure you have the following software installed:
     - Click "Continue With Spotify"
     - A browser window will open for Spotify authorization
     - Login to Spotify and grant permissions to access your listening data
+![Login Demo](https://github.com/bgkillas/csc207-project/blob/main/assets/login.gif)
 
 4. **Setup Your Profile**
    - Sign up and login
@@ -301,6 +402,7 @@ Universal Principle of Design
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
