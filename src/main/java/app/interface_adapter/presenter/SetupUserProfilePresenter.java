@@ -20,8 +20,8 @@ public class SetupUserProfilePresenter implements SetupUserProfileOutputBoundary
      *
      * @param profileFrame the shared JFrame used to display views.
      */
-    public SetupUserProfilePresenter(JFrame profileFrame,
-                                     SetupMatchFilterController filterController) {
+    public SetupUserProfilePresenter(
+            JFrame profileFrame, SetupMatchFilterController filterController) {
         this.profileFrame = profileFrame;
         this.filterController = filterController;
     }
@@ -37,8 +37,7 @@ public class SetupUserProfilePresenter implements SetupUserProfileOutputBoundary
         JOptionPane.showMessageDialog(profileFrame, "Profile updated for " + user.getName());
 
         // Launch the match filter setup view
-        JPanel matchFilterPanel =
-                MatchFilterSetupView.create(filterController, profileFrame);
+        JPanel matchFilterPanel = MatchFilterSetupView.create(filterController, profileFrame);
         profileFrame.setContentPane(matchFilterPanel);
         profileFrame.setTitle("Set Your Match Filter");
         profileFrame.setPreferredSize(new Dimension(800, 600));

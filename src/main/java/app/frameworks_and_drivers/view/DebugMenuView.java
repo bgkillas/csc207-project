@@ -34,8 +34,7 @@ public class DebugMenuView {
      * Creates the debug panel with a vertical list of buttons, one for each view Clicking a button
      * opens the corresponding view in a new JFrame.
      */
-    public static JPanel create(UserSession session,
-                                SetupMatchFilterController filterController)
+    public static JPanel create(UserSession session, SetupMatchFilterController filterController)
             throws NoSuchAlgorithmException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1)); // vertical list of buttons

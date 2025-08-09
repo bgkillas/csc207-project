@@ -133,7 +133,6 @@ public class Main {
                         List.of("Metallica", "Nirvana"),
                         List.of("Enter Sandman", "Smells Like Teen Spirit"));
 
-
         // temporary code for dummy post to show up in demo after user befriends Alice
         Post post =
                 new Post(
@@ -152,7 +151,6 @@ public class Main {
         postDataAccessObject.savePost(post);
         session.setPosts(List.of(post)); // for now start with having this post
         session.getIncomingMatches().add(alice); // this puts alice in the friendRequest view.
-
 
         session.getIncomingMatches().add(cplus);
         session.getIncomingMatches().add(javaa);
