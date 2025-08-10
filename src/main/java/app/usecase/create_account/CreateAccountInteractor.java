@@ -37,16 +37,24 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
      */
     @Override
     public void create(SpotifyInterface spotify) {
-        session.initiateSpotify(spotify);
-        String spotifyUserId = session.getUserId();
+
+
+        // We will call Spotify API to pull user data!
+        spotify.initSpotify();
+        spotify.pullUserData();
+
+        // the spotify object is filled with required info including userID, username, and some  fav lists.
+        String spotifyUserId = spotify.getUserId();
+
         // If the user hasn't already been registered in the login system,
         // register them using a dummy password ("spotify") to simulate login tracking
         if (!loginManager.hasLogin(spotifyUserId)) {
             loginManager.registerLogin(spotifyUserId, "spotify");
         }
-        String spotifyUsername = session.getUserName();
-        // Create a new User object using the Spotify username
+
+        // Create a new User object using the Spotify username and default information.
         // This object represents the full user in the app (bio, preferences, etc.)
+        String spotifyUsername = spotify.getUserName();
         User user =
                 new User(
                         spotifyUsername,
@@ -58,11 +66,34 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
                         new ArrayList<>(),
                         new ArrayList<>(),
                         new ArrayList<>());
-        // For the purpose of the demo, we want other users to pre-exist.
+
+        // Now we set the userSession owned by this user object.
+        session.setUser(user);
+        // the user object's default data will be overwritten with information from spotify.
+        updateUserWithSpotifyData(user, spotify);
+
+        // Now, for the purpose of the demo, we will add pre-existing friends and friend requests.
+        if (user.getFriendList().isEmpty()) {
+            session.addDefaultFriends();
+        }
+//        session.addDummyIncomingRequests();
+
         // we also want the user of the userSession to be compatible with all the other users.
         // Below updates UserSession to have a setter
-        session.setUserForDemo(user);
         session.makeAllUsersCompatible(user);
         presenter.prepareSuccessView(user);
     }
+
+    /** Updates the user's top tracks, artists, and genres using Spotify data. */
+    private void updateUserWithSpotifyData(User user, SpotifyInterface spotify) {
+        if (user != null && spotify != null) {
+            spotify.pullTopArtistsAndGenres();
+            user.setFavArtists(spotify.getTopArtists());
+            user.setFavGenres(spotify.getTopGenres());
+
+            spotify.pullTopTracks();
+            user.setFavSongs(spotify.getTopTracks());
+        }
+    }
+
 }
