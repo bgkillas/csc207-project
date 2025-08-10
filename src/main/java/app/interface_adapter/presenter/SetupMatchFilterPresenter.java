@@ -104,7 +104,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         JPanel matchingRoomPanel =
                 new MatchingRoomView(
                         frame, currentUser, matches, session, controller, postDataAccessObject);
-        frame.setTitle("Matching Room");
+        frame.setTitle("S-Buddify");
         frame.setContentPane(matchingRoomPanel);
         frame.setPreferredSize(new Dimension(800, 600));
         frame.pack();
