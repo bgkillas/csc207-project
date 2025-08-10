@@ -69,15 +69,6 @@ public class Post {
     }
 
     /**
-     * Sets the id of this post.
-     *
-     * @param id The id to be set.
-     */
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    /**
      * Sets the list of comments on the post.
      *
      * @param comments The list of comments to set
@@ -140,32 +131,11 @@ public class Post {
         return this.timestamp;
     }
 
-    /**
-     * Returns String of comments seperated by commas. This is a temporary method used mainly for
-     * debugging.
-     *
-     * @return String of comments
-     */
-    public String getAllCommentsInString() {
-        if (this.comments == null) {
-            return "";
-        }
-        StringBuilder result = new StringBuilder();
-        for (Comment comment : this.comments) {
-            result.append(comment.getText());
-            result.append(", ");
-        }
-        result.delete(result.length() - 2, result.length());
-        return result.toString();
-    }
-
     public List<Comment> getFilteredComments(User user) {
         List<Comment> filteredComments = new ArrayList<>();
         for (Comment comment : this.comments) {
             User author = comment.getAuthor();
-            if (user.hasBlock(author)) {
-                // do not add this comment to the filtered comment list.
-            } else {
+            if (!user.hasBlock(author)) {
                 filteredComments.add(comment);
             }
         }
