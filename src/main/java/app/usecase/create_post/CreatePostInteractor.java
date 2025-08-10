@@ -10,20 +10,32 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+
 /**
  * Interactor for the Create Post use case. This class handles the logic of creating a new post,
  * optionally loading an image from file, and saving the post via PostDataAccessInterface
  */
-public class CreatePostInteractor implements CreatePost {
+public class CreatePostInteractor implements CreatePostInputBoundary {
     private final PostDataAccessInterface postDataAccess;
+    private final CreatePostOutputBoundary presenter;
+    private final ImageLoader imageLoader;
 
     /**
      * Constructs a CreatePostInteractor with the specified data access object.
      *
      * @param postDataAccess the data access interface used to persist posts
      */
-    public CreatePostInteractor(PostDataAccessInterface postDataAccess) {
+    public CreatePostInteractor(PostDataAccessInterface postDataAccess,
+                                CreatePostOutputBoundary presenter,
+                                ImageLoader imageLoader) {
         this.postDataAccess = postDataAccess;
+        this.presenter = presenter;
+        this.imageLoader = imageLoader;
+    }
+
+    // Convenience constructor for tests or simple wiring when presenter/image loader not needed
+    public CreatePostInteractor(PostDataAccessInterface postDataAccess) {
+        this(postDataAccess, null, null);
     }
 
     /**
@@ -31,7 +43,7 @@ public class CreatePostInteractor implements CreatePost {
      * primarily for testing.
      */
     public CreatePostInteractor() {
-        this.postDataAccess = new InMemoryPostDataAccessObject();
+        this(new InMemoryPostDataAccessObject());
     }
 
     /**
@@ -51,7 +63,11 @@ public class CreatePostInteractor implements CreatePost {
         // Convert file to Image if it exists
         if (image != null && image.exists()) {
             try {
-                postImage = ImageIO.read(image);
+                if (imageLoader != null) {
+                    postImage = imageLoader.load(image);
+                } else {
+                    postImage = ImageIO.read(image);
+                }
             } catch (Exception e) {
                 System.err.println("Failed to load image: " + e.getMessage());
             }
@@ -63,5 +79,8 @@ public class CreatePostInteractor implements CreatePost {
 
         // Save post in DataAccessObject
         postDataAccess.savePost(newPost);
+        if (presenter != null) {
+            presenter.present(new CreatePostOutputData(newPost.getId(), newPost.getTimestamp()));
+        }
     }
 }

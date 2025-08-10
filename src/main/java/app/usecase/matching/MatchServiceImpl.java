@@ -6,7 +6,15 @@ import java.util.List;
 
 /** Service class responsible for finding a list of compatible matches for a user. */
 public class MatchServiceImpl implements MatchService {
-    private final MatchCalculatorImpl matchCalculator = new MatchCalculatorImpl();
+    private final MatchCalculator matchCalculator;
+
+    public MatchServiceImpl() {
+        this(new MatchCalculatorImpl());
+    }
+
+    public MatchServiceImpl(MatchCalculator matchCalculator) {
+        this.matchCalculator = matchCalculator;
+    }
 
     /**
      * Finds all users from the provided list who are mutually compatible with the current user.
