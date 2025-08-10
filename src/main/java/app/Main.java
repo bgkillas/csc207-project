@@ -13,8 +13,6 @@ import app.interface_adapter.presenter.SetupUserProfilePresenter;
 import app.usecase.create_account.CreateAccountInputBoundary;
 import app.usecase.create_account.CreateAccountInteractor;
 import app.usecase.create_account.CreateAccountOutputBoundary;
-import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
-import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.login.LoginManager;
 import app.usecase.login.LoginManagerMemory;
 import app.usecase.matchfilter.SetupMatchFilterInputBoundary;
@@ -81,38 +79,6 @@ public class Main {
                         List.of("Lo-fi", "Jazz"),
                         List.of("Joji", "Norah Jones"),
                         List.of("Sanctuary", "Don’t Know Why"));
-        User javaa =
-                new User(
-                        "Java",
-                        22,
-                        "female",
-                        "Toronto",
-                        "Indie lover, always looking for concert buddies",
-                        List.of("Indie", "Folk"),
-                        List.of("Phoebe Bridgers", "Bon Iver"),
-                        List.of("Motion Sickness", "Skinny Love"));
-
-        User pythonn =
-                new User(
-                        "Python",
-                        24,
-                        "male",
-                        "Toronto",
-                        "Hip-hop fan and amateur DJ",
-                        List.of("Hip-hop", "Rap"),
-                        List.of("Kendrick Lamar", "Drake"),
-                        List.of("HUMBLE.", "Hotline Bling"));
-
-        User cplus =
-                new User(
-                        "C++",
-                        27,
-                        "non-binary",
-                        "Montreal",
-                        "Electronic vibes only",
-                        List.of("Electronic", "House"),
-                        List.of("Deadmau5", "Calvin Harris"),
-                        List.of("Ghosts 'n' Stuff", "Summer"));
         User diana =
                 new User(
                         "Diana",
@@ -134,14 +100,8 @@ public class Main {
                         List.of("Metallica", "Nirvana"),
                         List.of("Enter Sandman", "Smells Like Teen Spirit"));
 
-//        session.getIncomingMatches().add(alice);
-//        session.getIncomingMatches().add(bob);
         // add more dummy users in incoming friend request.
         addMoreDummyIncomingRequests(session, postDataAccessObject);
-
-        session.getIncomingMatches().add(cplus);
-        session.getIncomingMatches().add(javaa);
-        session.getIncomingMatches().add(pythonn);
 
         // Add users to DataAccessObject and session
         for (User user : List.of(alice, bob, charlie)) {
@@ -186,10 +146,6 @@ public class Main {
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         application.pack();
         application.setVisible(true);
-    }
-
-    public static SetupMatchFilterController getFilterController() {
-        return filterController;
     }
 
     public static SetupUserProfileController getSetupController() {
