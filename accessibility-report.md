@@ -7,20 +7,13 @@
 - [Section 3: Demography and Accessibility of Program Use](#section-3-demography-and-accessibility-of-program-use)
 
 ## **Section 1: Principles of Universal Design**
-1. Equitable Use
-- To implement: Add interaction alternatives (voice, keyboard)
-2. Flexibility in Use
-- To implement: (not sure what might become customizable to each user)
-3. Simple and Intuitive User
-- Friend requests and posts are familiar social features. Consistent nav bar persisting along three main tabs.
-4. Perceptible Information
-- To implement: Captions for audio content, and avoid relying on color alone to indicate status.
-5. Tolerance for Error
-- To implement: Add confirmation pop-ups for critical actions (e.g., "Are you sure you want to decline this request?"), and an undo feature for actions like deleting a post.
-6. Low Physical Effort
-- Controls with buttons are large and well-spaced such that low-effort actions are possible.
-7. Size and Space for Approach and Use
-- Screen space is not fixed as is expandable. Responsive layout, scalable text, and adequate spacing that prevents crowding of UI with too many elements.
+1. Equitable Use: (To implement) Add interaction alternatives (voice, keyboard)
+2. Flexibility in Use: (To implement) Voice typing feature that allows conversion of speech to text for people preferring talking over typing.
+3. Simple and Intuitive User: Friend requests and posts are familiar social features. Consistent nav bar persisting along three main tabs.
+4. Perceptible Information: (To implement) Captions for audio content, and avoid relying on color alone to indicate status.
+5. Tolerance for Error: (To implement) Add confirmation pop-ups for critical actions (e.g., "Are you sure you want to decline this request?"), and an undo feature for actions like deleting a post.
+6. Low Physical Effort: Controls with buttons are large and well-spaced such that low-effort actions are possible.
+7. Size and Space for Approach and Use: Screen space is not fixed as is expandable. Responsive layout, scalable text, and adequate spacing that prevents crowding of UI with too many elements.
 
 
 ## **Section 2: Program Marketing**
