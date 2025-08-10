@@ -68,8 +68,11 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
 
         // Has the current user already sent a request to matchedUser?
         boolean alreadyOutgoing =
-                userSession.getOutgoingMatches().contains(matchedUser) ||
-                        matchDataAccessObject.getOutgoingFriendRequest(currentUser).contains(matchedUser);
+                userSession.getOutgoingMatches().contains(matchedUser)
+                        || matchDataAccessObject
+                        .getOutgoingFriendRequest(currentUser)
+                        .contains(matchedUser);
+
 
         if (alreadyOutgoing) {
             presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
@@ -80,8 +83,10 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
 
         // Did matchedUser already send a request to currentUser? => mutual connect
         boolean mutualConnect =
-                userSession.getIncomingMatches().contains(matchedUser) ||
-                        matchDataAccessObject.getOutgoingFriendRequest(matchedUser).contains(currentUser);
+                userSession.getIncomingMatches().contains(matchedUser)
+                        || matchDataAccessObject
+                        .getOutgoingFriendRequest(matchedUser)
+                        .contains(currentUser);
 
         if (mutualConnect) {
             // Clean up pending requests on both sides
