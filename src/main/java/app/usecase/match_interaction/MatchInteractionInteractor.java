@@ -48,21 +48,30 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
 
         // Basic guards
         if (currentUser == null || matchedUser == null) {
-            presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
-                    false, false, matchedUser == null ? "" : matchedUser.getName(),
-                    "Cannot connect right now."));
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            false,
+                            false,
+                            matchedUser == null ? "" : matchedUser.getName(),
+                            "Cannot connect right now."));
             return;
         }
         if (currentUser.equals(matchedUser)) {
-            presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
-                    false, false, matchedUser.getName(),
-                    "You can't connect with yourself."));
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            false,
+                            false,
+                            matchedUser.getName(),
+                            "You can't connect with yourself."));
             return;
         }
         if (currentUser.getFriendList().contains(matchedUser)) {
-            presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
-                    true, true, matchedUser.getName(),
-                    "You’re already friends with " + matchedUser.getName()));
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            true,
+                            true,
+                            matchedUser.getName(),
+                            "You’re already friends with " + matchedUser.getName()));
             return;
         }
 
@@ -70,14 +79,16 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
         boolean alreadyOutgoing =
                 userSession.getOutgoingMatches().contains(matchedUser)
                         || matchDataAccessObject
-                        .getOutgoingFriendRequest(currentUser)
-                        .contains(matchedUser);
-
+                                .getOutgoingFriendRequest(currentUser)
+                                .contains(matchedUser);
 
         if (alreadyOutgoing) {
-            presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
-                    true, false, matchedUser.getName(),
-                    "You’ve already sent a request to " + matchedUser.getName()));
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            true,
+                            false,
+                            matchedUser.getName(),
+                            "You’ve already sent a request to " + matchedUser.getName()));
             return;
         }
 
@@ -85,8 +96,8 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
         boolean mutualConnect =
                 userSession.getIncomingMatches().contains(matchedUser)
                         || matchDataAccessObject
-                        .getOutgoingFriendRequest(matchedUser)
-                        .contains(currentUser);
+                                .getOutgoingFriendRequest(matchedUser)
+                                .contains(currentUser);
 
         if (mutualConnect) {
             // Clean up pending requests on both sides
@@ -99,9 +110,12 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
             // Become friends
             addFriendList.addFriend(currentUser, matchedUser);
 
-            presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
-                    true, true, matchedUser.getName(),
-                    "You are now friends with " + matchedUser.getName()));
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            true,
+                            true,
+                            matchedUser.getName(),
+                            "You are now friends with " + matchedUser.getName()));
             return;
         }
 
@@ -114,11 +128,13 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
             userSession.getOutgoingMatches().add(matchedUser);
         }
 
-        presenter.presentMatchInteractionResult(new MatchInteractionOutputData(
-                true, false, matchedUser.getName(),
-                "Friend request sent to " + matchedUser.getName()));
+        presenter.presentMatchInteractionResult(
+                new MatchInteractionOutputData(
+                        true,
+                        false,
+                        matchedUser.getName(),
+                        "Friend request sent to " + matchedUser.getName()));
     }
-
 
     /**
      * Called when the current user chooses to skip a matched user. The matched user is removed from
