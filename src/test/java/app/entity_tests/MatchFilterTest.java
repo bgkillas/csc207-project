@@ -59,12 +59,16 @@ class MatchFilterTest {
         assertFalse(filter.isValid(alice));
     }
 
-    /*@Test
+
+    // These two tests passes if the logic of MatchFilter is fully implemented.
+    // However, for the scope of this project, we've decided not to do so.
+    /*
+    @Test
     void testInvalidMatch_GenderMismatch() {
         MatchFilter filter = new MatchFilter(20, 25, "male", "Toronto");
         assertFalse(filter.isValid(alice));
     }
-    TODO not checked rn
+
     @Test
     void testInvalidMatch_LocationMismatch() {
         MatchFilter filter = new MatchFilter(20, 25, "female", "Vancouver");
