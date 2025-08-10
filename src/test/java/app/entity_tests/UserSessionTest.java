@@ -124,4 +124,10 @@ class UserSessionTest {
         session.setUser(anotherUser);
         assertEquals(anotherUser, session.getUser());
     }
+
+    @Test
+    void testGetMatchesTemp() {
+        UserSession session = new UserSession(user);
+        assertEquals(new ArrayList<>(), session.getMatchesTemp());
+    }
 }
