@@ -14,7 +14,10 @@ import app.usecase.add_friend_list.AddFriendListInteractor;
 import app.usecase.create_post.CreatePostInteractor;
 import app.usecase.handle_friend_request.HandleFriendRequestInteractor;
 import app.usecase.match_interaction.MatchInteractionInteractor;
-import app.usecase.matching.MatchServiceImpl;
+import app.usecase.matching.FindMatchesInteractor;
+import app.usecase.matching.FindMatchesOutputBoundary;
+import app.usecase.matching.FindMatchesRequestModel;
+import app.usecase.matching.FindMatchesResponseModel;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -105,9 +108,21 @@ public class ProfileView extends JPanel {
         // Add the matching button action
         matchingBtn.addActionListener(
                 e -> {
-                    MatchServiceImpl matchService = new MatchServiceImpl();
-                    List<User> matches =
-                            matchService.findMatches(currentUser, userSession.getAllUsers());
+                    // Use FindMatchesInteractor instead of MatchServiceImpl
+                    final java.util.concurrent.atomic.AtomicReference<List<User>> matchesRef =
+                            new java.util.concurrent.atomic.AtomicReference<>();
+                    FindMatchesOutputBoundary presenter =
+                            new FindMatchesOutputBoundary() {
+                                @Override
+                                public void present(FindMatchesResponseModel responseModel) {
+                                    matchesRef.set(responseModel.getMatches());
+                                }
+                            };
+                    FindMatchesInteractor findInteractor = new FindMatchesInteractor(presenter);
+                    findInteractor.findMatches(
+                            new FindMatchesRequestModel(
+                                    currentUser, userSession.getAllUsers()));
+                    List<User> matches = matchesRef.get();
 
                     InMemoryMatchDataAccessObject matchDataAccessObject =
                             new InMemoryMatchDataAccessObject();

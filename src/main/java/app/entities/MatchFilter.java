@@ -13,8 +13,8 @@ public class MatchFilter {
      *
      * @param minAge the minimum age
      * @param maxAge the maximum age
-     * @param preferredGender the preferred gender ("Any" for no preference)
-     * @param preferredLocation the preferred location ("Any" for no preference)
+     * @param preferredGender the preferred gender ("Any"/"N/A" for no preference)
+     * @param preferredLocation the preferred location ("Any"/"N/A" for no preference)
      */
     public MatchFilter(int minAge, int maxAge, String preferredGender, String preferredLocation) {
         this.minAge = minAge;
@@ -34,12 +34,17 @@ public class MatchFilter {
      * @return true if the user matches the filter, false otherwise
      */
     public boolean isValid(User user) {
+        boolean genderWildcard =
+                "N/A".equalsIgnoreCase(preferredGender)
+                        || "Any".equalsIgnoreCase(preferredGender);
+        boolean locationWildcard =
+                "N/A".equalsIgnoreCase(preferredLocation)
+                        || "Any".equalsIgnoreCase(preferredLocation);
+
         return user.getAge() >= minAge
                 && user.getAge() <= maxAge
-                && ("N/A".equals(preferredGender)
-                        || user.getGender().equalsIgnoreCase(preferredGender))
-                && ("N/A".equals(preferredLocation)
-                        || user.getLocation().equalsIgnoreCase(preferredLocation));
+                && (genderWildcard || user.getGender().equalsIgnoreCase(preferredGender))
+                && (locationWildcard || user.getLocation().equalsIgnoreCase(preferredLocation));
     }
 
     public int getMinAge() {
