@@ -161,6 +161,78 @@ public class UserSession {
     }
 
     /**
+     * Sets the current user for this session and updates Spotify preferences if available.
+     * Two default friends ("Diana" and "Eric") are added with mutual friendship links.
+     * It also adds three dummy incoming friend requests from themed users: "Java", "Python", and "C++".
+     *
+     * @param user the user to set as the current session user
+     */
+    public void setUserForDemo(User user) {
+        this.user = user;
+        this.updateSpotify();
+        // For demo, dummy users are created and set as friends / users that requested to be friends
+        addDefaultFriends();
+    }
+
+    /**
+     * Adds two default friends ("Diana" and "Eric") to the current user if the user has no friends.
+     * The default users are music-themed and represent sample friend connections for demonstration
+     * or testing purposes. Mutual friendship links are established.
+     */
+    private void addDefaultFriends() {
+        User diana =
+                new User(
+                        "Diana",
+                        21,
+                        "female",
+                        "Vancouver",
+                        "EDM is life!",
+                        List.of("EDM", "Pop"),
+                        List.of("Zedd", "Avicii"),
+                        List.of("Clarity", "Wake Me Up"));
+        User eric =
+                new User(
+                        "Eric",
+                        25,
+                        "male",
+                        "Calgary",
+                        "Guitarist and metalhead",
+                        List.of("Metal", "Rock"),
+                        List.of("Metallica", "Nirvana"),
+                        List.of("Enter Sandman", "Smells Like Teen Spirit"));
+
+        this.addUser(diana);
+        this.addUser(eric);
+
+        this.user.addFriend(diana);
+        this.user.addFriend(eric);
+
+        diana.addFriend(this.user);
+        eric.addFriend(this.user);
+    }
+
+    /**
+     * Set every user in the allUser attribute of this UserSession to have the same favGenres, favArtists, and favSongs
+     * so that they are all considered compatible with the given user. This is for the Demo!
+     *
+     * @param user - logged in user
+     */
+    public void makeAllUsersCompatible(User user) {
+        List<String> favGenres = user.getFavGenres();
+        List<String> favArtists = user.getFavArtists();
+        List<String> favSongs = user.getFavSongs();
+
+        // for debugging, this allows us to see user's fav lists
+        System.out.println("User's fav: " + favGenres + favArtists + favSongs);
+
+        for (User u : allUsers) {
+            u.setFavGenres(favGenres);
+            u.setFavArtists(favArtists);
+            u.setFavSongs(favSongs);
+        }
+    }
+
+    /**
      * Returns the current user for this session.
      *
      * @return the current user
