@@ -77,6 +77,10 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
             session.addDefaultFriends();
         }
         session.addDummyIncomingRequests();
+
+        // we also want the user of the userSession to be compatible with all the other users.
+        // Below updates UserSession to have a setter
+        session.makeAllUsersCompatible(user);
         presenter.prepareSuccessView(user);
     }
 
