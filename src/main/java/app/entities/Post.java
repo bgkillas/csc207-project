@@ -159,7 +159,6 @@ public class Post {
         return result.toString();
     }
 
-    /** TODO. */
     public List<Comment> getFilteredComments(User user) {
         List<Comment> filteredComments = new ArrayList<>();
         for (Comment comment : this.comments) {
