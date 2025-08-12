@@ -18,7 +18,14 @@ import app.usecase.matching.FindMatchesInteractor;
 import app.usecase.matching.FindMatchesOutputBoundary;
 import app.usecase.matching.FindMatchesRequestModel;
 import app.usecase.matching.FindMatchesResponseModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.List; // Needed for generics List<User>
 import javax.swing.*;
 
 /**
