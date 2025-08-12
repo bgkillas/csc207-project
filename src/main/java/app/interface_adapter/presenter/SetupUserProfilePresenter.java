@@ -1,8 +1,8 @@
 package app.interface_adapter.presenter;
 
-import app.Main;
 import app.entities.User;
 import app.frameworks_and_drivers.view.MatchFilterSetupView;
+import app.interface_adapter.controller.SetupMatchFilterController;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.awt.*;
 import javax.swing.*;
@@ -13,14 +13,17 @@ import javax.swing.*;
  */
 public class SetupUserProfilePresenter implements SetupUserProfileOutputBoundary {
     private final JFrame profileFrame;
+    private final SetupMatchFilterController filterController;
 
     /**
      * Constructs a SetupUserProfilePresenter with the given frame.
      *
      * @param profileFrame the shared JFrame used to display views.
      */
-    public SetupUserProfilePresenter(JFrame profileFrame) {
+    public SetupUserProfilePresenter(
+            JFrame profileFrame, SetupMatchFilterController filterController) {
         this.profileFrame = profileFrame;
+        this.filterController = filterController;
     }
 
     /**
@@ -34,8 +37,7 @@ public class SetupUserProfilePresenter implements SetupUserProfileOutputBoundary
         JOptionPane.showMessageDialog(profileFrame, "Profile updated for " + user.getName());
 
         // Launch the match filter setup view
-        JPanel matchFilterPanel =
-                MatchFilterSetupView.create(Main.getFilterController(), profileFrame);
+        JPanel matchFilterPanel = MatchFilterSetupView.create(filterController, profileFrame);
         profileFrame.setContentPane(matchFilterPanel);
         profileFrame.setTitle("Set Your Match Filter");
         profileFrame.setPreferredSize(new Dimension(800, 600));

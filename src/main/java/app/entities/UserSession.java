@@ -1,9 +1,5 @@
 package app.entities;
 
-import app.frameworks_and_drivers.data_access.MatchDataAccessInterface;
-import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
-import app.frameworks_and_drivers.data_access.UserDataAccessInterface;
-import app.frameworks_and_drivers.external.spotify.SpotifyInterface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,56 +12,9 @@ public class UserSession {
     private final List<User> incomingFriendRequest;
     private final List<User> outgoingFriendRequest;
     private final List<Match> matches;
+    private final List<User> matchesTemp = new ArrayList<>();
     private List<Post> posts;
     private List<User> allUsers = new ArrayList<>();
-    private SpotifyInterface spotify;
-
-    /**
-     * Constructs a UserSession for the given user and data access objects.
-     *
-     * @param user the current user.
-     * @param userDataAccessObject user data access object.
-     * @param matchDataAccessObject match data access object.
-     * @param postDataAccessObject post data access object.
-     */
-    public UserSession(
-            User user,
-            UserDataAccessInterface userDataAccessObject,
-            MatchDataAccessInterface matchDataAccessObject,
-            PostDataAccessInterface postDataAccessObject) {
-        this.allUsers = new ArrayList<>();
-        this.incomingFriendRequest = new ArrayList<>();
-        this.outgoingFriendRequest = new ArrayList<>();
-        this.matches = new ArrayList<>();
-        this.posts = new ArrayList<>();
-
-        List<User> fromDataAccessObjectIn = matchDataAccessObject.getIncomingFriendRequest(user);
-        if (fromDataAccessObjectIn != null) {
-            this.incomingFriendRequest.addAll(fromDataAccessObjectIn);
-        }
-
-        List<User> fromDataAccessObjectOut = matchDataAccessObject.getOutgoingFriendRequest(user);
-        if (fromDataAccessObjectOut != null) {
-            this.outgoingFriendRequest.addAll(fromDataAccessObjectOut);
-        }
-
-        List<Match> fromMatches = matchDataAccessObject.getMatches(user);
-        if (fromMatches != null) {
-            this.matches.addAll(fromMatches);
-        }
-
-        List<Post> fromPosts = postDataAccessObject.getPostsByUser(user);
-        if (fromPosts != null) {
-            this.posts.addAll(fromPosts);
-        }
-
-        this.allUsers =
-                userDataAccessObject.getUsers() != null
-                        ? userDataAccessObject.getUsers()
-                        : new ArrayList<>();
-
-        this.setUser(user);
-    }
 
     /**
      * Constructs a UserSession for the given user.
@@ -110,46 +59,6 @@ public class UserSession {
     }
 
     /**
-     * Initializes the Spotify API and pulls user-level metadata.
-     *
-     * @param spotify the Spotify interface implementation to initialize
-     */
-    public void initiateSpotify(SpotifyInterface spotify) {
-        this.spotify = spotify;
-        spotify.initSpotify();
-        spotify.pullUserData();
-    }
-
-    /**
-     * Returns the current user's Spotify username.
-     *
-     * @return the Spotify username
-     */
-    public String getUserName() {
-        return spotify.getUserName();
-    }
-
-    /**
-     * Returns the current user's Spotify ID.
-     *
-     * @return the Spotify user ID
-     */
-    public String getUserId() {
-        return spotify.getUserId();
-    }
-
-    /** Updates the user's top tracks, artists, and genres using Spotify data. */
-    public void updateSpotify() {
-        if (this.user != null && this.spotify != null) {
-            spotify.pullTopArtistsAndGenres();
-            this.user.setFavArtists(spotify.getTopArtists());
-            this.user.setFavGenres(spotify.getTopGenres());
-            spotify.pullTopTracks();
-            this.user.setFavSongs(spotify.getTopTracks());
-        }
-    }
-
-    /**
      * Sets the current user for this session and updates Spotify preferences if available. If the
      * user has no existing friends, two default friends ("Diana" and "Eric") are added with mutual
      * friendship links. It also adds three dummy incoming friend requests from themed users:
@@ -159,11 +68,6 @@ public class UserSession {
      */
     public void setUser(User user) {
         this.user = user;
-        this.updateSpotify();
-        if (user.getFriendList().isEmpty()) {
-            addDefaultFriends();
-        }
-        addDummyIncomingRequests();
     }
 
     /**
@@ -171,7 +75,7 @@ public class UserSession {
      * The default users are music-themed and represent sample friend connections for demonstration
      * or testing purposes. Mutual friendship links are established.
      */
-    private void addDefaultFriends() {
+    public void addDefaultFriends() {
         User diana =
                 new User(
                         "Diana",
@@ -203,53 +107,26 @@ public class UserSession {
         eric.addFriend(this.user);
     }
 
+
     /**
-     * Adds three dummy incoming friend requests to the current session user. The requests are from
-     * themed users: "Java", "Python", and "C++", each with distinct music preferences and bios.
-     * These users are also added to the global user list so that they can be referenced throughout
-     * the app. Intended for demonstration, UI testing, or placeholder data purposes.
+     * Set every user in the allUser attribute of this UserSession to have the same favGenres, favArtists, and favSongs
+     * so that they are all considered compatible with the given user. This is for the Demo!
+     *
+     * @param user - logged in user
      */
-    private void addDummyIncomingRequests() {
-        User javaa =
-                new User(
-                        "Java",
-                        22,
-                        "female",
-                        "Toronto",
-                        "Indie lover, always looking for concert buddies",
-                        List.of("Indie", "Folk"),
-                        List.of("Phoebe Bridgers", "Bon Iver"),
-                        List.of("Motion Sickness", "Skinny Love"));
+    public void makeAllUsersCompatible(User user) {
+        List<String> favGenres = user.getFavGenres();
+        List<String> favArtists = user.getFavArtists();
+        List<String> favSongs = user.getFavSongs();
 
-        User pythonn =
-                new User(
-                        "Python",
-                        24,
-                        "male",
-                        "Toronto",
-                        "Hip-hop fan and amateur DJ",
-                        List.of("Hip-hop", "Rap"),
-                        List.of("Kendrick Lamar", "Drake"),
-                        List.of("HUMBLE.", "Hotline Bling"));
+        // for debugging, this allows us to see user's fav lists
+        System.out.println("User's fav: " + favGenres + favArtists + favSongs);
 
-        User charlie =
-                new User(
-                        "C++",
-                        27,
-                        "non-binary",
-                        "Montreal",
-                        "Electronic vibes only",
-                        List.of("Electronic", "House"),
-                        List.of("Deadmau5", "Calvin Harris"),
-                        List.of("Ghosts 'n' Stuff", "Summer"));
-
-        this.addUser(javaa);
-        this.addUser(pythonn);
-        this.addUser(charlie);
-
-        this.addIncomingMatch(javaa);
-        this.addIncomingMatch(pythonn);
-        this.addIncomingMatch(charlie);
+        for (User u : allUsers) {
+            u.setFavGenres(favGenres);
+            u.setFavArtists(favArtists);
+            u.setFavSongs(favSongs);
+        }
     }
 
     /**
@@ -268,6 +145,15 @@ public class UserSession {
      */
     public List<User> getIncomingMatches() {
         return incomingFriendRequest;
+    }
+
+    /**
+     * Returns the list of all matches for the match view.
+     *
+     * @return the list of incoming match users
+     */
+    public List<User> getMatchesTemp() {
+        return matchesTemp;
     }
 
     /**

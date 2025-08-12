@@ -31,6 +31,7 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
     private final JFrame frame;
     private final UserSession session;
     private final PostDataAccessInterface postDataAccessObject;
+    private boolean first;
 
     /**
      * Constructs the presenter with the necessary application state and data access objects.
@@ -40,10 +41,14 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
      * @param postDataAccessObject the data access object for user-generated posts
      */
     public SetupMatchFilterPresenter(
-            JFrame frame, UserSession session, PostDataAccessInterface postDataAccessObject) {
+            JFrame frame,
+            UserSession session,
+            PostDataAccessInterface postDataAccessObject,
+            boolean first) {
         this.frame = frame;
         this.session = session;
         this.postDataAccessObject = postDataAccessObject;
+        this.first = first;
     }
 
     /**
@@ -106,10 +111,14 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
                         presenter);
         MatchInteractionController controller = new MatchInteractionController(interactor);
 
+        if (!first) {
+            matches = session.getMatchesTemp();
+        }
+        first = false;
         JPanel matchingRoomPanel =
                 new MatchingRoomView(
                         frame, currentUser, matches, session, controller, postDataAccessObject);
-        frame.setTitle("Matching Room");
+        frame.setTitle("S-Buddify");
         frame.setContentPane(matchingRoomPanel);
         frame.setPreferredSize(new Dimension(800, 600));
         frame.pack();

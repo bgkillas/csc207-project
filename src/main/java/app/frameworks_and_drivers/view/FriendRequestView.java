@@ -23,11 +23,11 @@ import javax.swing.*;
  * interactive buttons for responding to the request. Once the user responds, the next request is
  * shown.
  */
-public class ConnectRequestView extends JPanel {
+public class FriendRequestView extends JPanel {
     private int currentIndex = 0;
 
     /**
-     * Constructs a new {ConnectRequestView}.
+     * Constructs a new {FriendRequestView}.
      *
      * @param frame the main application window
      * @param currentUser the user currently logged in
@@ -36,7 +36,7 @@ public class ConnectRequestView extends JPanel {
      * @param viewModel the view model containing pending friend requests
      * @param postDataAccessObject the data access object for post data
      */
-    public ConnectRequestView(
+    public FriendRequestView(
             JFrame frame,
             User currentUser,
             UserSession session,
@@ -87,7 +87,7 @@ public class ConnectRequestView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    session.getAllUsers(),
+                                    session.getMatchesTemp(),
                                     session,
                                     matchController,
                                     postDataAccessObject);

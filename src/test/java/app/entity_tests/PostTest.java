@@ -239,4 +239,21 @@ public class PostTest {
                         new ArrayList<>());
         assertEquals(specialText, post.getText());
     }
+
+    @Test
+    void testGetFilteredComments() {
+        User blockedUser = new User("Blocked", 20, null, null, null,
+                null, null, null);
+        Comment blockedComment = new Comment("This is a comment of a blocked user.",
+                blockedUser, LocalDateTime.now());
+
+        Post post = new Post("Title", "Content", null, testTimestamp, testUser, List.of(blockedComment));
+
+        assertTrue(post.getFilteredComments(testUser).contains(blockedComment));
+
+        // Now this user is blocked for Filtered Comment doesn't include this comment anymore.
+        testUser.addBlock(blockedUser);
+        assertFalse(post.getFilteredComments(testUser).contains(blockedComment));
+
+    }
 }

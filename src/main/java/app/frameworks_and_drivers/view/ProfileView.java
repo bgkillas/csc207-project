@@ -19,7 +19,6 @@ import app.usecase.matching.FindMatchesOutputBoundary;
 import app.usecase.matching.FindMatchesRequestModel;
 import app.usecase.matching.FindMatchesResponseModel;
 import java.awt.*;
-import java.util.List;
 import javax.swing.*;
 
 /**
@@ -154,7 +153,7 @@ public class ProfileView extends JPanel {
                             new MatchingRoomView(
                                     frame,
                                     currentUser,
-                                    matches,
+                                    userSession.getMatchesTemp(),
                                     userSession,
                                     controller,
                                     postDataAccessObject);

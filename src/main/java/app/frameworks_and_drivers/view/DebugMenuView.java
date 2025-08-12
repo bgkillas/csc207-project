@@ -34,7 +34,8 @@ public class DebugMenuView {
      * Creates the debug panel with a vertical list of buttons, one for each view Clicking a button
      * opens the corresponding view in a new JFrame.
      */
-    public static JPanel create(UserSession session) throws NoSuchAlgorithmException {
+    public static JPanel create(UserSession session, SetupMatchFilterController filterController)
+            throws NoSuchAlgorithmException {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1)); // vertical list of buttons
 
@@ -124,7 +125,7 @@ public class DebugMenuView {
         JFrame frame = new JFrame();
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
         SetupMatchFilterOutputBoundary matchFilterPresenter =
-                new SetupMatchFilterPresenter(frame, session, postDataAccessObject);
+                new SetupMatchFilterPresenter(frame, session, postDataAccessObject, true);
 
         SetupMatchFilterController matchFilterController =
                 new SetupMatchFilterController(
@@ -161,7 +162,7 @@ public class DebugMenuView {
                                 .create());
         addButtonWithFrame(
                 panel,
-                "ConnectRequestView",
+                "FriendRequestView",
                 tempFrame -> {
                     FriendRequestViewModel viewModel = new FriendRequestViewModel();
                     viewModel.setIncomingRequests(session.getIncomingMatches());
@@ -178,7 +179,7 @@ public class DebugMenuView {
                                     presenter);
                     FriendRequestController controller = new FriendRequestController(interactor);
 
-                    return new ConnectRequestView(
+                    return new FriendRequestView(
                             tempFrame,
                             dummyUser,
                             session,
@@ -265,10 +266,12 @@ public class DebugMenuView {
                 tempFrame -> {
                     // Recreate the presenter and controller using this new tempFrame
                     SetupUserProfileOutputBoundary tempPresenter =
-                            new SetupUserProfilePresenter(tempFrame);
+                            new SetupUserProfilePresenter(tempFrame, filterController); // pass it
+
                     SetupUserProfileController tempController =
                             new SetupUserProfileController(
                                     new SetupUserProfileInteractor(tempPresenter, session));
+
                     return ProfileSetupView.create(tempController, session.getUser());
                 });
 

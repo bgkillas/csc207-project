@@ -1,6 +1,5 @@
 package app;
 
-// import app.frameworks_and_drivers.view.LoginView;
 import app.entities.*;
 import app.frameworks_and_drivers.data_access.*;
 import app.frameworks_and_drivers.view.DebugMenuView;
@@ -23,6 +22,8 @@ import app.usecase.user_profile_setup.SetupUserProfileInputBoundary;
 import app.usecase.user_profile_setup.SetupUserProfileInteractor;
 import app.usecase.user_profile_setup.SetupUserProfileOutputBoundary;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -44,11 +45,10 @@ public class Main {
 
         // initalize postDataAccessObject
         PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
-
         UserDataAccessInterface userDataAccessObject = new InMemoryUserDataAccessObject();
         MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
-        // ==== Dummy User Setup (for demo) ====
 
+        // Dummy User Setup (for demo)
         User alice =
                 new User(
                         "Alice",
@@ -79,6 +79,29 @@ public class Main {
                         List.of("Lo-fi", "Jazz"),
                         List.of("Joji", "Norah Jones"),
                         List.of("Sanctuary", "Don’t Know Why"));
+        User diana =
+                new User(
+                        "Diana",
+                        21,
+                        "female",
+                        "Vancouver",
+                        "EDM is life!",
+                        List.of("EDM", "Pop"),
+                        List.of("Zedd", "Avicii"),
+                        List.of("Clarity", "Wake Me Up"));
+        User eric =
+                new User(
+                        "Eric",
+                        25,
+                        "male",
+                        "Calgary",
+                        "Guitarist and metalhead",
+                        List.of("Metal", "Rock"),
+                        List.of("Metallica", "Nirvana"),
+                        List.of("Enter Sandman", "Smells Like Teen Spirit"));
+
+        // add more dummy users in incoming friend request.
+        addMoreDummyIncomingRequests(session, postDataAccessObject);
 
         // Add users to DataAccessObject and session
         for (User user : List.of(alice, bob, charlie)) {
@@ -88,14 +111,15 @@ public class Main {
 
         // Match Filter setup
         SetupMatchFilterOutputBoundary filterPresenter =
-                new SetupMatchFilterPresenter(application, session, postDataAccessObject);
+                new SetupMatchFilterPresenter(application, session, postDataAccessObject, true);
 
         SetupMatchFilterInputBoundary filterInteractor =
                 new SetupMatchFilterInteractor(filterPresenter, session);
         filterController = new SetupMatchFilterController(filterInteractor);
 
         // User Profile setup
-        SetupUserProfileOutputBoundary setupPresenter = new SetupUserProfilePresenter(application);
+        SetupUserProfileOutputBoundary setupPresenter =
+                new SetupUserProfilePresenter(application, filterController); // pass it in
         SetupUserProfileInputBoundary setupInteractor =
                 new SetupUserProfileInteractor(setupPresenter, session);
         setupController = new SetupUserProfileController(setupInteractor);
@@ -110,7 +134,7 @@ public class Main {
 
         if (args.length > 0 && args[0].equals("--debug")) {
             // Connecting to DebugMenuView
-            final JPanel debugView = DebugMenuView.create(session);
+            final JPanel debugView = DebugMenuView.create(session, filterController);
             views.add(debugView);
         } else {
             // Initial Login View
@@ -124,11 +148,94 @@ public class Main {
         application.setVisible(true);
     }
 
-    public static SetupMatchFilterController getFilterController() {
-        return filterController;
-    }
-
     public static SetupUserProfileController getSetupController() {
         return setupController;
     }
+
+    /**
+     * Adds three dummy incoming friend requests to the current session user. The requests are from
+     * themed users: "Java", "Python", and "C++", each with distinct music preferences and bios.
+     * These users are also added to the global user list so that they can be referenced throughout
+     * the app. Intended for demonstration, UI testing, or placeholder data purposes.
+     */
+    private static void addMoreDummyIncomingRequests(UserSession userSession, PostDataAccessInterface postDAO) {
+        User javaa =
+                new User(
+                        "Java",
+                        22,
+                        "female",
+                        "Toronto",
+                        "Indie lover, always looking for concert buddies",
+                        List.of("Indie", "Folk"),
+                        List.of("Phoebe Bridgers", "Bon Iver"),
+                        List.of("Motion Sickness", "Skinny Love"));
+
+
+        User pythonn =
+                new User(
+                        "Python",
+                        24,
+                        "male",
+                        "Toronto",
+                        "Hip-hop fan and amateur DJ",
+                        List.of("Hip-hop", "Rap"),
+                        List.of("Kendrick Lamar", "Drake"),
+                        List.of("HUMBLE.", "Hotline Bling"));
+
+
+        User cPlus =
+                new User(
+                        "C++",
+                        27,
+                        "non-binary",
+                        "Montreal",
+                        "Electronic vibes only",
+                        List.of("Electronic", "House"),
+                        List.of("Deadmau5", "Calvin Harris"),
+                        List.of("Ghosts 'n' Stuff", "Summer"));
+
+
+        userSession.addUser(javaa);
+        userSession.addUser(pythonn);
+        userSession.addUser(cPlus);
+
+        // temporary code for dummy post to show up in demo after user befriends Alice
+        Post post1 =
+                new Post(
+                        "Anybody going to the coldplay concert?",
+                        "Hi, I'm looking for some friends to go to concerts together! Comment here"
+                                + " and lmk :)",
+                        null,
+                        LocalDateTime.now(),
+                        javaa,
+                        null);
+
+        Comment comment1 = new Comment("Hey that sounds fun!!", pythonn, LocalDateTime.now());
+        Comment comment2 = new Comment("OMG I'm so down", cPlus, LocalDateTime.now());
+
+        List<Comment> comments = new ArrayList<>();
+        comments.add(comment1);
+        comments.add(comment2);
+
+        post1.setComments(comments);
+
+        Post post2 = new Post(
+                "Wow.. Taylor's new release is FIRE.",
+                "GUYS YOU MUST LISTEN TO IT!!! ELSE UR MISSING OUT LOL",
+                null,
+                LocalDateTime.now(),
+                cPlus,
+                new ArrayList<>());
+
+        // pre-existing post for java
+        postDAO.savePost(post1);
+        postDAO.savePost(post2);
+        userSession.setPosts(List.of(post1, post2));
+
+        // Note: this is different logic from sending friend request
+        userSession.addIncomingMatch(javaa);
+        userSession.addIncomingMatch(pythonn);
+        userSession.addIncomingMatch(cPlus);
+    }
+
 }

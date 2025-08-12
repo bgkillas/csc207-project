@@ -41,8 +41,9 @@ public class SetupMatchFilterImplTest {
         assertFalse(
                 filter.isValid(
                         new User("John", 35, "Male", "Toronto", "", genres, artists, songs)));
-        assertFalse(
-                filter.isValid(
-                        new User("Kate", 25, "Female", "Vancouver", "", genres, artists, songs)));
+        // We don't check gender/location currently. Our group have decided it is out of scope for this project to do so.
+        /*assertFalse(
+        filter.isValid(
+                new User("Kate", 25, "Female", "Vancouver", "", genres, artists, songs)));*/
     }
 }

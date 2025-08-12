@@ -1,5 +1,9 @@
-package app.entities;
+package app.entity_tests;
 
+import app.entities.Match;
+import app.entities.Post;
+import app.entities.User;
+import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +64,6 @@ class UserSessionTest {
         UserSession session = new UserSession(user);
         session.addUser(friend);
 
-        // assertEquals(6, session.getAllUsers().size()); // TODO do to extra example users
         assertTrue(session.getAllUsers().contains(friend));
     }
 
@@ -120,5 +123,11 @@ class UserSessionTest {
 
         session.setUser(anotherUser);
         assertEquals(anotherUser, session.getUser());
+    }
+
+    @Test
+    void testGetMatchesTemp() {
+        UserSession session = new UserSession(user);
+        assertEquals(new ArrayList<>(), session.getMatchesTemp());
     }
 }
