@@ -13,7 +13,6 @@ import app.usecase.handle_friend_request.HandleFriendRequestInputBoundary;
 public class MatchInteractionInteractor implements MatchInteractionInputBoundary {
 
     private final MatchDataAccessInterface matchDataAccessObject;
-    private final HandleFriendRequestInputBoundary handleFriendRequest;
     private final AddFriendListInputBoundary addFriendList;
     private final MatchInteractionOutputBoundary presenter;
 
@@ -31,7 +30,6 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
             AddFriendListInputBoundary addFriendList,
             MatchInteractionOutputBoundary presenter) {
         this.matchDataAccessObject = matchDataAccessObject;
-        this.handleFriendRequest = handleFriendRequest;
         this.addFriendList = addFriendList;
         this.presenter = presenter;
     }
@@ -48,16 +46,69 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
     public void connect(UserSession userSession, User matchedUser) {
         User currentUser = userSession.getUser();
 
+        // Basic guards
+        if (currentUser == null || matchedUser == null) {
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            false,
+                            false,
+                            matchedUser == null ? "" : matchedUser.getName(),
+                            "Cannot connect right now."));
+            return;
+        }
+        if (currentUser.equals(matchedUser)) {
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            false,
+                            false,
+                            matchedUser.getName(),
+                            "You can't connect with yourself."));
+            return;
+        }
+        if (currentUser.getFriendList().contains(matchedUser)) {
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            true,
+                            true,
+                            matchedUser.getName(),
+                            "You’re already friends with " + matchedUser.getName()));
+            return;
+        }
+
+        // Has the current user already sent a request to matchedUser?
+        boolean alreadyOutgoing =
+                userSession.getOutgoingMatches().contains(matchedUser)
+                        || matchDataAccessObject
+                                .getOutgoingFriendRequest(currentUser)
+                                .contains(matchedUser);
+
+        if (alreadyOutgoing) {
+            presenter.presentMatchInteractionResult(
+                    new MatchInteractionOutputData(
+                            true,
+                            false,
+                            matchedUser.getName(),
+                            "You’ve already sent a request to " + matchedUser.getName()));
+            return;
+        }
+
+        // Did matchedUser already send a request to currentUser? => mutual connect
         boolean mutualConnect =
-                matchDataAccessObject.getOutgoingFriendRequest(matchedUser).contains(currentUser);
+                userSession.getIncomingMatches().contains(matchedUser)
+                        || matchDataAccessObject
+                                .getOutgoingFriendRequest(matchedUser)
+                                .contains(currentUser);
 
         if (mutualConnect) {
-            addFriendList.addFriend(currentUser, matchedUser);
+            // Clean up pending requests on both sides
             matchDataAccessObject.getOutgoingFriendRequest(matchedUser).remove(currentUser);
             matchDataAccessObject.getIncomingFriendRequest(currentUser).remove(matchedUser);
 
             userSession.getIncomingMatches().remove(matchedUser);
             userSession.getOutgoingMatches().remove(matchedUser);
+
+            // Become friends
+            addFriendList.addFriend(currentUser, matchedUser);
 
             presenter.presentMatchInteractionResult(
                     new MatchInteractionOutputData(
@@ -65,16 +116,24 @@ public class MatchInteractionInteractor implements MatchInteractionInputBoundary
                             true,
                             matchedUser.getName(),
                             "You are now friends with " + matchedUser.getName()));
-        } else {
-            handleFriendRequest.sendFriendRequest(userSession, matchedUser);
-
-            presenter.presentMatchInteractionResult(
-                    new MatchInteractionOutputData(
-                            true,
-                            false,
-                            matchedUser.getName(),
-                            "Friend request sent to " + matchedUser.getName()));
+            return;
         }
+
+        // Otherwise: create a fresh friend request (single source of truth)
+        matchDataAccessObject.addOutgoingFriendRequest(currentUser, matchedUser);
+        matchDataAccessObject.addIncomingFriendRequest(matchedUser, currentUser);
+
+        // Update the current user's local session for UI (outgoing list only)
+        if (!userSession.getOutgoingMatches().contains(matchedUser)) {
+            userSession.getOutgoingMatches().add(matchedUser);
+        }
+
+        presenter.presentMatchInteractionResult(
+                new MatchInteractionOutputData(
+                        true,
+                        false,
+                        matchedUser.getName(),
+                        "Friend request sent to " + matchedUser.getName()));
     }
 
     /**
