@@ -20,13 +20,11 @@ public class MatchFilterSetupView {
     public static JPanel create(SetupMatchFilterController controller, JFrame popupFrameToClose) {
         JPanel panel = new JPanel(new GridLayout(7, 2));
 
-
         JTextField minAgeField = new JTextField();
         JTextField maxAgeField = new JTextField();
         JTextField genderField = new JTextField();
         JTextField locationField = new JTextField();
         JButton submit = new JButton("Set Match Filter");
-
 
         Placeholder.setup(minAgeField, "0");
         Placeholder.setup(maxAgeField, "100");

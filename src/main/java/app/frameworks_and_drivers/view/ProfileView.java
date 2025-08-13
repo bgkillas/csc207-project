@@ -285,7 +285,7 @@ public class ProfileView extends JPanel {
         contentPanel.add(artistsLabel);
         contentPanel.add(Box.createVerticalStrut(10));
         contentPanel.add(songsLabel);
-//        contentPanel.add(Box.createVerticalStrut(20));
+        //        contentPanel.add(Box.createVerticalStrut(20));
 
         mainPanel.add(contentPanel);
 
