@@ -239,6 +239,8 @@ public class PostFeedView extends JPanel {
      */
     private JPanel getPost(Post post) {
         JPanel postCard = new JPanel(new BorderLayout());
+        postCard.setMinimumSize(new Dimension(100, 100));
+        postCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         postCard.setBackground(Color.WHITE);
         postCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 
@@ -259,7 +261,7 @@ public class PostFeedView extends JPanel {
         // Post image if available
         if (post.getImage() != null) {
             ImageIcon icon =
-                    new ImageIcon(post.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
+                    new ImageIcon(post.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
             JLabel imageLabel = new JLabel(icon);
             imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
             postCard.add(imageLabel, BorderLayout.EAST);
