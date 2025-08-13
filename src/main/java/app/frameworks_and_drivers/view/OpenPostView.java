@@ -8,7 +8,7 @@ import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CommentViewPanel;
 import app.frameworks_and_drivers.view.components.DesignedButton;
-import app.frameworks_and_drivers.view.components.NavButton;
+import app.frameworks_and_drivers.view.components.Placeholder;
 import app.interface_adapter.controller.AddCommentController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddCommentPresenter;
@@ -160,8 +160,8 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         // set max height for scroll area
         commentScrollPane.setPreferredSize(new Dimension(400, 120));
 
-        JTextArea commentArea = new JTextArea();
-        setupPlaceholder(commentArea, "Enter your comment here!");
+        commentArea = new JTextArea();
+        Placeholder.setup(commentArea, "Enter your comment here!");
         commentArea.setLineWrap(true);
         commentArea.setWrapStyleWord(true);
 
@@ -247,21 +247,5 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
                 commentPanel.repaint();
             }
         }
-    }
-
-    private void setupPlaceholder(JTextArea textArea, String placeholder) {
-        textArea.setText(placeholder);
-        textArea.addFocusListener(
-                new java.awt.event.FocusAdapter() {
-                    boolean cleared = false;
-
-                    @Override
-                    public void focusGained(java.awt.event.FocusEvent e) {
-                        if (!cleared) {
-                            textArea.setText("");
-                            cleared = true;
-                        }
-                    }
-                });
     }
 }
