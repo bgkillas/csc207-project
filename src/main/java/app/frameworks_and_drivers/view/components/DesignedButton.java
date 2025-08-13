@@ -1,9 +1,9 @@
 package app.frameworks_and_drivers.view.components;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.*;
 
 /** A custom button with hover styling. */
 public class DesignedButton extends JButton {

@@ -2,6 +2,12 @@ package app.frameworks_and_drivers.view.components;
 
 import javax.swing.text.JTextComponent;
 
+/**
+ * Utility class for setting placeholder text on {@link JTextComponent} fields.
+ *
+ * <p>The placeholder text will be displayed initially and cleared when the field
+ * gains focus for the first time.</p>
+ */
 public class Placeholder {
     /**
      * Set up placeholder for some JTextComponent.

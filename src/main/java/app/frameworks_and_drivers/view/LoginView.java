@@ -2,7 +2,6 @@ package app.frameworks_and_drivers.view;
 
 import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.interface_adapter.controller.CreateAccountController;
-
 import java.awt.*;
 import javax.swing.*;
 

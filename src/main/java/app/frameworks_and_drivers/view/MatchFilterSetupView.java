@@ -31,12 +31,12 @@ public class MatchFilterSetupView {
 
         // Create Invisible block (textField) to fix bug.
         panel.add(new JLabel(""));
-        JTextField invisibleTF = new JTextField();
-        panel.add(invisibleTF);
-        invisibleTF.setOpaque(false);
-        invisibleTF.setBorder(null);
-        invisibleTF.setForeground(new Color(238, 238, 238));
-        invisibleTF.setCaretColor(new Color(238, 238, 238));
+        JTextField invisibleTf = new JTextField();
+        panel.add(invisibleTf);
+        invisibleTf.setOpaque(false);
+        invisibleTf.setBorder(null);
+        invisibleTf.setForeground(new Color(238, 238, 238));
+        invisibleTf.setCaretColor(new Color(238, 238, 238));
 
         panel.add(new JLabel("Min Age:"));
         panel.add(minAgeField);
