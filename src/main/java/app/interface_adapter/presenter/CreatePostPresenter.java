@@ -3,6 +3,9 @@ package app.interface_adapter.presenter;
 import app.usecase.create_post.CreatePostOutputBoundary;
 import app.usecase.create_post.CreatePostOutputData;
 
+/**
+ * Presenter implementation for Create Post; logs outcomes to the console.
+ */
 public class CreatePostPresenter implements CreatePostOutputBoundary {
     @Override
     public void present(CreatePostOutputData outputData) {

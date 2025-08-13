@@ -15,6 +15,7 @@ public class FindMatchesInteractor implements FindMatchesInputBoundary {
         this.presenter = presenter;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void findMatches(FindMatchesRequestModel requestModel) {
         User current = requestModel.getCurrentUser();

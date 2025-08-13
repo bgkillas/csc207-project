@@ -158,7 +158,8 @@ public class Main {
      * These users are also added to the global user list so that they can be referenced throughout
      * the app. Intended for demonstration, UI testing, or placeholder data purposes.
      */
-    private static void addMoreDummyIncomingRequests(UserSession userSession, PostDataAccessInterface postDAO) {
+        private static void addMoreDummyIncomingRequests(
+                        UserSession userSession, PostDataAccessInterface postDao) {
         User javaa =
                 new User(
                         "Java",
@@ -183,7 +184,7 @@ public class Main {
                         List.of("HUMBLE.", "Hotline Bling"));
 
 
-        User cPlus =
+        User cplus =
                 new User(
                         "C++",
                         27,
@@ -197,7 +198,7 @@ public class Main {
 
         userSession.addUser(javaa);
         userSession.addUser(pythonn);
-        userSession.addUser(cPlus);
+        userSession.addUser(cplus);
 
         // temporary code for dummy post to show up in demo after user befriends Alice
         Post post1 =
@@ -211,7 +212,7 @@ public class Main {
                         null);
 
         Comment comment1 = new Comment("Hey that sounds fun!!", pythonn, LocalDateTime.now());
-        Comment comment2 = new Comment("OMG I'm so down", cPlus, LocalDateTime.now());
+        Comment comment2 = new Comment("OMG I'm so down", cplus, LocalDateTime.now());
 
         List<Comment> comments = new ArrayList<>();
         comments.add(comment1);
@@ -219,23 +220,24 @@ public class Main {
 
         post1.setComments(comments);
 
-        Post post2 = new Post(
+        Post post2 =
+                new Post(
                 "Wow.. Taylor's new release is FIRE.",
                 "GUYS YOU MUST LISTEN TO IT!!! ELSE UR MISSING OUT LOL",
                 null,
                 LocalDateTime.now(),
-                cPlus,
+                cplus,
                 new ArrayList<>());
 
         // pre-existing post for java
-        postDAO.savePost(post1);
-        postDAO.savePost(post2);
+        postDao.savePost(post1);
+        postDao.savePost(post2);
         userSession.setPosts(List.of(post1, post2));
 
         // Note: this is different logic from sending friend request
         userSession.addIncomingMatch(javaa);
         userSession.addIncomingMatch(pythonn);
-        userSession.addIncomingMatch(cPlus);
+        userSession.addIncomingMatch(cplus);
     }
 
 }
