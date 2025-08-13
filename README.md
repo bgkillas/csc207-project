@@ -339,12 +339,19 @@ src/
 │   └── java/
 │       └── app/
 │           ├── entities/                  # Core business logic, independent of external dependencies
+│           │   ├── Comment/              
+│           │   ├── Match/
+│           │   ├── MatchFilter/
+│           │   ├── Post/
+│           │   ├── User/
+│           │   └── UserSession/           
 │           ├── usecase/                   # Application-specific business rules
-│           │   ├── login/                 # Individual use cases organized by features
-│           │   ├── matching/
-│           │   ├── friend/
-│           │   ├── post/
-│           │   └── profile/
+│           │   ├── add_comment/           # Individual use cases organized by features
+│           │   ├── add_friend_list/
+│           │   ├── create_account/
+│           │   ├── create_post/
+│           │   └── ...
+
 │           ├── interface_adapter/         # Transform data between use cases and UI
 │           │   ├── controller/
 │           │   ├── presenter/
@@ -360,10 +367,8 @@ src/
 │   └── java/
 │       └── app/
 │           ├── entity_tests/              # Unit tests for entity classes
-│           ├── usecase_tests/             # Unit tests for use case interactors
-│           ├── controller_tests/          # Unit tests for controllers
-│           ├── presenter_tests/           # Unit tests for presenters
-│           └── integration_tests/         # Tests spanning multiple components
+│           ├── usecase_tests/             # Unit tests for use case interactors 
+│           └── Spotify/                   # Tests for external spotify
 ```
 
 ### **Key Technologies**
@@ -383,6 +388,7 @@ src/
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
