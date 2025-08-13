@@ -239,8 +239,8 @@ public class PostFeedView extends JPanel {
      */
     private JPanel getPost(Post post) {
         JPanel postCard = new JPanel(new BorderLayout());
-        postCard.setMinimumSize(new Dimension(100, 100));
-        postCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        postCard.setMinimumSize(new Dimension(120, 120));
+        postCard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         postCard.setBackground(Color.WHITE);
         postCard.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 
