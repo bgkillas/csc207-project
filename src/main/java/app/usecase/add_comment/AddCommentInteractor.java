@@ -37,7 +37,7 @@ public class AddCommentInteractor implements AddCommentInputBoundary {
      * @param commentText The text content of the comment.
      */
     @Override
-    public void addComment(UserSession userSession, Post post, String commentText) {
+    public void execute(UserSession userSession, Post post, String commentText) {
         if (commentText == null || commentText.trim().isEmpty()) {
             presenter.presentAddCommentFailure("Comment cannot be empty.");
             return;

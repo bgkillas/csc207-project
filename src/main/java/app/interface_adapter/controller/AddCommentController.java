@@ -28,6 +28,6 @@ public class AddCommentController {
      * @param comment the content of the comment
      */
     public void addComment(UserSession session, Post post, String comment) {
-        this.interactor.addComment(session, post, comment);
+        this.interactor.execute(session, post, comment);
     }
 }

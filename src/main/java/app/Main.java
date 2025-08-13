@@ -138,7 +138,7 @@ public class Main {
             views.add(debugView);
         } else {
             // Initial Login View
-            final JPanel login = LoginView.create(login_manager, createAccountController);
+            final JPanel login = LoginView.create(createAccountController);
             views.add(login);
         }
 
