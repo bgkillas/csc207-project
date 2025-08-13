@@ -38,12 +38,12 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
     @Override
     public void create(SpotifyInterface spotify) {
 
-
         // We will call Spotify API to pull user data!
         spotify.initSpotify();
         spotify.pullUserData();
 
-        // the spotify object is filled with required info including userID, username, and some  fav lists.
+        // the spotify object is filled with required info including userID, username, and some  fav
+        // lists.
         String spotifyUserId = spotify.getUserId();
 
         // If the user hasn't already been registered in the login system,
@@ -76,7 +76,7 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
         if (user.getFriendList().isEmpty()) {
             session.addDefaultFriends();
         }
-//        session.addDummyIncomingRequests();
+        //        session.addDummyIncomingRequests();
 
         // we also want the user of the userSession to be compatible with all the other users.
         // Below updates UserSession to have a setter
@@ -95,5 +95,4 @@ public class CreateAccountInteractor implements CreateAccountInputBoundary {
             user.setFavSongs(spotify.getTopTracks());
         }
     }
-
 }

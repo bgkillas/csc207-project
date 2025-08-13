@@ -1,16 +1,20 @@
 package app.usecase_tests;
 
-import app.usecase.matching.MatchServiceImpl;
 import app.entities.User;
 import app.entities.MatchFilter;
+import app.usecase.matching.FindMatchesInteractor;
+import app.usecase.matching.FindMatchesOutputBoundary;
+import app.usecase.matching.FindMatchesRequestModel;
+import app.usecase.matching.FindMatchesResponseModel;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 
-public class MatchServiceImplTest {
+public class FindMatchesInteractorTest {
     @Test
     public void testFindMatches_mutualMatch() {
         User user1 =
@@ -55,8 +59,19 @@ public class MatchServiceImplTest {
                         Arrays.asList());
         user1.setMatchFilter(new MatchFilter(20, 30, "Any", "Any"));
         user2.setMatchFilter(new MatchFilter(20, 30, "Any", "Any"));
-        MatchServiceImpl matchService = new MatchServiceImpl();
-        List<User> matches = matchService.findMatches(user1, Arrays.asList(user1, user2));
+
+        AtomicReference<List<User>> matchesRef = new AtomicReference<>();
+        FindMatchesOutputBoundary presenter =
+                new FindMatchesOutputBoundary() {
+                    @Override
+                    public void present(FindMatchesResponseModel responseModel) {
+                        matchesRef.set(responseModel.getMatches());
+                    }
+                };
+        new FindMatchesInteractor(presenter)
+                .findMatches(new FindMatchesRequestModel(user1, Arrays.asList(user1, user2)));
+        List<User> matches = matchesRef.get();
+
         assertEquals(1, matches.size());
         assertEquals("John", matches.get(0).getName());
     }
@@ -105,8 +120,19 @@ public class MatchServiceImplTest {
                         Arrays.asList());
         user1.setMatchFilter(new MatchFilter(20, 30, "Male", "Toronto"));
         user2.setMatchFilter(new MatchFilter(20, 30, "Female", "Toronto"));
-        MatchServiceImpl matchService = new MatchServiceImpl();
-        List<User> matches = matchService.findMatches(user1, Arrays.asList(user1, user2));
+
+        AtomicReference<List<User>> matchesRef = new AtomicReference<>();
+        FindMatchesOutputBoundary presenter =
+                new FindMatchesOutputBoundary() {
+                    @Override
+                    public void present(FindMatchesResponseModel responseModel) {
+                        matchesRef.set(responseModel.getMatches());
+                    }
+                };
+        new FindMatchesInteractor(presenter)
+                .findMatches(new FindMatchesRequestModel(user1, Arrays.asList(user1, user2)));
+        List<User> matches = matchesRef.get();
+
         assertEquals(0, matches.size());
     }
 }

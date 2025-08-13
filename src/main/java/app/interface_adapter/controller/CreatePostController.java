@@ -2,6 +2,7 @@ package app.interface_adapter.controller;
 
 import app.entities.User;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
+import app.usecase.create_post.CreatePostInputBoundary;
 import app.usecase.create_post.CreatePostInteractor;
 import java.io.File;
 
@@ -11,7 +12,7 @@ import java.io.File;
  */
 public class CreatePostController {
     // This controller handles the request to create and post a new post.
-    private final CreatePostInteractor interactor;
+    private final CreatePostInputBoundary interactor;
 
     /**
      * Constructs a CreatePostController using an in-memory post data access object. This
@@ -27,7 +28,7 @@ public class CreatePostController {
      *
      * @param interactor the interactor responsible for handling post creation logic
      */
-    public CreatePostController(CreatePostInteractor interactor) {
+    public CreatePostController(CreatePostInputBoundary interactor) {
         this.interactor = interactor;
     }
 

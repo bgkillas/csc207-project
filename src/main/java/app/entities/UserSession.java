@@ -107,10 +107,10 @@ public class UserSession {
         eric.addFriend(this.user);
     }
 
-
     /**
-     * Set every user in the allUser attribute of this UserSession to have the same favGenres, favArtists, and favSongs
-     * so that they are all considered compatible with the given user. This is for the Demo!
+     * Set every user in the allUser attribute of this UserSession to have the same favGenres,
+     * favArtists, and favSongs so that they are all considered compatible with the given user. This
+     * is for the Demo!
      *
      * @param user - logged in user
      */

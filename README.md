@@ -171,9 +171,9 @@ matcher.connect(session, matchedUser);
 - **Blocking System**: Block users you don't want to interact with
 **Example (programmatic usage)**
 ```java
-// Prepare a DAO 
-PostDataAccessInterface postDAO = new InMemoryPostDataAccessObject();
-CreatePost createPost = new CreatePostInteractor(postDAO);
+// Prepare a DataAccessObject 
+PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
+CreatePost createPost = new CreatePostInteractor(postDataAccessObject);
 
 // Build an optional image file (can be null)
 File cover = new File("cover.jpg"); // will be loaded if exists

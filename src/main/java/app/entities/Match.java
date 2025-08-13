@@ -1,7 +1,5 @@
 package app.entities;
 
-import app.usecase.matching.MatchCalculator;
-import app.usecase.matching.MatchCalculatorImpl;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,14 +14,14 @@ public class Match {
     private final int compatibilityScore;
     private final List<String> sharedArtists;
 
-    /**
+    /*
      * Constructs a Match object.
      *
      * @param matchUser the user this match refers to
      * @param score the compatibility score between users
      * @param sharedArtists a list of artists both users like
      */
-    MatchCalculator matchCalculator = new MatchCalculatorImpl();
+    // ...existing code...
 
     /**
      * Constructs a Match with provided score and shared artists list.
@@ -47,7 +45,7 @@ public class Match {
      */
     public Match(User currentUser, User other) {
         this.matchUser = other;
-        this.compatibilityScore = matchCalculator.calculateCompatibilityScore(currentUser, other);
+        this.compatibilityScore = calculateCompatibilityScore(currentUser, other);
         // Find shared artists
         List<String> shared = new java.util.ArrayList<>();
         for (String artist : currentUser.getFavArtists()) {
@@ -56,6 +54,39 @@ public class Match {
             }
         }
         this.sharedArtists = shared;
+    }
+
+    // Compatibility logic inlined from previous calculator implementation
+    private int calculateCompatibilityScore(User userOne, User userTwo) {
+        int score = 0;
+
+        List<String> userOneArtists = userOne.getFavArtists();
+        List<String> userTwoArtists = userTwo.getFavArtists();
+
+        int artistsListLength = userOneArtists.size();
+
+        for (int i = 0; i < artistsListLength; i++) {
+            String artist = userOneArtists.get(i);
+            if (userTwoArtists.contains(artist)) {
+                int j = userTwoArtists.indexOf(artist);
+                score += (artistsListLength - i) + (artistsListLength - j);
+            }
+        }
+
+        List<String> userOneGenres = userOne.getFavGenres();
+        List<String> userTwoGenres = userTwo.getFavGenres();
+
+        int genresListLength = userOneGenres.size();
+
+        for (int i = 0; i < genresListLength; i++) {
+            String genre = userOneGenres.get(i);
+            if (userTwoGenres.contains(genre)) {
+                int j = userTwoGenres.indexOf(genre);
+                score += ((genresListLength - i) + (genresListLength - j)) * 5;
+            }
+        }
+
+        return score;
     }
 
     /**

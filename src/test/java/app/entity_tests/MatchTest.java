@@ -1,17 +1,13 @@
 package app.entity_tests;
 
-import app.usecase.matching.MatchCalculatorImpl;
 import app.entities.Match;
 import app.entities.User;
 import org.junit.jupiter.api.Test;
-import app.usecase.matching.MatchCalculator;
 
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MatchTest {
-
-    MatchCalculator matchCalculator = new MatchCalculatorImpl();
 
     @Test
     public void testConstructorAndGetters() {
@@ -46,7 +42,10 @@ public class MatchTest {
         Match match = new Match(userA, userB);
 
         assertEquals(userB, match.getMatchUser());
-        int expectedScore = matchCalculator.calculateCompatibilityScore(userA, userB);
+        // Expected score computed based on shared artists positions (no genres provided)
+        // Shared: Artist2 (i=1, j=0) => (3-1) + (3-0) = 5; Artist3 (i=2, j=1) => (3-2)+(3-1)=3;
+        // Total=8
+        int expectedScore = 8;
         assertEquals(expectedScore, match.getCompatibilityScore());
         List<String> expectedShared = List.of("Artist2", "Artist3");
         assertEquals(expectedShared, match.getSharedArtists());

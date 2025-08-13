@@ -13,8 +13,8 @@ public class MatchFilter {
      *
      * @param minAge the minimum age
      * @param maxAge the maximum age
-     * @param preferredGender the preferred gender ("Any" for no preference)
-     * @param preferredLocation the preferred location ("Any" for no preference)
+     * @param preferredGender the preferred gender ("Any"/"N/A" for no preference)
+     * @param preferredLocation the preferred location ("Any"/"N/A" for no preference)
      */
     public MatchFilter(int minAge, int maxAge, String preferredGender, String preferredLocation) {
         this.minAge = minAge;

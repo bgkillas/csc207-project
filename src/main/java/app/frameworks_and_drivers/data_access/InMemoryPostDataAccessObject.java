@@ -22,7 +22,8 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     }
 
     /**
-     * Update pre-existing post in the postDAO. If not existing already, save as new post.
+     * Update pre-existing post in the postDataAccessObject. If not existing already, save as new
+     * post.
      *
      * @param post The post to be updated
      */
@@ -41,7 +42,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
      * Search and return Post with the given Post ID.
      *
      * @param id The UUID of the specific post we're looking for.
-     * @return Post if it is found in DAO, null otherwise.
+     * @return Post if it is found in DataAccessObject, null otherwise.
      */
     @Override
     public Post getPostById(UUID id) {
@@ -72,9 +73,9 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     }
 
     /**
-     * Get all the posts saved in the DAO.
+     * Get all the posts saved in the DataAccessObject.
      *
-     * @return Post if it is found in DAO, null otherwise.
+     * @return Post if it is found in DataAccessObject, null otherwise.
      */
     @Override
     public List<Post> getAllPosts() {
@@ -82,7 +83,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     }
 
     /**
-     * Get all the posts of current user or the user's friend(s) saved in the DAO.
+     * Get all the posts of current user or the user's friend(s) saved in the DataAccessObject.
      *
      * @param currentUser given user.
      * @return Posts of currentUser and users in currentUser's friend list.
@@ -91,7 +92,7 @@ public class InMemoryPostDataAccessObject implements PostDataAccessInterface {
     public List<Post> getPostFeed(User currentUser) {
         List<Post> postFeedList = new ArrayList<>();
 
-        // Loop through all the posts saved in the DAO.
+        // Loop through all the posts saved in the DataAccessObject.
         for (Post post : this.userPosts) {
             if (post.getAuthor() == null) {
                 // this post doesn't have a valid user as the author, so it will be skipped and not

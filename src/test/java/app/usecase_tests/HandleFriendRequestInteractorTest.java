@@ -95,13 +95,15 @@ public class HandleFriendRequestInteractorTest {
         // Step 7: reload userSession1 to reflect DataAccessObject changes
         userSession1 = new UserSession(user1);
 
-
         assertTrue(matchDataAccessObject.getIncomingFriendRequest(user1).contains(user0));
 
-        // in memory DAO will pull info to this userSession but this process is not implemented in this project
+        // in memory DataAccessObject will pull info to this userSession but this process is not
+        // implemented in
+        // this project
         if (matchDataAccessObject.getIncomingFriendRequest(user1).contains(user0)) {
             // the pulling that would have occurred if implemented.
-            userSession1.addIncomingMatch(matchDataAccessObject.getIncomingFriendRequest(user1).get(0));
+            userSession1.addIncomingMatch(
+                    matchDataAccessObject.getIncomingFriendRequest(user1).get(0));
         }
 
         assertTrue(userSession1.getIncomingMatches().contains(user0));
