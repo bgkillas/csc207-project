@@ -61,7 +61,7 @@ public class ProfileView extends JPanel {
 
         // Jpanel for Title
         JLabel title = new JLabel(user.getName() + "'s Profile", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 22));
+        title.setFont(new Font("SansSerif", Font.BOLD, 22));
 
         // top panel with title
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -69,13 +69,17 @@ public class ProfileView extends JPanel {
 
         // main panel with profile info
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
         JPanel profilePanel = createProfilePanel();
+        profilePanel.setAlignmentY(Component.TOP_ALIGNMENT);
         JPanel buttonPanel = createButtonPanel();
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
-        mainPanel.add(profilePanel, BorderLayout.NORTH);
+        JScrollPane profileScroll = new JScrollPane();
+        profileScroll.setViewportView(profilePanel);
+
+        mainPanel.add(profileScroll, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Bottom panel with navButtons
@@ -178,7 +182,6 @@ public class ProfileView extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(Color.WHITE);
-        // contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2, true));
 
         // profile picture
         Image profileImg = user.getProfilePicture();
@@ -256,7 +259,7 @@ public class ProfileView extends JPanel {
         contentPanel.add(artistsLabel);
         contentPanel.add(Box.createVerticalStrut(10));
         contentPanel.add(songsLabel);
-        contentPanel.add(Box.createVerticalStrut(20));
+//        contentPanel.add(Box.createVerticalStrut(20));
 
         mainPanel.add(contentPanel);
 
@@ -270,7 +273,7 @@ public class ProfileView extends JPanel {
     private JPanel createButtonPanel() {
 
         // Action buttons panel (edit profile, buddy list, block list)
-        JPanel actionPanel = new JPanel(new GridLayout(1, 3, 10, 0));
+        JPanel actionPanel = new JPanel(new GridLayout(1, 3, 15, 0));
         JButton editProfileBtn = createActionButton("edit profile");
         JButton buddyListBtn = createActionButton("buddy list");
         JButton blockListBtn = createActionButton("block list");
