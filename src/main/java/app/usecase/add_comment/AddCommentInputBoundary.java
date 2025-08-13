@@ -17,5 +17,5 @@ public interface AddCommentInputBoundary {
      * @param post The post to which the comment will be added.
      * @param comment The text content of the comment.
      */
-    void addComment(UserSession userSession, Post post, String comment);
+    void execute(UserSession userSession, Post post, String comment);
 }

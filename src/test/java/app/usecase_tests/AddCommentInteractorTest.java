@@ -8,7 +8,6 @@ import org.junit.Test;
 import app.usecase.add_comment.AddCommentInputBoundary;
 import app.usecase.add_comment.AddCommentOutputBoundary;
 
-import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +77,7 @@ public class AddCommentInteractorTest {
 
         AddCommentInputBoundary interactor =
                 new AddCommentInteractor(postDataAccessObject, presenter);
-        interactor.addComment(userSession0, newPost, comment);
+        interactor.execute(userSession0, newPost, comment);
 
         List<Comment> comments = postDataAccessObject.getPostsByUser(user1).get(0).getComments();
         assertEquals(1, comments.size());
@@ -146,7 +145,7 @@ public class AddCommentInteractorTest {
 
         AddCommentInputBoundary interactor =
                 new AddCommentInteractor(postDataAccessObject, presenter);
-        interactor.addComment(userSession0, newPost, "I disagree.");
+        interactor.execute(userSession0, newPost, "I disagree.");
 
         List<Comment> comments = postDataAccessObject.getPostsByUser(user1).get(0).getComments();
         assertEquals(2, comments.size());
@@ -174,7 +173,7 @@ public class AddCommentInteractorTest {
         User user = new User("u", 20, "f", "loc", "", List.of(), List.of(), List.of());
         UserSession session = new UserSession(user);
         Post post = new Post("t", "b", null, LocalDateTime.now(), user, new ArrayList<>());
-        interactor.addComment(session, post, "  ");
+        interactor.execute(session, post, "  ");
     }
 
     @Test
@@ -197,7 +196,7 @@ public class AddCommentInteractorTest {
         User user = new User("u", 20, "f", "loc", "", List.of(), List.of(), List.of());
         UserSession session = new UserSession(user);
         Post post = new Post("t", "b", null, LocalDateTime.now(), user, new ArrayList<>());
-        interactor.addComment(session, post, "Enter your comment here!");
+        interactor.execute(session, post, "Enter your comment here!");
     }
 
     @Test
