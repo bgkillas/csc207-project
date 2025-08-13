@@ -12,6 +12,11 @@ public class FindMatchesRequestModel {
         this.allUsers = allUsers;
     }
 
-    public User getCurrentUser() { return currentUser; }
-    public List<User> getAllUsers() { return allUsers; }
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public List<User> getAllUsers() {
+        return allUsers;
+    }
 }

@@ -7,8 +7,11 @@ public class CreatePostPresenter implements CreatePostOutputBoundary {
     @Override
     public void present(CreatePostOutputData outputData) {
         // Example: log to console or update a view model
-        System.out.println("Post created successfully! ID: " + outputData.getPostId()
-                + ", Time: " + outputData.getTimestamp());
+        System.out.println(
+                "Post created successfully! ID: "
+                        + outputData.getPostId()
+                        + ", Time: "
+                        + outputData.getTimestamp());
     }
 
     @Override

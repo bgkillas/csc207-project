@@ -3,7 +3,6 @@ package app.usecase.create_post;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 public class CreatePostOutputData {
 
     private final UUID postId;
@@ -14,7 +13,11 @@ public class CreatePostOutputData {
         this.timestamp = timestamp;
     }
 
-    public UUID getPostId() { return postId; }
-    public LocalDateTime getTimestamp() { return timestamp; }
+    public UUID getPostId() {
+        return postId;
+    }
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 }

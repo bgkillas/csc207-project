@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
-
 /**
  * Interactor for the Create Post use case. This class handles the logic of creating a new post,
  * optionally loading an image from file, and saving the post via PostDataAccessInterface
@@ -25,9 +24,10 @@ public class CreatePostInteractor implements CreatePostInputBoundary {
      *
      * @param postDataAccess the data access interface used to persist posts
      */
-    public CreatePostInteractor(PostDataAccessInterface postDataAccess,
-                                CreatePostOutputBoundary presenter,
-                                ImageLoader imageLoader) {
+    public CreatePostInteractor(
+            PostDataAccessInterface postDataAccess,
+            CreatePostOutputBoundary presenter,
+            ImageLoader imageLoader) {
         this.postDataAccess = postDataAccess;
         this.presenter = presenter;
         this.imageLoader = imageLoader;

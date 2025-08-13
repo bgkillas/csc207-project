@@ -126,8 +126,7 @@ public class ProfileView extends JPanel {
                             };
                     FindMatchesInteractor findInteractor = new FindMatchesInteractor(presenter);
                     findInteractor.findMatches(
-                            new FindMatchesRequestModel(
-                                    currentUser, userSession.getAllUsers()));
+                            new FindMatchesRequestModel(currentUser, userSession.getAllUsers()));
                     List<User> matches = matchesRef.get();
 
                     InMemoryMatchDataAccessObject matchDataAccessObject =

@@ -158,7 +158,8 @@ public class Main {
      * These users are also added to the global user list so that they can be referenced throughout
      * the app. Intended for demonstration, UI testing, or placeholder data purposes.
      */
-    private static void addMoreDummyIncomingRequests(UserSession userSession, PostDataAccessInterface postDAO) {
+    private static void addMoreDummyIncomingRequests(
+            UserSession userSession, PostDataAccessInterface postDAO) {
         User javaa =
                 new User(
                         "Java",
@@ -169,7 +170,6 @@ public class Main {
                         List.of("Indie", "Folk"),
                         List.of("Phoebe Bridgers", "Bon Iver"),
                         List.of("Motion Sickness", "Skinny Love"));
-
 
         User pythonn =
                 new User(
@@ -182,7 +182,6 @@ public class Main {
                         List.of("Kendrick Lamar", "Drake"),
                         List.of("HUMBLE.", "Hotline Bling"));
 
-
         User cPlus =
                 new User(
                         "C++",
@@ -193,7 +192,6 @@ public class Main {
                         List.of("Electronic", "House"),
                         List.of("Deadmau5", "Calvin Harris"),
                         List.of("Ghosts 'n' Stuff", "Summer"));
-
 
         userSession.addUser(javaa);
         userSession.addUser(pythonn);
@@ -219,13 +217,14 @@ public class Main {
 
         post1.setComments(comments);
 
-        Post post2 = new Post(
-                "Wow.. Taylor's new release is FIRE.",
-                "GUYS YOU MUST LISTEN TO IT!!! ELSE UR MISSING OUT LOL",
-                null,
-                LocalDateTime.now(),
-                cPlus,
-                new ArrayList<>());
+        Post post2 =
+                new Post(
+                        "Wow.. Taylor's new release is FIRE.",
+                        "GUYS YOU MUST LISTEN TO IT!!! ELSE UR MISSING OUT LOL",
+                        null,
+                        LocalDateTime.now(),
+                        cPlus,
+                        new ArrayList<>());
 
         // pre-existing post for java
         postDAO.savePost(post1);
@@ -237,5 +236,4 @@ public class Main {
         userSession.addIncomingMatch(pythonn);
         userSession.addIncomingMatch(cPlus);
     }
-
 }

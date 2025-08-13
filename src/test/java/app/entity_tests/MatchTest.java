@@ -43,7 +43,8 @@ public class MatchTest {
 
         assertEquals(userB, match.getMatchUser());
         // Expected score computed based on shared artists positions (no genres provided)
-        // Shared: Artist2 (i=1, j=0) => (3-1) + (3-0) = 5; Artist3 (i=2, j=1) => (3-2)+(3-1)=3; Total=8
+        // Shared: Artist2 (i=1, j=0) => (3-1) + (3-0) = 5; Artist3 (i=2, j=1) => (3-2)+(3-1)=3;
+        // Total=8
         int expectedScore = 8;
         assertEquals(expectedScore, match.getCompatibilityScore());
         List<String> expectedShared = List.of("Artist2", "Artist3");

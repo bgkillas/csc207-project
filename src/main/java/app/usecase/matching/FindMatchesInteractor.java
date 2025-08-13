@@ -5,9 +5,7 @@ import app.entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Use case interactor that computes matches directly (no external service), preserving logic.
- */
+/** Use case interactor that computes matches directly (no external service), preserving logic. */
 public class FindMatchesInteractor implements FindMatchesInputBoundary {
     private final FindMatchesOutputBoundary presenter;
 

@@ -10,5 +10,7 @@ public class FindMatchesResponseModel {
         this.matches = matches;
     }
 
-    public List<User> getMatches() { return matches; }
+    public List<User> getMatches() {
+        return matches;
+    }
 }

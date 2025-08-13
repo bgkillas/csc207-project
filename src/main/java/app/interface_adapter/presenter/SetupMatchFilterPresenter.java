@@ -75,7 +75,8 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         List<User> allUsers = session.getAllUsers();
 
         // Using an AtomicReference as a tiny mutable box to grab the matches from the callback.
-        // Not about threads, just a quick workaround for Java's 'captured locals must be effectively final' rule.
+        // Not about threads, just a quick workaround for Java's 'captured locals must be
+        // effectively final' rule.
         final java.util.concurrent.atomic.AtomicReference<List<User>> matchesRef =
                 new java.util.concurrent.atomic.AtomicReference<>();
         FindMatchesOutputBoundary matchesPresenter =
