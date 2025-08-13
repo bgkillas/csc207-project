@@ -4,15 +4,11 @@ import app.frameworks_and_drivers.external.spotify.Spotify;
 import app.interface_adapter.controller.CreateAccountController;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /** creates a login panel. */
 public class LoginView {
-    /**
-     * creates a JPanel from the given LoginManager.
-     */
+    /** creates a JPanel from the given LoginManager. */
     public static JPanel create(CreateAccountController controller) {
         final JPanel panel = new JPanel();
         panel.setPreferredSize(new Dimension(800, 600));
@@ -57,8 +53,7 @@ public class LoginView {
         panel.add(centerWrapper, BorderLayout.CENTER);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
-        logIn.addActionListener(
-                actionEvent -> controller.createAccount(new Spotify()));
+        logIn.addActionListener(actionEvent -> controller.createAccount(new Spotify()));
         return panel;
     }
 }

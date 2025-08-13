@@ -5,7 +5,6 @@ import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.DesignedButton;
-import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.FriendRequestController;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
@@ -50,7 +49,7 @@ public class FriendRequestView extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-//        this.setBackground(Color.WHITE);
+        //        this.setBackground(Color.WHITE);
 
         // Top bar
         JLabel title = new JLabel("Connect Request", SwingConstants.CENTER);
