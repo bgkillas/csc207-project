@@ -4,6 +4,8 @@ import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryMatchDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.view.components.DesignedButton;
+import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.FriendRequestController;
 import app.interface_adapter.controller.MatchInteractionController;
 import app.interface_adapter.presenter.AddFriendListPresenter;
@@ -48,7 +50,7 @@ public class FriendRequestView extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-        this.setBackground(Color.WHITE);
+//        this.setBackground(Color.WHITE);
 
         // Top bar
         JLabel title = new JLabel("Connect Request", SwingConstants.CENTER);
@@ -80,7 +82,7 @@ public class FriendRequestView extends JPanel {
         MatchInteractionController matchController =
                 new MatchInteractionController(matchInteractor);
 
-        JButton back = new JButton("← Back");
+        JButton back = new DesignedButton("← Back");
         back.addActionListener(
                 e -> {
                     JPanel matchingRoom =
@@ -96,6 +98,7 @@ public class FriendRequestView extends JPanel {
                 });
 
         JPanel topBar = new JPanel(new BorderLayout());
+        topBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         topBar.add(back, BorderLayout.WEST);
         topBar.add(title, BorderLayout.CENTER);
         topBar.add(countLabel, BorderLayout.EAST);

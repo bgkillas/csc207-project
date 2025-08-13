@@ -3,6 +3,7 @@ package app.frameworks_and_drivers.view;
 import app.entities.User;
 import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
+import app.frameworks_and_drivers.view.components.DesignedButton;
 import app.interface_adapter.controller.CreatePostController;
 import app.interface_adapter.controller.PostFeedController;
 import app.usecase.create_post.CreatePostInteractor;
@@ -63,7 +64,7 @@ public class CreatePostView {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titlePanel.add(titleLabel);
 
-        JButton back = new JButton("← Back");
+        JButton back = new DesignedButton("← Back");
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(back, BorderLayout.WEST);

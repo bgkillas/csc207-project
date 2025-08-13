@@ -7,6 +7,8 @@ import app.entities.UserSession;
 import app.frameworks_and_drivers.data_access.InMemoryPostDataAccessObject;
 import app.frameworks_and_drivers.data_access.PostDataAccessInterface;
 import app.frameworks_and_drivers.view.components.CommentViewPanel;
+import app.frameworks_and_drivers.view.components.DesignedButton;
+import app.frameworks_and_drivers.view.components.NavButton;
 import app.interface_adapter.controller.AddCommentController;
 import app.interface_adapter.controller.PostFeedController;
 import app.interface_adapter.presenter.AddCommentPresenter;
@@ -83,7 +85,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
         titlePanel.add(titleLabel);
 
-        JButton back = new JButton("← Back");
+        JButton back = new DesignedButton("← Back");
         back.addActionListener(
                 e -> {
                     frame.setContentPane(
@@ -98,6 +100,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
 
         // Create top panel - JPanel with title and back button
         JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         topPanel.add(back, BorderLayout.WEST);
         topPanel.add(titlePanel, BorderLayout.CENTER);
 
@@ -162,7 +165,7 @@ public class OpenPostView extends JPanel implements AddCommentViewInterface {
         commentArea.setLineWrap(true);
         commentArea.setWrapStyleWord(true);
 
-        JButton addCommentButton = new JButton("Comment");
+        JButton addCommentButton = new DesignedButton("Comment");
         addCommentButton.addActionListener(
                 e -> {
                     String comment = commentArea.getText();
