@@ -7,13 +7,31 @@
 - [Section 3: Demography and Accessibility of Program Use](#section-3-demography-and-accessibility-of-program-use)
 
 ## **Section 1: Principles of Universal Design**
-1. Equitable Use: (To implement) Add interaction alternatives (voice, keyboard)
-2. Flexibility in Use: (To implement) Voice typing feature that allows conversion of speech to text for people preferring talking over typing.
-3. Simple and Intuitive User: Friend requests and posts are familiar social features. Consistent nav bar persisting along three main tabs.
-4. Perceptible Information: (To implement) Captions for audio content, and avoid relying on color alone to indicate status.
-5. Tolerance for Error: (To implement) Add confirmation pop-ups for critical actions (e.g., "Are you sure you want to decline this request?"), and an undo feature for actions like deleting a post.
-6. Low Physical Effort: Controls with buttons are large and well-spaced such that low-effort actions are possible.
-7. Size and Space for Approach and Use: Screen space is not fixed as is expandable. Responsive layout, scalable text, and adequate spacing that prevents crowding of UI with too many elements.
+1. Equitable Use
+- To implement: Adding alternative input methods such as voice commands and full keyboard navigation will make the app accessible to users with different physical abilities.
+
+2. Flexibility in Use
+- To implement: A voice typing feature could help users who prefer speaking over typing, improving accessibility and convenience.
+
+3. Simple and Intuitive Use
+- Features like friend requests and post feeds mirror familiar social media patterns.
+- The navigation bar remains consistent across main tabs, making it easy for users to move through the app intuitively.
+
+4. Perceptible Information
+- Currently, the app relies on visual cues to convey information.
+- To implement: We plan to add captions for any audio content and ensure that color is never the sole indicator of status, helping users with visual impairments.
+
+5. Tolerance for Error
+- Some actions could lead to mistakes if done accidentally.
+- To implement: Adding confirmation pop-ups for critical actions and an undo option for deletions will help prevent unintended consequences.
+
+6. Low Physical Effort
+- Controls use large, well-spaced buttons to minimize effort in navigation and interaction.
+- Login requires only one click through existing Spotify authentication, removing the need for typing credentials.
+
+7. Size and Space for Approach and Use
+- The app uses a responsive layout with scalable text and adequate spacing to avoid clutter.
+- Users can expand screen space and comfortably interact with UI elements without crowding.
 
 
 ## **Section 2: Program Marketing**
