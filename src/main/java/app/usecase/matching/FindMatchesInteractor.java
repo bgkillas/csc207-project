@@ -34,6 +34,6 @@ public class FindMatchesInteractor implements FindMatchesInputBoundary {
 
     // Delegate compatibility to the entity's scoring logic to avoid duplication
     private boolean isCompatible(User userOne, User userTwo) {
-        return new Match(userOne, userTwo).getCompatibilityScore() > 85;
+        return new Match(userOne, userTwo).getCompatibilityScore() > 35;
     }
 }
