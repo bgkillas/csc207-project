@@ -74,7 +74,6 @@ public class MatchFilter {
         private final int min;
         private final int max;
 
-
         AgeRangeSpec(int min, int max) {
             this.min = min;
             this.max = max;
