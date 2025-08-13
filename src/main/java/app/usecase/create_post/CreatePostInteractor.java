@@ -33,6 +33,7 @@ public class CreatePostInteractor implements CreatePostInputBoundary {
         this.imageLoader = imageLoader;
     }
 
+    /** TODO. */
     // Convenience constructor for tests or simple wiring when presenter/image loader not needed
     public CreatePostInteractor(PostDataAccessInterface postDataAccess) {
         this(postDataAccess, null, null);

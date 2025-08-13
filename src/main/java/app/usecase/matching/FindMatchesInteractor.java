@@ -9,6 +9,7 @@ import java.util.List;
 public class FindMatchesInteractor implements FindMatchesInputBoundary {
     private final FindMatchesOutputBoundary presenter;
 
+    /** TODO. */
     public FindMatchesInteractor(FindMatchesOutputBoundary presenter) {
         this.presenter = presenter;
     }

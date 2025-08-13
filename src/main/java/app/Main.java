@@ -159,7 +159,7 @@ public class Main {
      * the app. Intended for demonstration, UI testing, or placeholder data purposes.
      */
     private static void addMoreDummyIncomingRequests(
-            UserSession userSession, PostDataAccessInterface postDAO) {
+            UserSession userSession, PostDataAccessInterface postDataAccessObject) {
         User javaa =
                 new User(
                         "Java",
@@ -182,7 +182,7 @@ public class Main {
                         List.of("Kendrick Lamar", "Drake"),
                         List.of("HUMBLE.", "Hotline Bling"));
 
-        User cPlus =
+        User cpp =
                 new User(
                         "C++",
                         27,
@@ -195,7 +195,7 @@ public class Main {
 
         userSession.addUser(javaa);
         userSession.addUser(pythonn);
-        userSession.addUser(cPlus);
+        userSession.addUser(cpp);
 
         // temporary code for dummy post to show up in demo after user befriends Alice
         Post post1 =
@@ -209,7 +209,7 @@ public class Main {
                         null);
 
         Comment comment1 = new Comment("Hey that sounds fun!!", pythonn, LocalDateTime.now());
-        Comment comment2 = new Comment("OMG I'm so down", cPlus, LocalDateTime.now());
+        Comment comment2 = new Comment("OMG I'm so down", cpp, LocalDateTime.now());
 
         List<Comment> comments = new ArrayList<>();
         comments.add(comment1);
@@ -223,17 +223,17 @@ public class Main {
                         "GUYS YOU MUST LISTEN TO IT!!! ELSE UR MISSING OUT LOL",
                         null,
                         LocalDateTime.now(),
-                        cPlus,
+                        cpp,
                         new ArrayList<>());
 
         // pre-existing post for java
-        postDAO.savePost(post1);
-        postDAO.savePost(post2);
+        postDataAccessObject.savePost(post1);
+        postDataAccessObject.savePost(post2);
         userSession.setPosts(List.of(post1, post2));
 
         // Note: this is different logic from sending friend request
         userSession.addIncomingMatch(javaa);
         userSession.addIncomingMatch(pythonn);
-        userSession.addIncomingMatch(cPlus);
+        userSession.addIncomingMatch(cpp);
     }
 }

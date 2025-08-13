@@ -6,5 +6,6 @@ import java.io.IOException;
 
 /** Port for loading an Image from a File. Implementations may use any image library. */
 public interface ImageLoader {
+    /** TODO. */
     Image load(File file) throws IOException;
 }

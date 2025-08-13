@@ -18,16 +18,16 @@ public interface PostDataAccessInterface {
     void savePost(Post post);
 
     /**
-     * Update pre-existing post in the postDAO.
+     * Update pre-existing post in the postDataAccessObject.
      *
      * @param post The post to be updated
      */
     void updatePost(Post post);
 
     /**
-     * Get all the posts' IDs in the DAO.
+     * Get all the posts' IDs in the DataAccessObject.
      *
-     * @return list of UUID of posts in DAO.
+     * @return list of UUID of posts in DataAccessObject.
      */
     Post getPostById(UUID id);
 
@@ -40,14 +40,14 @@ public interface PostDataAccessInterface {
     List<Post> getPostsByUser(User user);
 
     /**
-     * Get all the posts saved in the DAO.
+     * Get all the posts saved in the DataAccessObject.
      *
-     * @return Post if it is found in DAO, null otherwise.
+     * @return Post if it is found in DataAccessObject, null otherwise.
      */
     List<Post> getAllPosts();
 
     /**
-     * Get all the posts of current user or the user's friend(s) saved in the DAO.
+     * Get all the posts of current user or the user's friend(s) saved in the DataAccessObject.
      *
      * @param user given user.
      * @return Posts of currentUser and users in currentUser's friend list.

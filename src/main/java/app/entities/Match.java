@@ -14,7 +14,7 @@ public class Match {
     private final int compatibilityScore;
     private final List<String> sharedArtists;
 
-    /**
+    /*
      * Constructs a Match object.
      *
      * @param matchUser the user this match refers to

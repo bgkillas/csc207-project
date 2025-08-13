@@ -97,7 +97,8 @@ public class HandleFriendRequestInteractorTest {
 
         assertTrue(matchDataAccessObject.getIncomingFriendRequest(user1).contains(user0));
 
-        // in memory DAO will pull info to this userSession but this process is not implemented in
+        // in memory DataAccessObject will pull info to this userSession but this process is not
+        // implemented in
         // this project
         if (matchDataAccessObject.getIncomingFriendRequest(user1).contains(user0)) {
             // the pulling that would have occurred if implemented.
