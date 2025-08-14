@@ -167,11 +167,8 @@ Note: visualization will be shown in the usage session.
 **Example**
 <img width="1049" height="792" alt="image" src="https://github.com/user-attachments/assets/a0617472-16ed-45c8-bb8c-eea85406b813" />
 
-
-
 ### **Advanced Features**
 - **Responsive UI**: Clean, intuitive Java Swing interface
-
 
 ---
 
@@ -191,7 +188,6 @@ Before installing **S-Buddify**, make sure you have the following software insta
   - Required for music analysis features  
   - Both free and premium accounts are supported  
   - Sign up: [Spotify Website](https://www.spotify.com/)
-
 
 ### **Installation Steps**
 
@@ -327,7 +323,6 @@ Before installing **S-Buddify**, make sure you have the following software insta
    - Manage friend and block lists
 ![block](https://github.com/user-attachments/assets/66a2d1a2-348b-4b73-8d9d-57250086afd3)
 
-
 ---
 
 ## **Architecture Overview**
@@ -446,23 +441,6 @@ We welcome contributions from the community! Whether it's fixing bugs, improving
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
