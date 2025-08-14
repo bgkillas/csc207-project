@@ -1,6 +1,5 @@
 package app.usecase.matching;
 
-import app.entities.Match;
 import app.entities.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,11 @@ public class FindMatchesInteractor implements FindMatchesInputBoundary {
 
     @Override
     public void findMatches(FindMatchesRequestModel requestModel) {
+        presenter.present(new FindMatchesResponseModel(getMatches(requestModel)));
+    }
+
+    @Override
+    public List<User> getMatches(FindMatchesRequestModel requestModel) {
         User current = requestModel.getCurrentUser();
         List<User> all = requestModel.getAllUsers();
 
@@ -28,8 +32,7 @@ public class FindMatchesInteractor implements FindMatchesInputBoundary {
                 matches.add(potentialMatch);
             }
         }
-
-        presenter.present(new FindMatchesResponseModel(matches));
+        return matches;
     }
 
     // Delegate compatibility to the entity's scoring logic to avoid duplication

@@ -15,7 +15,6 @@ import app.usecase.matchfilter.SetupMatchFilterOutputBoundary;
 import app.usecase.matching.FindMatchesInteractor;
 import app.usecase.matching.FindMatchesOutputBoundary;
 import app.usecase.matching.FindMatchesRequestModel;
-import app.usecase.matching.FindMatchesResponseModel;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -74,21 +73,10 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
         User currentUser = session.getUser();
         List<User> allUsers = session.getAllUsers();
 
-        // Using an AtomicReference as a tiny mutable box to grab the matches from the callback.
-        // Not about threads, just a quick workaround for Java's 'captured locals must be
-        // effectively final' rule.
-        final java.util.concurrent.atomic.AtomicReference<List<User>> matchesRef =
-                new java.util.concurrent.atomic.AtomicReference<>();
-        FindMatchesOutputBoundary matchesPresenter =
-                new FindMatchesOutputBoundary() {
-                    @Override
-                    public void present(FindMatchesResponseModel responseModel) {
-                        matchesRef.set(responseModel.getMatches());
-                    }
-                };
-        new FindMatchesInteractor(matchesPresenter)
-                .findMatches(new FindMatchesRequestModel(currentUser, allUsers));
-        List<User> matches = matchesRef.get();
+        FindMatchesOutputBoundary matchesPresenter = responseModel -> {};
+        List<User> matches =
+                new FindMatchesInteractor(matchesPresenter)
+                        .getMatches(new FindMatchesRequestModel(currentUser, allUsers));
 
         MatchInteractionPresenter presenter = new MatchInteractionPresenter();
 
@@ -114,6 +102,10 @@ public class SetupMatchFilterPresenter implements SetupMatchFilterOutputBoundary
 
         if (!first) {
             matches = session.getMatchesTemp();
+        } else {
+            for (User user : matches) {
+                session.getMatchesTemp().add(user);
+            }
         }
         first = false;
         JPanel matchingRoomPanel =
