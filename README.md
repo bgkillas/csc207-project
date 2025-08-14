@@ -18,9 +18,9 @@
 - [Installation Instructions](#installation-instructions)
 - [Usage Guide](#usage-guide)
 - [Architecture Overview](#architecture-overview)
+- [Feedback](#feedback)
+- [Contributing](#contributing)
 - [License](#license)
-<!--- [Contributing](#contributing)-->
-<!--- [Feedback](#feedback)-->
 
 ---
 
@@ -311,20 +311,26 @@ Before installing S-Buddify, ensure you have the following software installed:
    - Navigate to the "Share" section
    - Write about music, concerts, or discoveries
    - Add images if desired
+![post](https://github.com/user-attachments/assets/ddc7a008-937f-4ed2-9235-712a0b939d24)
 
 2. **Engage with Posts**
    - Browse posts from other users
    - Add comments and interact with the community
+![post](https://github.com/user-attachments/assets/9816b0f3-5f1f-4899-b6b6-032a23ddcd5a)
 
 ### **Managing Your Profile**
 
 1. **Update Profile**
    - Access your profile through "My Profile"
    - Update personal information and preferences
+![editprofile](https://github.com/user-attachments/assets/abccf630-aae8-44e9-b6ea-d9ab4230d697)
+
 
 2. **Privacy Settings**
    - Control who can see your profile
    - Manage friend and block lists
+![block](https://github.com/user-attachments/assets/66a2d1a2-348b-4b73-8d9d-57250086afd3)
+
 
 ---
 
@@ -379,7 +385,7 @@ src/
 - **JSON**: Data handling
 
 ---
-## ** Feedback**
+## **Feedback**
 
 We welcome constructive feedback to help improve S-Buddify.
 
@@ -403,6 +409,7 @@ We welcome constructive feedback to help improve S-Buddify.
    - Feature suggestions will be reviewed in our weekly team meeting and may be added to the roadmap
    - You may be contacted for follow-up questions if clarification is needed
 
+---
 ## **Contributing**
 We welcome contributions from the community! Whether it's fixing bugs, improving documentation, or adding new features, your help makes S-Buddify better.
 
@@ -443,6 +450,7 @@ We welcome contributions from the community! Whether it's fixing bugs, improving
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
