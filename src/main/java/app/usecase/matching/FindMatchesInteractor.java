@@ -1,5 +1,6 @@
 package app.usecase.matching;
 
+import app.entities.Match;
 import app.entities.User;
 import java.util.ArrayList;
 import java.util.List;
