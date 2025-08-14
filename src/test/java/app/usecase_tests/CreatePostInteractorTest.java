@@ -88,8 +88,7 @@ public class CreatePostInteractorTest {
     public void testCreatePostWithValidImage_UsesImageIO() throws Exception {
         InMemoryPostDataAccessObject dao = new InMemoryPostDataAccessObject();
         CreatePostInteractor interactor = new CreatePostInteractor(dao);
-        User user = new User("Alice", 20, "Female", "NYC", "Bio",
-                List.of(), List.of(), List.of());
+        User user = new User("Alice", 20, "Female", "NYC", "Bio", List.of(), List.of(), List.of());
 
         File imgFile = File.createTempFile("post-img-io", ".png");
         imgFile.deleteOnExit();
@@ -111,29 +110,29 @@ public class CreatePostInteractorTest {
         abstract class TestPresenter implements CreatePostOutputBoundary {
             boolean called = false;
             CreatePostOutputData data;
+
             @Override
             public void present(CreatePostOutputData outputData) {
                 called = true;
                 data = outputData;
             }
         }
-        TestPresenter presenter = new TestPresenter() {
-            @Override
-            public void presentFailure(String errorMessage) {
+        TestPresenter presenter =
+                new TestPresenter() {
+                    @Override
+                    public void presentFailure(String errorMessage) {}
+                };
 
-            }
-        };
-
-        ImageLoader loader = new ImageLoader() {
-            @Override
-            public Image load(File f) {
-                return new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
-            }
-        };
+        ImageLoader loader =
+                new ImageLoader() {
+                    @Override
+                    public Image load(File f) {
+                        return new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+                    }
+                };
 
         CreatePostInteractor interactor = new CreatePostInteractor(dao, presenter, loader);
-        User user = new User("Bob", 30, "Male", "Toronto", "Bio",
-                List.of(), List.of(), List.of());
+        User user = new User("Bob", 30, "Male", "Toronto", "Bio", List.of(), List.of(), List.of());
 
         File imgFile = File.createTempFile("post-img-loader", ".png");
         imgFile.deleteOnExit();
@@ -153,10 +152,11 @@ public class CreatePostInteractorTest {
 
     @Test
     public void testDefaultConstructorSmoke() {
-        CreatePostInteractor interactor = new CreatePostInteractor(); // uses in-memory DAO internally
-        User user = new User("Dana", 40, "Other", "MTL", "Bio",
-                List.of(), List.of(), List.of());
-        // We can't inspect internal DAO here, but invoking the method covers constructor & method lines.
+        CreatePostInteractor interactor =
+                new CreatePostInteractor(); // uses in-memory DAO internally
+        User user = new User("Dana", 40, "Other", "MTL", "Bio", List.of(), List.of(), List.of());
+        // We can't inspect internal DAO here, but invoking the method covers constructor & method
+        // lines.
         interactor.createPost("T", "C", null, user);
     }
 
@@ -165,16 +165,25 @@ public class CreatePostInteractorTest {
         InMemoryPostDataAccessObject dao = new InMemoryPostDataAccessObject();
 
         // Presenter optional, but include it to also exercise the presenter path again
-        CreatePostOutputBoundary presenter = new CreatePostOutputBoundary() {
-            @Override public void present(CreatePostOutputData outputData) {
-                assertNotNull(outputData.getPostId());
-                assertNotNull(outputData.getTimestamp());
-            }
-            @Override public void presentFailure(String errorMessage) { /* not used */ }
-        };
+        CreatePostOutputBoundary presenter =
+                new CreatePostOutputBoundary() {
+                    @Override
+                    public void present(CreatePostOutputData outputData) {
+                        assertNotNull(outputData.getPostId());
+                        assertNotNull(outputData.getTimestamp());
+                    }
+
+                    @Override
+                    public void presentFailure(String errorMessage) {
+                        /* not used */
+                    }
+                };
 
         // Force the try{} to throw
-        ImageLoader throwingLoader = f -> { throw new RuntimeException("boom"); };
+        ImageLoader throwingLoader =
+                f -> {
+                    throw new RuntimeException("boom");
+                };
 
         CreatePostInteractor interactor = new CreatePostInteractor(dao, presenter, throwingLoader);
 
@@ -192,5 +201,4 @@ public class CreatePostInteractorTest {
         assertEquals(1, posts.size());
         assertNull(posts.get(0).getImage()); // because loader failed in catch
     }
-
 }

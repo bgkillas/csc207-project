@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MatchInteractionInteractorTest {
 
-    private MatchDataAccessInterface mockDataAccessObject;
+    private MatchDataAccessInterface mockDAO;
     private HandleFriendRequestInputBoundary mockRequestSender;
     private AddFriendListInputBoundary mockFriendAdder;
     private MatchInteractionOutputBoundary mockPresenter;
@@ -28,9 +28,10 @@ class MatchInteractionInteractorTest {
     void setUp() {
         outputHistory = new ArrayList<>();
 
-        mockDataAccessObject =
+        mockDAO =
                 new MatchDataAccessInterface() {
                     private final Map<User, List<User>> outgoing = new HashMap<>();
+                    private final Map<User, List<User>> incoming = new HashMap<>();
 
                     @Override
                     public List<User> getOutgoingFriendRequest(User user) {
@@ -39,30 +40,34 @@ class MatchInteractionInteractorTest {
 
                     @Override
                     public List<User> getIncomingFriendRequest(User user) {
-                        return outgoing.computeIfAbsent(user, k -> new ArrayList<>());
+                        return incoming.computeIfAbsent(user, k -> new ArrayList<>());
                     }
 
                     @Override
-                    public void addOutgoingFriendRequest(User from, User to) {}
+                    public void addOutgoingFriendRequest(User from, User to) {
+                        getOutgoingFriendRequest(from).add(to);
+                    }
 
                     @Override
-                    public void addIncomingFriendRequest(User to, User from) {}
+                    public void addIncomingFriendRequest(User to, User from) {
+                        getIncomingFriendRequest(to).add(from);
+                    }
 
                     @Override
-                    public void addMatch(User user, app.entities.Match match) {}
+                    public void addMatch(User user, app.entities.Match match) {
+                        /* not used */
+                    }
 
                     @Override
                     public List<app.entities.Match> getMatches(User user) {
-                        return new ArrayList<>();
+                        return List.of();
                     }
                 };
 
         mockRequestSender =
                 new HandleFriendRequestInputBoundary() {
                     @Override
-                    public void sendFriendRequest(UserSession userSession, User toUser) {
-                        // 不再添加 output，交由 presenter 处理
-                    }
+                    public void sendFriendRequest(UserSession userSession, User toUser) {}
 
                     @Override
                     public void acceptFriendRequest(UserSession userSession, User fromUser) {}
@@ -71,96 +76,261 @@ class MatchInteractionInteractorTest {
                     public void declineFriendRequest(UserSession userSession, User fromUser) {}
                 };
 
-        mockFriendAdder = (user1, user2) -> {};
+        mockFriendAdder =
+                (u1, u2) -> {
+                    u1.addFriend(u2);
+                    u2.addFriend(u1);
+                };
 
         mockPresenter = outputHistory::add;
     }
 
-    @Test
-    void testMutualConnectResultsInFriendship() {
-        User alice =
-                new User(
-                        "Alice",
-                        20,
-                        "Toronto",
-                        "Female",
-                        "I love music!",
-                        List.of("Taylor Swift", "Drake"),
-                        List.of("Pop", "Hip-Hop"),
-                        new ArrayList<>());
-
-        User bob =
-                new User(
-                        "Bob",
-                        21,
-                        "Vancouver",
-                        "Male",
-                        "Hi there!",
-                        List.of("Drake", "Ed Sheeran"),
-                        List.of("Pop", "Rock"),
-                        new ArrayList<>());
-
-        UserSession session = new UserSession();
-        session.setUser(alice);
-
-        mockDataAccessObject
-                .getOutgoingFriendRequest(bob)
-                .add(alice); // simulate Bob already sent request
-
-        MatchInteractionInteractor interactor =
-                new MatchInteractionInteractor(
-                        mockDataAccessObject, mockRequestSender, mockFriendAdder, mockPresenter);
-
-        interactor.connect(session, bob);
-
-        assertEquals(1, outputHistory.size());
-        MatchInteractionOutputData result = outputHistory.get(0);
-
-        assertTrue(result.isSuccess());
-        assertTrue(result.isMutual());
-        assertEquals("Bob", result.getMatchedUserName());
-        assertEquals("You are now friends with Bob", result.getMessage());
+    private User makeUser(String name) {
+        return new User(
+                name,
+                20,
+                "Toronto",
+                "Female",
+                "I love music!",
+                List.of("Taylor Swift"),
+                List.of("Pop"),
+                new ArrayList<>());
     }
 
     @Test
-    void testSingleConnectSendsRequest() {
-        User bob =
-                new User(
-                        "Bob",
-                        21,
-                        "Vancouver",
-                        "Male",
-                        "Hi there!",
-                        List.of("Drake", "Ed Sheeran"),
-                        List.of("Pop", "Rock"),
-                        new ArrayList<>());
+    void mutualConnect_viaDAO_cleansRequests_andBecomesFriends() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
 
-        User alice =
-                new User(
-                        "Alice",
-                        20,
-                        "Toronto",
-                        "Female",
-                        "I love music!",
-                        List.of("Taylor Swift", "Drake"),
-                        List.of("Pop", "Hip-Hop"),
-                        new ArrayList<>());
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        mockDAO.getOutgoingFriendRequest(bob).add(alice);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, bob);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertTrue(out.isSuccess());
+        assertTrue(out.isMutual());
+        assertEquals("Bob", out.getMatchedUserName());
+        assertEquals("You are now friends with Bob", out.getMessage());
+
+        assertTrue(alice.getFriendList().contains(bob));
+        assertTrue(bob.getFriendList().contains(alice));
+
+        assertFalse(mockDAO.getOutgoingFriendRequest(bob).contains(alice));
+        assertFalse(mockDAO.getIncomingFriendRequest(alice).contains(bob));
+    }
+
+    @Test
+    void mutualConnect_viaSessionIncoming_cleansRequests_andBecomesFriends() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
+
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        session.getIncomingMatches().add(bob);
+
+        mockDAO.getIncomingFriendRequest(alice).add(bob);
+        mockDAO.getOutgoingFriendRequest(bob).add(alice);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, bob);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertTrue(out.isSuccess());
+        assertTrue(out.isMutual());
+        assertEquals("Bob", out.getMatchedUserName());
+
+        assertTrue(alice.getFriendList().contains(bob));
+        assertTrue(bob.getFriendList().contains(alice));
+        assertFalse(session.getIncomingMatches().contains(bob));
+        assertFalse(session.getOutgoingMatches().contains(bob));
+    }
+
+    @Test
+    void singleConnect_sendsRequest_andAddsToSessionOutgoing_noDuplicates() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, bob);
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData first = outputHistory.get(0);
+        assertTrue(first.isSuccess());
+        assertFalse(first.isMutual());
+        assertEquals(List.of(bob), session.getOutgoingMatches());
+        assertEquals(List.of(alice), mockDAO.getIncomingFriendRequest(bob));
+        assertEquals(List.of(bob), mockDAO.getOutgoingFriendRequest(alice));
+
+        interactor.connect(session, bob);
+        assertEquals(2, outputHistory.size());
+        MatchInteractionOutputData second = outputHistory.get(1);
+        assertTrue(second.isSuccess());
+        assertFalse(second.isMutual());
+        assertTrue(second.getMessage().toLowerCase().contains("already sent"));
+        assertEquals(1, session.getOutgoingMatches().size()); // 未重复添加
+    }
+
+    @Test
+    void alreadyOutgoing_viaDAO_branch() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        mockDAO.addOutgoingFriendRequest(alice, bob);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, bob);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertTrue(out.isSuccess());
+        assertFalse(out.isMutual());
+        assertTrue(out.getMessage().toLowerCase().contains("already sent"));
+    }
+
+    @Test
+    void alreadyOutgoing_viaSessionOutgoingMatches_branch() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        session.getOutgoingMatches().add(bob);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, bob);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertTrue(out.isSuccess());
+        assertFalse(out.isMutual());
+        assertTrue(out.getMessage().toLowerCase().contains("already sent"));
+    }
+
+    @Test
+    void connect_withNullCurrentUser_guard() {
+        User bob = makeUser("Bob");
+        UserSession session = new UserSession();
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, bob);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertFalse(out.isSuccess());
+        assertFalse(out.isMutual());
+        assertEquals("Bob", out.getMatchedUserName());
+        assertEquals("Cannot connect right now.", out.getMessage());
+    }
+
+    @Test
+    void connect_withNullMatchedUser_guard() {
+        User alice = makeUser("Alice");
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, null);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertFalse(out.isSuccess());
+        assertFalse(out.isMutual());
+        assertEquals("", out.getMatchedUserName());
+        assertEquals("Cannot connect right now.", out.getMessage());
+    }
+
+    @Test
+    void selfConnect_isRejected() {
+        User alice = makeUser("Alice");
+        UserSession session = new UserSession();
+        session.setUser(alice);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.connect(session, alice);
+
+        assertEquals(1, outputHistory.size());
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertFalse(out.isSuccess());
+        assertFalse(out.isMutual());
+        assertEquals("Alice", out.getMatchedUserName());
+        assertEquals("You can't connect with yourself.", out.getMessage());
+    }
+
+    @Test
+    void alreadyFriends_shortCircuits_withMessage() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
+        alice.addFriend(bob);
 
         UserSession session = new UserSession();
         session.setUser(alice);
 
         MatchInteractionInteractor interactor =
                 new MatchInteractionInteractor(
-                        mockDataAccessObject, mockRequestSender, mockFriendAdder, mockPresenter);
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
 
         interactor.connect(session, bob);
 
         assertEquals(1, outputHistory.size());
-        MatchInteractionOutputData result = outputHistory.get(0);
+        MatchInteractionOutputData out = outputHistory.get(0);
+        assertTrue(out.isSuccess());
+        assertTrue(out.isMutual());
+        assertEquals("Bob", out.getMatchedUserName());
+        assertTrue(out.getMessage().toLowerCase().contains("already friends"));
+    }
 
-        assertTrue(result.isSuccess());
-        assertFalse(result.isMutual());
-        assertEquals("Bob", result.getMatchedUserName());
-        assertEquals("Friend request sent to Bob", result.getMessage());
+    @Test
+    void skip_removesFromIncomingAndOutgoing_noPresenterCall() {
+        User alice = makeUser("Alice");
+        User bob = makeUser("Bob");
+
+        UserSession session = new UserSession();
+        session.setUser(alice);
+        session.getIncomingMatches().add(bob);
+        session.getOutgoingMatches().add(bob);
+
+        MatchInteractionInteractor interactor =
+                new MatchInteractionInteractor(
+                        mockDAO, mockRequestSender, mockFriendAdder, mockPresenter);
+
+        interactor.skip(session, bob);
+
+        assertFalse(session.getIncomingMatches().contains(bob));
+        assertFalse(session.getOutgoingMatches().contains(bob));
+        assertTrue(outputHistory.isEmpty());
     }
 }
