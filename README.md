@@ -253,7 +253,6 @@ Before installing **S-Buddify**, make sure you have the following software insta
     ```bash
     java -jar target/csc207-project-1.0-SNAPSHOT.jar
     ```
-
 ---
 
 ## **Usage Guide**
@@ -441,6 +440,7 @@ We welcome contributions from the community! Whether it's fixing bugs, improving
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
