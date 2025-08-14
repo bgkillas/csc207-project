@@ -179,21 +179,29 @@ Note: visualization will be shown in the usage session.
 
 ### **Prerequisites**
 
-Before installing S-Buddify, ensure you have the following software installed:
+Before installing **S-Buddify**, make sure you have the following software installed:
 
-- **Java Development Kit (JDK) 17** or higher
-  - Download from: [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://adoptium.net/)
-  - Verify installation: `java -version`
-- **Maven 3.6+** 
-  - Download from: [Apache Maven](https://maven.apache.org/download.cgi)
-  - Verify installation: `mvn -version`
-- **Spotify Account**
-  - Required for music analysis features
-  - Free account is sufficient
+- **Java Development Kit (JDK) 17** or higher  
+  - Download: [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) or [Eclipse Adoptium OpenJDK](https://adoptium.net/)  
+  - Verify installation:  
+    ```bash
+    java -version
+    # Expected output: "java version 17.x.x" or higher
+    ```
 
-### **System Requirements**
-- **Operating System**: Windows 10+, macOS 10.14+, or Linux
-- **Internet Connection**: Required for Spotify API integration
+- **Apache Maven 3.6+**  
+  - Download: [Apache Maven](https://maven.apache.org/download.cgi)  
+  - Verify installation:  
+    ```bash
+    mvn -version
+    # Expected output: "Apache Maven 3.6.x" or higher
+    ```
+
+- **Spotify Account**  
+  - Required for music analysis features  
+  - Both free and premium accounts are supported  
+  - Sign up: [Spotify Website](https://www.spotify.com/)
+
 
 ### **Installation Steps**
 
@@ -224,7 +232,6 @@ Before installing S-Buddify, ensure you have the following software installed:
    ```
    java -jar target/csc207-project-1.0-SNAPSHOT.jar 
    ```
-### **Common Installation Issues & Fixes**
 ### **Common Installation Issues & Fixes**
 
 | Issue | Cause | Solution |
@@ -450,6 +457,7 @@ We welcome contributions from the community! Whether it's fixing bugs, improving
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
