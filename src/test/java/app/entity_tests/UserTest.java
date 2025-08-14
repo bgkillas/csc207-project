@@ -212,4 +212,20 @@ class UserTest {
         user.addFriend(user);
         assertTrue(user.getFriendList().isEmpty());
     }
+
+    @Test
+    void testAddNull() {
+        user.addFriend(null);
+        assertTrue(user.getFriendList().isEmpty());
+    }
+
+    @Test
+    void testEquals() {
+        User user1 = new User("a", 20, "f", "toronto", "", List.of(), List.of(), List.of());
+        User user2 = new User("a", 20, "f", "toronto", "", List.of(), List.of(), List.of());
+        assertFalse(user.equals(null));
+        assertFalse(user.equals(user1));
+        assertFalse(user1.equals(user2));
+        assertFalse(user1.equals("a"));
+    }
 }

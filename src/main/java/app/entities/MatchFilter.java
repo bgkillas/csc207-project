@@ -61,13 +61,13 @@ public class MatchFilter {
             return x -> this.isSatisfiedBy(x) && other.isSatisfiedBy(x);
         }
 
-        default UserSpec or(UserSpec other) {
+        /*default UserSpec or(UserSpec other) {
             return x -> this.isSatisfiedBy(x) || other.isSatisfiedBy(x);
         }
 
         default UserSpec not() {
             return x -> !this.isSatisfiedBy(x);
-        }
+        }*/
     }
 
     private static final class AgeRangeSpec implements UserSpec {

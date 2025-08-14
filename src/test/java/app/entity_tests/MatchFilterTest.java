@@ -97,4 +97,22 @@ class MatchFilterTest {
         MatchFilter filter = new MatchFilter(18, 21, "male", "Vancouver");
         assertFalse(filter.isValid(alice));
     }
+
+    @Test
+    void testInvalidMatch_null() {
+        MatchFilter filter = new MatchFilter(18, 21, null, null);
+        assertFalse(filter.isValid(alice));
+    }
+
+    @Test
+    void testInvalidMatch_any() {
+        MatchFilter filter = new MatchFilter(18, 21, "Any", "Any");
+        assertFalse(filter.isValid(alice));
+    }
+
+    @Test
+    void testInvalidMatch_empty() {
+        MatchFilter filter = new MatchFilter(18, 21, "", "");
+        assertFalse(filter.isValid(alice));
+    }
 }
