@@ -53,8 +53,8 @@ This project was developed to solve the challenge of finding like-minded music e
 ## **Features**
 
 ### **Spotify Integration**
-- **Automatic Profile Creation**: Connects to your Spotify account to automatically populate your music preferences.
-- **Top Tracks Analysis**: Analyzes your most-listened tracks, genres, and artists to understand your music taste.
+- **Automatic Profile Creation**: Connects to your Spotify account to automatically populate your music preferences
+- **Top Tracks Analysis**: Analyzes your most-listened tracks, genres, and artists to understand your music taste
 
 **Example (programmatic usage & output)**
 ```java
@@ -79,9 +79,9 @@ Top Genres: [pop, indie pop, alt-pop, pop, pop rock, indie pop]
 ```
 
 ### **User Matching System**
-- **Artist & Genre Matching**: Compares users’ favourite artists and genres.
-- **Compatibility Scoring**: Computes a numeric score from overlap in artists and genres.
-- **Filtered Matching**: Set preferred age range, gender, and location for potential matches.
+- **Artist & Genre Matching**: Compares users’ favourite artists and genres
+- **Compatibility Scoring**: Computes a numeric score from overlap in artists and genres
+- **Filtered Matching**: Set preferred age range, gender, and location for potential matches
 
 **Example (programmatic usage & output)**
 ```java
@@ -121,9 +121,9 @@ Alice — 85%
 ```
 
 ### **Matching Interaction**
-- **Profile Browsing** – View profiles of potential matches, including name, age, location, biography, and compatibility score in the matchingroom.  
-- **Connect or Skip** – Choose to connect with or skip a potential match. Clicking **Connect** sends a friend request to the other user's mailbox. Clicking **Skip** removes the other user from your matching queue.  
-- **Handle Incoming Requests** – Receive friend requests from other users in your mailbox. Click **Accept** to add them to your friend list, or **Decline** to remove them from your matching queue.
+- **Profile Browsing** – View profiles of potential matches, including name, age, location, biography, and compatibility score in the matchingroom  
+- **Connect or Skip** – Choose to connect with or skip a potential match. Clicking **Connect** sends a friend request to the other user's mailbox. Clicking **Skip** removes the other user from your matching queue
+- **Handle Incoming Requests** – Receive friend requests from other users in your mailbox. Click **Accept** to add them to your friend list, or **Decline** to remove them from your matching queue
 
 **Example (programmatic usage & output)**
 
@@ -166,8 +166,6 @@ Note: visualization will be shown in the usage session.
 - **Privacy Controls**: Manage who can see your profile
 **Example**
 <img width="1049" height="792" alt="image" src="https://github.com/user-attachments/assets/a0617472-16ed-45c8-bb8c-eea85406b813" />
-
-
 
 
 
@@ -226,10 +224,43 @@ Before installing S-Buddify, ensure you have the following software installed:
    ```
    java -jar target/csc207-project-1.0-SNAPSHOT.jar 
    ```
+### **Common Installation Issues & Fixes**
+### **Common Installation Issues & Fixes**
 
-<!--### **Common Installation Issues**
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| `java: command not found` | Java not installed or not in PATH | Install JDK 17+ and ensure `JAVA_HOME` and `PATH` are set correctly |
+| `mvn: command not found` | Maven not installed or not in PATH | Install Maven and add it to your PATH |
+| `UnsupportedClassVersionError` | Java version too low | Upgrade to JDK 17 or higher |
+| Spotify login window doesn’t open | Default browser misconfigured | Set a default browser in your OS settings and try again |
+| `java.net.UnknownHostException` | No internet connection | Check your network and retry |
 
-// -->
+---
+
+### **Example: Full Installation on macOS**
+
+1. **Install Java 17 via Homebrew:**
+    ```bash
+    brew install openjdk@17
+    brew link --force --overwrite openjdk@17
+    ```
+
+2. **Install Maven:**
+    ```bash
+    brew install maven
+    ```
+
+3. **Clone and Build:**
+    ```bash
+    git clone https://github.com/your-username/csc207-project.git
+    cd csc207-project
+    mvn package
+    ```
+
+4. **Run:**
+    ```bash
+    java -jar target/csc207-project-1.0-SNAPSHOT.jar
+    ```
 
 ---
 
@@ -262,11 +293,11 @@ Before installing S-Buddify, ensure you have the following software installed:
    - Navigate to the "Matching" section
    - View potential matches based on your preferences
    - Connect or Skip potential matches
-![Matching Flow Demo](https://github.com/bgkillas/csc207-project/blob/main/assets/matchingroom.gif)
 
 2. **Browse Profiles**
    - See compatibility scores with each potential match
    - View shared music interests and preferences
+![Matching Flow Demo](https://github.com/bgkillas/csc207-project/blob/main/assets/matchingroom.gif)
 
 3. **Send Friend Requests**
    - Click the Connect button to send connection requests
@@ -353,8 +384,6 @@ We welcome constructive feedback to help improve S-Buddify.
 
 1. **How to Give Feedback**
    - Google Form: [Submit Feedback Here – S-Buddify Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSdGEDqw_VdmkQikZboz-vlOlyf9FIVUM1ipIA10WWyOjcKmJw/viewform?usp=dialog)  
-   - GitHub Discussions: Start a thread in our Discussions tab
-   - Email: Contact us at clementineyang@gmail.com
 
 2. What Counts as Valid Feedback
    - Reports of bugs, crashes, or unexpected behaviour
@@ -413,6 +442,7 @@ We welcome contributions from the community! Whether it's fixing bugs, improving
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
