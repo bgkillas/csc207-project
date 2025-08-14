@@ -128,18 +128,6 @@ Alice — 85%
 **Example (programmatic usage & output)**
 
 ```java
-// Presenter stub for README/demo purposes
-MatchInteractionOutputBoundary presenter = data ->
-        System.out.println("[Presenter] " + data.getMessage());
-
-// Construct the interactor with your app's dependencies
-MatchInteractionInputBoundary matcher = new MatchInteractionInteractor(
-        matchDataAccessObject,          // MatchDataAccessInterface
-        handleFriendRequestInteractor,  // HandleFriendRequestInputBoundary
-        addFriendListInteractor,        // AddFriendListInputBoundary
-        presenter
-);
-
 // Assume we have a logged-in session and a candidate user
 UserSession session = ...;
 User matchedUser = ...;  // a user from your match candidates
@@ -162,39 +150,25 @@ matcher.connect(session, matchedUser);
 [Presenter] Friend request sent to Diana
 [Presenter] You are now friends with Diana
 ```
-
+Note: visualization will be shown in the usage session.
 
 ### **Social Features**
 - **Post Creation**: Share your thoughts about music, concerts, or new music discoveries
 - **Comment System**: Engage with other users' posts
 - **Friend Requests**: Send and manage friend requests
 - **Blocking System**: Block users you don't want to interact with
-**Example (programmatic usage)**
-```java
-// Prepare a DataAccessObject 
-PostDataAccessInterface postDataAccessObject = new InMemoryPostDataAccessObject();
-CreatePost createPost = new CreatePostInteractor(postDataAccessObject);
-
-// Build an optional image file (can be null)
-File cover = new File("cover.jpg"); // will be loaded if exists
-
-// Authoring user
-User author = currentUser; // assume you already have a logged-in user
-
-// Create a post
-createPost.createPost(
-        "Found a great indie band!",
-        "Check out their latest single—warm guitars and dreamy vocals.",
-        cover, 
-        author
-);
-```
+  Note: detailed example related to social features will be displayed in the Usage Guide session.
 
 ### **User Profiles**
 - **Comprehensive Profiles**: Age, location, bio, and music preferences
 - **Profile Pictures**: Upload and manage profile images
 - **Music Statistics**: View your top artists, tracks, and genres
 - **Privacy Controls**: Manage who can see your profile
+**Example**
+<img width="1049" height="792" alt="image" src="https://github.com/user-attachments/assets/a0617472-16ed-45c8-bb8c-eea85406b813" />
+
+
+
 
 
 ### **Advanced Features**
@@ -320,13 +294,6 @@ Before installing S-Buddify, ensure you have the following software installed:
    - Control who can see your profile
    - Manage friend and block lists
 
-### **Debug Features**
-
-The application includes a comprehensive debug menu for developers:
-- **User Management**: Create and manage test users
-- **Session Testing**: Test various application states
-- **API Testing**: Verify Spotify integration
-
 ---
 
 ## **Architecture Overview**
@@ -380,16 +347,72 @@ src/
 - **JSON**: Data handling
 
 ---
+## ** Feedback**
 
-<!--## **Contributing**
+We welcome constructive feedback to help improve S-Buddify.
 
-### **How to Contribute**-->
+1. **How to Give Feedback**
+   - Google Form: [Submit Feedback Here – S-Buddify Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSdGEDqw_VdmkQikZboz-vlOlyf9FIVUM1ipIA10WWyOjcKmJw/viewform?usp=dialog)  
+   - GitHub Discussions: Start a thread in our Discussions tab
+   - Email: Contact us at clementineyang@gmail.com
+
+2. What Counts as Valid Feedback
+   - Reports of bugs, crashes, or unexpected behaviour
+   - Suggestions for new features or improvements
+   - Usability feedback (e.g., UI, navigation)
+   - Performance issues or API integration problems
+
+3. Guidelines for Feedback
+   - Be as specific as possible (steps to reproduce bugs, screenshots, error logs)
+   - Include your operating system, Java version, and internet connection type if relevant
+   - Be respectful and constructive — personal attacks or inappropriate language will be ignored
+
+4. What to Expect After Submitting Feedback
+   - You will receive an acknowledgement within 3 business days
+   - Valid bug reports will be logged in our GitHub Issues tracker
+   - Feature suggestions will be reviewed in our weekly team meeting and may be added to the roadmap
+   - You may be contacted for follow-up questions if clarification is needed
+
+## **Contributing**
+We welcome contributions from the community! Whether it's fixing bugs, improving documentation, or adding new features, your help makes S-Buddify better.
+
+**How to Contribute**
+
+1. Fork the Repository
+   Click the Fork button at the top right of the project repository
+
+2. Clone Your Fork
+   ```bash
+   git clone https://github.com/your-username/csc207-project.git
+   cd csc207-project
+   ```
+3. Create a New Branch
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. Make Changes
+   Follow our code style guidelines (style-check.sh & format-check.sh must pass)
+   Write unit tests for new functionality
+
+5. Commit and Push
+   ```bash
+   git add .
+   git commit -m "Add: Description of changes"
+   git push origin feature/your-feature-name
+   ```
+6. Open a Pull Request (PR)
+   Go to your fork on GitHub and click New pull request
+   Provide a clear description of your changes and why they are needed
+   
+8. Review & Merge Process
+   One team member will review your PR within 5 business days
+   Reviewer may request changes — please address them promptly
+   Once approved, a maintainer will squash & merge your PR into main
+   Larger features may be merged into a staging branch before release
 
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
-
-
 
 
 
