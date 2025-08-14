@@ -183,19 +183,9 @@ Before installing **S-Buddify**, make sure you have the following software insta
 
 - **Java Development Kit (JDK) 17** or higher  
   - Download: [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) or [Eclipse Adoptium OpenJDK](https://adoptium.net/)  
-  - Verify installation:  
-    ```bash
-    java -version
-    # Expected output: "java version 17.x.x" or higher
-    ```
 
 - **Apache Maven 3.6+**  
   - Download: [Apache Maven](https://maven.apache.org/download.cgi)  
-  - Verify installation:  
-    ```bash
-    mvn -version
-    # Expected output: "Apache Maven 3.6.x" or higher
-    ```
 
 - **Spotify Account**  
   - Required for music analysis features  
@@ -242,7 +232,6 @@ Before installing **S-Buddify**, make sure you have the following software insta
 | Spotify login window doesn’t open | Default browser misconfigured | Set a default browser in your OS settings and try again |
 | `java.net.UnknownHostException` | No internet connection | Check your network and retry |
 
----
 
 ### **Example: Full Installation on macOS**
 
@@ -457,6 +446,7 @@ We welcome contributions from the community! Whether it's fixing bugs, improving
 ## **License**
 This project is licensed under the [MIT License](./LICENSE).  
 You are free to use, copy, modify, and distribute this code for academic and personal use, under the terms of the license.
+
 
 
 
