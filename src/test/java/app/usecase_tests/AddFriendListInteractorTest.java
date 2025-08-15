@@ -6,8 +6,6 @@ import app.entities.MatchFilter;
 import app.entities.User;
 import app.usecase.add_friend_list.AddFriendListOutputBoundary;
 import app.usecase.add_friend_list.AddFriendListOutputData;
-import app.usecase.handle_friend_request.HandleFriendRequestOutputBoundary;
-import app.usecase.handle_friend_request.HandleFriendRequestOutputData;
 import org.junit.Test;
 import app.usecase.add_friend_list.AddFriendListInputBoundary;
 
@@ -76,8 +74,7 @@ public class AddFriendListInteractorTest {
         AddFriendListOutputBoundary dummyPresenter =
                 new AddFriendListOutputBoundary() {
                     @Override
-                    public void prepareSuccessView(
-                            AddFriendListOutputData outputData) {
+                    public void prepareSuccessView(AddFriendListOutputData outputData) {
                         System.out.println("Success: " + outputData.getMessage());
                     }
 

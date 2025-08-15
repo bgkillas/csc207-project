@@ -172,8 +172,8 @@ public class HandleFriendRequestInteractorTest {
                     }
                 };
 
-        HandleFriendRequestInputBoundary interactor = new HandleFriendRequestInteractor(matchDataAccessObject,
-                null, dummyPresenter);
+        HandleFriendRequestInputBoundary interactor =
+                new HandleFriendRequestInteractor(matchDataAccessObject, null, dummyPresenter);
 
         matchDataAccessObject.addIncomingFriendRequest(user0, user1);
         matchDataAccessObject.addOutgoingFriendRequest(user1, user0);
@@ -182,12 +182,11 @@ public class HandleFriendRequestInteractorTest {
         interactor.declineFriendRequest(userSession, user1);
 
         System.out.println("Usersession of " + userSession.getUser().getName());
-        System.out.println("Matches of " + matchDataAccessObject.getIncomingFriendRequest(user0).size());
+        System.out.println(
+                "Matches of " + matchDataAccessObject.getIncomingFriendRequest(user0).size());
         assertTrue(matchDataAccessObject.getIncomingFriendRequest(user0).contains(user1));
         assertTrue(matchDataAccessObject.getOutgoingFriendRequest(user1).contains(user0));
         assertFalse(userSession.getIncomingMatches().contains(user1));
-
-
     }
 
     @Test
@@ -273,8 +272,7 @@ public class HandleFriendRequestInteractorTest {
 
     @Test
     public void testSendAnotherDuplicateFriendRequest() {
-        User user0 = new User("Stan", 20, "m", "Toronto", "",
-                List.of(), List.of(), List.of());
+        User user0 = new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of());
         User user1 = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
         UserSession session = new UserSession(user0);
         user0.getFriendList().add(user1);
@@ -410,12 +408,12 @@ public class HandleFriendRequestInteractorTest {
 
     @Test
     public void testHandleFriendRequestOutputData() {
-        HandleFriendRequestOutputData successOutputData = new HandleFriendRequestOutputData(true,
-                "You are now friends with ", "alice");
+        HandleFriendRequestOutputData successOutputData =
+                new HandleFriendRequestOutputData(true, "You are now friends with ", "alice");
         assertTrue(successOutputData.isSuccess());
 
-        HandleFriendRequestOutputData failOutputData = new HandleFriendRequestOutputData(false,
-                "You are now friends with ", "alice");
+        HandleFriendRequestOutputData failOutputData =
+                new HandleFriendRequestOutputData(false, "You are now friends with ", "alice");
         assertFalse(failOutputData.isSuccess());
     }
 }

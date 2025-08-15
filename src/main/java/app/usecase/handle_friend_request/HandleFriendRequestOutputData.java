@@ -29,5 +29,4 @@ public class HandleFriendRequestOutputData {
     public String getMessage() {
         return message;
     }
-
 }
