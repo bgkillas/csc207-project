@@ -8,7 +8,6 @@ package app.usecase.handle_friend_request;
 public class HandleFriendRequestOutputData {
     private final boolean success;
     private final String message;
-    private final String requesterUsername;
 
     /**
      * Constructs an instance of HandleFriendRequestOutputData.
@@ -21,7 +20,6 @@ public class HandleFriendRequestOutputData {
             boolean success, String message, String requesterUsername) {
         this.success = success;
         this.message = message;
-        this.requesterUsername = requesterUsername;
     }
 
     public boolean isSuccess() {
@@ -32,7 +30,4 @@ public class HandleFriendRequestOutputData {
         return message;
     }
 
-    public String getRequesterUsername() {
-        return requesterUsername;
-    }
 }

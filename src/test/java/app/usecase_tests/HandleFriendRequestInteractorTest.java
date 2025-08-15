@@ -126,6 +126,71 @@ public class HandleFriendRequestInteractorTest {
     }
 
     @Test
+    public void testDeclineFriendRequest() {
+        List<String> emptyList = new ArrayList<>();
+
+        // Step 1: create two users
+        User user0 =
+                new User(
+                        "Stan",
+                        20,
+                        "male",
+                        "Toronto",
+                        "I luv lord",
+                        emptyList,
+                        emptyList,
+                        emptyList);
+        User user1 =
+                new User(
+                        "user01",
+                        18,
+                        "female",
+                        "North York",
+                        "Let's go out!",
+                        emptyList,
+                        emptyList,
+                        emptyList);
+
+        // Step 2: set up DataAccessObject
+        MatchDataAccessInterface matchDataAccessObject = new InMemoryMatchDataAccessObject();
+
+        // Step 3: create user sessions
+        UserSession userSession = new UserSession(user0);
+
+        // Step 5: send request from user0 to user1
+        HandleFriendRequestOutputBoundary dummyPresenter =
+                new HandleFriendRequestOutputBoundary() {
+                    @Override
+                    public void presentFriendRequestSuccess(
+                            HandleFriendRequestOutputData outputData) {
+                        System.out.println("Success: " + outputData.getMessage());
+                    }
+
+                    @Override
+                    public void presentFriendRequestFailure(String errorMessage) {
+                        System.out.println("Failed: " + errorMessage);
+                    }
+                };
+
+        HandleFriendRequestInputBoundary interactor = new HandleFriendRequestInteractor(matchDataAccessObject,
+                null, dummyPresenter);
+
+        matchDataAccessObject.addIncomingFriendRequest(user0, user1);
+        matchDataAccessObject.addOutgoingFriendRequest(user1, user0);
+        userSession.getIncomingMatches().add(user1);
+
+        interactor.declineFriendRequest(userSession, user1);
+
+        System.out.println("Usersession of " + userSession.getUser().getName());
+        System.out.println("Matches of " + matchDataAccessObject.getIncomingFriendRequest(user0).size());
+        assertTrue(matchDataAccessObject.getIncomingFriendRequest(user0).contains(user1));
+        assertTrue(matchDataAccessObject.getOutgoingFriendRequest(user1).contains(user0));
+        assertFalse(userSession.getIncomingMatches().contains(user1));
+
+
+    }
+
+    @Test
     public void testSendFriendRequestToNullUser() {
         UserSession session =
                 new UserSession(
@@ -207,6 +272,89 @@ public class HandleFriendRequestInteractorTest {
     }
 
     @Test
+    public void testSendAnotherDuplicateFriendRequest() {
+        User user0 = new User("Stan", 20, "m", "Toronto", "",
+                List.of(), List.of(), List.of());
+        User user1 = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(user0);
+        user0.getFriendList().add(user1);
+
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter =
+                new HandleFriendRequestOutputBoundary() {
+                    public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                        fail("Should not succeed");
+                    }
+
+                    public void presentFriendRequestFailure(String message) {
+                        failureMessage.set(message);
+                    }
+                };
+
+        HandleFriendRequestInteractor interactor =
+                new HandleFriendRequestInteractor(
+                        new InMemoryMatchDataAccessObject(), (a, b) -> {}, presenter);
+
+        interactor.sendFriendRequest(session, user1);
+        assertEquals("Already friends or request already sent.", failureMessage.get());
+    }
+
+    @Test
+    public void testAcceptNonexistentUser() {
+        User nullUser = null;
+        User jess = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(jess);
+
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter =
+                new HandleFriendRequestOutputBoundary() {
+                    public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                        fail("Should not succeed");
+                    }
+
+                    public void presentFriendRequestFailure(String message) {
+                        failureMessage.set(message);
+                    }
+                };
+
+        HandleFriendRequestInteractor interactor =
+                new HandleFriendRequestInteractor(
+                        new InMemoryMatchDataAccessObject(), (a, b) -> {}, presenter);
+
+        interactor.acceptFriendRequest(session, nullUser);
+        assertEquals("Cannot accept friend request: user does not exist.", failureMessage.get());
+    }
+
+    @Test
+    public void testDeclineNonexistentUser() {
+        User nullUser = null;
+        User jess = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
+        UserSession session = new UserSession(jess);
+
+        AtomicReference<String> failureMessage = new AtomicReference<>();
+
+        HandleFriendRequestOutputBoundary presenter =
+                new HandleFriendRequestOutputBoundary() {
+                    public void presentFriendRequestSuccess(HandleFriendRequestOutputData data) {
+                        fail("Should not succeed");
+                    }
+
+                    public void presentFriendRequestFailure(String message) {
+                        failureMessage.set(message);
+                    }
+                };
+
+        HandleFriendRequestInteractor interactor =
+                new HandleFriendRequestInteractor(
+                        new InMemoryMatchDataAccessObject(), (a, b) -> {}, presenter);
+
+        interactor.declineFriendRequest(session, nullUser);
+        assertEquals("Cannot decline friend request: user does not exist.", failureMessage.get());
+    }
+
+    @Test
     public void testAcceptNonexistentFriendRequest() {
         User user0 = new User("Stan", 20, "m", "Toronto", "", List.of(), List.of(), List.of());
         User user1 = new User("Jess", 20, "f", "NY", "", List.of(), List.of(), List.of());
@@ -258,5 +406,16 @@ public class HandleFriendRequestInteractorTest {
 
         interactor.declineFriendRequest(session, user0); // Stan sent no request
         assertEquals("Friend request does not exist.", failureMessage.get());
+    }
+
+    @Test
+    public void testHandleFriendRequestOutputData() {
+        HandleFriendRequestOutputData successOutputData = new HandleFriendRequestOutputData(true,
+                "You are now friends with ", "alice");
+        assertTrue(successOutputData.isSuccess());
+
+        HandleFriendRequestOutputData failOutputData = new HandleFriendRequestOutputData(false,
+                "You are now friends with ", "alice");
+        assertFalse(failOutputData.isSuccess());
     }
 }
